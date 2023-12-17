@@ -140,9 +140,9 @@ function Sidebar(props) {
                 );
               })}
               <li className="active-pro">
-                <ReactstrapNavLink href="https://www.creative-tim.com/product/black-dashboard-pro-react?ref=bdr-user-archive-sidebar-upgrade-pro">
+                <ReactstrapNavLink href="https://www.regjeringen.no/en/topics/food-fisheries-and-agriculture/skogbruk/id1292/">
                   <i className="tim-icons icon-spaceship" />
-                  <p>Upgrade to PRO</p>
+                  <p>Foresrt Norway</p>
                 </ReactstrapNavLink>
               </li>
             </Nav>

@@ -1,20 +1,3 @@
-/*!
-
-=========================================================
-* Black Dashboard React v1.2.2
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/black-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/black-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
@@ -50,6 +33,16 @@ import {
   chartExample4,
 } from "variables/charts.js";
 
+// forest data
+import {
+  forestAreaData,
+  forestAreaOptions,
+  treeSpeciesData,
+  treeSpeciesOptions,
+  treesPerHectareData,
+  treesPerHectareOptions
+} from '../assets/data/forestDashboardMockData';
+
 function Dashboard(props) {
   const [bigChartData, setbigChartData] = React.useState("data1");
   const setBgChartData = (name) => {
@@ -64,8 +57,8 @@ function Dashboard(props) {
               <CardHeader>
                 <Row>
                   <Col className="text-left" sm="6">
-                    <h5 className="card-category">Total Shipments</h5>
-                    <CardTitle tag="h2">Performance</CardTitle>
+                    <h5 className="card-category">Total Forest</h5>
+                    <CardTitle tag="h2">Timber</CardTitle>
                   </Col>
                   <Col sm="6">
                     <ButtonGroup
@@ -83,7 +76,7 @@ function Dashboard(props) {
                         onClick={() => setBgChartData("data1")}
                       >
                         <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                          Accounts
+                          Harvested
                         </span>
                         <span className="d-block d-sm-none">
                           <i className="tim-icons icon-single-02" />
@@ -100,7 +93,7 @@ function Dashboard(props) {
                         onClick={() => setBgChartData("data2")}
                       >
                         <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                          Purchases
+                          Reforestation
                         </span>
                         <span className="d-block d-sm-none">
                           <i className="tim-icons icon-gift-2" />
@@ -117,7 +110,7 @@ function Dashboard(props) {
                         onClick={() => setBgChartData("data3")}
                       >
                         <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                          Sessions
+                          Sales
                         </span>
                         <span className="d-block d-sm-none">
                           <i className="tim-icons icon-tap-02" />
@@ -142,16 +135,16 @@ function Dashboard(props) {
           <Col lg="4">
             <Card className="card-chart">
               <CardHeader>
-                <h5 className="card-category">Total Shipments</h5>
+                <h5 className="card-category">Tree Species Distribution</h5>
                 <CardTitle tag="h3">
-                  <i className="tim-icons icon-bell-55 text-info" /> 763,215
+                  <i className="tim-icons icon-bell-55 text-info" />Breakdown by species
                 </CardTitle>
               </CardHeader>
               <CardBody>
                 <div className="chart-area">
                   <Line
-                    data={chartExample2.data}
-                    options={chartExample2.options}
+                    data={treeSpeciesData}
+                    options={treeSpeciesOptions}
                   />
                 </div>
               </CardBody>
@@ -179,16 +172,16 @@ function Dashboard(props) {
           <Col lg="4">
             <Card className="card-chart">
               <CardHeader>
-                <h5 className="card-category">Completed Tasks</h5>
+                <h5 className="card-category">Trees Per Hectare</h5>
                 <CardTitle tag="h3">
-                  <i className="tim-icons icon-send text-success" /> 12,100K
+                  <i className="tim-icons icon-send text-success" /> Density of trees
                 </CardTitle>
               </CardHeader>
               <CardBody>
                 <div className="chart-area">
-                  <Line
-                    data={chartExample4.data}
-                    options={chartExample4.options}
+                  <Bar
+                    data={treesPerHectareData}
+                    options={treesPerHectareOptions}
                   />
                 </div>
               </CardBody>
@@ -466,60 +459,61 @@ function Dashboard(props) {
           <Col lg="6" md="12">
             <Card>
               <CardHeader>
-                <CardTitle tag="h4">Simple Table</CardTitle>
+                <CardTitle tag="h4">Operational Expenses</CardTitle>
               </CardHeader>
               <CardBody>
                 <Table className="tablesorter" responsive>
                   <thead className="text-primary">
                     <tr>
-                      <th>Name</th>
-                      <th>Country</th>
-                      <th>City</th>
-                      <th className="text-center">Salary</th>
+                      <th>Year</th>
+                      <th>Salaries</th>
+                      <th>Equipment</th>
+                      <th>Maintenance</th>
+                      <th>Total</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td>Dakota Rice</td>
-                      <td>Niger</td>
-                      <td>Oud-Turnhout</td>
-                      <td className="text-center">$36,738</td>
+                      <td>2018</td>
+                      <td>$50000</td>
+                      <td>$20000</td>
+                      <td>$10000</td>
+                      <td>$80000</td>
                     </tr>
                     <tr>
-                      <td>Minerva Hooper</td>
-                      <td>Curaçao</td>
-                      <td>Sinaai-Waas</td>
-                      <td className="text-center">$23,789</td>
+                      <td>2019</td>
+                      <td>$55000</td>
+                      <td>$21000</td>
+                      <td>$11000</td>
+                      <td>$87000</td>
                     </tr>
                     <tr>
-                      <td>Sage Rodriguez</td>
-                      <td>Netherlands</td>
-                      <td>Baileux</td>
-                      <td className="text-center">$56,142</td>
+                      <td>2020</td>
+                      <td>$60000</td>
+                      <td>$22000</td>
+                      <td>$12000</td>
+                      <td>$94000</td>
                     </tr>
                     <tr>
-                      <td>Philip Chaney</td>
-                      <td>Korea, South</td>
-                      <td>Overland Park</td>
-                      <td className="text-center">$38,735</td>
+                      <td>2021</td>
+                      <td>$65000</td>
+                      <td>$23000</td>
+                      <td>$13000</td>
+                      <td>$101000</td>
                     </tr>
                     <tr>
-                      <td>Doris Greene</td>
-                      <td>Malawi</td>
-                      <td>Feldkirchen in Kärnten</td>
-                      <td className="text-center">$63,542</td>
+                      <td>2022</td>
+                      <td>$70000</td>
+                      <td>$24000</td>
+                      <td>$14000</td>
+                      <td>$108000</td>
                     </tr>
                     <tr>
-                      <td>Mason Porter</td>
-                      <td>Chile</td>
-                      <td>Gloucester</td>
-                      <td className="text-center">$78,615</td>
-                    </tr>
-                    <tr>
-                      <td>Jon Porter</td>
-                      <td>Portugal</td>
-                      <td>Gloucester</td>
-                      <td className="text-center">$98,615</td>
+                      <td>2023</td>
+                      <td>$75000</td>
+                      <td>$25000</td>
+                      <td>$15000</td>
+                      <td>$115000</td>
                     </tr>
                   </tbody>
                 </Table>

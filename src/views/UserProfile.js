@@ -49,7 +49,7 @@ function UserProfile() {
                       <FormGroup>
                         <label>Company (disabled)</label>
                         <Input
-                          defaultValue="Creative Code Inc."
+                          defaultValue="Nordic Forest Inc."
                           disabled
                           placeholder="Company"
                           type="text"
@@ -60,7 +60,7 @@ function UserProfile() {
                       <FormGroup>
                         <label>Username</label>
                         <Input
-                          defaultValue="michael23"
+                          defaultValue="hesam123"
                           placeholder="Username"
                           type="text"
                         />
@@ -71,7 +71,7 @@ function UserProfile() {
                         <label htmlFor="exampleInputEmail1">
                           Email address
                         </label>
-                        <Input placeholder="mike@email.com" type="email" />
+                        <Input placeholder="hesam@ossanloo.com" type="email" />
                       </FormGroup>
                     </Col>
                   </Row>
@@ -80,8 +80,8 @@ function UserProfile() {
                       <FormGroup>
                         <label>First Name</label>
                         <Input
-                          defaultValue="Mike"
-                          placeholder="Company"
+                          defaultValue="Hesam"
+                          placeholder="First name"
                           type="text"
                         />
                       </FormGroup>
@@ -90,7 +90,7 @@ function UserProfile() {
                       <FormGroup>
                         <label>Last Name</label>
                         <Input
-                          defaultValue="Andrew"
+                          defaultValue="Ossanloo"
                           placeholder="Last Name"
                           type="text"
                         />
@@ -102,7 +102,7 @@ function UserProfile() {
                       <FormGroup>
                         <label>Address</label>
                         <Input
-                          defaultValue="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
+                          defaultValue="Ringgat 4C, 0577, Oslo, Norway"
                           placeholder="Home Address"
                           type="text"
                         />
@@ -114,7 +114,7 @@ function UserProfile() {
                       <FormGroup>
                         <label>City</label>
                         <Input
-                          defaultValue="Mike"
+                          defaultValue="Oslo"
                           placeholder="City"
                           type="text"
                         />
@@ -124,7 +124,7 @@ function UserProfile() {
                       <FormGroup>
                         <label>Country</label>
                         <Input
-                          defaultValue="Andrew"
+                          defaultValue="Norway"
                           placeholder="Country"
                           type="text"
                         />
@@ -143,8 +143,7 @@ function UserProfile() {
                         <label>About Me</label>
                         <Input
                           cols="80"
-                          defaultValue="Lamborghini Mercy, Your chick she so thirsty, I'm in
-                            that two seat Lambo."
+                          defaultValue="Love is the answer. Also 42!"
                           placeholder="Here can be your description"
                           rows="4"
                           type="textarea"
@@ -174,16 +173,14 @@ function UserProfile() {
                     <img
                       alt="..."
                       className="avatar"
-                      src={require("assets/img/emilyz.jpg")}
+                      src={require("assets/img/mads.jpeg")}
                     />
-                    <h5 className="title">Mike Andrew</h5>
+                    <h5 className="title">Mads Haneborg</h5>
                   </a>
                   <p className="description">Ceo/Co-Founder</p>
                 </div>
                 <div className="card-description">
-                  Do not be scared of the truth because we need to restart the
-                  human foundation in truth And I love you like Kanye loves
-                  Kanye I love Rick Owens’ bed design but the back is...
+                  I like to learn new things and to make things better.
                 </div>
               </CardBody>
               <CardFooter>
