@@ -5,3 +5,4 @@ package-lock.json
 .vscode
 .eslintcache
 .history
+src/assets/data/Forest.code-workspace
