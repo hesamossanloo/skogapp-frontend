@@ -1,4 +1,4 @@
-const osloForestGeoJSON = {
+ {
     "type": "FeatureCollection",
     "features": [
         {
@@ -101,5 +101,3 @@ const osloForestGeoJSON = {
         }
     ]
 }
-
-export default osloForestGeoJSON
