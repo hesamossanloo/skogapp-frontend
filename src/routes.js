@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 /*!
 
 =========================================================
@@ -15,44 +16,43 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import Dashboard from "views/Dashboard.js";
-import Map from "views/Map.js";
-import Notifications from "views/Notifications.js";
-import TableList from "views/TableList.js";
-import UserProfile from "views/UserProfile.js";
+import Dashboard from 'views/Dashboard.js';
+import Map from 'views/Map.js';
+import Notifications from 'views/Notifications.js';
+import UserProfile from 'views/UserProfile.js';
 
 var routes = [
   {
-    path: "/dashboard",
-    name: "Dashboard",
-    rtlName: "لوحة القيادة",
-    icon: "tim-icons icon-chart-pie-36",
+    path: '/dashboard',
+    name: 'Dashboard',
+    rtlName: 'لوحة القيادة',
+    icon: 'tim-icons icon-chart-pie-36',
     component: <Dashboard />,
-    layout: "/admin",
+    layout: '/admin',
   },
   {
-    path: "/map",
-    name: "Map",
-    rtlName: "خرائط",
-    icon: "tim-icons icon-pin",
+    path: '/map',
+    name: 'Map',
+    rtlName: 'خرائط',
+    icon: 'tim-icons icon-pin',
     component: <Map />,
-    layout: "/admin",
+    layout: '/admin',
   },
   {
-    path: "/notifications",
-    name: "Notifications",
-    rtlName: "إخطارات",
-    icon: "tim-icons icon-bell-55",
+    path: '/notifications',
+    name: 'Notifications',
+    rtlName: 'إخطارات',
+    icon: 'tim-icons icon-bell-55',
     component: <Notifications />,
-    layout: "/admin",
+    layout: '/admin',
   },
   {
-    path: "/user-profile",
-    name: "User Profile",
-    rtlName: "ملف تعريفي للمستخدم",
-    icon: "tim-icons icon-single-02",
+    path: '/user-profile',
+    name: 'User Profile',
+    rtlName: 'ملف تعريفي للمستخدم',
+    icon: 'tim-icons icon-single-02',
     component: <UserProfile />,
-    layout: "/admin",
+    layout: '/admin',
   },
 ];
 export default routes;

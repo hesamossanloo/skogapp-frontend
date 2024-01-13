@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React from 'react';
 
 // reactstrap components
 import {
@@ -30,7 +30,7 @@ import {
   Input,
   Row,
   Col,
-} from "reactstrap";
+} from 'reactstrap';
 
 function UserProfile() {
   return (
@@ -173,7 +173,7 @@ function UserProfile() {
                     <img
                       alt="..."
                       className="avatar"
-                      src={require("assets/img/mads.jpeg")}
+                      src={require('assets/img/mads.jpeg')}
                     />
                     <h5 className="title">Mads Haneborg</h5>
                   </a>

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+/* eslint-disable react/prop-types */
+import React, { useState } from 'react';
 import {
   BackgroundColorContext,
   backgroundColors,
-} from "contexts/BackgroundColorContext";
+} from 'contexts/BackgroundColorContext';
 
 export default function BackgroundColorWrapper(props) {
   const [color, setColor] = useState(backgroundColors.blue);

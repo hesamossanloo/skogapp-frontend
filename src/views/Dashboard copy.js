@@ -1,33 +1,25 @@
-import React from "react";
-import classNames from "classnames";
-import { Line, Bar } from "react-chartjs-2";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  Row,
-  Col,
-} from "reactstrap";
+import React from 'react';
+import { Line, Bar } from 'react-chartjs-2';
+import { Card, CardHeader, CardBody, CardTitle, Row, Col } from 'reactstrap';
 import {
   forestAreaData,
   forestAreaOptions,
   treeSpeciesData,
   treeSpeciesOptions,
   treesPerHectareData,
-  treesPerHectareOptions
+  treesPerHectareOptions,
 } from '../assets/data/forestDashboardMockData';
 
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      bigChartData: "data1"
+      bigChartData: 'data1',
     };
   }
-  setBgChartData = name => {
+  setBgChartData = (name) => {
     this.setState({
-      bigChartData: name
+      bigChartData: name,
     });
   };
   render() {

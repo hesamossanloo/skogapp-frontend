@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /*!
 
 =========================================================
@@ -15,9 +16,9 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React from 'react';
 // react plugin for creating notifications over the dashboard
-import NotificationAlert from "react-notification-alert";
+import NotificationAlert from 'react-notification-alert';
 
 // reactstrap components
 import {
@@ -30,7 +31,7 @@ import {
   CardTitle,
   Row,
   Col,
-} from "reactstrap";
+} from 'reactstrap';
 
 function Notifications() {
   const notificationAlertRef = React.useRef(null);
@@ -39,19 +40,19 @@ function Notifications() {
     var type;
     switch (color) {
       case 1:
-        type = "primary";
+        type = 'primary';
         break;
       case 2:
-        type = "success";
+        type = 'success';
         break;
       case 3:
-        type = "danger";
+        type = 'danger';
         break;
       case 4:
-        type = "warning";
+        type = 'warning';
         break;
       case 5:
-        type = "info";
+        type = 'info';
         break;
       default:
         break;
@@ -68,7 +69,7 @@ function Notifications() {
         </div>
       ),
       type: type,
-      icon: "tim-icons icon-bell-55",
+      icon: 'tim-icons icon-bell-55',
       autoDismiss: 7,
     };
     notificationAlertRef.current.notificationAlert(options);
@@ -168,7 +169,7 @@ function Notifications() {
                           <Button
                             block
                             color="primary"
-                            onClick={() => notify("tl")}
+                            onClick={() => notify('tl')}
                           >
                             Top Left
                           </Button>
@@ -177,7 +178,7 @@ function Notifications() {
                           <Button
                             block
                             color="primary"
-                            onClick={() => notify("tc")}
+                            onClick={() => notify('tc')}
                           >
                             Top Center
                           </Button>
@@ -186,7 +187,7 @@ function Notifications() {
                           <Button
                             block
                             color="primary"
-                            onClick={() => notify("tr")}
+                            onClick={() => notify('tr')}
                           >
                             Top Right
                           </Button>
@@ -201,7 +202,7 @@ function Notifications() {
                           <Button
                             block
                             color="primary"
-                            onClick={() => notify("bl")}
+                            onClick={() => notify('bl')}
                           >
                             Bottom Left
                           </Button>
@@ -210,7 +211,7 @@ function Notifications() {
                           <Button
                             block
                             color="primary"
-                            onClick={() => notify("bc")}
+                            onClick={() => notify('bc')}
                           >
                             Bottom Center
                           </Button>
@@ -219,7 +220,7 @@ function Notifications() {
                           <Button
                             block
                             color="primary"
-                            onClick={() => notify("br")}
+                            onClick={() => notify('br')}
                           >
                             Bottom Right
                           </Button>

@@ -1,0 +1,122 @@
+curl -X POST https: //services.sentinel-hub.com/api/v1/process \
+ -H 'Content-Type: application/json' \
+ -H 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ3dE9hV1o2aFJJeUowbGlsYXctcWd4NzlUdm1hX3ZKZlNuMW1WNm5HX0tVIn0.eyJleHAiOjE3MDMxMDM1NjQsImlhdCI6MTcwMzA5OTk2NCwiYXV0aF90aW1lIjoxNzAzMDg1MzQ4LCJqdGkiOiI5MDk2NDUzNS01ZTc0LTQ5ZmEtOGU4NS03YzYyMWY4NTkyZTAiLCJpc3MiOiJodHRwczovL3NlcnZpY2VzLnNlbnRpbmVsLWh1Yi5jb20vYXV0aC9yZWFsbXMvbWFpbiIsInN1YiI6IjVkMWE3ODljLTcxZmItNDBlMi04MmExLTdiYWYzNDgyNjE3MyIsInR5cCI6IkJlYXJlciIsImF6cCI6IjBmNjFkMzg1LTVjOGItNDRmOS1hMTU0LTJhZGY1MWQ1MDE0MSIsIm5vbmNlIjoiOWI3ZDdlNTgtMGQ0Yi00YjRmLWJkNWItZDU3N2YwNzdiNDJiIiwic2Vzc2lvbl9zdGF0ZSI6ImZmYjY3NzdkLTc2YWUtNGQ3OS04MTBmLTBhMDc4ZjQwOTA1ZSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwczovL2FwcHMuc2VudGluZWwtaHViLmNvbSJdLCJzY29wZSI6Im9wZW5pZCBlbWFpbCBwcm9maWxlIiwic2lkIjoiZmZiNjc3N2QtNzZhZS00ZDc5LTgxMGYtMGEwNzhmNDA5MDVlIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJIZXNhbSBPc3NhbmxvbyIsInByZWZlcnJlZF91c2VybmFtZSI6Imhlc2FtLm9zc2FubG9vQGdtYWlsLmNvbSIsImdpdmVuX25hbWUiOiJIZXNhbSIsImZhbWlseV9uYW1lIjoiT3NzYW5sb28iLCJlbWFpbCI6Imhlc2FtLm9zc2FubG9vQGdtYWlsLmNvbSIsImFjY291bnQiOiIyY2FjMTQ1YS1jNTE3LTQ3ZDQtYmRmOS05MDU2Y2IxZTMzMzgifQ.CUGxdpIhY7HMOI6K8OkTlrOtKoCgbiOpJvdDSKRNtKzF6tUv8vE2of_mnmmJeHxr_sYjM8Q6ZUCNwK7PV7x3XFzbfnywhsEPsQvXZKLrRQVf54D8dnwAMe-wIClrCbYjBadV1HvovKJz1I97V0a8oQGOyx4n7F5p7dx-mMqs2jkV4p9-dLMLyp5MNWRvWf0hJlfCp5tHZEnorUPsR0nsvxMDMgC92CcKkdDBVUwiYXlXt_XYYkQEOkjVzYMwZt3egW2CIpJ0iiKTcGEsYJY6oJZHPya5nkWL19zKKi4PO9FEK95e2QiR57zcG8rxVFLaeGxWflhXqunnntIGJGZpuw' \
+ -d '{
+    "input": {
+        "bounds": {
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            11.70493654254642,
+                            59.9281006098725
+                        ],
+                        [
+                            11.69742211660045,
+                            59.92810060982421
+                        ],
+                        [
+                            11.68582769301267,
+                            59.942176552558465
+                        ],
+                        [
+                            11.685218807025507,
+                            59.95864398906227
+                        ],
+                        [
+                            11.725564572235783,
+                            59.95818664444286
+                        ],
+                        [
+                            11.744138848527541,
+                            59.95368934246068
+                        ],
+                        [
+                            11.738201170040469,
+                            59.95071621454926
+                        ],
+                        [
+                            11.743834352194654,
+                            59.94888646480703
+                        ],
+                        [
+                            11.743225359528822,
+                            59.94736159619751
+                        ],
+                        [
+                            11.748706293517245,
+                            59.94766657553092
+                        ],
+                        [
+                            11.73926690720495,
+                            59.94133767940602
+                        ],
+                        [
+                            11.733176980552031,
+                            59.94423539625211
+                        ],
+                        [
+                            11.72145388595078,
+                            59.9388973081918
+                        ],
+                        [
+                            11.723280863946883,
+                            59.93828718536929
+                        ],
+                        [
+                            11.71932241162304,
+                            59.936685559552075
+                        ],
+                        [
+                            11.720997141452045,
+                            59.93653301972594
+                        ],
+                        [
+                            11.71871341895718,
+                            59.9361516670906
+                        ],
+                        [
+                            11.720083652454605,
+                            59.93432111339945
+                        ],
+                        [
+                            11.704097594989378,
+                            59.929668001341554
+                        ],
+                        [
+                            11.70493654254642,
+                            59.9281006098725
+                        ]
+                    ]
+                ]
+            }
+        },
+        "data": [
+            {
+                "dataFilter": {
+                    "timeRange": {
+                        "from": "2023-01-01T00:00:00Z",
+                        "to": "2023-12-20T23:59:59Z"
+                    },
+                    "maxCloudCoverage": 0,
+                    "mosaickingOrder": "leastCC"
+                },
+                "type": "sentinel-2-l2a"
+            }
+        ]
+    },
+    "output": {
+        "width": 512,
+        "height": 371.479,
+        "responses": [
+            {
+                "identifier": "default",
+                "format": {
+                    "type": "image/jpeg"
+                }
+            }
+        ]
+    },
+    "evalscript": "//VERSION=3\n\nfunction setup() {\n  return {\n    input: [\"B02\", \"B03\", \"B04\"],\n    output: { bands: 3 }\n  };\n}\n\nfunction evaluatePixel(sample) {\n  return [7 * sample.B04, 7 * sample.B03, 7 * sample.B02];\n}"
+}'

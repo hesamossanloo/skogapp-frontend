@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 // DetailSidebar.js
 import React from 'react';
 import Drawer from '@material-ui/core/Drawer';
@@ -12,11 +13,12 @@ function DetailSidebar({ open, onClose, info }) {
         <ListItem button onClick={onClose}>
           <ListItemText primary="Close" />
         </ListItem>
-        {info && Object.entries(info).map(([key, value], index) => (
-          <ListItem key={index}>
-            <ListItemText primary={key} secondary={value} />
-          </ListItem>
-        ))}
+        {info &&
+          Object.entries(info).map(([key, value], index) => (
+            <ListItem key={index}>
+              <ListItemText primary={key} secondary={value} />
+            </ListItem>
+          ))}
       </List>
     </Drawer>
   );
