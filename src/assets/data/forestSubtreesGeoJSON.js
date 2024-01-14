@@ -5,6 +5,7 @@ const forestSubTreesGeoJSON = {
       type: 'Feature',
       properties: {
         species: 'Pine',
+        avgHeight: '33.2',
       },
       geometry: {
         coordinates: [
@@ -38,6 +39,7 @@ const forestSubTreesGeoJSON = {
       type: 'Feature',
       properties: {
         species: 'Spruce',
+        avgHeight: '23.2',
       },
       geometry: {
         coordinates: [
@@ -58,6 +60,7 @@ const forestSubTreesGeoJSON = {
       properties: {
         name: 'Birch Betula',
         species: 'Birch',
+        avgHeight: '31.2',
       },
       geometry: {
         coordinates: [
@@ -79,6 +82,7 @@ const forestSubTreesGeoJSON = {
       properties: {
         name: 'Red alder',
         species: 'Alder',
+        avgHeight: '13.2',
       },
       geometry: {
         coordinates: [
@@ -113,6 +117,7 @@ const forestSubTreesGeoJSON = {
       type: 'Feature',
       properties: {
         species: 'Oak',
+        avgHeight: '25.2',
       },
       geometry: {
         coordinates: [
@@ -136,6 +141,7 @@ const forestSubTreesGeoJSON = {
       properties: {
         name: 'Bird cherry Prunus',
         species: 'Cherry',
+        avgHeight: '30.2',
       },
       geometry: {
         coordinates: [
