@@ -8,7 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 function DetailSidebar({ open, onClose, info }) {
   return (
-    <Drawer anchor="right" open={open} onClose={onClose}>
+    <Drawer anchor="bottom" open={open} onClose={onClose}>
       <List>
         <ListItem button onClick={onClose}>
           <ListItemText primary="Close" />
