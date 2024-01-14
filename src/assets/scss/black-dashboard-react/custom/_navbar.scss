@@ -123,6 +123,19 @@
 
 }
 
+.clear-search {
+  border: 1px solid #cad1d7;
+  border-left: 0;
+  border-radius: 0.4285rem;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-color: #2b3553;
+  color: rgba(255, 255, 255, 0.8);
+  background-color: transparent;
+  background-clip: padding-box;
+  box-shadow: none;
+}
+
 .navbar-minimize-fixed {
   position: fixed;
   margin-left: 40px;
