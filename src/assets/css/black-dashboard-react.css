@@ -15385,6 +15385,9 @@ img {
 .navbar .btn {
   margin: 0 5px 0 10px;
 }
+.navbar.navbar-map {
+  background: rgb(30 30 47 / 54%) !important
+}
 .navbar.navbar-absolute {
   position: absolute;
   z-index: 1050;

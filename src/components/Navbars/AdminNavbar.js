@@ -42,8 +42,9 @@ import {
 
 function AdminNavbar(props) {
   const [collapseOpen, setcollapseOpen] = React.useState(false);
+  const [isMapInUrl, setIsMapInUrl] = React.useState(false);
   const [modalSearch, setmodalSearch] = React.useState(false);
-  const [color, setcolor] = React.useState('navbar-transparent');
+  const [color, setcolor] = React.useState('navbar-map');
   React.useEffect(() => {
     window.addEventListener('resize', updateColor);
     // Specify how to clean up after this effect:
@@ -56,13 +57,15 @@ function AdminNavbar(props) {
     if (window.innerWidth < 993 && collapseOpen) {
       setcolor('bg-white');
     } else {
-      setcolor('navbar-transparent');
+      setIsMapInUrl(window.location.href.includes('map'));
+      isMapInUrl ? setcolor('navbar-map') : setcolor('navbar-transparent');
     }
   };
   // this function opens and closes the collapse on small devices
   const toggleCollapse = () => {
+    setIsMapInUrl(window.location.href.includes('map'));
     if (collapseOpen) {
-      setcolor('navbar-transparent');
+      isMapInUrl ? setcolor('navbar-map') : setcolor('navbar-transparent');
     } else {
       setcolor('bg-white');
     }
