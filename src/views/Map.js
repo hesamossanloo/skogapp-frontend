@@ -23,8 +23,6 @@ L.Icon.Default.mergeOptions({
 });
 
 function Map() {
-  const [forestInfo, setForestInfo] = useState(null);
-  const [clickedPosition, setClickedPosition] = useState(null);
   const [detailSidebarOpen, setDetailSidebarOpen] = useState(false);
   const [detailSidebarInfo, setDetailSidebarInfo] = useState(null);
 
@@ -46,12 +44,6 @@ function Map() {
     };
   };
   const handleOverlayClick = (e) => {
-    // Access lat and lng of the clicked point
-    const { lat, lng } = e.latlng;
-
-    // Set the clicked position
-    setClickedPosition([lat, lng]);
-    setForestInfo(e.target.feature.properties);
     setDetailSidebarInfo(e.target.feature.properties);
     setDetailSidebarOpen(true);
   };
@@ -103,47 +95,8 @@ function Map() {
             </Overlay>
           )}
         </LayersControl>
-        {clickedPosition && forestInfo && (
-          <Marker position={clickedPosition}>
-            <Popup>
-              <table>
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Name</td>
-                    <td>{forestInfo.name}</td>
-                  </tr>
-                  <tr>
-                    <td>Coord.</td>
-                    <td>{forestInfo.coordinates}</td>
-                  </tr>
-                  <tr>
-                    <td>Location&nbsp;&nbsp;</td>
-                    <td>
-                      {forestInfo.city}, {forestInfo.country}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td># of Trees&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                    <td>211</td>
-                  </tr>
-                  <tr>
-                    <td>Species</td>
-                    <td>Oak</td>
-                  </tr>
-                  {/* Add more rows as needed */}
-                </tbody>
-              </table>
-            </Popup>
-          </Marker>
-        )}
         <Marker position={homePosition}>
-          <Popup>Mads was Here!</Popup>
+          <Popup>Mads was born in this House!</Popup>
         </Marker>
       </MapContainer>
       <DetailSidebar
