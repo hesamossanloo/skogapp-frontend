@@ -16,36 +16,39 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 // nodejs library that concatenates classes
 import classNames from 'classnames';
 
 // reactstrap components
 import {
-  Button,
   Collapse,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
   UncontrolledDropdown,
   Input,
-  InputGroup,
   NavbarBrand,
   Navbar,
   NavLink,
   Nav,
   Container,
-  Modal,
   NavbarToggler,
-  ModalHeader,
+  InputGroup,
 } from 'reactstrap';
 
 function AdminNavbar(props) {
-  const [collapseOpen, setcollapseOpen] = React.useState(false);
-  const [isMapInUrl, setIsMapInUrl] = React.useState(false);
-  const [modalSearch, setmodalSearch] = React.useState(false);
-  const [color, setcolor] = React.useState('navbar-map');
-  React.useEffect(() => {
+  const [collapseOpen, setcollapseOpen] = useState(false);
+  const [isMapInUrl, setIsMapInUrl] = useState(false);
+  const [color, setcolor] = useState('navbar-map');
+  const [search, setSearch] = useState('');
+  const searchInputRef = useRef(null);
+
+  const handleClearSearch = () => {
+    setSearch('');
+    searchInputRef.current.focus(); // Focus the input after clearing it
+  };
+  useEffect(() => {
     window.addEventListener('resize', updateColor);
     // Specify how to clean up after this effect:
     return function cleanup() {
@@ -70,10 +73,6 @@ function AdminNavbar(props) {
       setcolor('bg-white');
     }
     setcollapseOpen(!collapseOpen);
-  };
-  // this function is to open the Search modal
-  const toggleModalSearch = () => {
-    setmodalSearch(!modalSearch);
   };
   return (
     <>
@@ -101,13 +100,24 @@ function AdminNavbar(props) {
             <span className="navbar-toggler-bar navbar-kebab" />
           </NavbarToggler>
           <Collapse navbar isOpen={collapseOpen}>
+            {/* search input */}
+            <InputGroup style={{ marginLeft: '250px' }}>
+              <Input
+                placeholder="SEARCH"
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                innerRef={searchInputRef}
+              />
+              <button
+                aria-label="Close"
+                onClick={handleClearSearch}
+                className="clear-search"
+              >
+                <i className="tim-icons icon-simple-remove" />
+              </button>
+            </InputGroup>
             <Nav className="ml-auto" navbar>
-              <InputGroup className="search-bar">
-                <Button color="link" onClick={toggleModalSearch}>
-                  <i className="tim-icons icon-zoom-split" />
-                  <span className="d-lg-none d-md-block">Search</span>
-                </Button>
-              </InputGroup>
               <UncontrolledDropdown nav>
                 <DropdownToggle
                   caret
@@ -178,22 +188,6 @@ function AdminNavbar(props) {
           </Collapse>
         </Container>
       </Navbar>
-      <Modal
-        modalClassName="modal-search"
-        isOpen={modalSearch}
-        toggle={toggleModalSearch}
-      >
-        <ModalHeader>
-          <Input placeholder="SEARCH" type="text" />
-          <button
-            aria-label="Close"
-            className="close"
-            onClick={toggleModalSearch}
-          >
-            <i className="tim-icons icon-simple-remove" />
-          </button>
-        </ModalHeader>
-      </Modal>
     </>
   );
 }
