@@ -16,7 +16,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // nodejs library that concatenates classes
 import classNames from 'classnames';
 
@@ -27,7 +27,6 @@ import {
   DropdownMenu,
   DropdownItem,
   UncontrolledDropdown,
-  Input,
   NavbarBrand,
   Navbar,
   NavLink,
@@ -42,13 +41,7 @@ function AdminNavbar(props) {
   const [collapseOpen, setcollapseOpen] = useState(false);
   const [isMapInUrl, setIsMapInUrl] = useState(false);
   const [color, setcolor] = useState('navbar-map');
-  const [search, setSearch] = useState('');
-  const searchInputRef = useRef(null);
 
-  const handleClearSearch = () => {
-    setSearch('');
-    searchInputRef.current.focus(); // Focus the input after clearing it
-  };
   useEffect(() => {
     window.addEventListener('resize', updateColor);
     // Specify how to clean up after this effect:
@@ -104,20 +97,6 @@ function AdminNavbar(props) {
             {/* search input */}
             <InputGroup style={{ marginLeft: '250px' }}>
               <FixedTags></FixedTags>
-              {/* <Input
-                placeholder="SEARCH"
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                innerRef={searchInputRef}
-              />
-              <button
-                aria-label="Close"
-                onClick={handleClearSearch}
-                className="clear-search"
-              >
-                <i className="tim-icons icon-simple-remove" />
-              </button> */}
             </InputGroup>
             <Nav className="ml-auto" navbar>
               <UncontrolledDropdown nav>
