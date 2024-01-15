@@ -6,3 +6,4 @@ package-lock.json
 .eslintcache
 .history
 src/assets/data/Forest.code-workspace
+yarn-error.log
