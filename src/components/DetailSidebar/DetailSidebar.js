@@ -6,6 +6,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles } from '@material-ui/core/styles';
+import BasicExampleDataGrid from 'components/DataGrid/DataGrid';
 
 const useStyles = makeStyles({
   drawer: {
@@ -26,6 +27,7 @@ function DetailSidebar({ open, onClose, info }) {
       variant="persistent"
       className={classes.drawer}
     >
+      <BasicExampleDataGrid></BasicExampleDataGrid>
       <List>
         <ListItem button onClick={onClose}>
           <ListItemText primary="Close" />
