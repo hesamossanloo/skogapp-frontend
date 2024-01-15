@@ -36,6 +36,7 @@ import {
   NavbarToggler,
   InputGroup,
 } from 'reactstrap';
+import FixedTags from 'components/AutoComplete/AutoComplete';
 
 function AdminNavbar(props) {
   const [collapseOpen, setcollapseOpen] = useState(false);
@@ -102,7 +103,8 @@ function AdminNavbar(props) {
           <Collapse navbar isOpen={collapseOpen}>
             {/* search input */}
             <InputGroup style={{ marginLeft: '250px' }}>
-              <Input
+              <FixedTags></FixedTags>
+              {/* <Input
                 placeholder="SEARCH"
                 type="text"
                 value={search}
@@ -115,7 +117,7 @@ function AdminNavbar(props) {
                 className="clear-search"
               >
                 <i className="tim-icons icon-simple-remove" />
-              </button>
+              </button> */}
             </InputGroup>
             <Nav className="ml-auto" navbar>
               <UncontrolledDropdown nav>
