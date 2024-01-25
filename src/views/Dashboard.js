@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 // nodejs library that concatenates classes
-import classNames from "classnames";
+import classNames from 'classnames';
 // react plugin used to create charts
-import { Line, Bar } from "react-chartjs-2";
+import { Line, Bar } from 'react-chartjs-2';
 
 // reactstrap components
 import {
@@ -23,28 +23,21 @@ import {
   Row,
   Col,
   UncontrolledTooltip,
-} from "reactstrap";
+} from 'reactstrap';
 
 // core components
-import {
-  chartExample1,
-  chartExample2,
-  chartExample3,
-  chartExample4,
-} from "variables/charts.js";
+import { chartExample1, chartExample3 } from 'variables/charts.js';
 
 // forest data
 import {
-  forestAreaData,
-  forestAreaOptions,
   treeSpeciesData,
   treeSpeciesOptions,
   treesPerHectareData,
-  treesPerHectareOptions
+  treesPerHectareOptions,
 } from '../assets/data/forestDashboardMockData';
 
 function Dashboard(props) {
-  const [bigChartData, setbigChartData] = React.useState("data1");
+  const [bigChartData, setbigChartData] = React.useState('data1');
   const setBgChartData = (name) => {
     setbigChartData(name);
   };
@@ -67,13 +60,13 @@ function Dashboard(props) {
                     >
                       <Button
                         tag="label"
-                        className={classNames("btn-simple", {
-                          active: bigChartData === "data1",
+                        className={classNames('btn-simple', {
+                          active: bigChartData === 'data1',
                         })}
                         color="info"
                         id="0"
                         size="sm"
-                        onClick={() => setBgChartData("data1")}
+                        onClick={() => setBgChartData('data1')}
                       >
                         <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
                           Harvested
@@ -87,10 +80,10 @@ function Dashboard(props) {
                         id="1"
                         size="sm"
                         tag="label"
-                        className={classNames("btn-simple", {
-                          active: bigChartData === "data2",
+                        className={classNames('btn-simple', {
+                          active: bigChartData === 'data2',
                         })}
-                        onClick={() => setBgChartData("data2")}
+                        onClick={() => setBgChartData('data2')}
                       >
                         <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
                           Reforestation
@@ -104,10 +97,10 @@ function Dashboard(props) {
                         id="2"
                         size="sm"
                         tag="label"
-                        className={classNames("btn-simple", {
-                          active: bigChartData === "data3",
+                        className={classNames('btn-simple', {
+                          active: bigChartData === 'data3',
                         })}
-                        onClick={() => setBgChartData("data3")}
+                        onClick={() => setBgChartData('data3')}
                       >
                         <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
                           Sales
@@ -137,15 +130,13 @@ function Dashboard(props) {
               <CardHeader>
                 <h5 className="card-category">Tree Species Distribution</h5>
                 <CardTitle tag="h3">
-                  <i className="tim-icons icon-bell-55 text-info" />Breakdown by species
+                  <i className="tim-icons icon-bell-55 text-info" />
+                  Breakdown by species
                 </CardTitle>
               </CardHeader>
               <CardBody>
                 <div className="chart-area">
-                  <Line
-                    data={treeSpeciesData}
-                    options={treeSpeciesOptions}
-                  />
+                  <Line data={treeSpeciesData} options={treeSpeciesOptions} />
                 </div>
               </CardBody>
             </Card>
@@ -155,7 +146,7 @@ function Dashboard(props) {
               <CardHeader>
                 <h5 className="card-category">Daily Sales</h5>
                 <CardTitle tag="h3">
-                  <i className="tim-icons icon-delivery-fast text-primary" />{" "}
+                  <i className="tim-icons icon-delivery-fast text-primary" />{' '}
                   3,500€
                 </CardTitle>
               </CardHeader>
@@ -174,7 +165,8 @@ function Dashboard(props) {
               <CardHeader>
                 <h5 className="card-category">Trees Per Hectare</h5>
                 <CardTitle tag="h3">
-                  <i className="tim-icons icon-send text-success" /> Density of trees
+                  <i className="tim-icons icon-send text-success" /> Density of
+                  trees
                 </CardTitle>
               </CardHeader>
               <CardBody>

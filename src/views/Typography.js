@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /*!
 
 =========================================================
@@ -15,10 +16,10 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React from 'react';
 
 // reactstrap components
-import { Card, CardHeader, CardBody, CardTitle, Row, Col } from "reactstrap";
+import { Card, CardHeader, CardBody, CardTitle, Row, Col } from 'reactstrap';
 
 function Typography() {
   return (
@@ -192,8 +193,8 @@ function Typography() {
                   <span>Code</span>
                   <p>
                     This is <code>.css-class-as-code</code>, an example of an
-                    inline code element. Wrap inline code within a{" "}
-                    <code>{`<code>...</code>`}</code>
+                    inline code element. Wrap inline code within a{' '}
+                    <code>{'<code>...</code>'}</code>
                     tag.
                   </p>
                   <pre>

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /*!
 
 =========================================================
@@ -15,69 +16,65 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { useEffect, useState } from 'react';
 // nodejs library that concatenates classes
-import classNames from "classnames";
+import classNames from 'classnames';
 
 // reactstrap components
 import {
-  Button,
   Collapse,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
   UncontrolledDropdown,
-  Input,
-  InputGroup,
   NavbarBrand,
   Navbar,
   NavLink,
   Nav,
   Container,
-  Modal,
   NavbarToggler,
-  ModalHeader,
-} from "reactstrap";
+  InputGroup,
+} from 'reactstrap';
+import FixedTags from 'components/AutoComplete/AutoComplete';
 
 function AdminNavbar(props) {
-  const [collapseOpen, setcollapseOpen] = React.useState(false);
-  const [modalSearch, setmodalSearch] = React.useState(false);
-  const [color, setcolor] = React.useState("navbar-transparent");
-  React.useEffect(() => {
-    window.addEventListener("resize", updateColor);
+  const [collapseOpen, setcollapseOpen] = useState(false);
+  const [isMapInUrl, setIsMapInUrl] = useState(false);
+  const [color, setcolor] = useState('navbar-map');
+
+  useEffect(() => {
+    window.addEventListener('resize', updateColor);
     // Specify how to clean up after this effect:
     return function cleanup() {
-      window.removeEventListener("resize", updateColor);
+      window.removeEventListener('resize', updateColor);
     };
   });
   // function that adds color white/transparent to the navbar on resize (this is for the collapse)
   const updateColor = () => {
     if (window.innerWidth < 993 && collapseOpen) {
-      setcolor("bg-white");
+      setcolor('bg-white');
     } else {
-      setcolor("navbar-transparent");
+      setIsMapInUrl(window.location.href.includes('map'));
+      isMapInUrl ? setcolor('navbar-map') : setcolor('navbar-transparent');
     }
   };
   // this function opens and closes the collapse on small devices
   const toggleCollapse = () => {
+    setIsMapInUrl(window.location.href.includes('map'));
     if (collapseOpen) {
-      setcolor("navbar-transparent");
+      isMapInUrl ? setcolor('navbar-map') : setcolor('navbar-transparent');
     } else {
-      setcolor("bg-white");
+      setcolor('bg-white');
     }
     setcollapseOpen(!collapseOpen);
   };
-  // this function is to open the Search modal
-  const toggleModalSearch = () => {
-    setmodalSearch(!modalSearch);
-  };
   return (
     <>
-      <Navbar className={classNames("navbar-absolute", color)} expand="lg">
+      <Navbar className={classNames('navbar-absolute', color)} expand="lg">
         <Container fluid>
           <div className="navbar-wrapper">
             <div
-              className={classNames("navbar-toggle d-inline", {
+              className={classNames('navbar-toggle d-inline', {
                 toggled: props.sidebarOpened,
               })}
             >
@@ -97,13 +94,11 @@ function AdminNavbar(props) {
             <span className="navbar-toggler-bar navbar-kebab" />
           </NavbarToggler>
           <Collapse navbar isOpen={collapseOpen}>
+            {/* search input */}
+            <InputGroup style={{ marginLeft: '250px' }}>
+              <FixedTags></FixedTags>
+            </InputGroup>
             <Nav className="ml-auto" navbar>
-              <InputGroup className="search-bar">
-                <Button color="link" onClick={toggleModalSearch}>
-                  <i className="tim-icons icon-zoom-split" />
-                  <span className="d-lg-none d-md-block">Search</span>
-                </Button>
-              </InputGroup>
               <UncontrolledDropdown nav>
                 <DropdownToggle
                   caret
@@ -151,7 +146,7 @@ function AdminNavbar(props) {
                   onClick={(e) => e.preventDefault()}
                 >
                   <div className="photo">
-                    <img alt="..." src={require("assets/img/anime3.png")} />
+                    <img alt="..." src={require('assets/img/anime3.png')} />
                   </div>
                   <b className="caret d-none d-lg-block d-xl-block" />
                   <p className="d-lg-none">Log out</p>
@@ -174,22 +169,6 @@ function AdminNavbar(props) {
           </Collapse>
         </Container>
       </Navbar>
-      <Modal
-        modalClassName="modal-search"
-        isOpen={modalSearch}
-        toggle={toggleModalSearch}
-      >
-        <ModalHeader>
-          <Input placeholder="SEARCH" type="text" />
-          <button
-            aria-label="Close"
-            className="close"
-            onClick={toggleModalSearch}
-          >
-            <i className="tim-icons icon-simple-remove" />
-          </button>
-        </ModalHeader>
-      </Modal>
     </>
   );
 }

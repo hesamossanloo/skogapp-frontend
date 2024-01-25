@@ -1,11 +1,20 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import L from 'leaflet';
-import { MapContainer, LayersControl, TileLayer, Marker, Popup, ZoomControl } from 'react-leaflet';
-import { GeoJSON } from 'react-leaflet';
+import {
+  MapContainer,
+  LayersControl,
+  TileLayer,
+  Marker,
+  Popup,
+  ZoomControl,
+  WMSTileLayer,
+} from 'react-leaflet';
+import { GeoJSON, useMapEvents, useMap } from 'react-leaflet';
 import osloForestGeoJSON from 'assets/data/osloForestGeoJSON';
 import forestSubTreesGeoJSON from 'assets/data/forestSubtreesGeoJSON';
-import { backgroundColors } from "contexts/BackgroundColorContext";
-import DetailSidebar from "components/DetailSidebar/DetailSidebar";
+import DetailSidebar from 'components/DetailSidebar/DetailSidebar';
+import { WMSGetFeatureInfo } from 'ol/format';
+import proj4 from 'proj4';
 
 const { BaseLayer, Overlay } = LayersControl;
 delete L.Icon.Default.prototype._getIconUrl;
@@ -17,13 +26,12 @@ L.Icon.Default.mergeOptions({
 });
 
 function Map() {
-  const [forestInfo, setForestInfo] = useState(null);
-  const [clickedPosition, setClickedPosition] = useState(null);
   const [detailSidebarOpen, setDetailSidebarOpen] = useState(false);
   const [detailSidebarInfo, setDetailSidebarInfo] = useState(null);
+  const [isSkogbruksplanOn, setIsSkogbruksplanOn] = useState(true);
 
   const homePosition = [59.9287, 11.7025]; // Coordinates for Mads' House
-  const position = [59.9450, 11.6950]; // Coordinates for Mads' Dad's Forest
+  const position = [59.945, 11.695]; // Coordinates for Mads' Dad's Forest
   // const position = [59.9139, 10.7522]; // Coordinates for Oslo, Norway
   const colorMap = {
     Pine: 'green',
@@ -31,7 +39,7 @@ function Map() {
     Spruce: 'yellow',
     Birch: 'white',
     Alder: 'black',
-    Cherry: 'red'
+    Cherry: 'red',
   };
 
   const style = (feature) => {
@@ -39,13 +47,8 @@ function Map() {
       color: colorMap[feature.properties.species],
     };
   };
-  const handleOverlayClick = (e) => {
-    // Access lat and lng of the clicked point
-    const { lat, lng } = e.latlng;
 
-    // Set the clicked position
-    setClickedPosition([lat, lng]);
-    setForestInfo(e.target.feature.properties);
+  const handleOverlayClick = (e) => {
     setDetailSidebarInfo(e.target.feature.properties);
     setDetailSidebarOpen(true);
   };
@@ -58,10 +61,123 @@ function Map() {
   const closeDetailSidebar = () => {
     setDetailSidebarOpen(false);
   };
+
+  // Define a new component
+  const MapEvents = () => {
+    const map = useMap();
+    map.on('overlayadd', function (e) {
+      if (e.name === 'Skogbruksplan') {
+        setIsSkogbruksplanOn(true);
+      }
+    });
+
+    map.on('overlayremove', function (e) {
+      if (e.name === 'Skogbruksplan') {
+        setIsSkogbruksplanOn(false);
+      }
+    });
+
+    map.on('click', function () {
+      if (rectangle) {
+        map.removeLayer(rectangle);
+        rectangle = null;
+      }
+      map.closePopup();
+    });
+    const CRS = map.options.crs.code;
+    // We need to make sure that the BBOX is in the EPSG:3857 format
+    // For that we must to do following
+    const size = map.getSize();
+    const bounds = map.getBounds();
+    const southWest = map.options.crs.project(bounds.getSouthWest());
+    const northEast = map.options.crs.project(bounds.getNorthEast());
+    const BBOX = [southWest.x, southWest.y, northEast.x, northEast.y].join(',');
+
+    useMapEvents({
+      click: async (e) => {
+        const params = {
+          language: 'nor',
+          SERVICE: 'WMS',
+          VERSION: '1.3.0',
+          REQUEST: 'GetFeatureInfo',
+          BBOX,
+          CRS,
+          WIDTH: size.x,
+          HEIGHT: size.y,
+          LAYERS: 'skogbruksplan',
+          STYLES: '',
+          FORMAT: 'image/png',
+          QUERY_LAYERS: 'skogbruksplan',
+          INFO_FORMAT: 'application/vnd.ogc.gml', // text/html, application/vnd.ogc.gml, text/plain
+          I: Math.round(e.containerPoint.x),
+          J: Math.round(e.containerPoint.y),
+          FEATURE_COUNT: 10,
+        };
+        const url = `https://wms.nibio.no/cgi-bin/skogbruksplan?language=nor&${new URLSearchParams(params).toString()}`;
+        const response = await fetch(url);
+        const data = await response.text();
+        const format = new WMSGetFeatureInfo();
+        const features = format.readFeatures(data);
+        handleWMSFeatures(e, features, map);
+      },
+    });
+
+    return null;
+  };
+  let rectangle = null;
+
+  const handleWMSFeatures = (e, features, map) => {
+    if (features.length > 0 && features[0]) {
+      const feature = features[0];
+      const values = feature.values_;
+
+      // Convert the bounding box coordinates to latitude and longitude
+      const southWest = proj4('EPSG:3857', 'EPSG:4326', [
+        values.boundedBy[0],
+        values.boundedBy[1],
+      ]);
+      const northEast = proj4('EPSG:3857', 'EPSG:4326', [
+        values.boundedBy[2],
+        values.boundedBy[3],
+      ]);
+      const bounds = L.latLngBounds(
+        L.latLng(southWest[1], southWest[0]),
+        L.latLng(northEast[1], northEast[0])
+      );
+
+      // Save the rectangle layer
+      rectangle = L.rectangle(bounds, { color: '#ff7800', weight: 1 }).addTo(
+        map
+      );
+
+      let content = '<table>';
+      for (const key in values) {
+        if (key !== 'boundedBy') {
+          content += `<tr><td>${key}</td><td>${values[key]}</td></tr>`;
+        }
+      }
+      content += '</table>';
+
+      L.popup().setLatLng(e.latlng).setContent(content).openOn(map);
+    }
+  };
   return (
     <>
-      <MapContainer zoomControl={false} center={position} zoom={13} style={{ position: 'fixed', top: 0, left: 0, height: "100vh", width: "100vw" }}>
-        <ZoomControl position="bottomright" /> {/* Add new ZoomControl here */}
+      <MapContainer
+        zoomControl={false}
+        center={position}
+        zoom={13}
+        crs={L.CRS.EPSG3857}
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          height: '100vh',
+          width: '100vw',
+        }}
+      >
+        {isSkogbruksplanOn && <MapEvents />}
+        <ZoomControl position="bottomright" />
         <LayersControl position="bottomright">
           <BaseLayer checked name="OpenStreetMap">
             <TileLayer
@@ -75,57 +191,34 @@ function Map() {
               attribution='&copy; <a href="https://www.esri.com/">Esri</a> contributors'
             />
           </BaseLayer>
+          <Overlay checked name="Skogbruksplan">
+            <WMSTileLayer
+              url="https://wms.nibio.no/cgi-bin/skogbruksplan?"
+              layers="Skogbruksplan"
+              format="image/png"
+              transparent={true}
+              version="1.3.0"
+            />
+          </Overlay>
           {osloForestGeoJSON && (
-            <Overlay checked name="Mad's Dad's Forest" >
-              <GeoJSON data={forestSubTreesGeoJSON} style={style} onEachFeature={onEachFeature} />
-              {/* <GeoJSON data={osloForestGeoJSON} onEachFeature={onEachFeature} /> */}
+            <Overlay name="Mad's Dad's Forest">
+              <GeoJSON
+                data={forestSubTreesGeoJSON}
+                style={style}
+                onEachFeature={onEachFeature}
+              />
             </Overlay>
           )}
         </LayersControl>
-        {clickedPosition && forestInfo && (
-          <Marker position={clickedPosition}>
-            <Popup>
-              <table>
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Name</td>
-                    <td>{forestInfo.name}</td>
-                  </tr>
-                  <tr>
-                    <td>Coord.</td>
-                    <td>{forestInfo.coordinates}</td>
-                  </tr>
-                  <tr>
-                    <td>Location&nbsp;&nbsp;</td>
-                    <td>{forestInfo.city}, {forestInfo.country}</td>
-                  </tr>
-                  <tr>
-                    <td># of Trees&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                    <td>211</td>
-                  </tr>
-                  <tr>
-                    <td>Species</td>
-                    <td>Oak</td>
-                  </tr>
-                  {/* Add more rows as needed */}
-                </tbody>
-              </table>
-            </Popup>
-          </Marker>
-        )}
         <Marker position={homePosition}>
-          <Popup>
-            Mads was Here!
-          </Popup>
+          <Popup>Mads was born in this House!</Popup>
         </Marker>
       </MapContainer>
-      <DetailSidebar open={detailSidebarOpen} onClose={closeDetailSidebar} info={detailSidebarInfo} />
+      <DetailSidebar
+        open={detailSidebarOpen}
+        onClose={closeDetailSidebar}
+        info={detailSidebarInfo}
+      />
     </>
   );
 }
