@@ -14,7 +14,6 @@ import osloForestGeoJSON from 'assets/data/osloForestGeoJSON';
 import forestSubTreesGeoJSON from 'assets/data/forestSubtreesGeoJSON';
 import DetailSidebar from 'components/DetailSidebar/DetailSidebar';
 import { WMSGetFeatureInfo } from 'ol/format';
-import proj4 from 'proj4';
 
 const { BaseLayer, Overlay } = LayersControl;
 delete L.Icon.Default.prototype._getIconUrl;
@@ -74,14 +73,11 @@ function Map() {
     map.on('overlayremove', function (e) {
       if (e.name === 'Skogbruksplan') {
         setIsSkogbruksplanOn(false);
+        map.closePopup();
       }
     });
 
     map.on('click', function () {
-      if (rectangle) {
-        map.removeLayer(rectangle);
-        rectangle = null;
-      }
       map.closePopup();
     });
     const CRS = map.options.crs.code;
@@ -124,31 +120,11 @@ function Map() {
 
     return null;
   };
-  let rectangle = null;
 
   const handleWMSFeatures = (e, features, map) => {
     if (features.length > 0 && features[0]) {
       const feature = features[0];
       const values = feature.values_;
-
-      // Convert the bounding box coordinates to latitude and longitude
-      const southWest = proj4('EPSG:3857', 'EPSG:4326', [
-        values.boundedBy[0],
-        values.boundedBy[1],
-      ]);
-      const northEast = proj4('EPSG:3857', 'EPSG:4326', [
-        values.boundedBy[2],
-        values.boundedBy[3],
-      ]);
-      const bounds = L.latLngBounds(
-        L.latLng(southWest[1], southWest[0]),
-        L.latLng(northEast[1], northEast[0])
-      );
-
-      // Save the rectangle layer
-      rectangle = L.rectangle(bounds, { color: '#ff7800', weight: 1 }).addTo(
-        map
-      );
 
       let content = '<table>';
       for (const key in values) {
