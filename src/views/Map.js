@@ -64,6 +64,7 @@ function Map() {
   // Define a new component
   const MapEvents = () => {
     const map = useMap();
+
     map.on('overlayadd', function (e) {
       if (e.name === 'Skogbruksplan') {
         setIsSkogbruksplanOn(true);
@@ -100,10 +101,10 @@ function Map() {
           CRS,
           WIDTH: size.x,
           HEIGHT: size.y,
-          LAYERS: 'skogbruksplan',
+          LAYERS: 'hogstklasser',
           STYLES: '',
           FORMAT: 'image/png',
-          QUERY_LAYERS: 'skogbruksplan',
+          QUERY_LAYERS: 'hogstklasser',
           INFO_FORMAT: 'application/vnd.ogc.gml', // text/html, application/vnd.ogc.gml, text/plain
           I: Math.round(e.containerPoint.x),
           J: Math.round(e.containerPoint.y),
@@ -137,6 +138,15 @@ function Map() {
       L.popup().setLatLng(e.latlng).setContent(content).openOn(map);
     }
   };
+  // <WMSTileLayer
+  //             url="https://prodtest.matrikkel.no/geoservergeo/wms?"
+  //             layers="matrikkel:TEIGWFS"
+  //             format="image/png"
+  //             transparent={true}
+  //             version="1.1.1"
+  //             username="vintertjenn_matrikkeltest"
+  //             password="ygx2gcj@vju8WKH5pudz"
+  //           />
   return (
     <>
       <MapContainer
@@ -167,10 +177,10 @@ function Map() {
               attribution='&copy; <a href="https://www.esri.com/">Esri</a> contributors'
             />
           </BaseLayer>
-          <Overlay checked name="Skogbruksplan">
+          <Overlay name="Hogstklasser">
             <WMSTileLayer
               url="https://wms.nibio.no/cgi-bin/skogbruksplan?"
-              layers="Skogbruksplan"
+              layers="hogstklasser"
               format="image/png"
               transparent={true}
               version="1.3.0"
