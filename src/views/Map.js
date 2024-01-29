@@ -14,6 +14,7 @@ import osloForestGeoJSON from 'assets/data/osloForestGeoJSON';
 import forestSubTreesGeoJSON from 'assets/data/forestSubtreesGeoJSON';
 import DetailSidebar from 'components/DetailSidebar/DetailSidebar';
 import { WMSGetFeatureInfo } from 'ol/format';
+import 'leaflet-wms-header';
 
 const { BaseLayer, Overlay } = LayersControl;
 delete L.Icon.Default.prototype._getIconUrl;
@@ -30,7 +31,7 @@ function Map() {
   const [isSkogbruksplanOn, setIsSkogbruksplanOn] = useState(true);
 
   const homePosition = [59.9287, 11.7025]; // Coordinates for Mads' House
-  const position = [59.945, 11.695]; // Coordinates for Mads' Dad's Forest
+  const centerPosition = [59.945, 11.695]; // Coordinates for Mads' Dad's Forest
   // const position = [59.9139, 10.7522]; // Coordinates for Oslo, Norway
   const colorMap = {
     Pine: 'green',
@@ -64,6 +65,7 @@ function Map() {
   // Define a new component
   const MapEvents = () => {
     const map = useMap();
+
     map.on('overlayadd', function (e) {
       if (e.name === 'Skogbruksplan') {
         setIsSkogbruksplanOn(true);
@@ -100,10 +102,10 @@ function Map() {
           CRS,
           WIDTH: size.x,
           HEIGHT: size.y,
-          LAYERS: 'skogbruksplan',
+          LAYERS: 'hogstklasser',
           STYLES: '',
           FORMAT: 'image/png',
-          QUERY_LAYERS: 'skogbruksplan',
+          QUERY_LAYERS: 'hogstklasser',
           INFO_FORMAT: 'application/vnd.ogc.gml', // text/html, application/vnd.ogc.gml, text/plain
           I: Math.round(e.containerPoint.x),
           J: Math.round(e.containerPoint.y),
@@ -141,7 +143,7 @@ function Map() {
     <>
       <MapContainer
         zoomControl={false}
-        center={position}
+        center={centerPosition}
         zoom={13}
         crs={L.CRS.EPSG3857}
         style={{
@@ -167,10 +169,30 @@ function Map() {
               attribution='&copy; <a href="https://www.esri.com/">Esri</a> contributors'
             />
           </BaseLayer>
-          <Overlay checked name="Skogbruksplan">
+          <Overlay checked name="Matrikkel">
+            <WMSTileLayer
+              url="https://prodtest.matrikkel.no/geoservergeo/wms?"
+              layers="matrikkel:TEIGWFS"
+              format="image/png"
+              transparent={true}
+              version="1.1.1"
+              username={process.env.REACT_APP_MATRIKKEL_UN_PRODTEST}
+              password={process.env.REACT_APP_MATRIKKEL_PSW_PRODTEST}
+            />
+            {/* <WMSTileLayer
+              url="https://openwms.statkart.no/skwms1/wms.matrikkel"
+              SERVICE="WMS"
+              version="1.3.0"
+              layers="matrikkel_WMS"
+              format="image/png"
+              transparent={true}
+              crossOrigin={true}
+            /> */}
+          </Overlay>
+          <Overlay name="Hogstklasser">
             <WMSTileLayer
               url="https://wms.nibio.no/cgi-bin/skogbruksplan?"
-              layers="Skogbruksplan"
+              layers="hogstklasser"
               format="image/png"
               transparent={true}
               version="1.3.0"
