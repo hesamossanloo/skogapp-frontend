@@ -12,7 +12,6 @@ import {
 } from 'react-leaflet';
 import { useMapEvents, useMap } from 'react-leaflet';
 import { WMSGetFeatureInfo } from 'ol/format';
-import { colorMap } from 'variables/forest';
 import { mapCoordinations } from 'variables/forest';
 import { nibioGetFeatInfoBaseParams } from 'variables/forest';
 
@@ -36,26 +35,6 @@ function Map() {
   const MapEvents = () => {
     const map = useMap();
 
-    map.on('overlayadd', function (e) {
-      setActiveOverlay((prevOverlay) => ({
-        ...prevOverlay,
-        [e.name]: true,
-      }));
-    });
-
-    map.on('overlayremove', function (e) {
-      if (activeOverlay['Hogstklasser']) {
-        map.closePopup();
-      }
-      setActiveOverlay((prevOverlay) => ({
-        ...prevOverlay,
-        [e.name]: false,
-      }));
-    });
-
-    map.on('click', function () {
-      map.closePopup();
-    });
     const CRS = map.options.crs.code;
     // We need to make sure that the BBOX is in the EPSG:3857 format
     // For that we must to do following
@@ -67,21 +46,39 @@ function Map() {
 
     useMapEvents({
       click: async (e) => {
-        const params = {
-          ...nibioGetFeatInfoBaseParams,
-          BBOX,
-          CRS,
-          WIDTH: size.x,
-          HEIGHT: size.y,
-          I: Math.round(e.containerPoint.x),
-          J: Math.round(e.containerPoint.y),
-        };
-        const url = `https://wms.nibio.no/cgi-bin/skogbruksplan?language=nor&${new URLSearchParams(params).toString()}`;
-        const response = await fetch(url);
-        const data = await response.text();
-        const format = new WMSGetFeatureInfo();
-        const features = format.readFeatures(data);
-        handleWMSFeatures(e, features, map);
+        map.closePopup();
+        if (activeOverlay['Hogstklasser']) {
+          const params = {
+            ...nibioGetFeatInfoBaseParams,
+            BBOX,
+            CRS,
+            WIDTH: size.x,
+            HEIGHT: size.y,
+            I: Math.round(e.containerPoint.x),
+            J: Math.round(e.containerPoint.y),
+          };
+          const url = `https://wms.nibio.no/cgi-bin/skogbruksplan?language=nor&${new URLSearchParams(params).toString()}`;
+          const response = await fetch(url);
+          const data = await response.text();
+          const format = new WMSGetFeatureInfo();
+          const features = format.readFeatures(data);
+          handleWMSFeatures(e, features, map);
+        }
+      },
+      overlayadd: async (e) => {
+        setActiveOverlay((prevOverlay) => ({
+          ...prevOverlay,
+          [e.name]: true,
+        }));
+      },
+      overlayremove: async (e) => {
+        if (activeOverlay['Hogstklasser']) {
+          map.closePopup();
+        }
+        setActiveOverlay((prevOverlay) => ({
+          ...prevOverlay,
+          [e.name]: false,
+        }));
       },
     });
 
