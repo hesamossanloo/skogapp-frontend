@@ -8,3 +8,4 @@ package-lock.json
 src/assets/data/Forest.code-workspace
 yarn-error.log
 skogapp-dashboard.code-workspace
+.env

@@ -176,8 +176,8 @@ function Map() {
               format="image/png"
               transparent={true}
               version="1.1.1"
-              username="vintertjenn_matrikkeltest"
-              password="ygx2gcj@vju8WKH5pudz"
+              username={process.env.REACT_APP_MATRIKKEL_UN_PRODTEST}
+              password={process.env.REACT_APP_MATRIKKEL_PSW_PRODTEST}
             />
             {/* <WMSTileLayer
               url="https://openwms.statkart.no/skwms1/wms.matrikkel"
