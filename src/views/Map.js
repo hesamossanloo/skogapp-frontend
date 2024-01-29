@@ -14,6 +14,7 @@ import osloForestGeoJSON from 'assets/data/osloForestGeoJSON';
 import forestSubTreesGeoJSON from 'assets/data/forestSubtreesGeoJSON';
 import DetailSidebar from 'components/DetailSidebar/DetailSidebar';
 import { WMSGetFeatureInfo } from 'ol/format';
+import 'leaflet-wms-header';
 
 const { BaseLayer, Overlay } = LayersControl;
 delete L.Icon.Default.prototype._getIconUrl;
@@ -30,7 +31,7 @@ function Map() {
   const [isSkogbruksplanOn, setIsSkogbruksplanOn] = useState(true);
 
   const homePosition = [59.9287, 11.7025]; // Coordinates for Mads' House
-  const position = [59.945, 11.695]; // Coordinates for Mads' Dad's Forest
+  const centerPosition = [59.945, 11.695]; // Coordinates for Mads' Dad's Forest
   // const position = [59.9139, 10.7522]; // Coordinates for Oslo, Norway
   const colorMap = {
     Pine: 'green',
@@ -138,20 +139,11 @@ function Map() {
       L.popup().setLatLng(e.latlng).setContent(content).openOn(map);
     }
   };
-  // <WMSTileLayer
-  //             url="https://prodtest.matrikkel.no/geoservergeo/wms?"
-  //             layers="matrikkel:TEIGWFS"
-  //             format="image/png"
-  //             transparent={true}
-  //             version="1.1.1"
-  //             username="vintertjenn_matrikkeltest"
-  //             password="ygx2gcj@vju8WKH5pudz"
-  //           />
   return (
     <>
       <MapContainer
         zoomControl={false}
-        center={position}
+        center={centerPosition}
         zoom={13}
         crs={L.CRS.EPSG3857}
         style={{
@@ -177,6 +169,26 @@ function Map() {
               attribution='&copy; <a href="https://www.esri.com/">Esri</a> contributors'
             />
           </BaseLayer>
+          <Overlay checked name="Matrikkel">
+            <WMSTileLayer
+              url="https://prodtest.matrikkel.no/geoservergeo/wms?"
+              layers="matrikkel:TEIGWFS"
+              format="image/png"
+              transparent={true}
+              version="1.1.1"
+              username="vintertjenn_matrikkeltest"
+              password="ygx2gcj@vju8WKH5pudz"
+            />
+            {/* <WMSTileLayer
+              url="https://openwms.statkart.no/skwms1/wms.matrikkel"
+              SERVICE="WMS"
+              version="1.3.0"
+              layers="matrikkel_WMS"
+              format="image/png"
+              transparent={true}
+              crossOrigin={true}
+            /> */}
+          </Overlay>
           <Overlay name="Hogstklasser">
             <WMSTileLayer
               url="https://wms.nibio.no/cgi-bin/skogbruksplan?"
