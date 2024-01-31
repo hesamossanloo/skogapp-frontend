@@ -44,7 +44,7 @@ function Map() {
         setActiveFeature(feature);
         // Highlight the selected polygon
         if (activeLayer) {
-          activeLayer.setStyle({ fillColor: 'blue', fillOpacity: 0.5 }); // Reset style of previous active layer
+          activeLayer.setStyle({ fillColor: 'blue', fillOpacity: 0 }); // Reset style of previous active layer
         }
         layer.setStyle({ fillColor: 'red', fillOpacity: 0.5 }); // Set style of current active layer
         activeLayer = layer; // Update active layer
