@@ -8,13 +8,16 @@ import {
   Popup,
   ZoomControl,
   WMSTileLayer,
+  GeoJSON,
+  useMapEvents,
+  useMap,
 } from 'react-leaflet';
-import { GeoJSON, useMapEvents, useMap } from 'react-leaflet';
-import osloForestGeoJSON from 'assets/data/osloForestGeoJSON';
-import forestSubTreesGeoJSON from 'assets/data/forestSubtreesGeoJSON';
-import DetailSidebar from 'components/DetailSidebar/DetailSidebar';
 import { WMSGetFeatureInfo } from 'ol/format';
-import 'leaflet-wms-header';
+import { mapCoordinations } from 'variables/forest';
+import { nibioGetFeatInfoBaseParams } from 'variables/forest';
+import madsForestCLCClipCRS4326 from 'assets/data/QGIS/mads-forest-clc-clip-crs4326-right-hand-fixed.js';
+import madsForestAR50CRS4326 from 'assets/data/QGIS/ar50-clip-RH-fixed.js';
+import FeaturePopup from 'utilities/Map/ShowFeaturePopup';
 
 const { BaseLayer, Overlay } = LayersControl;
 delete L.Icon.Default.prototype._getIconUrl;
@@ -26,62 +29,33 @@ L.Icon.Default.mergeOptions({
 });
 
 function Map() {
-  const [detailSidebarOpen, setDetailSidebarOpen] = useState(false);
-  const [detailSidebarInfo, setDetailSidebarInfo] = useState(null);
-  const [isSkogbruksplanOn, setIsSkogbruksplanOn] = useState(true);
+  const [activeOverlay, setActiveOverlay] = useState({
+    Matrikkel: true,
+    Hogstklasser: false,
+    MadsForest: false,
+  });
 
-  const homePosition = [59.9287, 11.7025]; // Coordinates for Mads' House
-  const centerPosition = [59.945, 11.695]; // Coordinates for Mads' Dad's Forest
-  // const position = [59.9139, 10.7522]; // Coordinates for Oslo, Norway
-  const colorMap = {
-    Pine: 'green',
-    Oak: 'brown',
-    Spruce: 'yellow',
-    Birch: 'white',
-    Alder: 'black',
-    Cherry: 'red',
-  };
+  const [activeFeature, setActiveFeature] = useState(null);
 
-  const style = (feature) => {
-    return {
-      color: colorMap[feature.properties.species],
-    };
-  };
-
-  const handleOverlayClick = (e) => {
-    setDetailSidebarInfo(e.target.feature.properties);
-    setDetailSidebarOpen(true);
-  };
-  // Function to handle click on forest feature
+  let activeLayer = null;
   const onEachFeature = (feature, layer) => {
     layer.on({
-      click: handleOverlayClick,
+      click: () => {
+        setActiveFeature(feature);
+        // Highlight the selected polygon
+        if (activeLayer) {
+          activeLayer.setStyle({ fillColor: 'blue', fillOpacity: 0.5 }); // Reset style of previous active layer
+        }
+        layer.setStyle({ fillColor: 'red', fillOpacity: 0.5 }); // Set style of current active layer
+        activeLayer = layer; // Update active layer
+      },
     });
-  };
-  const closeDetailSidebar = () => {
-    setDetailSidebarOpen(false);
   };
 
   // Define a new component
   const MapEvents = () => {
     const map = useMap();
 
-    map.on('overlayadd', function (e) {
-      if (e.name === 'Skogbruksplan') {
-        setIsSkogbruksplanOn(true);
-      }
-    });
-
-    map.on('overlayremove', function (e) {
-      if (e.name === 'Skogbruksplan') {
-        setIsSkogbruksplanOn(false);
-        map.closePopup();
-      }
-    });
-
-    map.on('click', function () {
-      map.closePopup();
-    });
     const CRS = map.options.crs.code;
     // We need to make sure that the BBOX is in the EPSG:3857 format
     // For that we must to do following
@@ -93,37 +67,46 @@ function Map() {
 
     useMapEvents({
       click: async (e) => {
-        const params = {
-          language: 'nor',
-          SERVICE: 'WMS',
-          VERSION: '1.3.0',
-          REQUEST: 'GetFeatureInfo',
-          BBOX,
-          CRS,
-          WIDTH: size.x,
-          HEIGHT: size.y,
-          LAYERS: 'hogstklasser',
-          STYLES: '',
-          FORMAT: 'image/png',
-          QUERY_LAYERS: 'hogstklasser',
-          INFO_FORMAT: 'application/vnd.ogc.gml', // text/html, application/vnd.ogc.gml, text/plain
-          I: Math.round(e.containerPoint.x),
-          J: Math.round(e.containerPoint.y),
-          FEATURE_COUNT: 10,
-        };
-        const url = `https://wms.nibio.no/cgi-bin/skogbruksplan?language=nor&${new URLSearchParams(params).toString()}`;
-        const response = await fetch(url);
-        const data = await response.text();
-        const format = new WMSGetFeatureInfo();
-        const features = format.readFeatures(data);
-        handleWMSFeatures(e, features, map);
+        map.closePopup();
+        if (activeOverlay['Hogstklasser']) {
+          const params = {
+            ...nibioGetFeatInfoBaseParams,
+            BBOX,
+            CRS,
+            WIDTH: size.x,
+            HEIGHT: size.y,
+            I: Math.round(e.containerPoint.x),
+            J: Math.round(e.containerPoint.y),
+          };
+          const url = `https://wms.nibio.no/cgi-bin/skogbruksplan?language=nor&${new URLSearchParams(params).toString()}`;
+          const response = await fetch(url);
+          const data = await response.text();
+          const format = new WMSGetFeatureInfo();
+          const features = format.readFeatures(data);
+          handleSkogbrukWMSFeatures(e, features, map);
+        }
+      },
+      overlayadd: async (e) => {
+        setActiveOverlay((prevOverlay) => ({
+          ...prevOverlay,
+          [e.name]: true,
+        }));
+      },
+      overlayremove: async (e) => {
+        if (activeOverlay['Hogstklasser']) {
+          map.closePopup();
+        }
+        setActiveOverlay((prevOverlay) => ({
+          ...prevOverlay,
+          [e.name]: false,
+        }));
       },
     });
 
     return null;
   };
 
-  const handleWMSFeatures = (e, features, map) => {
+  const handleSkogbrukWMSFeatures = (e, features, map) => {
     if (features.length > 0 && features[0]) {
       const feature = features[0];
       const values = feature.values_;
@@ -143,9 +126,8 @@ function Map() {
     <>
       <MapContainer
         zoomControl={false}
-        center={centerPosition}
+        center={mapCoordinations.centerPosition}
         zoom={13}
-        crs={L.CRS.EPSG3857}
         style={{
           position: 'fixed',
           top: 0,
@@ -154,7 +136,7 @@ function Map() {
           width: '100vw',
         }}
       >
-        {isSkogbruksplanOn && <MapEvents />}
+        <MapEvents />
         <ZoomControl position="bottomright" />
         <LayersControl position="bottomright">
           <BaseLayer checked name="OpenStreetMap">
@@ -169,25 +151,51 @@ function Map() {
               attribution='&copy; <a href="https://www.esri.com/">Esri</a> contributors'
             />
           </BaseLayer>
-          <Overlay checked name="Matrikkel">
+          {madsForestAR50CRS4326 && (
+            <Overlay checked name="AR50">
+              <GeoJSON
+                data={madsForestAR50CRS4326}
+                onEachFeature={onEachFeature}
+              />
+              {activeFeature && (
+                <FeaturePopup
+                  activeFeature={{
+                    lng: activeFeature.geometry.coordinates[0][0][0][1],
+                    lat: activeFeature.geometry.coordinates[0][0][0][0],
+                    properties: activeFeature.properties,
+                  }}
+                  setActiveFeature={setActiveFeature}
+                />
+              )}
+            </Overlay>
+          )}
+          {madsForestCLCClipCRS4326 && (
+            <Overlay name="CLC">
+              <GeoJSON
+                data={madsForestCLCClipCRS4326}
+                onEachFeature={onEachFeature}
+              />
+              {activeFeature && (
+                <FeaturePopup
+                  activeFeature={{
+                    lng: activeFeature.geometry.coordinates[0][0][0][1],
+                    lat: activeFeature.geometry.coordinates[0][0][0][0],
+                    properties: activeFeature.properties,
+                  }}
+                  setActiveFeature={setActiveFeature}
+                />
+              )}
+            </Overlay>
+          )}
+          <Overlay name="Matrikkel">
             <WMSTileLayer
-              url="https://prodtest.matrikkel.no/geoservergeo/wms?"
-              layers="matrikkel:TEIGWFS"
-              format="image/png"
-              transparent={true}
-              version="1.1.1"
-              username={process.env.REACT_APP_MATRIKKEL_UN_PRODTEST}
-              password={process.env.REACT_APP_MATRIKKEL_PSW_PRODTEST}
-            />
-            {/* <WMSTileLayer
-              url="https://openwms.statkart.no/skwms1/wms.matrikkel"
-              SERVICE="WMS"
-              version="1.3.0"
-              layers="matrikkel_WMS"
+              url="https://openwms.statkart.no/skwms1/wms.matrikkelkart"
+              layers="matrikkelkart"
               format="image/png"
               transparent={true}
               crossOrigin={true}
-            /> */}
+              version="1.3.0"
+            />
           </Overlay>
           <Overlay name="Hogstklasser">
             <WMSTileLayer
@@ -198,25 +206,11 @@ function Map() {
               version="1.3.0"
             />
           </Overlay>
-          {osloForestGeoJSON && (
-            <Overlay name="Mad's Dad's Forest">
-              <GeoJSON
-                data={forestSubTreesGeoJSON}
-                style={style}
-                onEachFeature={onEachFeature}
-              />
-            </Overlay>
-          )}
         </LayersControl>
-        <Marker position={homePosition}>
+        <Marker position={mapCoordinations.homePosition}>
           <Popup>Mads was born in this House!</Popup>
         </Marker>
       </MapContainer>
-      <DetailSidebar
-        open={detailSidebarOpen}
-        onClose={closeDetailSidebar}
-        info={detailSidebarInfo}
-      />
     </>
   );
 }
