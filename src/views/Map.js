@@ -11,6 +11,7 @@ import {
   GeoJSON,
   useMapEvents,
   useMap,
+  ImageOverlay,
 } from 'react-leaflet';
 import { WMSGetFeatureInfo } from 'ol/format';
 import { mapCoordinations } from 'variables/forest';
@@ -205,6 +206,9 @@ function Map() {
               transparent={true}
               version="1.3.0"
             />
+          </Overlay>
+          <Overlay name="Hogstklasser">
+            <ImageOverlay url="../assets/data/QGIS/skogbruk-masked.tif" />
           </Overlay>
         </LayersControl>
         <Marker position={mapCoordinations.homePosition}>
