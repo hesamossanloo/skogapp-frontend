@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import L from 'leaflet';
-import 'leaflet-wms-header';
 import {
   MapContainer,
   LayersControl,
@@ -9,11 +8,16 @@ import {
   Popup,
   ZoomControl,
   WMSTileLayer,
+  GeoJSON,
+  useMapEvents,
+  useMap,
 } from 'react-leaflet';
-import { useMapEvents, useMap } from 'react-leaflet';
 import { WMSGetFeatureInfo } from 'ol/format';
 import { mapCoordinations } from 'variables/forest';
 import { nibioGetFeatInfoBaseParams } from 'variables/forest';
+import madsForestCLCClipCRS4326 from 'assets/data/QGIS/mads-forest-clc-clip-crs4326-right-hand-fixed.js';
+import madsForestAR50CRS4326 from 'assets/data/QGIS/ar50-clip-RH-fixed.js';
+import FeaturePopup from 'utilities/Map/ShowFeaturePopup';
 
 const { BaseLayer, Overlay } = LayersControl;
 delete L.Icon.Default.prototype._getIconUrl;
@@ -30,6 +34,23 @@ function Map() {
     Hogstklasser: false,
     MadsForest: false,
   });
+
+  const [activeFeature, setActiveFeature] = useState(null);
+
+  let activeLayer = null;
+  const onEachFeature = (feature, layer) => {
+    layer.on({
+      click: () => {
+        setActiveFeature(feature);
+        // Highlight the selected polygon
+        if (activeLayer) {
+          activeLayer.setStyle({ fillColor: 'blue', fillOpacity: 0.5 }); // Reset style of previous active layer
+        }
+        layer.setStyle({ fillColor: 'red', fillOpacity: 0.5 }); // Set style of current active layer
+        activeLayer = layer; // Update active layer
+      },
+    });
+  };
 
   // Define a new component
   const MapEvents = () => {
@@ -62,7 +83,7 @@ function Map() {
           const data = await response.text();
           const format = new WMSGetFeatureInfo();
           const features = format.readFeatures(data);
-          handleWMSFeatures(e, features, map);
+          handleSkogbrukWMSFeatures(e, features, map);
         }
       },
       overlayadd: async (e) => {
@@ -85,7 +106,7 @@ function Map() {
     return null;
   };
 
-  const handleWMSFeatures = (e, features, map) => {
+  const handleSkogbrukWMSFeatures = (e, features, map) => {
     if (features.length > 0 && features[0]) {
       const feature = features[0];
       const values = feature.values_;
@@ -107,7 +128,6 @@ function Map() {
         zoomControl={false}
         center={mapCoordinations.centerPosition}
         zoom={13}
-        crs={L.CRS.EPSG3857}
         style={{
           position: 'fixed',
           top: 0,
@@ -116,7 +136,7 @@ function Map() {
           width: '100vw',
         }}
       >
-        {activeOverlay && <MapEvents />}
+        <MapEvents />
         <ZoomControl position="bottomright" />
         <LayersControl position="bottomright">
           <BaseLayer checked name="OpenStreetMap">
@@ -131,15 +151,50 @@ function Map() {
               attribution='&copy; <a href="https://www.esri.com/">Esri</a> contributors'
             />
           </BaseLayer>
-          <Overlay checked name="Matrikkel">
+          {madsForestAR50CRS4326 && (
+            <Overlay checked name="AR50">
+              <GeoJSON
+                data={madsForestAR50CRS4326}
+                onEachFeature={onEachFeature}
+              />
+              {activeFeature && (
+                <FeaturePopup
+                  activeFeature={{
+                    lng: activeFeature.geometry.coordinates[0][0][0][1],
+                    lat: activeFeature.geometry.coordinates[0][0][0][0],
+                    properties: activeFeature.properties,
+                  }}
+                  setActiveFeature={setActiveFeature}
+                />
+              )}
+            </Overlay>
+          )}
+          {madsForestCLCClipCRS4326 && (
+            <Overlay name="CLC">
+              <GeoJSON
+                data={madsForestCLCClipCRS4326}
+                onEachFeature={onEachFeature}
+              />
+              {activeFeature && (
+                <FeaturePopup
+                  activeFeature={{
+                    lng: activeFeature.geometry.coordinates[0][0][0][1],
+                    lat: activeFeature.geometry.coordinates[0][0][0][0],
+                    properties: activeFeature.properties,
+                  }}
+                  setActiveFeature={setActiveFeature}
+                />
+              )}
+            </Overlay>
+          )}
+          <Overlay name="Matrikkel">
             <WMSTileLayer
-              url="https://prodtest.matrikkel.no/geoservergeo/wms?"
-              layers="matrikkel:TEIGWFS"
+              url="https://openwms.statkart.no/skwms1/wms.matrikkelkart"
+              layers="matrikkelkart"
               format="image/png"
               transparent={true}
-              version="1.1.1"
-              username={process.env.REACT_APP_MATRIKKEL_UN_PRODTEST}
-              password={process.env.REACT_APP_MATRIKKEL_PSW_PRODTEST}
+              crossOrigin={true}
+              version="1.3.0"
             />
           </Overlay>
           <Overlay name="Hogstklasser">
