@@ -17,7 +17,7 @@ import { mapCoordinations } from 'variables/forest';
 import { nibioGetFeatInfoBaseParams } from 'variables/forest';
 import madsForestCLCClipCRS4326 from 'assets/data/QGIS/mads-forest-clc-clip-crs4326-right-hand-fixed.js';
 import madsForestAR50CRS4326 from 'assets/data/QGIS/ar50-clip-RH-fixed.js';
-import FeaturePopup from 'utilities/Map/ShowFeaturePopup';
+import FeaturePopup from 'utilities/Map/FeaturePopup';
 
 const { BaseLayer, Overlay } = LayersControl;
 delete L.Icon.Default.prototype._getIconUrl;
@@ -30,24 +30,26 @@ L.Icon.Default.mergeOptions({
 
 function Map() {
   const [activeOverlay, setActiveOverlay] = useState({
-    Matrikkel: true,
+    Matrikkel: false,
     Hogstklasser: false,
     MadsForest: false,
+    AR50: true,
+    CLS: false,
   });
 
   const [activeFeature, setActiveFeature] = useState(null);
 
-  let activeLayer = null;
-  const onEachFeature = (feature, layer) => {
-    layer.on({
+  let activeGeoJSONLayer = null;
+  const onEachFeature = (feature, geoJSONLayer) => {
+    geoJSONLayer.on({
       click: () => {
         setActiveFeature(feature);
         // Highlight the selected polygon
-        if (activeLayer) {
-          activeLayer.setStyle({ fillColor: 'blue', fillOpacity: 0 }); // Reset style of previous active layer
+        if (activeGeoJSONLayer) {
+          activeGeoJSONLayer.setStyle({ fillColor: 'blue', fillOpacity: 0 }); // Reset style of previous active layer
         }
-        layer.setStyle({ fillColor: 'red', fillOpacity: 0.5 }); // Set style of current active layer
-        activeLayer = layer; // Update active layer
+        geoJSONLayer.setStyle({ fillColor: 'red', fillOpacity: 0.5 }); // Set style of current active layer
+        activeGeoJSONLayer = geoJSONLayer; // Update active layer
       },
     });
   };
@@ -93,8 +95,13 @@ function Map() {
         }));
       },
       overlayremove: async (e) => {
-        if (activeOverlay['Hogstklasser']) {
+        if (
+          activeOverlay['Hogstklasser'] ||
+          activeOverlay['CLC'] ||
+          activeOverlay['AR50']
+        ) {
           map.closePopup();
+          setActiveFeature(null);
         }
         setActiveOverlay((prevOverlay) => ({
           ...prevOverlay,
@@ -157,7 +164,7 @@ function Map() {
                 data={madsForestAR50CRS4326}
                 onEachFeature={onEachFeature}
               />
-              {activeFeature && (
+              {activeFeature && activeOverlay['AR50'] && (
                 <FeaturePopup
                   activeFeature={{
                     lng: activeFeature.geometry.coordinates[0][0][0][1],
@@ -175,7 +182,7 @@ function Map() {
                 data={madsForestCLCClipCRS4326}
                 onEachFeature={onEachFeature}
               />
-              {activeFeature && (
+              {activeFeature && activeOverlay['CLC'] && (
                 <FeaturePopup
                   activeFeature={{
                     lng: activeFeature.geometry.coordinates[0][0][0][1],
