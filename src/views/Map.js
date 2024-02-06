@@ -9,11 +9,8 @@ import {
   ZoomControl,
   WMSTileLayer,
   GeoJSON,
-  useMapEvents,
-  useMap,
   ImageOverlay,
 } from 'react-leaflet';
-import { WMSGetFeatureInfo } from 'ol/format';
 import { mapCoordinations } from 'variables/forest';
 import { nibioGetFeatInfoBaseParams } from 'variables/forest';
 import madsForestCLCClipCRS4326 from 'assets/data/QGIS/mads-forest-clc-clip-crs4326-right-hand-fixed.js';
@@ -21,6 +18,7 @@ import madsForestAR50CRS4326 from 'assets/data/QGIS/ar50-clip-RH-fixed.js';
 import PNGImage from 'assets/data/QGIS/hogst-forest-4236.png';
 import FeaturePopup from 'utilities/Map/FeaturePopup';
 import { hideLayerControlLabel } from 'utilities/Map/utils';
+import CustomMapEvents from 'utilities/Map/CustomMapEvents';
 
 const { BaseLayer, Overlay } = LayersControl;
 delete L.Icon.Default.prototype._getIconUrl;
@@ -70,101 +68,6 @@ function Map() {
     });
   };
 
-  // Define a new component
-  const MapEvents = () => {
-    const map = useMap();
-
-    const CRS = map.options.crs.code;
-    // We need to make sure that the BBOX is in the EPSG:3857 format
-    // For that we must to do following
-    const size = map.getSize();
-    const bounds = map.getBounds();
-    const southWest = map.options.crs.project(bounds.getSouthWest());
-    const northEast = map.options.crs.project(bounds.getNorthEast());
-    const BBOX = [southWest.x, southWest.y, northEast.x, northEast.y].join(',');
-
-    useMapEvents({
-      click: async (e) => {
-        map.closePopup();
-        if (
-          activeOverlay['HogstklasserWMS'] ||
-          activeOverlay['HogstklasserPNG']
-        ) {
-          const params = {
-            ...nibioGetFeatInfoBaseParams,
-            BBOX,
-            CRS,
-            WIDTH: size.x,
-            HEIGHT: size.y,
-            I: Math.round(e.containerPoint.x),
-            J: Math.round(e.containerPoint.y),
-          };
-          const url = `https://wms.nibio.no/cgi-bin/skogbruksplan?language=nor&${new URLSearchParams(params).toString()}`;
-          const response = await fetch(url);
-          const data = await response.text();
-          const format = new WMSGetFeatureInfo();
-          const features = format.readFeatures(data);
-          handleSkogbrukWMSFeatures(e, features, map);
-        }
-      },
-      overlayadd: async (e) => {
-        if (
-          activeOverlay['HogstklasserPNG'] ||
-          activeOverlay['HogstklasserWMS']
-        ) {
-          // #root > div.wrapper > div.main-panel > div > div.leaflet-control-container > div.leaflet-bottom.leaflet-right > div.leaflet-control-layers.leaflet-control > section > div.leaflet-control-layers-overlays > label:nth-child(5)
-          // document.querySelector("#root > div.wrapper > div.main-panel > div > div.leaflet-control-container > div.leaflet-bottom.leaflet-right > div.leaflet-control-layers.leaflet-control > section > div.leaflet-control-layers-overlays > label:nth-child(5)")
-
-          // Wait for the next render cycle to ensure the layer control has been updated
-          setTimeout(() => {
-            hideLayerControlLabel('HogstklasserWMS');
-          }, 0);
-
-          setActiveOverlay((prevOverlay) => ({
-            ...prevOverlay,
-            HogstklasserPNG: true,
-            HogstklasserWMS: true,
-          }));
-        }
-        setActiveOverlay((prevOverlay) => ({
-          ...prevOverlay,
-          [e.name]: true,
-        }));
-      },
-      overlayremove: async (e) => {
-        if (
-          activeOverlay['HogstklasserPNG'] ||
-          activeOverlay['HogstklasserWMS'] ||
-          activeOverlay['CLC'] ||
-          activeOverlay['AR50']
-        ) {
-          map.closePopup();
-          setActiveFeature(null);
-        }
-        if (
-          activeOverlay['HogstklasserPNG'] ||
-          activeOverlay['HogstklasserWMS']
-        ) {
-          // Wait for the next render cycle to ensure the layer control has been updated
-          setTimeout(() => {
-            hideLayerControlLabel('HogstklasserWMS');
-          }, 0);
-          setActiveOverlay((prevOverlay) => ({
-            ...prevOverlay,
-            HogstklasserPNG: false,
-            HogstklasserWMS: false,
-          }));
-        }
-        setActiveOverlay((prevOverlay) => ({
-          ...prevOverlay,
-          [e.name]: false,
-        }));
-      },
-    });
-
-    return null;
-  };
-
   const handleSkogbrukWMSFeatures = (e, features, map) => {
     if (features.length > 0 && features[0]) {
       const feature = features[0];
@@ -195,7 +98,14 @@ function Map() {
           width: '100vw',
         }}
       >
-        <MapEvents />
+        <CustomMapEvents
+          activeOverlay={activeOverlay}
+          setActiveOverlay={setActiveOverlay}
+          setActiveFeature={setActiveFeature}
+          handleSkogbrukWMSFeatures={handleSkogbrukWMSFeatures}
+          hideLayerControlLabel={hideLayerControlLabel}
+          nibioGetFeatInfoBaseParams={nibioGetFeatInfoBaseParams}
+        />
         <ZoomControl position="bottomright" />
         <LayersControl position="bottomright">
           <BaseLayer checked name="OpenStreetMap">
