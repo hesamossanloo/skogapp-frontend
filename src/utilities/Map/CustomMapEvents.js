@@ -2,10 +2,11 @@ import { useMap, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import PropTypes from 'prop-types';
 import { WMSGetFeatureInfo } from 'ol/format';
+import { nibioGetFeatInfoBaseParams } from 'variables/forest';
 
 CustomMapEvents.propTypes = {
   activeOverlay: PropTypes.shape({
-    HogstklasserPNG: PropTypes.bool,
+    Hogstklasser: PropTypes.bool,
     HogstklasserWMS: PropTypes.bool,
     CLC: PropTypes.bool,
     AR50: PropTypes.bool,
@@ -14,7 +15,6 @@ CustomMapEvents.propTypes = {
   setActiveFeature: PropTypes.func.isRequired,
   handleSkogbrukWMSFeatures: PropTypes.func.isRequired,
   hideLayerControlLabel: PropTypes.func.isRequired,
-  nibioGetFeatInfoBaseParams: PropTypes.object.isRequired,
 };
 
 export default function CustomMapEvents({
@@ -22,17 +22,32 @@ export default function CustomMapEvents({
   setActiveOverlay,
   setActiveFeature,
   hideLayerControlLabel,
-  nibioGetFeatInfoBaseParams,
 }) {
   const handleSkogbrukWMSFeatures = (e, features, map) => {
     if (features.length > 0 && features[0]) {
       const feature = features[0];
       const values = feature.values_;
 
-      let content = '<table>';
+      const desiredAttributes = {
+        hogstkl_verdi: 'Hogstklasse',
+        bonitet_beskrivelse: 'Bonitet',
+        bontre_beskrivelse: 'Treslag',
+        regdato: 'Registreringsdato',
+        alder: 'Bestandsalder',
+        areal: 'Areal daa)',
+        sl_sdeid: 'ID',
+      };
+
+      const activeOverlayNames = Object.keys(activeOverlay).filter(
+        (key) => activeOverlay[key] === true
+      );
+
+      let content =
+        `<h3 style="color: black; text-align: center;">${activeOverlayNames[0]}</h3>` + // Add the layer name as the title with black color and centered alignment
+        '<table style="margin-bottom: 10px; border-collapse: collapse; border: 1px solid black;">'; // Add margin-bottom and border styles
       for (const key in values) {
-        if (key !== 'boundedBy') {
-          content += `<tr><td>${key}</td><td>${values[key]}</td></tr>`;
+        if (desiredAttributes[key]) {
+          content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">${desiredAttributes[key]}</td><td style="padding: 5px; border: 1px solid black;">${values[key]}</td></tr>`; // Add padding-right and border styles
         }
       }
       content += '</table>';
@@ -54,10 +69,7 @@ export default function CustomMapEvents({
   useMapEvents({
     click: async (e) => {
       map.closePopup();
-      if (
-        activeOverlay['HogstklasserWMS'] ||
-        activeOverlay['HogstklasserPNG']
-      ) {
+      if (activeOverlay['HogstklasserWMS'] || activeOverlay['Hogstklasser']) {
         const params = {
           ...nibioGetFeatInfoBaseParams,
           BBOX,
@@ -76,10 +88,7 @@ export default function CustomMapEvents({
       }
     },
     overlayadd: async (e) => {
-      if (
-        activeOverlay['HogstklasserPNG'] ||
-        activeOverlay['HogstklasserWMS']
-      ) {
+      if (activeOverlay['Hogstklasser'] || activeOverlay['HogstklasserWMS']) {
         // #root > div.wrapper > div.main-panel > div > div.leaflet-control-container > div.leaflet-bottom.leaflet-right > div.leaflet-control-layers.leaflet-control > section > div.leaflet-control-layers-overlays > label:nth-child(5)
         // document.querySelector("#root > div.wrapper > div.main-panel > div > div.leaflet-control-container > div.leaflet-bottom.leaflet-right > div.leaflet-control-layers.leaflet-control > section > div.leaflet-control-layers-overlays > label:nth-child(5)")
 
@@ -90,7 +99,7 @@ export default function CustomMapEvents({
 
         setActiveOverlay((prevOverlay) => ({
           ...prevOverlay,
-          HogstklasserPNG: true,
+          Hogstklasser: true,
           HogstklasserWMS: true,
         }));
       }
@@ -101,7 +110,7 @@ export default function CustomMapEvents({
     },
     overlayremove: async (e) => {
       if (
-        activeOverlay['HogstklasserPNG'] ||
+        activeOverlay['Hogstklasser'] ||
         activeOverlay['HogstklasserWMS'] ||
         activeOverlay['CLC'] ||
         activeOverlay['AR50']
@@ -109,17 +118,14 @@ export default function CustomMapEvents({
         map.closePopup();
         setActiveFeature(null);
       }
-      if (
-        activeOverlay['HogstklasserPNG'] ||
-        activeOverlay['HogstklasserWMS']
-      ) {
+      if (activeOverlay['Hogstklasser'] || activeOverlay['HogstklasserWMS']) {
         // Wait for the next render cycle to ensure the layer control has been updated
         setTimeout(() => {
           hideLayerControlLabel('HogstklasserWMS');
         }, 0);
         setActiveOverlay((prevOverlay) => ({
           ...prevOverlay,
-          HogstklasserPNG: false,
+          Hogstklasser: false,
           HogstklasserWMS: false,
         }));
       }

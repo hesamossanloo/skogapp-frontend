@@ -2,12 +2,18 @@ import React from 'react';
 import { Popup } from 'react-leaflet';
 import PropTypes from 'prop-types';
 
-const FeaturePopup = ({ activeFeature, setActiveFeature }) => {
+const FeaturePopup = ({ activeFeature, setActiveFeature, activeOverlay }) => {
+  const activeOverlayNames = Object.keys(activeOverlay).filter(
+    (key) => activeOverlay[key] === true
+  );
   return (
     <Popup
       position={[activeFeature.lng, activeFeature.lat]}
       onClose={() => setActiveFeature(null)}
     >
+      <h3 style={{ color: 'black', textAlign: 'center' }}>
+        {activeOverlayNames[0]}
+      </h3>
       <table
         style={{
           border: '1px solid black',
@@ -43,6 +49,7 @@ FeaturePopup.propTypes = {
     properties: PropTypes.object.isRequired,
   }).isRequired,
   setActiveFeature: PropTypes.func.isRequired,
+  activeOverlay: PropTypes.func.isRequired,
 };
 
 export default FeaturePopup;

@@ -12,7 +12,6 @@ import {
   ImageOverlay,
 } from 'react-leaflet';
 import { mapCoordinations } from 'variables/forest';
-import { nibioGetFeatInfoBaseParams } from 'variables/forest';
 import madsForestCLCClipCRS4326 from 'assets/data/QGIS/mads-forest-clc-clip-crs4326-right-hand-fixed.js';
 import madsForestAR50CRS4326 from 'assets/data/QGIS/ar50-clip-RH-fixed.js';
 import PNGImage from 'assets/data/QGIS/hogst-forest-4236.png';
@@ -32,7 +31,7 @@ L.Icon.Default.mergeOptions({
 function Map() {
   const [activeOverlay, setActiveOverlay] = useState({
     Matrikkel: false,
-    HogstklasserPNG: true,
+    Hogstklasser: true,
     HogstklasserWMS: false,
     MadsForest: false,
     AR50: false,
@@ -87,7 +86,6 @@ function Map() {
           setActiveOverlay={setActiveOverlay}
           setActiveFeature={setActiveFeature}
           hideLayerControlLabel={hideLayerControlLabel}
-          nibioGetFeatInfoBaseParams={nibioGetFeatInfoBaseParams}
         />
         <ZoomControl position="bottomright" />
         <LayersControl position="bottomright">
@@ -104,10 +102,11 @@ function Map() {
             />
           </BaseLayer>
           {PNGImage && (
-            <Overlay checked name="HogstklasserPNG">
+            <Overlay checked name="Hogstklasser">
               <ImageOverlay url={PNGImage} bounds={imageBounds} />
               {activeFeature && activeOverlay['HogstklasserWMS'] && (
                 <FeaturePopup
+                  activeOverlay={activeOverlay}
                   activeFeature={{
                     lng: activeFeature.geometry.coordinates[0][0][0][1],
                     lat: activeFeature.geometry.coordinates[0][0][0][0],
@@ -126,6 +125,7 @@ function Map() {
               />
               {activeFeature && activeOverlay['AR50'] && (
                 <FeaturePopup
+                  activeOverlay={activeOverlay}
                   activeFeature={{
                     lng: activeFeature.geometry.coordinates[0][0][0][1],
                     lat: activeFeature.geometry.coordinates[0][0][0][0],
@@ -144,6 +144,7 @@ function Map() {
               />
               {activeFeature && activeOverlay['CLC'] && (
                 <FeaturePopup
+                  activeOverlay={activeOverlay}
                   activeFeature={{
                     lng: activeFeature.geometry.coordinates[0][0][0][1],
                     lat: activeFeature.geometry.coordinates[0][0][0][0],
@@ -165,7 +166,7 @@ function Map() {
             />
           </Overlay>
           <Overlay
-            checked={activeOverlay['HogstklasserPNG']}
+            checked={activeOverlay['Hogstklasser']}
             name="HogstklasserWMS"
           >
             <WMSTileLayer
