@@ -5376,7 +5376,7 @@ gensync@^1.0.0-beta.2:
   resolved "https://registry.yarnpkg.com/gensync/-/gensync-1.0.0-beta.2.tgz#32a6ee76c3d7f52d46b2b1ae5d93fea8580a25e0"
   integrity sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==
 
-geotiff@^2.0.7:
+geotiff@^2.0.7, geotiff@^2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/geotiff/-/geotiff-2.1.2.tgz#5d58555512a7950ae9a8496562c67c285e301318"
   integrity sha512-xw7Cd6HXukUdfFSe5QCSjdhebTCGkk87x7fKURqQPFKT+TijCCwKvoksL7T3+B6mJWZSB7muTJlwVIQsLtbkMA==
@@ -7847,6 +7847,11 @@ pkg-up@^3.1.0:
   integrity sha512-nDywThFk1i4BQK4twPQ6TA4RT8bDY96yeuCVBWL3ePARCiEKDRSrNGbFIgUJpLp+XeIR65v8ra7WuJOFUBtkMA==
   dependencies:
     find-up "^3.0.0"
+
+plotty@^0.4.9:
+  version "0.4.9"
+  resolved "https://registry.yarnpkg.com/plotty/-/plotty-0.4.9.tgz#e13ef21819d5cfb0b1b1388ff2a969c25a48adfc"
+  integrity sha512-UUINHc6VzMMdvbvBoiBW8/Zk0KH2HfUV4P5xRqDxcu6eAIW2sxQO09sC5o0am5VIAO6RhJXKEJuwU5HTNJ8hPw==
 
 popper.js@1.16.1-lts:
   version "1.16.1-lts"
