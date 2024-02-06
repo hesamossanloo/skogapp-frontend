@@ -68,22 +68,6 @@ function Map() {
     });
   };
 
-  const handleSkogbrukWMSFeatures = (e, features, map) => {
-    if (features.length > 0 && features[0]) {
-      const feature = features[0];
-      const values = feature.values_;
-
-      let content = '<table>';
-      for (const key in values) {
-        if (key !== 'boundedBy') {
-          content += `<tr><td>${key}</td><td>${values[key]}</td></tr>`;
-        }
-      }
-      content += '</table>';
-
-      L.popup().setLatLng(e.latlng).setContent(content).openOn(map);
-    }
-  };
   return (
     <>
       <MapContainer
@@ -102,7 +86,6 @@ function Map() {
           activeOverlay={activeOverlay}
           setActiveOverlay={setActiveOverlay}
           setActiveFeature={setActiveFeature}
-          handleSkogbrukWMSFeatures={handleSkogbrukWMSFeatures}
           hideLayerControlLabel={hideLayerControlLabel}
           nibioGetFeatInfoBaseParams={nibioGetFeatInfoBaseParams}
         />

@@ -1,4 +1,5 @@
 import { useMap, useMapEvents } from 'react-leaflet';
+import L from 'leaflet';
 import PropTypes from 'prop-types';
 import { WMSGetFeatureInfo } from 'ol/format';
 
@@ -20,10 +21,25 @@ export default function CustomMapEvents({
   activeOverlay,
   setActiveOverlay,
   setActiveFeature,
-  handleSkogbrukWMSFeatures,
   hideLayerControlLabel,
   nibioGetFeatInfoBaseParams,
 }) {
+  const handleSkogbrukWMSFeatures = (e, features, map) => {
+    if (features.length > 0 && features[0]) {
+      const feature = features[0];
+      const values = feature.values_;
+
+      let content = '<table>';
+      for (const key in values) {
+        if (key !== 'boundedBy') {
+          content += `<tr><td>${key}</td><td>${values[key]}</td></tr>`;
+        }
+      }
+      content += '</table>';
+
+      L.popup().setLatLng(e.latlng).setContent(content).openOn(map);
+    }
+  };
   const map = useMap();
 
   const CRS = map.options.crs.code;
