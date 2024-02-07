@@ -19,6 +19,7 @@
     "geotiff": "^2.1.2",
     "leaflet": "^1.9.4",
     "ol": "^8.2.0",
+    "papaparse": "^5.4.1",
     "perfect-scrollbar": "1.5.5",
     "plotty": "^0.4.9",
     "proj4": "^2.10.0",

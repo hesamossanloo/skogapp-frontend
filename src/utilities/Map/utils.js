@@ -1,3 +1,5 @@
+import Papa from 'papaparse';
+
 export function hideLayerControlLabel(layerName) {
   // Find the label corresponding to the layer
   const layerControl = document.querySelector(
