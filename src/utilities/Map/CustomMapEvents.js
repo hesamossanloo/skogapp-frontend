@@ -18,6 +18,7 @@ CustomMapEvents.propTypes = {
   hideLayerControlLabel: PropTypes.func.isRequired,
 };
 
+const N = 200;
 export default function CustomMapEvents({
   activeOverlay,
   setActiveOverlay,
@@ -76,7 +77,16 @@ export default function CustomMapEvents({
       const activeOverlayNames = Object.keys(activeOverlay).filter(
         (key) => activeOverlay[key] === true
       );
+      // Step 1
       let estimatedHeight;
+      // Step 2
+      // Gu = exp( -12.920 - 0.021*alder + 2.379*ln(alder) + 0.540*ln(N) + 1.587*ln(bonitet_beskrivelse))
+      let crossSectionArea;
+      // Step 3
+      let estimatedStandVolume;
+      // Step 4
+      let estimatedStandVolumeM3HAA;
+
       let content =
         `<h3 style="color: black; text-align: center;">${activeOverlayNames[0]}</h3>` + // Add the layer name as the title with black color and centered alignment
         '<table style="margin-bottom: 10px; border-collapse: collapse; border: 1px solid black;">'; // Add margin-bottom and border styles
@@ -102,7 +112,24 @@ export default function CustomMapEvents({
                 )
             ); // Use the temporary variable in the find function
             if (row) {
-              console.log(row[values.alder]);
+              estimatedHeight = row[values.alder];
+              if (parseInt(values.alder) >= 110) {
+                estimatedHeight = row['110'];
+              }
+              if (estimatedHeight) {
+                crossSectionArea = Math.exp(
+                  -12.92 -
+                    0.021 * parseInt(values.alder) +
+                    2.379 * Math.log(values.alder) +
+                    0.54 * Math.log(N) +
+                    1.587 *
+                      Math.log(
+                        values.bonitet_beskrivelse.substring(
+                          values.bonitet_beskrivelse.indexOf(' ') + 1
+                        )
+                      )
+                );
+              }
             }
           }
         }
@@ -117,13 +144,28 @@ export default function CustomMapEvents({
             ); // Use the temporary variable in the find function
             if (row) {
               estimatedHeight = row[values.alder];
-              if (parseInt(values.alder >= 110)) {
+              if (parseInt(values.alder) >= 110) {
                 estimatedHeight = row['110'];
+              }
+              if (estimatedHeight) {
+                crossSectionArea = Math.exp(
+                  -12.92 -
+                    0.021 * parseInt(values.alder) +
+                    2.379 * Math.log(values.alder) +
+                    0.54 * Math.log(N) +
+                    1.587 *
+                      Math.log(
+                        values.bonitet_beskrivelse.substring(
+                          values.bonitet_beskrivelse.indexOf(' ') + 1
+                        )
+                      )
+                );
               }
             }
           }
         }
         content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Overhøyde</td><td style="padding: 5px; border: 1px solid black;">${estimatedHeight}</td></tr>`;
+        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Grunnflate</td><td style="padding: 5px; border: 1px solid black;">${crossSectionArea}</td></tr>`;
         content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Volum av tømmer i bestand</td><td style="padding: 5px; border: 1px solid black;">TBD</td></tr>`;
       }
 
