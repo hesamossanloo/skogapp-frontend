@@ -28,8 +28,8 @@ export const calculateEstimatedHeightAndCrossSectionArea = (
   featureValues,
   CSVData
 ) => {
-  let estimatedHeightFromCSV;
-  let calculatedCrossSectionArea;
+  let estimatedHeightFromCSVString;
+  let calculatedCrossSectionAreaNumber;
   const CONSTANT_N = TREANTALL_PER_HEKTAR || 200;
 
   const CSVRow = CSVData.find(
@@ -42,15 +42,17 @@ export const calculateEstimatedHeightAndCrossSectionArea = (
 
   if (CSVRow) {
     const featureAgeString = featureValues.alder;
-    estimatedHeightFromCSV = CSVRow[featureAgeString];
+    estimatedHeightFromCSVString = CSVRow[featureAgeString];
     const featureAgeNumber = parseInt(featureValues.alder);
     const bonitetHT40Number = parseFloat(CSVRow.Ht40.replace(',', '.'));
 
     if (featureAgeNumber >= 110) {
-      estimatedHeightFromCSV = CSVRow['110'];
+      estimatedHeightFromCSVString = CSVRow['110'];
     }
-    if (estimatedHeightFromCSV) {
-      calculatedCrossSectionArea = Math.exp(
+    // Based on the Skogapp google doc from Mads:
+    // Gu = exp( -12.920 - 0.021*alder + 2.379*ln(alder) + 0.540*ln(N) + 1.587*ln(HT40))
+    if (estimatedHeightFromCSVString) {
+      calculatedCrossSectionAreaNumber = Math.exp(
         -12.92 -
           0.021 * featureAgeNumber +
           2.379 * Math.log(featureAgeNumber) +
@@ -60,8 +62,11 @@ export const calculateEstimatedHeightAndCrossSectionArea = (
     }
   }
 
+  console.log('H: ', estimatedHeightFromCSVString);
+  console.log('Gu: ', calculatedCrossSectionAreaNumber);
+
   return {
-    estimatedHeightCSV: estimatedHeightFromCSV,
-    crossSectionAreaCalc: calculatedCrossSectionArea,
+    estimatedHeightCSV: estimatedHeightFromCSVString,
+    crossSectionAreaCalc: calculatedCrossSectionAreaNumber,
   };
 };

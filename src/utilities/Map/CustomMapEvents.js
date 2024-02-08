@@ -51,21 +51,23 @@ export default function CustomMapEvents({
         (key) => activeOverlay[key] === true
       );
       // Step 1 get the H from the Gran and Furu csv files
-      let estimatedHeight;
+      let estimatedHeightString;
       // Step 2
       // Gu = exp( -12.920 - 0.021*alder + 2.379*ln(alder) + 0.540*ln(N) + 1.587*ln(Ht40))
       let crossSectionArea;
       // Step 3
       // V = 0.250(Gu^1.150)*H^(1.012)*exp(2.320/alder)
-      // let estimatedStandVolume;
+      let estimatedStandVolume;
       // Step 4
-      // let estimatedStandVolumeM3HAA;
+      let estimatedStandVolumeM3HAA;
 
       let content =
         `<h3 style="color: black; text-align: center;">${activeOverlayNames[0]}</h3>` + // Add the layer name as the title with black color and centered alignment
         '<table style="margin-bottom: 10px; border-collapse: collapse; border: 1px solid black;">'; // Add margin-bottom and border styles
+      content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">ID</td><td style="padding: 5px; border: 1px solid black;">${values.teig_best_nr}</td></tr>`; // Add the ID row
       for (const key in values) {
-        if (desiredAttributes[key]) {
+        if (desiredAttributes[key] && key !== 'teig_best_nr') {
+          // Exclude the ID from the loop
           let value = values[key];
           if (key === 'bonitet_beskrivelse') {
             value = value.substring(value.indexOf(' ') + 1); // Remove the first part and keep only the number
@@ -91,20 +93,28 @@ export default function CustomMapEvents({
           if (csvData) {
             const { estimatedHeightCSV, crossSectionAreaCalc } =
               calculateEstimatedHeightAndCrossSectionArea(values, csvData);
-            estimatedHeight = estimatedHeightCSV;
+            estimatedHeightString = estimatedHeightCSV;
             crossSectionArea = crossSectionAreaCalc;
           }
-          // Calculating Step 3 & 4
+          // Calculating Step 3
+          // V = 0.250(G^1.150)*H^(1.012)*exp(2.320/alder)
+          estimatedStandVolume =
+            0.25 *
+            Math.pow(crossSectionArea, 1.15) *
+            Math.pow(
+              parseFloat(estimatedHeightString.replace(',', '.')),
+              1.012
+            ) *
+            Math.exp(2.32 / parseInt(values.alder));
+          console.log('V: ', estimatedStandVolume);
+
+          // Step 4:
+          // SV_in_bestand_249 = arealm2/10000*249 = 11391*249/10000 = 283.636
+          estimatedStandVolumeM3HAA =
+            (parseInt(values.arealm2) / 10000) * estimatedStandVolume;
+          console.log('SV: ', estimatedStandVolumeM3HAA);
         }
-        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Overhøyde</td><td style="padding: 5px; border: 1px solid black;">${estimatedHeight}</td></tr>`;
-        content += `
-        <tr style="border: 1px solid black;">
-          <td style="padding: 5px; border: 1px solid black;">Grunnflate</td>
-          <td style="padding: 5px; border: 1px solid black;">
-            ${formatNumber(crossSectionArea)}
-          </td>
-        </tr>`;
-        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Volum av tømmer i bestand</td><td style="padding: 5px; border: 1px solid black;">TBD</td></tr>`;
+        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Volum av tømmer i bestand</td><td style="padding: 5px; border: 1px solid black;">${formatNumber(estimatedStandVolumeM3HAA)}</td></tr>`;
       }
 
       content += '</table>';
