@@ -57,9 +57,9 @@ export default function CustomMapEvents({
       let crossSectionArea;
       // Step 3
       // V = 0.250(Gu^1.150)*H^(1.012)*exp(2.320/alder)
-      let estimatedStandVolume;
+      // let estimatedStandVolume;
       // Step 4
-      let estimatedStandVolumeM3HAA;
+      // let estimatedStandVolumeM3HAA;
 
       let content =
         `<h3 style="color: black; text-align: center;">${activeOverlayNames[0]}</h3>` + // Add the layer name as the title with black color and centered alignment
