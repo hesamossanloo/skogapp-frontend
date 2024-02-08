@@ -1,3 +1,5 @@
+import { SPECIES_PRICES } from 'variables/forest';
+import { SPECIES } from 'variables/forest';
 import { TREANTALL_PER_HEKTAR } from 'variables/forest';
 
 export function hideLayerControlLabel(layerName) {
@@ -69,4 +71,17 @@ export const calculateEstimatedHeightAndCrossSectionArea = (
     estimatedHeightCSV: estimatedHeightFromCSVString,
     crossSectionAreaCalc: calculatedCrossSectionAreaNumber,
   };
+};
+
+export const calculteSpeciesBasedPrice = (species, volume) => {
+  let speciesPrice;
+
+  if (species === SPECIES.GRAN) {
+    speciesPrice = SPECIES_PRICES.GRAN;
+  } else if (species === SPECIES.FURU) {
+    speciesPrice = SPECIES_PRICES.FURU;
+  } else {
+    speciesPrice = SPECIES_PRICES.LAU;
+  }
+  return volume * speciesPrice;
 };

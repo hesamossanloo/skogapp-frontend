@@ -38,3 +38,8 @@ export const SPECIES = {
   GRAN: 'Gran',
   FURU: 'Furu',
 };
+export const SPECIES_PRICES = {
+  GRAN: 538,
+  FURU: 537,
+  LAU: 486,
+};
