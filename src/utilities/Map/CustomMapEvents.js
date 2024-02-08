@@ -116,7 +116,7 @@ export default function CustomMapEvents({
           console.log('SV: ', estimatedStandVolumeM3HAAString);
         }
         content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Volum av tømmer/bestand</td><td style="padding: 5px; border: 1px solid black;">${formatNumber(estimatedStandVolumeM3HAAString)}</td></tr>`;
-        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Gj.sn. pris/bestand</td><td style="padding: 5px; border: 1px solid black;">${formatNumber(calculteSpeciesBasedPrice(values.bontre_beskrivelse, estimatedStandVolumeM3HAAString))}</td></tr>`;
+        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Gj.sn. pris/bestand (NOK)</td><td style="padding: 5px; border: 1px solid black;">${formatNumber(calculteSpeciesBasedPrice(values.bontre_beskrivelse, estimatedStandVolumeM3HAAString))}</td></tr>`;
       }
 
       content += '</table>';
