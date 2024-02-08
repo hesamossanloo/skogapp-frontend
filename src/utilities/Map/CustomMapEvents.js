@@ -7,6 +7,7 @@ import { CSV_URLS } from 'variables/forest';
 import useCsvData from './useCSVData';
 import {
   calculateEstimatedHeightAndCrossSectionArea,
+  calculteSpeciesBasedPrice,
   formatNumber,
 } from './utililtyFunctions';
 import { SPECIES } from 'variables/forest';
@@ -59,7 +60,7 @@ export default function CustomMapEvents({
       // V = 0.250(Gu^1.150)*H^(1.012)*exp(2.320/alder)
       let estimatedStandVolume;
       // Step 4
-      let estimatedStandVolumeM3HAA;
+      let estimatedStandVolumeM3HAAString;
 
       let content =
         `<h3 style="color: black; text-align: center;">${activeOverlayNames[0]}</h3>` + // Add the layer name as the title with black color and centered alignment
@@ -110,11 +111,12 @@ export default function CustomMapEvents({
 
           // Step 4:
           // SV_in_bestand_249 = arealm2/10000*249 = 11391*249/10000 = 283.636
-          estimatedStandVolumeM3HAA =
+          estimatedStandVolumeM3HAAString =
             (parseInt(values.arealm2) / 10000) * estimatedStandVolume;
-          console.log('SV: ', estimatedStandVolumeM3HAA);
+          console.log('SV: ', estimatedStandVolumeM3HAAString);
         }
-        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Volum av tømmer i bestand</td><td style="padding: 5px; border: 1px solid black;">${formatNumber(estimatedStandVolumeM3HAA)}</td></tr>`;
+        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Volum av tømmer/bestand</td><td style="padding: 5px; border: 1px solid black;">${formatNumber(estimatedStandVolumeM3HAAString)}</td></tr>`;
+        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Gj.sn. pris/bestand</td><td style="padding: 5px; border: 1px solid black;">${formatNumber(calculteSpeciesBasedPrice(values.bontre_beskrivelse, estimatedStandVolumeM3HAAString))}</td></tr>`;
       }
 
       content += '</table>';
