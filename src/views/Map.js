@@ -16,7 +16,7 @@ import madsForestCLCClipCRS4326 from 'assets/data/QGIS/mads-forest-clc-clip-crs4
 import madsForestAR50CRS4326 from 'assets/data/QGIS/ar50-clip-RH-fixed.js';
 import PNGImage from 'assets/data/QGIS/hogst-forest-4236.png';
 import FeaturePopup from 'utilities/Map/FeaturePopup';
-import { hideLayerControlLabel } from 'utilities/Map/utils';
+import { hideLayerControlLabel } from 'utilities/Map/utililtyFunctions';
 import CustomMapEvents from 'utilities/Map/CustomMapEvents';
 
 const { BaseLayer, Overlay } = LayersControl;

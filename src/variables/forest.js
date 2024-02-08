@@ -25,3 +25,16 @@ export const nibioGetFeatInfoBaseParams = {
   INFO_FORMAT: 'application/vnd.ogc.gml', // text/html, application/vnd.ogc.gml, text/plain
   FEATURE_COUNT: 10,
 };
+
+// constants.js
+export const CSV_URLS = {
+  GRAN: '/csvs/gran.csv',
+  FURU: '/csvs/furu.csv',
+};
+
+export const TREANTALL_PER_HEKTAR = 200;
+
+export const SPECIES = {
+  GRAN: 'Gran',
+  FURU: 'Furu',
+};
