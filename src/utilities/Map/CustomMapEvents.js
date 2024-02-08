@@ -126,17 +126,18 @@ export default function CustomMapEvents({
   };
   const map = useMap();
 
-  const CRS = map.options.crs.code;
-  // We need to make sure that the BBOX is in the EPSG:3857 format
-  // For that we must to do following
-  const size = map.getSize();
-  const bounds = map.getBounds();
-  const southWest = map.options.crs.project(bounds.getSouthWest());
-  const northEast = map.options.crs.project(bounds.getNorthEast());
-  const BBOX = [southWest.x, southWest.y, northEast.x, northEast.y].join(',');
-
   useMapEvents({
     click: async (e) => {
+      const CRS = map.options.crs.code;
+      // We need to make sure that the BBOX is in the EPSG:3857 format
+      // For that we must to do following
+      const size = map.getSize();
+      const bounds = map.getBounds();
+      const southWest = map.options.crs.project(bounds.getSouthWest());
+      const northEast = map.options.crs.project(bounds.getNorthEast());
+      const BBOX = [southWest.x, southWest.y, northEast.x, northEast.y].join(
+        ','
+      );
       map.closePopup();
       if (activeOverlay['HogstklasserWMS'] || activeOverlay['Hogstklasser']) {
         const params = {
@@ -148,7 +149,7 @@ export default function CustomMapEvents({
           I: Math.round(e.containerPoint.x),
           J: Math.round(e.containerPoint.y),
         };
-        const url = `https://wms.nibio.no/cgi-bin/skogbruksplan?language=nor&${new URLSearchParams(params).toString()}`;
+        const url = `https://wms.nibio.no/cgi-bin/skogbruksplan?${new URLSearchParams(params).toString()}`;
         const response = await fetch(url);
         const data = await response.text();
         const format = new WMSGetFeatureInfo();

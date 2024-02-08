@@ -14,7 +14,7 @@ import {
 import { mapCoordinations } from 'variables/forest';
 import madsForestCLCClipCRS4326 from 'assets/data/QGIS/mads-forest-clc-clip-crs4326-right-hand-fixed.js';
 import madsForestAR50CRS4326 from 'assets/data/QGIS/ar50-clip-RH-fixed.js';
-import PNGImage from 'assets/data/QGIS/hogst-forest-4236.png';
+import PNGImage from 'assets/data/QGIS/hogst-forest-3857.png';
 import FeaturePopup from 'utilities/Map/FeaturePopup';
 import { hideLayerControlLabel } from 'utilities/Map/utililtyFunctions';
 import CustomMapEvents from 'utilities/Map/CustomMapEvents';
@@ -70,6 +70,7 @@ function Map() {
   return (
     <>
       <MapContainer
+        id="SkogAppMapContainer"
         zoomControl={false}
         center={mapCoordinations.centerPosition}
         zoom={13}
@@ -103,7 +104,7 @@ function Map() {
           </BaseLayer>
           {PNGImage && (
             <Overlay checked name="Hogstklasser">
-              <ImageOverlay url={PNGImage} bounds={imageBounds} />
+              <ImageOverlay url={PNGImage} bounds={imageBounds} opacity={1} />
               {activeFeature && activeOverlay['HogstklasserWMS'] && (
                 <FeaturePopup
                   activeOverlay={activeOverlay}
@@ -117,6 +118,19 @@ function Map() {
               )}
             </Overlay>
           )}
+          <Overlay
+            checked={activeOverlay['Hogstklasser']}
+            name="HogstklasserWMS"
+          >
+            <WMSTileLayer
+              url="https://wms.nibio.no/cgi-bin/skogbruksplan?"
+              layers="hogstklasser"
+              format="image/png"
+              transparent={true}
+              version="1.3.0"
+              opacity={0}
+            />
+          </Overlay>
           {madsForestAR50CRS4326 && (
             <Overlay name="AR50">
               <GeoJSON
@@ -163,19 +177,6 @@ function Map() {
               transparent={true}
               crossOrigin={true}
               version="1.3.0"
-            />
-          </Overlay>
-          <Overlay
-            checked={activeOverlay['Hogstklasser']}
-            name="HogstklasserWMS"
-          >
-            <WMSTileLayer
-              url="https://wms.nibio.no/cgi-bin/skogbruksplan?"
-              layers="hogstklasser"
-              format="image/png"
-              transparent={true}
-              version="1.3.0"
-              opacity={0}
             />
           </Overlay>
         </LayersControl>
