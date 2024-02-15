@@ -35,14 +35,15 @@ function Map() {
   const [activeOverlay, setActiveOverlay] = useState({
     Matrikkel: false,
     Hogstklasser: true,
-    HogstklasserWMS: false,
-    Polygons: false,
+    HogstklasserWMS: true,
+    Polygons: true,
     MadsForest: false,
     AR50: false,
     CLS: false,
   });
 
   const [activeFeature, setActiveFeature] = useState(null);
+  const [zoomLevel, setZoomLevel] = useState(13);
   const imageBounds = [
     [59.9283312840000022, 11.6844372829999994], // Bottom-left corner
     [59.9593366419999967, 11.7499393919999999], // Top-right corner
@@ -54,7 +55,7 @@ function Map() {
       hideLayerControlLabel('HogstklasserWMS');
       hideLayerControlLabel('Polygons');
     }, 0);
-  }, []); // Empty dependency array means this effect runs once when the component mounts
+  }, [zoomLevel]); // Empty dependency array means this effect runs once when the component mounts
 
   // 59.951966,11.706162
   let activeGeoJSONLayer = null;
@@ -71,14 +72,13 @@ function Map() {
       },
     });
   };
-
   return (
     <>
       <MapContainer
         id="SkogAppMapContainer"
         zoomControl={false}
         center={mapCoordinations.centerPosition}
-        zoom={13}
+        zoom={zoomLevel}
         style={{
           position: 'fixed',
           top: 0,
@@ -93,6 +93,8 @@ function Map() {
           setActiveFeature={setActiveFeature}
           hideLayerControlLabel={hideLayerControlLabel}
           desiredGeoJSON={madsTeig}
+          setZoomLevel={setZoomLevel}
+          zoomLevel={zoomLevel}
         />
         <ZoomControl position="bottomright" />
         <LayersControl position="bottomright">
@@ -109,7 +111,10 @@ function Map() {
             />
           </BaseLayer>
           {PNGImage && (
-            <Overlay checked name="Hogstklasser">
+            <Overlay
+              checked={zoomLevel > 13 && activeOverlay['Hogstklasser']}
+              name="Hogstklasser"
+            >
               <ImageOverlay url={PNGImage} bounds={imageBounds} opacity={1} />
               {activeFeature &&
                 activeOverlay['HogstklasserWMS'] &&
@@ -127,7 +132,7 @@ function Map() {
             </Overlay>
           )}
           <Overlay
-            checked={activeOverlay['Hogstklasser']}
+            checked={zoomLevel > 13 && activeOverlay['Hogstklasser']}
             name="HogstklasserWMS"
           >
             <WMSTileLayer
@@ -140,7 +145,10 @@ function Map() {
             />
           </Overlay>
           {madsForestSievePolySimplified && (
-            <Overlay name="Polygons" checked={activeOverlay['Hogstklasser']}>
+            <Overlay
+              name="Polygons"
+              checked={zoomLevel > 13 && activeOverlay['Hogstklasser']}
+            >
               <GeoJSON
                 data={madsForestSievePolySimplified}
                 onEachFeature={onEachFeature}
@@ -161,7 +169,10 @@ function Map() {
             </Overlay>
           )}
           {madsForestAR50CRS4326 && (
-            <Overlay name="AR50">
+            <Overlay
+              name="AR50"
+              checked={zoomLevel > 13 && activeOverlay['AR50']}
+            >
               <GeoJSON
                 data={madsForestAR50CRS4326}
                 onEachFeature={onEachFeature}
@@ -180,7 +191,10 @@ function Map() {
             </Overlay>
           )}
           {madsForestCLCClipCRS4326 && (
-            <Overlay name="CLC">
+            <Overlay
+              name="CLC"
+              checked={zoomLevel > 13 && activeOverlay['CLC']}
+            >
               <GeoJSON
                 data={madsForestCLCClipCRS4326}
                 onEachFeature={onEachFeature}
@@ -198,7 +212,10 @@ function Map() {
               )}
             </Overlay>
           )}
-          <Overlay name="Matrikkel">
+          <Overlay
+            name="Matrikkel"
+            checked={zoomLevel > 13 && activeOverlay['Matrikkel']}
+          >
             <WMSTileLayer
               url="https://openwms.statkart.no/skwms1/wms.matrikkelkart"
               layers="matrikkelkart"

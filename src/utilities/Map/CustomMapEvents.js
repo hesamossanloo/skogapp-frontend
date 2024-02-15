@@ -25,6 +25,8 @@ CustomMapEvents.propTypes = {
   }).isRequired,
   setActiveOverlay: PropTypes.func.isRequired,
   setActiveFeature: PropTypes.func.isRequired,
+  setZoomLevel: PropTypes.func.isRequired,
+  zoomLevel: PropTypes.number.isRequired,
   hideLayerControlLabel: PropTypes.func.isRequired,
   desiredGeoJSON: PropTypes.object.isRequired,
 };
@@ -35,6 +37,8 @@ export default function CustomMapEvents({
   setActiveFeature,
   hideLayerControlLabel,
   desiredGeoJSON,
+  setZoomLevel,
+  zoomLevel,
 }) {
   const { data: granCSVData } = useCsvData(CSV_URLS.GRAN);
   const { data: furuCSVData } = useCsvData(CSV_URLS.FURU);
@@ -133,6 +137,19 @@ export default function CustomMapEvents({
   const map = useMap();
 
   useMapEvents({
+    zoom: async (e) => {
+      let flag = false;
+      setZoomLevel(map.getZoom());
+      if (map.getZoom() > 13) {
+        flag = true;
+      }
+      setActiveOverlay((prevOverlay) => ({
+        ...prevOverlay,
+        Hogstklasser: flag,
+        HogstklasserWMS: flag,
+        Polygons: flag,
+      }));
+    },
     click: async (e) => {
       const CRS = map.options.crs.code;
       // We need to make sure that the BBOX is in the EPSG:3857 format
@@ -219,26 +236,29 @@ export default function CustomMapEvents({
         setActiveFeature(null);
       }
       if (
-        activeOverlay['Hogstklasser'] ||
-        activeOverlay['HogstklasserWMS'] ||
-        activeOverlay['Polygons']
+        (activeOverlay['Hogstklasser'] ||
+          activeOverlay['HogstklasserWMS'] ||
+          activeOverlay['Polygons']) &&
+        e.name === 'Hogstklasser'
       ) {
         // Wait for the next render cycle to ensure the layer control has been updated
         setTimeout(() => {
           hideLayerControlLabel('HogstklasserWMS');
           hideLayerControlLabel('Polygons');
         }, 0);
+        !(zoomLevel <= 13) &&
+          setActiveOverlay((prevOverlay) => ({
+            ...prevOverlay,
+            Hogstklasser: false,
+            HogstklasserWMS: false,
+            Polygons: false,
+          }));
+      }
+      !(zoomLevel <= 13) &&
         setActiveOverlay((prevOverlay) => ({
           ...prevOverlay,
-          Hogstklasser: false,
-          HogstklasserWMS: false,
-          Polygons: false,
+          [e.name]: false,
         }));
-      }
-      setActiveOverlay((prevOverlay) => ({
-        ...prevOverlay,
-        [e.name]: false,
-      }));
     },
   });
 
