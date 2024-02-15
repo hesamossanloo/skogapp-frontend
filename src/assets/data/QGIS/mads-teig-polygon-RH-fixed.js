@@ -1,37 +1,37 @@
-{
-  "type": "FeatureCollection",
-  "name": "mads-forest-polygon",
-  "features": [
+const madsTeig = {
+  type: 'FeatureCollection',
+  name: 'mads-forest-polygon',
+  features: [
     {
-      "type": "Feature",
-      "properties": {
-        "OBJECTID": 13912,
-        "objtype": "Teig",
-        "teigid": "95564778",
-        "navnerom": "https://data.geonorge.no/sosi/matrikkel/eiendomskart_teig",
-        "versjonid": "5",
-        "datafangstdato": "1968-06-30T00:00:00Z",
-        "oppdateringsdato": "2024-01-01T00:00:00Z",
-        "datauttaksdato": "2024-01-18T18:31:33Z",
-        "malemetode": null,
-        "noyaktighet": null,
-        "kommunenummer": "3226",
-        "kommunenavn": "AURSKOG-HØLAND",
-        "matrikkelnummertekst": "163/2",
-        "teigmedflerematrikkelenheter": 0,
-        "tvist": 0,
-        "uregistrertjordsameie": 0,
-        "avklarteiere": 0,
-        "lagretberegnetareal": 8058491.4,
-        "arealmerknadtekst": "Hjelpelinje vannkant, hjelpelinje vegkant",
-        "noyaktighetsklasseteig": "Rødt",
-        "uuidteig": "906ee82b-5697-53f7-ac94-3148c8cf5741",
-        "SHAPE_Length": 13157.911825732257,
-        "SHAPE_Area": 8060625.307166863
+      type: 'Feature',
+      properties: {
+        OBJECTID: 13912,
+        objtype: 'Teig',
+        teigid: '95564778',
+        navnerom: 'https://data.geonorge.no/sosi/matrikkel/eiendomskart_teig',
+        versjonid: '5',
+        datafangstdato: '1968-06-30T00:00:00Z',
+        oppdateringsdato: '2024-01-01T00:00:00Z',
+        datauttaksdato: '2024-01-18T18:31:33Z',
+        malemetode: null,
+        noyaktighet: null,
+        kommunenummer: '3226',
+        kommunenavn: 'AURSKOG-HØLAND',
+        matrikkelnummertekst: '163/2',
+        teigmedflerematrikkelenheter: 0,
+        tvist: 0,
+        uregistrertjordsameie: 0,
+        avklarteiere: 0,
+        lagretberegnetareal: 8058491.4,
+        arealmerknadtekst: 'Hjelpelinje vannkant, hjelpelinje vegkant',
+        noyaktighetsklasseteig: 'Rødt',
+        uuidteig: '906ee82b-5697-53f7-ac94-3148c8cf5741',
+        SHAPE_Length: 13157.911825732257,
+        SHAPE_Area: 8060625.307166863,
       },
-      "geometry": {
-        "type": "MultiPolygon",
-        "coordinates": [
+      geometry: {
+        type: 'MultiPolygon',
+        coordinates: [
           [
             [
               [11.685013000194262, 59.95806945161104],
@@ -1108,11 +1108,13 @@
               [11.687795107290615, 59.95929214072794],
               [11.687792759460326, 59.959296321721695],
               [11.68512956271257, 59.95933664178188],
-              [11.685013000194262, 59.95806945161104]
-            ]
-          ]
-        ]
-      }
-    }
-  ]
-}
+              [11.685013000194262, 59.95806945161104],
+            ],
+          ],
+        ],
+      },
+    },
+  ],
+};
+
+export default madsTeig;
