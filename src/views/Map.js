@@ -2,6 +2,7 @@ import madsForestAR50CRS4326 from 'assets/data/QGIS/ar50-clip-RH-fixed.js';
 import PNGImage from 'assets/data/QGIS/hogst-forest-3857.png';
 import madsForestCLCClipCRS4326 from 'assets/data/QGIS/mads-forest-clc-clip-crs4326-right-hand-fixed.js';
 import madsForestSievePolySimplified from 'assets/data/QGIS/mads-forest-sieve-poly-simplified.js';
+import madsTeig from 'assets/data/QGIS/mads-teig-polygon-RH-fixed.js';
 import L from 'leaflet';
 import { useEffect, useState } from 'react';
 import {
@@ -91,6 +92,7 @@ function Map() {
           setActiveOverlay={setActiveOverlay}
           setActiveFeature={setActiveFeature}
           hideLayerControlLabel={hideLayerControlLabel}
+          desiredGeoJSON={madsTeig}
         />
         <ZoomControl position="bottomright" />
         <LayersControl position="bottomright">

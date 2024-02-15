@@ -1,3 +1,4 @@
+import * as turf from '@turf/turf';
 import L from 'leaflet';
 import { WMSGetFeatureInfo } from 'ol/format';
 import PropTypes from 'prop-types';
@@ -25,6 +26,7 @@ CustomMapEvents.propTypes = {
   setActiveOverlay: PropTypes.func.isRequired,
   setActiveFeature: PropTypes.func.isRequired,
   hideLayerControlLabel: PropTypes.func.isRequired,
+  desiredGeoJSON: PropTypes.object.isRequired,
 };
 
 export default function CustomMapEvents({
@@ -32,6 +34,7 @@ export default function CustomMapEvents({
   setActiveOverlay,
   setActiveFeature,
   hideLayerControlLabel,
+  desiredGeoJSON,
 }) {
   const { data: granCSVData } = useCsvData(CSV_URLS.GRAN);
   const { data: furuCSVData } = useCsvData(CSV_URLS.FURU);
@@ -142,10 +145,23 @@ export default function CustomMapEvents({
         ','
       );
       map.closePopup();
+      // Check if the click is within the coordinates of a GeoJSON
+      const clickedCoordinates = e.latlng;
+      const turfPoint = turf.point([
+        clickedCoordinates.lng,
+        clickedCoordinates.lat,
+      ]);
+      let polygons = desiredGeoJSON.features[0].geometry.coordinates[0];
+      let turfPolygon = turf.polygon(polygons);
+      const isWithinGeoJSON = turf.booleanPointInPolygon(
+        turfPoint,
+        turfPolygon
+      );
       if (
-        activeOverlay['Hogstklasser'] ||
-        activeOverlay['HogstklasserWMS'] ||
-        activeOverlay['Polygons']
+        isWithinGeoJSON &&
+        (activeOverlay['Hogstklasser'] ||
+          activeOverlay['HogstklasserWMS'] ||
+          activeOverlay['Polygons'])
       ) {
         const params = {
           ...nibioGetFeatInfoBaseParams,
