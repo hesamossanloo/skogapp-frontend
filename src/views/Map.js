@@ -1,23 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import L from 'leaflet';
-import {
-  MapContainer,
-  LayersControl,
-  TileLayer,
-  Marker,
-  Popup,
-  ZoomControl,
-  WMSTileLayer,
-  GeoJSON,
-  ImageOverlay,
-} from 'react-leaflet';
-import { mapCoordinations } from 'variables/forest';
-import madsForestCLCClipCRS4326 from 'assets/data/QGIS/mads-forest-clc-clip-crs4326-right-hand-fixed.js';
 import madsForestAR50CRS4326 from 'assets/data/QGIS/ar50-clip-RH-fixed.js';
 import PNGImage from 'assets/data/QGIS/hogst-forest-3857.png';
+import madsForestCLCClipCRS4326 from 'assets/data/QGIS/mads-forest-clc-clip-crs4326-right-hand-fixed.js';
+import madsForestSievePolySimplified from 'assets/data/QGIS/mads-forest-sieve-poly-simplified.js';
+import L from 'leaflet';
+import { useEffect, useState } from 'react';
+import {
+  GeoJSON,
+  ImageOverlay,
+  LayersControl,
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+  WMSTileLayer,
+  ZoomControl,
+} from 'react-leaflet';
+import CustomMapEvents from 'utilities/Map/CustomMapEvents';
 import FeaturePopup from 'utilities/Map/FeaturePopup';
 import { hideLayerControlLabel } from 'utilities/Map/utililtyFunctions';
-import CustomMapEvents from 'utilities/Map/CustomMapEvents';
+import { mapCoordinations } from 'variables/forest';
 
 const { BaseLayer, Overlay } = LayersControl;
 delete L.Icon.Default.prototype._getIconUrl;
@@ -28,11 +29,13 @@ L.Icon.Default.mergeOptions({
   shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
 });
 
+/* eslint-disable react/react-in-jsx-scope */
 function Map() {
   const [activeOverlay, setActiveOverlay] = useState({
     Matrikkel: false,
     Hogstklasser: true,
     HogstklasserWMS: false,
+    Polygons: false,
     MadsForest: false,
     AR50: false,
     CLS: false,
@@ -48,6 +51,7 @@ function Map() {
     // Wait for the next render cycle to ensure the layer control has been updated
     setTimeout(() => {
       hideLayerControlLabel('HogstklasserWMS');
+      hideLayerControlLabel('Polygons');
     }, 0);
   }, []); // Empty dependency array means this effect runs once when the component mounts
 
@@ -105,17 +109,19 @@ function Map() {
           {PNGImage && (
             <Overlay checked name="Hogstklasser">
               <ImageOverlay url={PNGImage} bounds={imageBounds} opacity={1} />
-              {activeFeature && activeOverlay['HogstklasserWMS'] && (
-                <FeaturePopup
-                  activeOverlay={activeOverlay}
-                  activeFeature={{
-                    lng: activeFeature.geometry.coordinates[0][0][0][1],
-                    lat: activeFeature.geometry.coordinates[0][0][0][0],
-                    properties: activeFeature.properties,
-                  }}
-                  setActiveFeature={setActiveFeature}
-                />
-              )}
+              {activeFeature &&
+                activeOverlay['HogstklasserWMS'] &&
+                activeOverlay['Polygons'] && (
+                  <FeaturePopup
+                    activeOverlay={activeOverlay}
+                    activeFeature={{
+                      lng: activeFeature.geometry.coordinates[0][0][0][1],
+                      lat: activeFeature.geometry.coordinates[0][0][0][0],
+                      properties: activeFeature.properties,
+                    }}
+                    setActiveFeature={setActiveFeature}
+                  />
+                )}
             </Overlay>
           )}
           <Overlay
@@ -131,6 +137,27 @@ function Map() {
               opacity={0}
             />
           </Overlay>
+          {madsForestSievePolySimplified && (
+            <Overlay name="Polygons" checked={activeOverlay['Hogstklasser']}>
+              <GeoJSON
+                data={madsForestSievePolySimplified}
+                onEachFeature={onEachFeature}
+              />
+              {activeFeature &&
+                activeOverlay['HogstklasserWMS'] &&
+                activeOverlay['Polygons'] && (
+                  <FeaturePopup
+                    activeOverlay={activeOverlay}
+                    activeFeature={{
+                      lng: activeFeature.geometry.coordinates[0][0][0][1],
+                      lat: activeFeature.geometry.coordinates[0][0][0][0],
+                      properties: activeFeature.properties,
+                    }}
+                    setActiveFeature={setActiveFeature}
+                  />
+                )}
+            </Overlay>
+          )}
           {madsForestAR50CRS4326 && (
             <Overlay name="AR50">
               <GeoJSON

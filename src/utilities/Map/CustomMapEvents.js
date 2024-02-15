@@ -1,21 +1,24 @@
-import { useMap, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
-import PropTypes from 'prop-types';
 import { WMSGetFeatureInfo } from 'ol/format';
-import { nibioGetFeatInfoBaseParams } from 'variables/forest';
-import { CSV_URLS } from 'variables/forest';
+import PropTypes from 'prop-types';
+import { useMap, useMapEvents } from 'react-leaflet';
+import {
+  CSV_URLS,
+  SPECIES,
+  nibioGetFeatInfoBaseParams,
+} from 'variables/forest';
 import useCsvData from './useCSVData';
 import {
   calculateEstimatedHeightAndCrossSectionArea,
   calculteSpeciesBasedPrice,
   formatNumber,
 } from './utililtyFunctions';
-import { SPECIES } from 'variables/forest';
 
 CustomMapEvents.propTypes = {
   activeOverlay: PropTypes.shape({
     Hogstklasser: PropTypes.bool,
     HogstklasserWMS: PropTypes.bool,
+    Polygons: PropTypes.bool,
     CLC: PropTypes.bool,
     AR50: PropTypes.bool,
   }).isRequired,
@@ -139,7 +142,11 @@ export default function CustomMapEvents({
         ','
       );
       map.closePopup();
-      if (activeOverlay['HogstklasserWMS'] || activeOverlay['Hogstklasser']) {
+      if (
+        activeOverlay['Hogstklasser'] ||
+        activeOverlay['HogstklasserWMS'] ||
+        activeOverlay['Polygons']
+      ) {
         const params = {
           ...nibioGetFeatInfoBaseParams,
           BBOX,
@@ -158,19 +165,25 @@ export default function CustomMapEvents({
       }
     },
     overlayadd: async (e) => {
-      if (activeOverlay['Hogstklasser'] || activeOverlay['HogstklasserWMS']) {
+      if (
+        activeOverlay['Hogstklasser'] ||
+        activeOverlay['HogstklasserWMS'] ||
+        activeOverlay['Polygons']
+      ) {
         // #root > div.wrapper > div.main-panel > div > div.leaflet-control-container > div.leaflet-bottom.leaflet-right > div.leaflet-control-layers.leaflet-control > section > div.leaflet-control-layers-overlays > label:nth-child(5)
         // document.querySelector("#root > div.wrapper > div.main-panel > div > div.leaflet-control-container > div.leaflet-bottom.leaflet-right > div.leaflet-control-layers.leaflet-control > section > div.leaflet-control-layers-overlays > label:nth-child(5)")
 
         // Wait for the next render cycle to ensure the layer control has been updated
         setTimeout(() => {
           hideLayerControlLabel('HogstklasserWMS');
+          hideLayerControlLabel('Polygons');
         }, 0);
 
         setActiveOverlay((prevOverlay) => ({
           ...prevOverlay,
           Hogstklasser: true,
           HogstklasserWMS: true,
+          Polygons: true,
         }));
       }
       setActiveOverlay((prevOverlay) => ({
@@ -182,21 +195,28 @@ export default function CustomMapEvents({
       if (
         activeOverlay['Hogstklasser'] ||
         activeOverlay['HogstklasserWMS'] ||
+        activeOverlay['Polygons'] ||
         activeOverlay['CLC'] ||
         activeOverlay['AR50']
       ) {
         map.closePopup();
         setActiveFeature(null);
       }
-      if (activeOverlay['Hogstklasser'] || activeOverlay['HogstklasserWMS']) {
+      if (
+        activeOverlay['Hogstklasser'] ||
+        activeOverlay['HogstklasserWMS'] ||
+        activeOverlay['Polygons']
+      ) {
         // Wait for the next render cycle to ensure the layer control has been updated
         setTimeout(() => {
           hideLayerControlLabel('HogstklasserWMS');
+          hideLayerControlLabel('Polygons');
         }, 0);
         setActiveOverlay((prevOverlay) => ({
           ...prevOverlay,
           Hogstklasser: false,
           HogstklasserWMS: false,
+          Polygons: false,
         }));
       }
       setActiveOverlay((prevOverlay) => ({
