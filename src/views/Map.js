@@ -60,14 +60,25 @@ function Map() {
   // 59.951966,11.706162
   let activeGeoJSONLayer = null;
   const onEachFeature = (feature, geoJSONLayer) => {
+    geoJSONLayer.setStyle({
+      fillColor: 'transparent',
+      fillOpacity: 0,
+    }); // Set default transparent style for the GeoJSON layer
+
     geoJSONLayer.on({
       click: () => {
         setActiveFeature(feature);
         // Highlight the selected polygon
         if (activeGeoJSONLayer) {
-          activeGeoJSONLayer.setStyle({ fillColor: 'blue', fillOpacity: 0 }); // Reset style of previous active layer
+          activeGeoJSONLayer.setStyle({
+            fillColor: 'transparent',
+            fillOpacity: 0,
+          }); // Reset style of previous active layer
         }
-        geoJSONLayer.setStyle({ fillColor: 'red', fillOpacity: 0.5 }); // Set style of current active layer
+        geoJSONLayer.setStyle({
+          fillColor: 'rgb(255, 255, 0)',
+          fillOpacity: 1,
+        }); // Set style of current active layer to neon yellow
         activeGeoJSONLayer = geoJSONLayer; // Update active layer
       },
     });
@@ -152,20 +163,8 @@ function Map() {
               <GeoJSON
                 data={madsForestSievePolySimplified}
                 onEachFeature={onEachFeature}
+                style={{ stroke: false }}
               />
-              {activeFeature &&
-                activeOverlay['HogstklasserWMS'] &&
-                activeOverlay['Polygons'] && (
-                  <FeaturePopup
-                    activeOverlay={activeOverlay}
-                    activeFeature={{
-                      lng: activeFeature.geometry.coordinates[0][0][0][1],
-                      lat: activeFeature.geometry.coordinates[0][0][0][0],
-                      properties: activeFeature.properties,
-                    }}
-                    setActiveFeature={setActiveFeature}
-                  />
-                )}
             </Overlay>
           )}
           {madsForestAR50CRS4326 && (
