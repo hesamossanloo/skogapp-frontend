@@ -83,7 +83,9 @@ export default function CustomMapEvents({
           if (key === 'bonitet_beskrivelse') {
             value = value.substring(value.indexOf(' ') + 1); // Remove the first part and keep only the number
           }
-          content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">${desiredAttributes[key]}</td><td style="padding: 5px; border: 1px solid black;">${value}</td></tr>`; // Add padding-right and border styles
+          if (key !== 'DN') {
+            content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">${desiredAttributes[key]}</td><td style="padding: 5px; border: 1px solid black;">${value}</td></tr>`; // Add padding-right and border styles
+          }
         }
       }
 
@@ -163,6 +165,7 @@ export default function CustomMapEvents({
       );
       map.closePopup();
       // Check if the click is within the coordinates of a GeoJSON
+      // I nthis case I am passing in the Mad's forest Teig Polygon
       const clickedCoordinates = e.latlng;
       const turfPoint = turf.point([
         clickedCoordinates.lng,
