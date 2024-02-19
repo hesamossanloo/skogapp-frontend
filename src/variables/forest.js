@@ -43,3 +43,6 @@ export const SPECIES_PRICES = {
   FURU: 537,
   LAU: 486,
 };
+
+export const HIDE_POLYGON_ZOOM_LEVEL = 10;
+export const MAP_DEFAULT_ZOOM_LEVEL = 13;
