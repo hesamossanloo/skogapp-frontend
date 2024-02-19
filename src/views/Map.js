@@ -71,19 +71,21 @@ function Map() {
 
     geoJSONLayer.on({
       click: () => {
-        setActiveFeature(feature);
-        // Highlight the selected polygon
-        if (activeGeoJSONLayer) {
-          activeGeoJSONLayer.setStyle({
-            fillColor: 'transparent',
-            fillOpacity: 0,
-          }); // Reset style of previous active layer
+        if (feature.properties.DN !== 99) {
+          setActiveFeature(feature);
+          // Highlight the selected polygon
+          if (activeGeoJSONLayer) {
+            activeGeoJSONLayer.setStyle({
+              fillColor: 'transparent',
+              fillOpacity: 0,
+            }); // Reset style of previous active layer
+          }
+          geoJSONLayer.setStyle({
+            fillColor: 'rgb(255, 255, 0)',
+            fillOpacity: 1,
+          }); // Set style of current active layer to neon yellow
+          activeGeoJSONLayer = geoJSONLayer; // Update active layer
         }
-        geoJSONLayer.setStyle({
-          fillColor: 'rgb(255, 255, 0)',
-          fillOpacity: 1,
-        }); // Set style of current active layer to neon yellow
-        activeGeoJSONLayer = geoJSONLayer; // Update active layer
       },
     });
   };
