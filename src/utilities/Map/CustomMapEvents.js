@@ -14,6 +14,7 @@ import {
   calculteSpeciesBasedPrice,
   formatNumber,
 } from './utililtyFunctions';
+import { HIDE_POLYGON_ZOOM_LEVEL } from 'variables/forest';
 
 CustomMapEvents.propTypes = {
   activeOverlay: PropTypes.shape({
@@ -142,7 +143,7 @@ export default function CustomMapEvents({
     zoom: async (e) => {
       let flag = false;
       setZoomLevel(map.getZoom());
-      if (map.getZoom() > 13) {
+      if (map.getZoom() > HIDE_POLYGON_ZOOM_LEVEL) {
         flag = true;
       }
       setActiveOverlay((prevOverlay) => ({
@@ -249,7 +250,7 @@ export default function CustomMapEvents({
           hideLayerControlLabel('HogstklasserWMS');
           hideLayerControlLabel('Polygons');
         }, 0);
-        !(zoomLevel <= 13) &&
+        !(zoomLevel <= HIDE_POLYGON_ZOOM_LEVEL) &&
           setActiveOverlay((prevOverlay) => ({
             ...prevOverlay,
             Hogstklasser: false,
@@ -257,7 +258,7 @@ export default function CustomMapEvents({
             Polygons: false,
           }));
       }
-      !(zoomLevel <= 13) &&
+      !(zoomLevel <= HIDE_POLYGON_ZOOM_LEVEL) &&
         setActiveOverlay((prevOverlay) => ({
           ...prevOverlay,
           [e.name]: false,

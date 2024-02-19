@@ -19,7 +19,11 @@ import {
 import CustomMapEvents from 'utilities/Map/CustomMapEvents';
 import FeaturePopup from 'utilities/Map/FeaturePopup';
 import { hideLayerControlLabel } from 'utilities/Map/utililtyFunctions';
-import { mapCoordinations } from 'variables/forest';
+import {
+  HIDE_POLYGON_ZOOM_LEVEL,
+  MAP_DEFAULT_ZOOM_LEVEL,
+  mapCoordinations,
+} from 'variables/forest';
 
 const { BaseLayer, Overlay } = LayersControl;
 delete L.Icon.Default.prototype._getIconUrl;
@@ -43,7 +47,7 @@ function Map() {
   });
 
   const [activeFeature, setActiveFeature] = useState(null);
-  const [zoomLevel, setZoomLevel] = useState(13);
+  const [zoomLevel, setZoomLevel] = useState(MAP_DEFAULT_ZOOM_LEVEL);
   const imageBounds = [
     [59.9283312840000022, 11.6844372829999994], // Bottom-left corner
     [59.9593366419999967, 11.7499393919999999], // Top-right corner
@@ -123,7 +127,10 @@ function Map() {
           </BaseLayer>
           {PNGImage && (
             <Overlay
-              checked={zoomLevel > 13 && activeOverlay['Hogstklasser']}
+              checked={
+                zoomLevel > HIDE_POLYGON_ZOOM_LEVEL &&
+                activeOverlay['Hogstklasser']
+              }
               name="Hogstklasser"
             >
               <ImageOverlay url={PNGImage} bounds={imageBounds} opacity={1} />
@@ -143,7 +150,10 @@ function Map() {
             </Overlay>
           )}
           <Overlay
-            checked={zoomLevel > 13 && activeOverlay['Hogstklasser']}
+            checked={
+              zoomLevel > HIDE_POLYGON_ZOOM_LEVEL &&
+              activeOverlay['Hogstklasser']
+            }
             name="HogstklasserWMS"
           >
             <WMSTileLayer
@@ -158,7 +168,10 @@ function Map() {
           {madsForestSievePolySimplified && (
             <Overlay
               name="Polygons"
-              checked={zoomLevel > 13 && activeOverlay['Hogstklasser']}
+              checked={
+                zoomLevel > HIDE_POLYGON_ZOOM_LEVEL &&
+                activeOverlay['Hogstklasser']
+              }
             >
               <GeoJSON
                 data={madsForestSievePolySimplified}
@@ -170,7 +183,9 @@ function Map() {
           {madsForestAR50CRS4326 && (
             <Overlay
               name="AR50"
-              checked={zoomLevel > 13 && activeOverlay['AR50']}
+              checked={
+                zoomLevel > HIDE_POLYGON_ZOOM_LEVEL && activeOverlay['AR50']
+              }
             >
               <GeoJSON
                 data={madsForestAR50CRS4326}
@@ -192,7 +207,9 @@ function Map() {
           {madsForestCLCClipCRS4326 && (
             <Overlay
               name="CLC"
-              checked={zoomLevel > 13 && activeOverlay['CLC']}
+              checked={
+                zoomLevel > HIDE_POLYGON_ZOOM_LEVEL && activeOverlay['CLC']
+              }
             >
               <GeoJSON
                 data={madsForestCLCClipCRS4326}
@@ -213,7 +230,9 @@ function Map() {
           )}
           <Overlay
             name="Matrikkel"
-            checked={zoomLevel > 13 && activeOverlay['Matrikkel']}
+            checked={
+              zoomLevel > HIDE_POLYGON_ZOOM_LEVEL && activeOverlay['Matrikkel']
+            }
           >
             <WMSTileLayer
               url="https://openwms.statkart.no/skwms1/wms.matrikkelkart"
