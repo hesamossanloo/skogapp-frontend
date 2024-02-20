@@ -46,6 +46,7 @@ function Map() {
     CLS: false,
   });
 
+  const [clickedOnLine, setClickedOnLine] = useState(false);
   const [activeFeature, setActiveFeature] = useState(null);
   const [zoomLevel, setZoomLevel] = useState(MAP_DEFAULT_ZOOM_LEVEL);
   const imageBounds = [
@@ -71,21 +72,23 @@ function Map() {
 
     geoJSONLayer.on({
       click: () => {
+        setActiveFeature(feature);
+        // Highlight the selected polygon
+        if (activeGeoJSONLayer) {
+          activeGeoJSONLayer.setStyle({
+            fillColor: 'transparent',
+            fillOpacity: 0,
+          }); // Reset style of previous active layer
+        }
         if (feature.properties.DN !== 99) {
-          setActiveFeature(feature);
-          // Highlight the selected polygon
-          if (activeGeoJSONLayer) {
-            activeGeoJSONLayer.setStyle({
-              fillColor: 'transparent',
-              fillOpacity: 0,
-            }); // Reset style of previous active layer
-          }
           geoJSONLayer.setStyle({
             fillColor: 'rgb(255, 255, 0)',
             fillOpacity: 1,
           }); // Set style of current active layer to neon yellow
-          activeGeoJSONLayer = geoJSONLayer; // Update active layer
+        } else {
+          return {}; // Default style for other features
         }
+        activeGeoJSONLayer = geoJSONLayer; // Update active layer
       },
     });
   };
@@ -112,6 +115,8 @@ function Map() {
           desiredGeoJSON={madsTeig}
           setZoomLevel={setZoomLevel}
           zoomLevel={zoomLevel}
+          clickedOnLine={clickedOnLine}
+          setClickedOnLine={setClickedOnLine}
         />
         <ZoomControl position="bottomright" />
         <LayersControl position="bottomright">

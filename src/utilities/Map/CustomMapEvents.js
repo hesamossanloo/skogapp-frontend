@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { useMap, useMapEvents } from 'react-leaflet';
 import {
   CSV_URLS,
+  HIDE_POLYGON_ZOOM_LEVEL,
   SPECIES,
   nibioGetFeatInfoBaseParams,
 } from 'variables/forest';
@@ -14,7 +15,6 @@ import {
   calculteSpeciesBasedPrice,
   formatNumber,
 } from './utililtyFunctions';
-import { HIDE_POLYGON_ZOOM_LEVEL } from 'variables/forest';
 
 CustomMapEvents.propTypes = {
   activeOverlay: PropTypes.shape({
@@ -25,9 +25,11 @@ CustomMapEvents.propTypes = {
     AR50: PropTypes.bool,
   }).isRequired,
   setActiveOverlay: PropTypes.func.isRequired,
+  setClickedOnLine: PropTypes.func.isRequired,
   setActiveFeature: PropTypes.func.isRequired,
   setZoomLevel: PropTypes.func.isRequired,
   zoomLevel: PropTypes.number.isRequired,
+  clickedOnLine: PropTypes.bool.isRequired,
   hideLayerControlLabel: PropTypes.func.isRequired,
   desiredGeoJSON: PropTypes.object.isRequired,
 };
@@ -40,12 +42,14 @@ export default function CustomMapEvents({
   desiredGeoJSON,
   setZoomLevel,
   zoomLevel,
+  clickedOnLine,
+  setClickedOnLine,
 }) {
   const { data: granCSVData } = useCsvData(CSV_URLS.GRAN);
   const { data: furuCSVData } = useCsvData(CSV_URLS.FURU);
 
   const handleSkogbrukWMSFeatures = (e, features, map) => {
-    if (features.length > 0 && features[0]) {
+    if (features.length > 0 && features[0] && !clickedOnLine) {
       const feature = features[0];
       const values = feature.values_;
 
@@ -154,51 +158,54 @@ export default function CustomMapEvents({
       }));
     },
     click: async (e) => {
-      const CRS = map.options.crs.code;
-      // We need to make sure that the BBOX is in the EPSG:3857 format
-      // For that we must to do following
-      const size = map.getSize();
-      const bounds = map.getBounds();
-      const southWest = map.options.crs.project(bounds.getSouthWest());
-      const northEast = map.options.crs.project(bounds.getNorthEast());
-      const BBOX = [southWest.x, southWest.y, northEast.x, northEast.y].join(
-        ','
-      );
-      map.closePopup();
-      // Check if the click is within the coordinates of a GeoJSON
-      // I nthis case I am passing in the Mad's forest Teig Polygon
-      const clickedCoordinates = e.latlng;
-      const turfPoint = turf.point([
-        clickedCoordinates.lng,
-        clickedCoordinates.lat,
-      ]);
-      let polygons = desiredGeoJSON.features[0].geometry.coordinates[0];
-      let turfPolygon = turf.polygon(polygons);
-      const isWithinGeoJSON = turf.booleanPointInPolygon(
-        turfPoint,
-        turfPolygon
-      );
-      if (
-        isWithinGeoJSON &&
-        (activeOverlay['Hogstklasser'] ||
-          activeOverlay['HogstklasserWMS'] ||
-          activeOverlay['Polygons'])
-      ) {
-        const params = {
-          ...nibioGetFeatInfoBaseParams,
-          BBOX,
-          CRS,
-          WIDTH: size.x,
-          HEIGHT: size.y,
-          I: Math.round(e.containerPoint.x),
-          J: Math.round(e.containerPoint.y),
-        };
-        const url = `https://wms.nibio.no/cgi-bin/skogbruksplan?${new URLSearchParams(params).toString()}`;
-        const response = await fetch(url);
-        const data = await response.text();
-        const format = new WMSGetFeatureInfo();
-        const features = format.readFeatures(data);
-        handleSkogbrukWMSFeatures(e, features, map);
+      setClickedOnLine(desiredGeoJSON.features[0].properties.DN === 99);
+      if (!clickedOnLine) {
+        const CRS = map.options.crs.code;
+        // We need to make sure that the BBOX is in the EPSG:3857 format
+        // For that we must to do following
+        const size = map.getSize();
+        const bounds = map.getBounds();
+        const southWest = map.options.crs.project(bounds.getSouthWest());
+        const northEast = map.options.crs.project(bounds.getNorthEast());
+        const BBOX = [southWest.x, southWest.y, northEast.x, northEast.y].join(
+          ','
+        );
+        map.closePopup();
+        // Check if the click is within the coordinates of a GeoJSON
+        // I nthis case I am passing in the Mad's forest Teig Polygon
+        const clickedCoordinates = e.latlng;
+        const turfPoint = turf.point([
+          clickedCoordinates.lng,
+          clickedCoordinates.lat,
+        ]);
+        let polygons = desiredGeoJSON.features[0].geometry.coordinates[0];
+        let turfPolygon = turf.polygon(polygons);
+        const isWithinGeoJSON = turf.booleanPointInPolygon(
+          turfPoint,
+          turfPolygon
+        );
+        if (
+          isWithinGeoJSON &&
+          (activeOverlay['Hogstklasser'] ||
+            activeOverlay['HogstklasserWMS'] ||
+            activeOverlay['Polygons'])
+        ) {
+          const params = {
+            ...nibioGetFeatInfoBaseParams,
+            BBOX,
+            CRS,
+            WIDTH: size.x,
+            HEIGHT: size.y,
+            I: Math.round(e.containerPoint.x),
+            J: Math.round(e.containerPoint.y),
+          };
+          const url = `https://wms.nibio.no/cgi-bin/skogbruksplan?${new URLSearchParams(params).toString()}`;
+          const response = await fetch(url);
+          const data = await response.text();
+          const format = new WMSGetFeatureInfo();
+          const features = format.readFeatures(data);
+          handleSkogbrukWMSFeatures(e, features, map);
+        }
       }
     },
     overlayadd: async (e) => {
