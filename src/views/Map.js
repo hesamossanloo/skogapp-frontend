@@ -51,7 +51,7 @@ function Map() {
   // const [WMTSURL, setWMTSURL] = useState(
   //   'http://opencache.statkart.no/gatekeeper/gk/gk.open_nib_utm33_wmts_v2?service=WMTS&request=GetTile&version=1.0.0&layer=Nibcache_UTM33_EUREF89_v2&STYLE=default&format=image%2Fjpgpng&tilematrixset=default028mm&tilematrix={z}&tilerow={y}&tilecol={x}'
   // );
-  const [WMTSLatLng, setWMTSLatLng] = useState({ lat: 0, lng: 0 });
+  // const [WMTSLatLng, setWMTSLatLng] = useState({ lat: 0, lng: 0 });
   // const [mapRef, setMapRef] = useState(null);
   const [zoomLevel, setZoomLevel] = useState(MAP_DEFAULT_ZOOM_LEVEL);
   const exportedMadsForestImageBounds = [
@@ -128,7 +128,7 @@ function Map() {
           zoomLevel={zoomLevel}
           clickedOnLine={clickedOnLine}
           setClickedOnLine={setClickedOnLine}
-          setWMTSLatLng={setWMTSLatLng}
+          // setWMTSLatLng={setWMTSLatLng}
         />
         <ZoomControl position="bottomright" />
         <LayersControl position="bottomright">
