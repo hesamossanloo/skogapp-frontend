@@ -31,6 +31,7 @@ CustomMapEvents.propTypes = {
   zoomLevel: PropTypes.number.isRequired,
   clickedOnLine: PropTypes.bool.isRequired,
   hideLayerControlLabel: PropTypes.func.isRequired,
+  // setWMTSLatLng: PropTypes.func.isRequired,
   desiredGeoJSON: PropTypes.object.isRequired,
 };
 
@@ -44,6 +45,7 @@ export default function CustomMapEvents({
   zoomLevel,
   clickedOnLine,
   setClickedOnLine,
+  // setWMTSLatLng,
 }) {
   const { data: granCSVData } = useCsvData(CSV_URLS.GRAN);
   const { data: furuCSVData } = useCsvData(CSV_URLS.FURU);
@@ -54,12 +56,11 @@ export default function CustomMapEvents({
       const values = feature.values_;
 
       const desiredAttributes = {
-        teig_best_nr: 'ID',
+        teig_best_nr: 'Bestand nr',
         hogstkl_verdi: 'Hogstklasse',
         bonitet_beskrivelse: 'Bonitet',
         bontre_beskrivelse: 'Treslag',
-        regdato: 'Registreringsdato',
-        alder: 'Bestandsalder',
+        alder: 'Alder',
         areal: 'Areal (daa)',
       };
 
@@ -132,8 +133,13 @@ export default function CustomMapEvents({
             (parseInt(values.arealm2) / 10000) * estimatedStandVolume;
           console.log('SV: ', estimatedStandVolumeM3HAAString);
         }
-        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Volum av tømmer/bestand</td><td style="padding: 5px; border: 1px solid black;">${formatNumber(estimatedStandVolumeM3HAAString)}</td></tr>`;
-        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Gj.sn. pris/bestand (NOK)</td><td style="padding: 5px; border: 1px solid black;">${formatNumber(calculteSpeciesBasedPrice(values.bontre_beskrivelse, estimatedStandVolumeM3HAAString))}</td></tr>`;
+        const { totalVolume, speciesPrice } = calculteSpeciesBasedPrice(
+          values.bontre_beskrivelse,
+          estimatedStandVolumeM3HAAString
+        );
+        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Tømmervolum</td><td style="padding: 5px; border: 1px solid black;">${formatNumber(estimatedStandVolumeM3HAAString, 'nb-NO', 1)} m^3</td></tr>`;
+        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Forv. gj.sn pris per m^3</td><td style="padding: 5px; border: 1px solid black;">${formatNumber(speciesPrice, 'nb-NO', 0)} kr</td></tr>`;
+        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Forv. brutto verdi</td><td style="padding: 5px; border: 1px solid black;">${formatNumber(totalVolume, 'nb-NO', 0)} kr</td></tr>`;
       }
 
       content += '</table>';
@@ -141,6 +147,28 @@ export default function CustomMapEvents({
       L.popup().setLatLng(e.latlng).setContent(content).openOn(map);
     }
   };
+
+  // const calculateTileRowAndCol = (lat, lon, zoom) => {
+  //   const tileSize = 256;
+  //   const originShift = (2 * Math.PI * 6378137) / 2.0;
+  //   const initialResolution = (2 * Math.PI * 6378137) / tileSize;
+  //   const initialScale = 0.5 / (Math.PI * 6378137);
+
+  //   const latRad = (lat * Math.PI) / 180;
+  //   const worldX = (lon * originShift) / 180;
+  //   const worldY =
+  //     Math.log(Math.tan(((90 + lat) * Math.PI) / 360)) / (Math.PI / 180);
+  //   const worldYRad = (worldY * Math.PI) / 180;
+
+  //   const resolution = initialResolution / Math.pow(2, zoom);
+  //   const tileX = Math.floor((worldX + originShift) / (tileSize * resolution));
+  //   const tileY = Math.floor(
+  //     (worldYRad + originShift) / (tileSize * resolution)
+  //   );
+
+  //   return { tileRow: tileY, tileCol: tileX };
+  // };
+
   const map = useMap();
 
   useMapEvents({
@@ -170,6 +198,17 @@ export default function CustomMapEvents({
         const BBOX = [southWest.x, southWest.y, northEast.x, northEast.y].join(
           ','
         );
+
+        // const { tileRow, tileCol } = calculateTileRowAndCol(
+        //   e.latlng.lat,
+        //   e.latlng.lng,
+        //   map.getZoom()
+        // );
+        // setWMTSLatLng({ lat: tileRow, lng: tileCol });
+        // console.log('Zoom:', map.getZoom());
+        // console.log('Tile Row:', tileRow);
+        // console.log('Tile Col:', tileCol);
+
         map.closePopup();
         // Check if the click is within the coordinates of a GeoJSON
         // I nthis case I am passing in the Mad's forest Teig Polygon
