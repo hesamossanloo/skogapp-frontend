@@ -67,7 +67,7 @@ function Map() {
     // setWMTSURL(
     //   `http://opencache.statkart.no/gatekeeper/gk/gk.open_nib_utm33_wmts_v2?service=WMTS&request=GetTile&version=1.0.0&layer=Nibcache_UTM33_EUREF89_v2&STYLE=default&format=image%2Fjpgpng&TILEMATRIXSET=default028mm&TILEMATRIX={z}&TILEROW=${WMTSLatLng.lng}&TILECOL=${WMTSLatLng.lat}`
     // );
-  }, [zoomLevel, WMTSLatLng]); // Include dependencies in the useEffect hook
+  }, [zoomLevel]); // Include dependencies in the useEffect hook
 
   // 59.951966,11.706162
   let activeGeoJSONLayer = null;
