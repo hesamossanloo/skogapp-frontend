@@ -56,12 +56,11 @@ export default function CustomMapEvents({
       const values = feature.values_;
 
       const desiredAttributes = {
-        teig_best_nr: 'ID',
+        teig_best_nr: 'Bestand nr',
         hogstkl_verdi: 'Hogstklasse',
         bonitet_beskrivelse: 'Bonitet',
         bontre_beskrivelse: 'Treslag',
-        regdato: 'Registreringsdato',
-        alder: 'Bestandsalder',
+        alder: 'Alder',
         areal: 'Areal (daa)',
       };
 
@@ -134,8 +133,13 @@ export default function CustomMapEvents({
             (parseInt(values.arealm2) / 10000) * estimatedStandVolume;
           console.log('SV: ', estimatedStandVolumeM3HAAString);
         }
-        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Volum av tømmer/bestand</td><td style="padding: 5px; border: 1px solid black;">${formatNumber(estimatedStandVolumeM3HAAString)}</td></tr>`;
-        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Gj.sn. pris/bestand (NOK)</td><td style="padding: 5px; border: 1px solid black;">${formatNumber(calculteSpeciesBasedPrice(values.bontre_beskrivelse, estimatedStandVolumeM3HAAString))}</td></tr>`;
+        const { totalVolume, speciesPrice } = calculteSpeciesBasedPrice(
+          values.bontre_beskrivelse,
+          estimatedStandVolumeM3HAAString
+        );
+        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Tømmervolum</td><td style="padding: 5px; border: 1px solid black;">${formatNumber(estimatedStandVolumeM3HAAString, 'nb-NO', 1)} m^3</td></tr>`;
+        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Forv. gj.sn pris per m^3</td><td style="padding: 5px; border: 1px solid black;">${formatNumber(speciesPrice, 'nb-NO', 0)} kr</td></tr>`;
+        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Forv. brutto verdi</td><td style="padding: 5px; border: 1px solid black;">${formatNumber(totalVolume, 'nb-NO', 0)} kr</td></tr>`;
       }
 
       content += '</table>';

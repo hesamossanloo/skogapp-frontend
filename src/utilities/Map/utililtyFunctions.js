@@ -85,5 +85,5 @@ export const calculteSpeciesBasedPrice = (species, volume) => {
   } else {
     speciesPrice = SPECIES_PRICES.LAU;
   }
-  return volume * speciesPrice;
+  return { totalVolume: volume * speciesPrice, speciesPrice };
 };
