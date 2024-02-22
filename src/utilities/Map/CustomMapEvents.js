@@ -31,6 +31,7 @@ CustomMapEvents.propTypes = {
   zoomLevel: PropTypes.number.isRequired,
   clickedOnLine: PropTypes.bool.isRequired,
   hideLayerControlLabel: PropTypes.func.isRequired,
+  // setWMTSLatLng: PropTypes.func.isRequired,
   desiredGeoJSON: PropTypes.object.isRequired,
 };
 
@@ -44,6 +45,7 @@ export default function CustomMapEvents({
   zoomLevel,
   clickedOnLine,
   setClickedOnLine,
+  // setWMTSLatLng,
 }) {
   const { data: granCSVData } = useCsvData(CSV_URLS.GRAN);
   const { data: furuCSVData } = useCsvData(CSV_URLS.FURU);
@@ -141,6 +143,28 @@ export default function CustomMapEvents({
       L.popup().setLatLng(e.latlng).setContent(content).openOn(map);
     }
   };
+
+  // const calculateTileRowAndCol = (lat, lon, zoom) => {
+  //   const tileSize = 256;
+  //   const originShift = (2 * Math.PI * 6378137) / 2.0;
+  //   const initialResolution = (2 * Math.PI * 6378137) / tileSize;
+  //   const initialScale = 0.5 / (Math.PI * 6378137);
+
+  //   const latRad = (lat * Math.PI) / 180;
+  //   const worldX = (lon * originShift) / 180;
+  //   const worldY =
+  //     Math.log(Math.tan(((90 + lat) * Math.PI) / 360)) / (Math.PI / 180);
+  //   const worldYRad = (worldY * Math.PI) / 180;
+
+  //   const resolution = initialResolution / Math.pow(2, zoom);
+  //   const tileX = Math.floor((worldX + originShift) / (tileSize * resolution));
+  //   const tileY = Math.floor(
+  //     (worldYRad + originShift) / (tileSize * resolution)
+  //   );
+
+  //   return { tileRow: tileY, tileCol: tileX };
+  // };
+
   const map = useMap();
 
   useMapEvents({
@@ -170,6 +194,17 @@ export default function CustomMapEvents({
         const BBOX = [southWest.x, southWest.y, northEast.x, northEast.y].join(
           ','
         );
+
+        // const { tileRow, tileCol } = calculateTileRowAndCol(
+        //   e.latlng.lat,
+        //   e.latlng.lng,
+        //   map.getZoom()
+        // );
+        // setWMTSLatLng({ lat: tileRow, lng: tileCol });
+        // console.log('Zoom:', map.getZoom());
+        // console.log('Tile Row:', tileRow);
+        // console.log('Tile Col:', tileCol);
+
         map.closePopup();
         // Check if the click is within the coordinates of a GeoJSON
         // I nthis case I am passing in the Mad's forest Teig Polygon

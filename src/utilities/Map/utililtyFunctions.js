@@ -1,6 +1,8 @@
-import { SPECIES_PRICES } from 'variables/forest';
-import { SPECIES } from 'variables/forest';
-import { TREANTALL_PER_HEKTAR } from 'variables/forest';
+import {
+  SPECIES,
+  SPECIES_PRICES,
+  TREANTALL_PER_HEKTAR,
+} from 'variables/forest';
 
 export function hideLayerControlLabel(layerName) {
   // Find the label corresponding to the layer

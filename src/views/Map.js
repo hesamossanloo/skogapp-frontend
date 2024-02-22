@@ -48,19 +48,26 @@ function Map() {
 
   const [clickedOnLine, setClickedOnLine] = useState(false);
   const [activeFeature, setActiveFeature] = useState(null);
+  // const [WMTSURL, setWMTSURL] = useState(
+  //   'http://opencache.statkart.no/gatekeeper/gk/gk.open_nib_utm33_wmts_v2?service=WMTS&request=GetTile&version=1.0.0&layer=Nibcache_UTM33_EUREF89_v2&STYLE=default&format=image%2Fjpgpng&tilematrixset=default028mm&tilematrix={z}&tilerow={y}&tilecol={x}'
+  // );
+  const [WMTSLatLng, setWMTSLatLng] = useState({ lat: 0, lng: 0 });
+  // const [mapRef, setMapRef] = useState(null);
   const [zoomLevel, setZoomLevel] = useState(MAP_DEFAULT_ZOOM_LEVEL);
-  const imageBounds = [
+  const exportedMadsForestImageBounds = [
     [59.9283312840000022, 11.6844372829999994], // Bottom-left corner
     [59.9593366419999967, 11.7499393919999999], // Top-right corner
   ];
 
   useEffect(() => {
-    // Wait for the next render cycle to ensure the layer control has been updated
     setTimeout(() => {
       hideLayerControlLabel('HogstklasserWMS');
       hideLayerControlLabel('Polygons');
     }, 0);
-  }, [zoomLevel]); // Empty dependency array means this effect runs once when the component mounts
+    // setWMTSURL(
+    //   `http://opencache.statkart.no/gatekeeper/gk/gk.open_nib_utm33_wmts_v2?service=WMTS&request=GetTile&version=1.0.0&layer=Nibcache_UTM33_EUREF89_v2&STYLE=default&format=image%2Fjpgpng&TILEMATRIXSET=default028mm&TILEMATRIX={z}&TILEROW=${WMTSLatLng.lng}&TILECOL=${WMTSLatLng.lat}`
+    // );
+  }, [zoomLevel, WMTSLatLng]); // Include dependencies in the useEffect hook
 
   // 59.951966,11.706162
   let activeGeoJSONLayer = null;
@@ -92,6 +99,7 @@ function Map() {
       },
     });
   };
+
   return (
     <>
       <MapContainer
@@ -99,6 +107,9 @@ function Map() {
         zoomControl={false}
         center={mapCoordinations.centerPosition}
         zoom={zoomLevel}
+        // crs={crsEPSG25833}
+        continuousWorld={true}
+        worldCopyJump={false}
         style={{
           position: 'fixed',
           top: 0,
@@ -117,6 +128,7 @@ function Map() {
           zoomLevel={zoomLevel}
           clickedOnLine={clickedOnLine}
           setClickedOnLine={setClickedOnLine}
+          setWMTSLatLng={setWMTSLatLng}
         />
         <ZoomControl position="bottomright" />
         <LayersControl position="bottomright">
@@ -132,6 +144,9 @@ function Map() {
               attribution='&copy; <a href="https://www.esri.com/">Esri</a> contributors'
             />
           </BaseLayer>
+          {/* <BaseLayer checked name="SAT">
+            <WMSTileLayer url="http://opencache.statkart.no/gatekeeper/gk/gk.open_nib_utm33_wmts_v2?service=WMTS&request=GetTile&version=1.0.0&layer=Nibcache_UTM33_EUREF89_v2&STYLE=default&format=image%2Fjpgpng&tilematrixset=default028mm&tilematrix={z}&tilerow={y}&tilecol={x}" />
+          </BaseLayer> */}
           {PNGImage && (
             <Overlay
               checked={
@@ -140,7 +155,11 @@ function Map() {
               }
               name="Hogstklasser"
             >
-              <ImageOverlay url={PNGImage} bounds={imageBounds} opacity={1} />
+              <ImageOverlay
+                url={PNGImage}
+                bounds={exportedMadsForestImageBounds}
+                opacity={1}
+              />
               {activeFeature &&
                 activeOverlay['HogstklasserWMS'] &&
                 activeOverlay['Polygons'] && (
