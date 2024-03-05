@@ -1,4 +1,3 @@
-import React from 'react';
 // nodejs library that concatenates classes
 // react plugin used to create charts
 import { Pie } from 'react-chartjs-2';
@@ -16,10 +15,6 @@ import {
 } from '../assets/data/forestDashboardMockData';
 
 function Dashboard2(props) {
-  const [bigChartData, setbigChartData] = React.useState('data1');
-  const setBgChartData = (name) => {
-    setbigChartData(name);
-  };
   return (
     <>
       <div className="content">
