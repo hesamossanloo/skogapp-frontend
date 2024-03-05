@@ -21,10 +21,10 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import PerfectScrollbar from 'perfect-scrollbar';
 
 // core components
-import RTLNavbar from 'components/Navbars/RTLNavbar.js';
-import Footer from 'components/Footer/Footer.js';
-import Sidebar from 'components/Sidebar/Sidebar.js';
 import FixedPlugin from 'components/FixedPlugin/FixedPlugin.js';
+import Footer from 'components/Footer/Footer.js';
+import RTLNavbar from 'components/Navbars/RTLNavbar.js';
+import Sidebar from 'components/Sidebar/Sidebar.js';
 
 import routes from 'routes.js';
 
@@ -140,7 +140,7 @@ function RTL(props) {
                 <Routes>{getRoutes(routes)}</Routes>
                 {
                   // we don't want the Footer to be rendered on map page
-                  location.pathname === '/admin/maps' ? null : <Footer fluid />
+                  location.pathname === '/admin/map' ? null : <Footer fluid />
                 }
               </div>
             </div>

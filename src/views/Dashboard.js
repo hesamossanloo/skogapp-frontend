@@ -2,26 +2,26 @@ import React from 'react';
 // nodejs library that concatenates classes
 import classNames from 'classnames';
 // react plugin used to create charts
-import { Line, Bar } from 'react-chartjs-2';
+import { Bar, Line } from 'react-chartjs-2';
 
 // reactstrap components
 import {
   Button,
   ButtonGroup,
   Card,
-  CardHeader,
   CardBody,
+  CardHeader,
   CardTitle,
-  DropdownToggle,
-  DropdownMenu,
+  Col,
   DropdownItem,
-  UncontrolledDropdown,
-  Label,
+  DropdownMenu,
+  DropdownToggle,
   FormGroup,
   Input,
-  Table,
+  Label,
   Row,
-  Col,
+  Table,
+  UncontrolledDropdown,
   UncontrolledTooltip,
 } from 'reactstrap';
 

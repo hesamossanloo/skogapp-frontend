@@ -16,15 +16,14 @@
 
 */
 import React from 'react';
-import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from 'perfect-scrollbar';
 
 // core components
-import AdminNavbar from 'components/Navbars/AdminNavbar.js';
 import Footer from 'components/Footer/Footer.js';
+import AdminNavbar from 'components/Navbars/AdminNavbar.js';
 import Sidebar from 'components/Sidebar/Sidebar.js';
-import FixedPlugin from 'components/FixedPlugin/FixedPlugin.js';
 
 import routes from 'routes.js';
 
@@ -126,11 +125,10 @@ function Admin(props) {
               </Routes>
               {
                 // we don't want the Footer to be rendered on map page
-                location.pathname === '/admin/maps' ? null : <Footer fluid />
+                location.pathname === '/admin/map' ? null : <Footer fluid />
               }
             </div>
           </div>
-          <FixedPlugin bgColor={color} handleBgClick={changeColor} />
         </React.Fragment>
       )}
     </BackgroundColorContext.Consumer>
