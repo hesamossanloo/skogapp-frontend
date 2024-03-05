@@ -18,8 +18,6 @@
 */
 import Dashboard from 'views/Dashboard.js';
 import Map from 'views/Map.js';
-import Notifications from 'views/Notifications.js';
-import UserProfile from 'views/UserProfile.js';
 
 var routes = [
   {
@@ -36,22 +34,6 @@ var routes = [
     rtlName: 'خرائط',
     icon: 'tim-icons icon-map-big',
     component: <Map />,
-    layout: '/admin',
-  },
-  {
-    path: '/notifications',
-    name: 'Notifications',
-    rtlName: 'إخطارات',
-    icon: 'tim-icons icon-bell-55',
-    component: <Notifications />,
-    layout: '/admin',
-  },
-  {
-    path: '/user-profile',
-    name: 'User Profile',
-    rtlName: 'ملف تعريفي للمستخدم',
-    icon: 'tim-icons icon-single-02',
-    component: <UserProfile />,
     layout: '/admin',
   },
 ];

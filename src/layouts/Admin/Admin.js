@@ -21,7 +21,6 @@ import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import PerfectScrollbar from 'perfect-scrollbar';
 
 // core components
-import FixedPlugin from 'components/FixedPlugin/FixedPlugin.js';
 import Footer from 'components/Footer/Footer.js';
 import AdminNavbar from 'components/Navbars/AdminNavbar.js';
 import Sidebar from 'components/Sidebar/Sidebar.js';
@@ -130,7 +129,6 @@ function Admin(props) {
               }
             </div>
           </div>
-          <FixedPlugin bgColor={color} handleBgClick={changeColor} />
         </React.Fragment>
       )}
     </BackgroundColorContext.Consumer>
