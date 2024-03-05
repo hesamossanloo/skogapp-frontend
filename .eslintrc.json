@@ -1,24 +1,25 @@
 {
-    "extends": ["react-app", "plugin:react/recommended", "prettier"],
-    "plugins": ["prettier"],
-    "rules": {
-        "prettier/prettier": "error"
-    },
-    "env": {
-        "browser": true,
-        "node": true,
-        "es6": true
-    },
-    "parserOptions": {
-        "ecmaVersion": 2021,
-        "sourceType": "module",
-        "ecmaFeatures": {
-            "jsx": true
-        }
-    },
-    "settings": {
-        "react": {
-            "version": "detect"
-        }
+  "extends": ["react-app", "plugin:react/recommended", "prettier"],
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": "error",
+    "react/react-in-jsx-scope": "off"
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2021,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
     }
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
 }
