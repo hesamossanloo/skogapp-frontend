@@ -17,6 +17,7 @@
 
 */
 import Dashboard from 'views/Dashboard.js';
+import Dashboard2 from 'views/Dashboard2';
 import Map from 'views/Map.js';
 
 var routes = [
@@ -26,6 +27,14 @@ var routes = [
     rtlName: 'لوحة القيادة',
     icon: 'tim-icons icon-chart-pie-36',
     component: <Dashboard />,
+    layout: '/admin',
+  },
+  {
+    path: '/dashboard2',
+    name: 'Dashboard2',
+    rtlName: 'لوحة القيادة',
+    icon: 'tim-icons icon-chart-pie-36',
+    component: <Dashboard2 />,
     layout: '/admin',
   },
   {
