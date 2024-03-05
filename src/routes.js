@@ -16,7 +16,6 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import Dashboard from 'views/Dashboard.js';
 import Dashboard2 from 'views/Dashboard2';
 import Map from 'views/Map.js';
 
@@ -24,14 +23,6 @@ var routes = [
   {
     path: '/dashboard',
     name: 'Dashboard',
-    rtlName: 'لوحة القيادة',
-    icon: 'tim-icons icon-chart-pie-36',
-    component: <Dashboard />,
-    layout: '/admin',
-  },
-  {
-    path: '/dashboard2',
-    name: 'Dashboard2',
     rtlName: 'لوحة القيادة',
     icon: 'tim-icons icon-chart-pie-36',
     component: <Dashboard2 />,
