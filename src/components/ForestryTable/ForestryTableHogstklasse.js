@@ -1,6 +1,6 @@
 import { Table } from 'reactstrap';
 
-const ForestryTable = () => {
+const ForestryTableHogstklasse = () => {
   return (
     <div className="forestry-table">
       <Table>
@@ -52,4 +52,4 @@ const ForestryTable = () => {
   );
 };
 
-export default ForestryTable;
+export default ForestryTableHogstklasse;
