@@ -3,12 +3,22 @@
 import { Pie } from 'react-chartjs-2';
 
 // reactstrap components
-import { Card, CardBody, CardHeader, CardTitle, Col, Row } from 'reactstrap';
+import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  CardTitle,
+  Col,
+  Row,
+} from 'reactstrap';
 
 // core components
 
 // forest data
-import ForestryTable from 'components/ForestryTable/ForestryTable';
+import ForestryTableEstimation1 from 'components/ForestryTable/ForestryTableEstimation1';
+import ForestryTableEstimation2 from 'components/ForestryTable/ForestryTableEstimation2';
+import ForestryTableHogstklasse from 'components/ForestryTable/ForestryTableHogstklasse';
 import {
   treeSpeciesData,
   treesPerHectareOptions,
@@ -43,7 +53,7 @@ function Dashboard2(props) {
                 </CardTitle>
               </CardHeader>
               <CardBody>
-                <ForestryTable />
+                <ForestryTableHogstklasse />
               </CardBody>
             </Card>
           </Col>
@@ -55,6 +65,34 @@ function Dashboard2(props) {
               <CardBody style={{ height: '350px' }}>
                 <Pie data={treeSpeciesData} options={treesPerHectareOptions} />
               </CardBody>
+            </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs="12">
+            <Card className="card-chart">
+              <CardBody>
+                <ForestryTableEstimation1 />
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs="12">
+            <Card className="card-chart">
+              <CardBody>
+                <ForestryTableEstimation2 />
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs="12">
+            <Card className="card-chart">
+              <Button color="success" size="lg" style={{ height: '80px' }}>
+                Kontantstrømberegning - Trykk her for kalkulatorHva er effekten
+                av hogst og tiltak inkludert skogfond?
+              </Button>
             </Card>
           </Col>
         </Row>
