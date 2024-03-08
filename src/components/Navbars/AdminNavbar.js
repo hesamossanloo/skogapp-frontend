@@ -16,26 +16,19 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 // nodejs library that concatenates classes
 import classNames from 'classnames';
 
 // reactstrap components
 import {
   Collapse,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  UncontrolledDropdown,
-  NavbarBrand,
-  Navbar,
-  NavLink,
-  Nav,
   Container,
+  Nav,
+  Navbar,
+  NavbarBrand,
   NavbarToggler,
-  InputGroup,
 } from 'reactstrap';
-import FixedTags from 'components/AutoComplete/AutoComplete';
 
 function AdminNavbar(props) {
   const [collapseOpen, setcollapseOpen] = useState(false);
@@ -70,7 +63,11 @@ function AdminNavbar(props) {
   };
   return (
     <>
-      <Navbar className={classNames('navbar-absolute', color)} expand="lg">
+      <Navbar
+        className={classNames('navbar-absolute', color)}
+        expand="lg"
+        style={{ minHeight: 70 }}
+      >
         <Container fluid>
           <div className="navbar-wrapper">
             <div
@@ -95,11 +92,11 @@ function AdminNavbar(props) {
           </NavbarToggler>
           <Collapse navbar isOpen={collapseOpen}>
             {/* search input */}
-            <InputGroup style={{ marginLeft: '250px' }}>
+            {/* <InputGroup style={{ marginLeft: '250px' }}>
               <FixedTags></FixedTags>
-            </InputGroup>
+            </InputGroup> */}
             <Nav className="ml-auto" navbar>
-              <UncontrolledDropdown nav>
+              {/* <UncontrolledDropdown nav>
                 <DropdownToggle
                   caret
                   color="default"
@@ -137,8 +134,8 @@ function AdminNavbar(props) {
                     </DropdownItem>
                   </NavLink>
                 </DropdownMenu>
-              </UncontrolledDropdown>
-              <UncontrolledDropdown nav>
+              </UncontrolledDropdown> */}
+              {/* <UncontrolledDropdown nav>
                 <DropdownToggle
                   caret
                   color="default"
@@ -163,7 +160,7 @@ function AdminNavbar(props) {
                     <DropdownItem className="nav-item">Log out</DropdownItem>
                   </NavLink>
                 </DropdownMenu>
-              </UncontrolledDropdown>
+              </UncontrolledDropdown> */}
               <li className="separator d-lg-none" />
             </Nav>
           </Collapse>
