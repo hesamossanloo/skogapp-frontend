@@ -105,7 +105,7 @@ function Admin(props) {
               routes={routes}
               logo={{
                 outterLink: '',
-                text: 'Hesam Ossanloo',
+                text: 'SKOGAPP',
                 imgSrc: logo,
               }}
               toggleSidebar={toggleSidebar}

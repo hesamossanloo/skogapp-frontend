@@ -16,10 +16,9 @@
 
 */
 /*eslint-disable*/
-import React from "react";
 
 // reactstrap components
-import { Container, Nav, NavItem, NavLink } from "reactstrap";
+import { Container, Nav, NavItem, NavLink } from 'reactstrap';
 
 function Footer() {
   return (
@@ -27,20 +26,15 @@ function Footer() {
       <Container fluid>
         <Nav>
           <NavItem>
-            <NavLink href="https://hesam.info">
-              Hesam Ossanloo
-            </NavLink>
+            <NavLink href="https://skogapp.no">SkogApp</NavLink>
           </NavItem>
         </Nav>
         <div className="copyright">
-          © {new Date().getFullYear()} made with{" "}
-          <i className="tim-icons icon-heart-2" /> by{" "}
-          <a
-            href="https://hesam.info"
-            target="_blank"
-          >
-            Hesam Ossanloo
-          </a>{" "}
+          © {new Date().getFullYear()} made with{' '}
+          <i className="tim-icons icon-heart-2" /> by{' '}
+          <a href="https://skogapp.no" target="_blank">
+            SkogApp
+          </a>{' '}
           for sustainability.
         </div>
       </Container>
