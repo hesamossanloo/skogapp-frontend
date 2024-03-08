@@ -26,7 +26,7 @@ import PerfectScrollbar from 'perfect-scrollbar';
 
 // reactstrap components
 import { BackgroundColorContext } from 'contexts/BackgroundColorContext';
-import { Nav, NavLink as ReactstrapNavLink } from 'reactstrap';
+import { Nav } from 'reactstrap';
 
 var ps;
 
@@ -133,12 +133,12 @@ function Sidebar(props) {
                   </li>
                 );
               })}
-              <li className="active-pro">
+              {/* <li className="active-pro">
                 <ReactstrapNavLink href="https://skogapp.no">
                   <i className="tim-icons icon-spaceship" />
                   <p>Forest Norway</p>
                 </ReactstrapNavLink>
-              </li>
+              </li> */}
             </Nav>
           </div>
         </div>
