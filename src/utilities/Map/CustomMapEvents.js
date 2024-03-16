@@ -20,7 +20,7 @@ CustomMapEvents.propTypes = {
   activeOverlay: PropTypes.shape({
     Hogstklasser: PropTypes.bool,
     HogstklasserWMS: PropTypes.bool,
-    Polygons: PropTypes.bool,
+    Forests: PropTypes.bool,
     CLC: PropTypes.bool,
     AR50: PropTypes.bool,
   }).isRequired,
@@ -31,8 +31,8 @@ CustomMapEvents.propTypes = {
   zoomLevel: PropTypes.number.isRequired,
   clickedOnLine: PropTypes.bool.isRequired,
   hideLayerControlLabel: PropTypes.func.isRequired,
-  // setWMTSLatLng: PropTypes.func.isRequired,
-  desiredGeoJSON: PropTypes.object.isRequired,
+  madsTeig: PropTypes.object.isRequired,
+  bjoernTeig: PropTypes.object.isRequired,
 };
 
 export default function CustomMapEvents({
@@ -40,12 +40,12 @@ export default function CustomMapEvents({
   setActiveOverlay,
   setActiveFeature,
   hideLayerControlLabel,
-  desiredGeoJSON,
+  madsTeig,
+  bjoernTeig,
   setZoomLevel,
   zoomLevel,
   clickedOnLine,
   setClickedOnLine,
-  // setWMTSLatLng,
 }) {
   const { data: granCSVData } = useCsvData(CSV_URLS.GRAN);
   const { data: furuCSVData } = useCsvData(CSV_URLS.FURU);
@@ -148,27 +148,6 @@ export default function CustomMapEvents({
     }
   };
 
-  // const calculateTileRowAndCol = (lat, lon, zoom) => {
-  //   const tileSize = 256;
-  //   const originShift = (2 * Math.PI * 6378137) / 2.0;
-  //   const initialResolution = (2 * Math.PI * 6378137) / tileSize;
-  //   const initialScale = 0.5 / (Math.PI * 6378137);
-
-  //   const latRad = (lat * Math.PI) / 180;
-  //   const worldX = (lon * originShift) / 180;
-  //   const worldY =
-  //     Math.log(Math.tan(((90 + lat) * Math.PI) / 360)) / (Math.PI / 180);
-  //   const worldYRad = (worldY * Math.PI) / 180;
-
-  //   const resolution = initialResolution / Math.pow(2, zoom);
-  //   const tileX = Math.floor((worldX + originShift) / (tileSize * resolution));
-  //   const tileY = Math.floor(
-  //     (worldYRad + originShift) / (tileSize * resolution)
-  //   );
-
-  //   return { tileRow: tileY, tileCol: tileX };
-  // };
-
   const map = useMap();
 
   useMapEvents({
@@ -182,11 +161,12 @@ export default function CustomMapEvents({
         ...prevOverlay,
         Hogstklasser: flag,
         HogstklasserWMS: flag,
-        Polygons: flag,
+        Forests: flag,
       }));
     },
     click: async (e) => {
-      setClickedOnLine(desiredGeoJSON.features[0].properties.DN === 99);
+      // Handle Clicks on Mads Forest
+      setClickedOnLine(madsTeig.features[0].properties.DN === 99);
       if (!clickedOnLine) {
         const CRS = map.options.crs.code;
         // We need to make sure that the BBOX is in the EPSG:3857 format
@@ -199,16 +179,6 @@ export default function CustomMapEvents({
           ','
         );
 
-        // const { tileRow, tileCol } = calculateTileRowAndCol(
-        //   e.latlng.lat,
-        //   e.latlng.lng,
-        //   map.getZoom()
-        // );
-        // setWMTSLatLng({ lat: tileRow, lng: tileCol });
-        // console.log('Zoom:', map.getZoom());
-        // console.log('Tile Row:', tileRow);
-        // console.log('Tile Col:', tileCol);
-
         map.closePopup();
         // Check if the click is within the coordinates of a GeoJSON
         // I nthis case I am passing in the Mad's forest Teig Polygon
@@ -217,17 +187,26 @@ export default function CustomMapEvents({
           clickedCoordinates.lng,
           clickedCoordinates.lat,
         ]);
-        let polygons = desiredGeoJSON.features[0].geometry.coordinates[0];
-        let turfPolygon = turf.polygon(polygons);
-        const isWithinGeoJSON = turf.booleanPointInPolygon(
+        // Check within Mads Forest
+        let madsPolygons = madsTeig.features[0].geometry.coordinates[0];
+        let madsTurfPolygon = turf.polygon(madsPolygons);
+        const isWithinMadsGeoJSON = turf.booleanPointInPolygon(
           turfPoint,
-          turfPolygon
+          madsTurfPolygon
+        );
+
+        // Check within Bjoern Forest
+        let bjoernPolygons = bjoernTeig.features[0].geometry.coordinates;
+        let bjoernTurfPolygons = turf.multiPolygon(bjoernPolygons);
+        const isWithinBjoernGeoJSON = turf.booleanPointInPolygon(
+          turfPoint,
+          bjoernTurfPolygons
         );
         if (
-          isWithinGeoJSON &&
+          (isWithinMadsGeoJSON || isWithinBjoernGeoJSON) &&
           (activeOverlay['Hogstklasser'] ||
             activeOverlay['HogstklasserWMS'] ||
-            activeOverlay['Polygons'])
+            activeOverlay['Forests'])
         ) {
           const params = {
             ...nibioGetFeatInfoBaseParams,
@@ -251,22 +230,19 @@ export default function CustomMapEvents({
       if (
         activeOverlay['Hogstklasser'] ||
         activeOverlay['HogstklasserWMS'] ||
-        activeOverlay['Polygons']
+        activeOverlay['Forests']
       ) {
-        // #root > div.wrapper > div.main-panel > div > div.leaflet-control-container > div.leaflet-bottom.leaflet-right > div.leaflet-control-layers.leaflet-control > section > div.leaflet-control-layers-overlays > label:nth-child(5)
-        // document.querySelector("#root > div.wrapper > div.main-panel > div > div.leaflet-control-container > div.leaflet-bottom.leaflet-right > div.leaflet-control-layers.leaflet-control > section > div.leaflet-control-layers-overlays > label:nth-child(5)")
-
         // Wait for the next render cycle to ensure the layer control has been updated
         setTimeout(() => {
           hideLayerControlLabel('HogstklasserWMS');
-          hideLayerControlLabel('Polygons');
+          hideLayerControlLabel('Forests');
         }, 0);
 
         setActiveOverlay((prevOverlay) => ({
           ...prevOverlay,
           Hogstklasser: true,
           HogstklasserWMS: true,
-          Polygons: true,
+          Forests: true,
         }));
       }
       setActiveOverlay((prevOverlay) => ({
@@ -278,7 +254,7 @@ export default function CustomMapEvents({
       if (
         activeOverlay['Hogstklasser'] ||
         activeOverlay['HogstklasserWMS'] ||
-        activeOverlay['Polygons'] ||
+        activeOverlay['Forests'] ||
         activeOverlay['CLC'] ||
         activeOverlay['AR50']
       ) {
@@ -288,20 +264,20 @@ export default function CustomMapEvents({
       if (
         (activeOverlay['Hogstklasser'] ||
           activeOverlay['HogstklasserWMS'] ||
-          activeOverlay['Polygons']) &&
+          activeOverlay['Forests']) &&
         e.name === 'Hogstklasser'
       ) {
         // Wait for the next render cycle to ensure the layer control has been updated
         setTimeout(() => {
           hideLayerControlLabel('HogstklasserWMS');
-          hideLayerControlLabel('Polygons');
+          hideLayerControlLabel('Forests');
         }, 0);
         !(zoomLevel <= HIDE_POLYGON_ZOOM_LEVEL) &&
           setActiveOverlay((prevOverlay) => ({
             ...prevOverlay,
             Hogstklasser: false,
             HogstklasserWMS: false,
-            Polygons: false,
+            Forests: false,
           }));
       }
       !(zoomLevel <= HIDE_POLYGON_ZOOM_LEVEL) &&
