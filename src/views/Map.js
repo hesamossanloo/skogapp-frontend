@@ -118,7 +118,7 @@ function Map() {
   // eslint-disable-next-line react/prop-types
   const ChangeView = ({ center, zoom }) => {
     const map = useMap();
-    selectedForestFirstTime && map.setView(center, zoom);
+    selectedForestFirstTime && map.setView(center, 13);
     // To solve the issue with the always centering the map after choosing a forest
     setSelectedForestFirstTime(false);
     return null;
