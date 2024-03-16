@@ -207,7 +207,7 @@ function Map() {
               <ImageOverlay
                 url={madsForestPNGImage}
                 bounds={madsForestImageBounds}
-                opacity={1}
+                opacity={0.5}
               />
               {activeFeature &&
                 activeOverlay['HogstklasserWMS'] &&
@@ -235,7 +235,7 @@ function Map() {
               <ImageOverlay
                 url={bjoernForestPNGImage}
                 bounds={bjoernForestImageBounds}
-                opacity={1}
+                opacity={0.5}
               />
               {activeFeature &&
                 activeOverlay['HogstklasserWMS'] &&
