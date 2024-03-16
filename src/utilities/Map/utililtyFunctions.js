@@ -46,7 +46,9 @@ export const calculateEstimatedHeightAndCrossSectionArea = (
 
   if (CSVRow) {
     const featureAgeString = featureValues.alder;
-    estimatedHeightFromCSVString = CSVRow[featureAgeString];
+    estimatedHeightFromCSVString =
+      CSVRow[featureAgeString] ||
+      CSVRow[Math.ceil(Number.parseInt(featureAgeString) / 5) * 5];
     const featureAgeNumber = parseInt(featureValues.alder);
     const bonitetHT40Number = parseFloat(CSVRow.Ht40.replace(',', '.'));
 
