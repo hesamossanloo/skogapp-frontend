@@ -10,7 +10,7 @@ export const colorMap = {
 export const mapCoordinations = {
   homePosition: [59.9287, 11.7025], // Coordinates for Mads' House
   madsForestPosition: [59.945, 11.695], // Coordinates for Mads' Dad's Forest
-  bjoernForestPosition: [59.995, 11.911], // Coordinates for Mads' Dad's Forest
+  bjoernForestPosition: [60, 11.755], // Coordinates for Mads' Dad's Forest
   // centerPosition: [23.698, 2.79], // Strange Coordinates for the Nib Center Cache Bild Server
   norwayPosition: [59.9139, 10.7522], // Coordinates for Oslo, Norway
 };
