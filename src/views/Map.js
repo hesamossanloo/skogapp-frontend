@@ -268,21 +268,6 @@ function Map() {
               )}
             </Overlay>
           )}
-          <Overlay
-            name="Matrikkel"
-            checked={
-              zoomLevel > HIDE_POLYGON_ZOOM_LEVEL && activeOverlay['Matrikkel']
-            }
-          >
-            <WMSTileLayer
-              url="https://openwms.statkart.no/skwms1/wms.matrikkelkart"
-              layers="matrikkelkart"
-              format="image/png"
-              transparent={true}
-              crossOrigin={true}
-              version="1.3.0"
-            />
-          </Overlay>
         </LayersControl>
         <Marker position={mapCoordinations.homePosition}>
           <Popup>Mads was born in this House!</Popup>
