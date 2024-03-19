@@ -7,7 +7,7 @@ import madsPolygons from 'assets/data/QGIS/mads-forest-sieve-poly-simplified.js'
 import madsForestPNGImage from 'assets/data/QGIS/mads-hogst-forest-3857.png';
 import madsTeig from 'assets/data/QGIS/mads-teig-polygon-RH-fixed.js';
 import L from 'leaflet';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   GeoJSON,
   LayerGroup,
@@ -45,8 +45,6 @@ function Map() {
   const [activeOverlay, setActiveOverlay] = useState({
     Matrikkel: false,
     Hogstklasser: true,
-    HogstklasserWMS: true,
-    Forests: true,
     MadsForest: false,
     AR50: false,
     CLS: false,
@@ -64,14 +62,6 @@ function Map() {
 
   const toggle = () => setDropdownOpen((prevState) => !prevState);
 
-  useEffect(() => {
-    setTimeout(() => {
-      hideLayerControlLabel('HogstklasserWMS');
-      hideLayerControlLabel('Forests');
-    }, 0);
-  }, [zoomLevel]); // Include dependencies in the useEffect hook
-
-  // 59.951966,11.706162
   let activeGeoJSONLayer = null;
   const onEachFeature = (feature, geoJSONLayer) => {
     geoJSONLayer.setStyle({
@@ -181,7 +171,7 @@ function Map() {
                 bounds={madsForestImageBounds}
                 zoomLevel={zoomLevel}
                 activeOverlay={activeOverlay}
-                overlayNames={['Hogstklasser', 'HogstklasserWMS', 'Forests']}
+                overlayNames={['Hogstklasser']}
                 activeFeature={activeFeature}
                 setActiveFeature={setActiveFeature}
               />
@@ -190,7 +180,7 @@ function Map() {
                 bounds={bjoernForestImageBounds}
                 zoomLevel={zoomLevel}
                 activeOverlay={activeOverlay}
-                overlayNames={['Hogstklasser', 'HogstklasserWMS', 'Forests']}
+                overlayNames={['Hogstklasser']}
                 activeFeature={activeFeature}
                 setActiveFeature={setActiveFeature}
               />
