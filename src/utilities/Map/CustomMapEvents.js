@@ -33,6 +33,7 @@ CustomMapEvents.propTypes = {
   hideLayerControlLabel: PropTypes.func.isRequired,
   madsTeig: PropTypes.object.isRequired,
   bjoernTeig: PropTypes.object.isRequired,
+  cadastres: PropTypes.array.isRequired,
 };
 
 export default function CustomMapEvents({
