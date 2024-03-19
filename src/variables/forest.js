@@ -28,7 +28,6 @@ export const nibioGetFeatInfoBaseParams = {
   FEATURE_COUNT: 10,
 };
 
-// constants.js
 export const CSV_URLS = {
   GRAN: '/csvs/gran.csv',
   FURU: '/csvs/furu.csv',
@@ -48,3 +47,12 @@ export const SPECIES_PRICES = {
 
 export const HIDE_POLYGON_ZOOM_LEVEL = 10;
 export const MAP_DEFAULT_ZOOM_LEVEL = 13;
+
+export const madsForestImageBounds = [
+  [59.9283312840000022, 11.6844372829999994], // Bottom-left corner
+  [59.9593366419999967, 11.7499393919999999], // Top-right corner
+];
+export const bjoernForestImageBounds = [
+  [59.963530782, 11.892033508], // Bottom-left corner
+  [60.033538097, 11.694021503], // Top-right corner
+];

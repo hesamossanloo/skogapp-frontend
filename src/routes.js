@@ -16,18 +16,9 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import Dashboard2 from 'views/Dashboard2';
 import Map from 'views/Map.js';
 
 var routes = [
-  {
-    path: '/dashboard',
-    name: 'Dashboard',
-    rtlName: 'لوحة القيادة',
-    icon: 'tim-icons icon-chart-pie-36',
-    component: <Dashboard2 />,
-    layout: '/admin',
-  },
   {
     path: '/map',
     name: 'Map',

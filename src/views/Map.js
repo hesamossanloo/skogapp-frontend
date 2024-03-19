@@ -1,16 +1,16 @@
 import madsForestAR50CRS4326 from 'assets/data/QGIS/ar50-clip-RH-fixed.js';
-import bjoernForestPNGImage from 'assets/data/QGIS/bjoern-forest.png';
-import bjoernForest from 'assets/data/QGIS/bjoern-polygons.js';
-import bjoernTeig from 'assets/data/QGIS/bjoern-teig.js';
+import bjoernForestPNGImage from 'assets/data/QGIS/bjoern/bjoern-forest.png';
+import bjoernPolygons from 'assets/data/QGIS/bjoern/bjoern-polygons.js';
+import bjoernTeig from 'assets/data/QGIS/bjoern/bjoern-teig.js';
 import madsForestCLCClipCRS4326 from 'assets/data/QGIS/mads-forest-clc-clip-crs4326-right-hand-fixed.js';
-import madsForestSievePolySimplified from 'assets/data/QGIS/mads-forest-sieve-poly-simplified.js';
+import madsPolygons from 'assets/data/QGIS/mads-forest-sieve-poly-simplified.js';
 import madsForestPNGImage from 'assets/data/QGIS/mads-hogst-forest-3857.png';
 import madsTeig from 'assets/data/QGIS/mads-teig-polygon-RH-fixed.js';
 import L from 'leaflet';
 import { useEffect, useState } from 'react';
 import {
   GeoJSON,
-  ImageOverlay,
+  LayerGroup,
   LayersControl,
   MapContainer,
   Marker,
@@ -20,18 +20,16 @@ import {
   ZoomControl,
   useMap,
 } from 'react-leaflet';
-import {
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-} from 'reactstrap';
+import CustomImageOverlay from 'utilities/Map/components/CustomImageOverlay';
+import FeaturePopup from 'utilities/Map/components/FeaturePopup';
+import ForestSelector from 'utilities/Map/components/ForestSelector';
 import CustomMapEvents from 'utilities/Map/CustomMapEvents';
-import FeaturePopup from 'utilities/Map/FeaturePopup';
 import { hideLayerControlLabel } from 'utilities/Map/utililtyFunctions';
 import {
   HIDE_POLYGON_ZOOM_LEVEL,
   MAP_DEFAULT_ZOOM_LEVEL,
+  bjoernForestImageBounds,
+  madsForestImageBounds,
   mapCoordinations,
 } from 'variables/forest';
 
@@ -67,15 +65,6 @@ function Map() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const toggle = () => setDropdownOpen((prevState) => !prevState);
-
-  const madsForestImageBounds = [
-    [59.9283312840000022, 11.6844372829999994], // Bottom-left corner
-    [59.9593366419999967, 11.7499393919999999], // Top-right corner
-  ];
-  const bjoernForestImageBounds = [
-    [59.963530782, 11.892033508], // Bottom-left corner
-    [60.033538097, 11.694021503], // Top-right corner
-  ];
 
   useEffect(() => {
     setTimeout(() => {
@@ -116,7 +105,7 @@ function Map() {
   };
 
   // eslint-disable-next-line react/prop-types
-  const ChangeView = ({ center, zoom }) => {
+  const ChangeView = ({ center }) => {
     const map = useMap();
     selectedForestFirstTime && map.setView(center, 13);
     // To solve the issue with the always centering the map after choosing a forest
@@ -132,28 +121,13 @@ function Map() {
     }
   };
 
-  const DDStyle = {
-    position: 'absolute',
-    top: 10,
-    right: 10,
-    zIndex: 9999,
-  };
-
   return (
     <>
-      <Dropdown isOpen={dropdownOpen} toggle={toggle} style={DDStyle}>
-        <DropdownToggle caret color="info">
-          Choose your Forest
-        </DropdownToggle>
-        <DropdownMenu>
-          <DropdownItem onClick={() => handleForestSelectChange('forest1')}>
-            Forest 1
-          </DropdownItem>
-          <DropdownItem onClick={() => handleForestSelectChange('forest2')}>
-            Forest 2
-          </DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
+      <ForestSelector
+        isOpen={dropdownOpen}
+        toggle={toggle}
+        onSelectForest={handleForestSelectChange}
+      />
       <MapContainer
         id="SkogAppMapContainer"
         zoomControl={false}
@@ -169,7 +143,7 @@ function Map() {
           width: '100vw',
         }}
       >
-        <ChangeView center={selectedForest} zoom={zoomLevel} />
+        <ChangeView center={selectedForest} />
         <CustomMapEvents
           activeOverlay={activeOverlay}
           setActiveOverlay={setActiveOverlay}
@@ -196,108 +170,56 @@ function Map() {
               attribution='&copy; <a href="https://www.esri.com/">Esri</a> contributors'
             />
           </BaseLayer>
-          {madsForestPNGImage && (
-            <Overlay
-              checked={
-                zoomLevel > HIDE_POLYGON_ZOOM_LEVEL &&
-                activeOverlay['Hogstklasser']
-              }
-              name="Hogstklasser"
-            >
-              <ImageOverlay
-                url={madsForestPNGImage}
-                bounds={madsForestImageBounds}
-                opacity={0.5}
-              />
-              {activeFeature &&
-                activeOverlay['HogstklasserWMS'] &&
-                activeOverlay['Forests'] && (
-                  <FeaturePopup
-                    activeOverlay={activeOverlay}
-                    activeFeature={{
-                      lng: activeFeature.geometry.coordinates[0][0][0][1],
-                      lat: activeFeature.geometry.coordinates[0][0][0][0],
-                      properties: activeFeature.properties,
-                    }}
-                    setActiveFeature={setActiveFeature}
-                  />
-                )}
-            </Overlay>
-          )}
-          {bjoernForestPNGImage && (
-            <Overlay
-              checked={
-                zoomLevel > HIDE_POLYGON_ZOOM_LEVEL &&
-                activeOverlay['Hogstklasser']
-              }
-              name="Hogstklasser"
-            >
-              <ImageOverlay
-                url={bjoernForestPNGImage}
-                bounds={bjoernForestImageBounds}
-                opacity={0.5}
-              />
-              {activeFeature &&
-                activeOverlay['HogstklasserWMS'] &&
-                activeOverlay['Forests'] && (
-                  <FeaturePopup
-                    activeOverlay={activeOverlay}
-                    activeFeature={{
-                      lng: activeFeature.geometry.coordinates[0][0][0][1],
-                      lat: activeFeature.geometry.coordinates[0][0][0][0],
-                      properties: activeFeature.properties,
-                    }}
-                    setActiveFeature={setActiveFeature}
-                  />
-                )}
-            </Overlay>
-          )}
           <Overlay
             checked={
               zoomLevel > HIDE_POLYGON_ZOOM_LEVEL &&
               activeOverlay['Hogstklasser']
             }
-            name="HogstklasserWMS"
+            name="Hogstklasser"
           >
-            <WMSTileLayer
-              url="https://wms.nibio.no/cgi-bin/skogbruksplan?"
-              layers="hogstklasser"
-              format="image/png"
-              transparent={true}
-              version="1.3.0"
-              opacity={0}
-            />
+            <LayerGroup>
+              <CustomImageOverlay
+                image={madsForestPNGImage}
+                bounds={madsForestImageBounds}
+                zoomLevel={zoomLevel}
+                activeOverlay={activeOverlay}
+                overlayNames={['Hogstklasser', 'HogstklasserWMS', 'Forests']}
+                activeFeature={activeFeature}
+                setActiveFeature={setActiveFeature}
+              />
+              <CustomImageOverlay
+                image={bjoernForestPNGImage}
+                bounds={bjoernForestImageBounds}
+                zoomLevel={zoomLevel}
+                activeOverlay={activeOverlay}
+                overlayNames={['Hogstklasser', 'HogstklasserWMS', 'Forests']}
+                activeFeature={activeFeature}
+                setActiveFeature={setActiveFeature}
+              />
+              <WMSTileLayer
+                url="https://wms.nibio.no/cgi-bin/skogbruksplan?"
+                layers="hogstklasser"
+                format="image/png"
+                transparent={true}
+                version="1.3.0"
+                opacity={0}
+              />
+              {madsPolygons && (
+                <GeoJSON
+                  data={madsPolygons}
+                  onEachFeature={onEachFeature}
+                  style={{ stroke: false }}
+                />
+              )}
+              {bjoernPolygons && (
+                <GeoJSON
+                  data={bjoernPolygons}
+                  onEachFeature={onEachFeature}
+                  style={{ stroke: false }}
+                />
+              )}
+            </LayerGroup>
           </Overlay>
-          {madsForestSievePolySimplified && (
-            <Overlay
-              name="Forests"
-              checked={
-                zoomLevel > HIDE_POLYGON_ZOOM_LEVEL &&
-                activeOverlay['Hogstklasser']
-              }
-            >
-              <GeoJSON
-                data={madsForestSievePolySimplified}
-                onEachFeature={onEachFeature}
-                style={{ stroke: false }}
-              />
-            </Overlay>
-          )}
-          {bjoernForest && (
-            <Overlay
-              name="Forest 2"
-              checked={
-                zoomLevel > HIDE_POLYGON_ZOOM_LEVEL &&
-                activeOverlay['Hogstklasser']
-              }
-            >
-              <GeoJSON
-                data={bjoernForest}
-                onEachFeature={onEachFeature}
-                style={{ stroke: false }}
-              />
-            </Overlay>
-          )}
           {madsForestAR50CRS4326 && (
             <Overlay
               name="AR50"
@@ -346,21 +268,6 @@ function Map() {
               )}
             </Overlay>
           )}
-          <Overlay
-            name="Matrikkel"
-            checked={
-              zoomLevel > HIDE_POLYGON_ZOOM_LEVEL && activeOverlay['Matrikkel']
-            }
-          >
-            <WMSTileLayer
-              url="https://openwms.statkart.no/skwms1/wms.matrikkelkart"
-              layers="matrikkelkart"
-              format="image/png"
-              transparent={true}
-              crossOrigin={true}
-              version="1.3.0"
-            />
-          </Overlay>
         </LayersControl>
         <Marker position={mapCoordinations.homePosition}>
           <Popup>Mads was born in this House!</Popup>
