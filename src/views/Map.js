@@ -10,6 +10,7 @@ import L from 'leaflet';
 import { useEffect, useState } from 'react';
 import {
   GeoJSON,
+  LayerGroup,
   LayersControl,
   MapContainer,
   Marker,
@@ -169,70 +170,56 @@ function Map() {
               attribution='&copy; <a href="https://www.esri.com/">Esri</a> contributors'
             />
           </BaseLayer>
-          <CustomImageOverlay
-            image={madsForestPNGImage}
-            bounds={madsForestImageBounds}
-            zoomLevel={zoomLevel}
-            activeOverlay={activeOverlay}
-            overlayNames={['Hogstklasser', 'HogstklasserWMS', 'Forests']}
-            activeFeature={activeFeature}
-            setActiveFeature={setActiveFeature}
-          />
-          <CustomImageOverlay
-            image={bjoernForestPNGImage}
-            bounds={bjoernForestImageBounds}
-            zoomLevel={zoomLevel}
-            activeOverlay={activeOverlay}
-            overlayNames={['Hogstklasser', 'HogstklasserWMS', 'Forests']}
-            activeFeature={activeFeature}
-            setActiveFeature={setActiveFeature}
-          />
           <Overlay
             checked={
               zoomLevel > HIDE_POLYGON_ZOOM_LEVEL &&
               activeOverlay['Hogstklasser']
             }
-            name="HogstklasserWMS"
+            name="Hogstklasser"
           >
-            <WMSTileLayer
-              url="https://wms.nibio.no/cgi-bin/skogbruksplan?"
-              layers="hogstklasser"
-              format="image/png"
-              transparent={true}
-              version="1.3.0"
-              opacity={0}
-            />
+            <LayerGroup>
+              <CustomImageOverlay
+                image={madsForestPNGImage}
+                bounds={madsForestImageBounds}
+                zoomLevel={zoomLevel}
+                activeOverlay={activeOverlay}
+                overlayNames={['Hogstklasser', 'HogstklasserWMS', 'Forests']}
+                activeFeature={activeFeature}
+                setActiveFeature={setActiveFeature}
+              />
+              <CustomImageOverlay
+                image={bjoernForestPNGImage}
+                bounds={bjoernForestImageBounds}
+                zoomLevel={zoomLevel}
+                activeOverlay={activeOverlay}
+                overlayNames={['Hogstklasser', 'HogstklasserWMS', 'Forests']}
+                activeFeature={activeFeature}
+                setActiveFeature={setActiveFeature}
+              />
+              <WMSTileLayer
+                url="https://wms.nibio.no/cgi-bin/skogbruksplan?"
+                layers="hogstklasser"
+                format="image/png"
+                transparent={true}
+                version="1.3.0"
+                opacity={0}
+              />
+              {madsPolygons && (
+                <GeoJSON
+                  data={madsPolygons}
+                  onEachFeature={onEachFeature}
+                  style={{ stroke: false }}
+                />
+              )}
+              {bjoernPolygons && (
+                <GeoJSON
+                  data={bjoernPolygons}
+                  onEachFeature={onEachFeature}
+                  style={{ stroke: false }}
+                />
+              )}
+            </LayerGroup>
           </Overlay>
-          {madsPolygons && (
-            <Overlay
-              name="Forests"
-              checked={
-                zoomLevel > HIDE_POLYGON_ZOOM_LEVEL &&
-                activeOverlay['Hogstklasser']
-              }
-            >
-              <GeoJSON
-                data={madsPolygons}
-                onEachFeature={onEachFeature}
-                style={{ stroke: false }}
-              />
-            </Overlay>
-          )}
-          {bjoernPolygons && (
-            <Overlay
-              name="Forest 2"
-              checked={
-                zoomLevel > HIDE_POLYGON_ZOOM_LEVEL &&
-                activeOverlay['Hogstklasser']
-              }
-            >
-              <GeoJSON
-                data={bjoernPolygons}
-                onEachFeature={onEachFeature}
-                style={{ stroke: false }}
-              />
-            </Overlay>
-          )}
           {madsForestAR50CRS4326 && (
             <Overlay
               name="AR50"
