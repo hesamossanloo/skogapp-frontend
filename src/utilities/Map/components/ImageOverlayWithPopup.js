@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { ImageOverlay } from 'react-leaflet';
 import FeaturePopup from './FeaturePopup';
 
-const CustomImageOverlay = ({
+const ImageOverlayWithPopup = ({
   image,
   bounds,
   opacity = 0.5, // Default opacity
@@ -11,8 +11,6 @@ const CustomImageOverlay = ({
   activeFeature,
   setActiveFeature,
 }) => {
-  // Check if the overlay should be rendered based on zoom level
-
   // Additional condition to check multiple overlay visibility settings
   const isOverlayActive = overlayNames.some((name) => activeOverlay[name]);
 
@@ -33,7 +31,7 @@ const CustomImageOverlay = ({
     </>
   ) : null;
 };
-CustomImageOverlay.propTypes = {
+ImageOverlayWithPopup.propTypes = {
   image: PropTypes.string.isRequired,
   bounds: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)).isRequired,
   opacity: PropTypes.number,
@@ -43,4 +41,4 @@ CustomImageOverlay.propTypes = {
   setActiveFeature: PropTypes.func.isRequired,
 };
 
-export default CustomImageOverlay;
+export default ImageOverlayWithPopup;

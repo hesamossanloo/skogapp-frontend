@@ -13,16 +13,14 @@ import {
   LayerGroup,
   LayersControl,
   MapContainer,
-  Marker,
-  Popup,
   TileLayer,
   WMSTileLayer,
   ZoomControl,
   useMap,
 } from 'react-leaflet';
-import CustomImageOverlay from 'utilities/Map/components/CustomImageOverlay';
-import FeaturePopup from 'utilities/Map/components/FeaturePopup';
 import ForestSelector from 'utilities/Map/components/ForestSelector';
+import GeoJsonWithPopup from 'utilities/Map/components/GeoJsonWithPopup';
+import ImageOverlayWithPopup from 'utilities/Map/components/ImageOverlayWithPopup';
 import CustomMapEvents from 'utilities/Map/CustomMapEvents';
 import { hideLayerControlLabel } from 'utilities/Map/utililtyFunctions';
 import {
@@ -178,7 +176,7 @@ function Map() {
             name="Hogstklasser"
           >
             <LayerGroup>
-              <CustomImageOverlay
+              <ImageOverlayWithPopup
                 image={madsForestPNGImage}
                 bounds={madsForestImageBounds}
                 zoomLevel={zoomLevel}
@@ -187,7 +185,7 @@ function Map() {
                 activeFeature={activeFeature}
                 setActiveFeature={setActiveFeature}
               />
-              <CustomImageOverlay
+              <ImageOverlayWithPopup
                 image={bjoernForestPNGImage}
                 bounds={bjoernForestImageBounds}
                 zoomLevel={zoomLevel}
@@ -227,21 +225,14 @@ function Map() {
                 zoomLevel > HIDE_POLYGON_ZOOM_LEVEL && activeOverlay['AR50']
               }
             >
-              <GeoJSON
+              <GeoJsonWithPopup
                 data={madsForestAR50CRS4326}
                 onEachFeature={onEachFeature}
+                activeFeature={activeFeature}
+                activeOverlay={activeOverlay}
+                overlayName="AR50"
+                setActiveFeature={setActiveFeature}
               />
-              {activeFeature && activeOverlay['AR50'] && (
-                <FeaturePopup
-                  activeOverlay={activeOverlay}
-                  activeFeature={{
-                    lng: activeFeature.geometry.coordinates[0][0][0][1],
-                    lat: activeFeature.geometry.coordinates[0][0][0][0],
-                    properties: activeFeature.properties,
-                  }}
-                  setActiveFeature={setActiveFeature}
-                />
-              )}
             </Overlay>
           )}
           {madsForestCLCClipCRS4326 && (
@@ -251,27 +242,17 @@ function Map() {
                 zoomLevel > HIDE_POLYGON_ZOOM_LEVEL && activeOverlay['CLC']
               }
             >
-              <GeoJSON
+              <GeoJsonWithPopup
                 data={madsForestCLCClipCRS4326}
                 onEachFeature={onEachFeature}
+                activeFeature={activeFeature}
+                activeOverlay={activeOverlay}
+                overlayName="CLC"
+                setActiveFeature={setActiveFeature}
               />
-              {activeFeature && activeOverlay['CLC'] && (
-                <FeaturePopup
-                  activeOverlay={activeOverlay}
-                  activeFeature={{
-                    lng: activeFeature.geometry.coordinates[0][0][0][1],
-                    lat: activeFeature.geometry.coordinates[0][0][0][0],
-                    properties: activeFeature.properties,
-                  }}
-                  setActiveFeature={setActiveFeature}
-                />
-              )}
             </Overlay>
           )}
         </LayersControl>
-        <Marker position={mapCoordinations.homePosition}>
-          <Popup>Mads was born in this House!</Popup>
-        </Marker>
       </MapContainer>
     </>
   );
