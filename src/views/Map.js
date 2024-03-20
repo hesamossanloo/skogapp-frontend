@@ -2,36 +2,39 @@ import madsForestAR50CRS4326 from 'assets/data/QGIS/ar50-clip-RH-fixed.js';
 import bjoernForestPNGImage from 'assets/data/QGIS/bjoern/bjoern-forest.png';
 import bjoernPolygons from 'assets/data/QGIS/bjoern/bjoern-polygons.js';
 import bjoernTeig from 'assets/data/QGIS/bjoern/bjoern-teig.js';
+import knutPolygons from 'assets/data/QGIS/knut/knut-dissolved-polygons.js';
+import knutForestPNGImage from 'assets/data/QGIS/knut/knut-dissolved.png';
+import knutTeig from 'assets/data/QGIS/knut/knut-teig.js';
 import madsForestCLCClipCRS4326 from 'assets/data/QGIS/mads-forest-clc-clip-crs4326-right-hand-fixed.js';
 import madsPolygons from 'assets/data/QGIS/mads-forest-sieve-poly-simplified.js';
 import madsForestPNGImage from 'assets/data/QGIS/mads-hogst-forest-3857.png';
 import madsTeig from 'assets/data/QGIS/mads-teig-polygon-RH-fixed.js';
 import L from 'leaflet';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   GeoJSON,
   LayerGroup,
   LayersControl,
   MapContainer,
-  Marker,
-  Popup,
   TileLayer,
   WMSTileLayer,
   ZoomControl,
   useMap,
 } from 'react-leaflet';
-import CustomImageOverlay from 'utilities/Map/components/CustomImageOverlay';
-import FeaturePopup from 'utilities/Map/components/FeaturePopup';
 import ForestSelector from 'utilities/Map/components/ForestSelector';
+import GeoJsonWithPopup from 'utilities/Map/components/GeoJsonWithPopup';
+import ImageOverlayWithPopup from 'utilities/Map/components/ImageOverlayWithPopup';
 import CustomMapEvents from 'utilities/Map/CustomMapEvents';
 import { hideLayerControlLabel } from 'utilities/Map/utililtyFunctions';
 import {
   HIDE_POLYGON_ZOOM_LEVEL,
   MAP_DEFAULT_ZOOM_LEVEL,
   bjoernForestImageBounds,
+  knutForestImageBounds,
   madsForestImageBounds,
   mapCoordinations,
 } from 'variables/forest';
+import '../utilities/Map/PopupMovable.js';
 
 const { BaseLayer, Overlay } = LayersControl;
 delete L.Icon.Default.prototype._getIconUrl;
@@ -47,8 +50,6 @@ function Map() {
   const [activeOverlay, setActiveOverlay] = useState({
     Matrikkel: false,
     Hogstklasser: true,
-    HogstklasserWMS: true,
-    Forests: true,
     MadsForest: false,
     AR50: false,
     CLS: false,
@@ -56,6 +57,7 @@ function Map() {
 
   const forest1 = mapCoordinations.madsForestPosition;
   const forest2 = mapCoordinations.bjoernForestPosition;
+  const forest3 = mapCoordinations.knutForestPosition;
 
   const [clickedOnLine, setClickedOnLine] = useState(false);
   const [activeFeature, setActiveFeature] = useState(null);
@@ -66,14 +68,6 @@ function Map() {
 
   const toggle = () => setDropdownOpen((prevState) => !prevState);
 
-  useEffect(() => {
-    setTimeout(() => {
-      hideLayerControlLabel('HogstklasserWMS');
-      hideLayerControlLabel('Forests');
-    }, 0);
-  }, [zoomLevel]); // Include dependencies in the useEffect hook
-
-  // 59.951966,11.706162
   let activeGeoJSONLayer = null;
   const onEachFeature = (feature, geoJSONLayer) => {
     geoJSONLayer.setStyle({
@@ -105,9 +99,9 @@ function Map() {
   };
 
   // eslint-disable-next-line react/prop-types
-  const ChangeView = ({ center }) => {
+  const ChangeView = ({ center, zoom }) => {
     const map = useMap();
-    selectedForestFirstTime && map.setView(center, 13);
+    selectedForestFirstTime && map.setView(center, zoom);
     // To solve the issue with the always centering the map after choosing a forest
     setSelectedForestFirstTime(false);
     return null;
@@ -117,7 +111,13 @@ function Map() {
     const selected = event;
     if (!selectedForestFirstTime) {
       setSelectedForestFirstTime(true);
-      setSelectedForest(selected === 'forest1' ? forest1 : forest2);
+      setSelectedForest(
+        selected === 'forest1'
+          ? forest1
+          : selected === 'forest2'
+            ? forest2
+            : forest3
+      );
     }
   };
 
@@ -130,8 +130,10 @@ function Map() {
       />
       <MapContainer
         id="SkogAppMapContainer"
+        popupMovable={true}
+        closePopupOnClick={false}
         zoomControl={false}
-        center={selectedForest}
+        center={selectedForest.coord}
         zoom={zoomLevel}
         continuousWorld={true}
         worldCopyJump={false}
@@ -143,7 +145,10 @@ function Map() {
           width: '100vw',
         }}
       >
-        <ChangeView center={selectedForest} />
+        <ChangeView
+          center={selectedForest.coord}
+          zoom={selectedForest.name === 'forest3' ? 12 : 13}
+        />
         <CustomMapEvents
           activeOverlay={activeOverlay}
           setActiveOverlay={setActiveOverlay}
@@ -151,6 +156,7 @@ function Map() {
           hideLayerControlLabel={hideLayerControlLabel}
           madsTeig={madsTeig}
           bjoernTeig={bjoernTeig}
+          knutTeig={knutTeig}
           setZoomLevel={setZoomLevel}
           zoomLevel={zoomLevel}
           clickedOnLine={clickedOnLine}
@@ -178,21 +184,30 @@ function Map() {
             name="Hogstklasser"
           >
             <LayerGroup>
-              <CustomImageOverlay
+              <ImageOverlayWithPopup
                 image={madsForestPNGImage}
                 bounds={madsForestImageBounds}
                 zoomLevel={zoomLevel}
                 activeOverlay={activeOverlay}
-                overlayNames={['Hogstklasser', 'HogstklasserWMS', 'Forests']}
+                overlayNames={['Hogstklasser']}
                 activeFeature={activeFeature}
                 setActiveFeature={setActiveFeature}
               />
-              <CustomImageOverlay
+              <ImageOverlayWithPopup
                 image={bjoernForestPNGImage}
                 bounds={bjoernForestImageBounds}
                 zoomLevel={zoomLevel}
                 activeOverlay={activeOverlay}
-                overlayNames={['Hogstklasser', 'HogstklasserWMS', 'Forests']}
+                overlayNames={['Hogstklasser']}
+                activeFeature={activeFeature}
+                setActiveFeature={setActiveFeature}
+              />
+              <ImageOverlayWithPopup
+                image={knutForestPNGImage}
+                bounds={knutForestImageBounds}
+                zoomLevel={zoomLevel}
+                activeOverlay={activeOverlay}
+                overlayNames={['Hogstklasser']}
                 activeFeature={activeFeature}
                 setActiveFeature={setActiveFeature}
               />
@@ -218,6 +233,13 @@ function Map() {
                   style={{ stroke: false }}
                 />
               )}
+              {knutPolygons && (
+                <GeoJSON
+                  data={knutPolygons}
+                  onEachFeature={onEachFeature}
+                  style={{ stroke: false }}
+                />
+              )}
             </LayerGroup>
           </Overlay>
           {madsForestAR50CRS4326 && (
@@ -227,21 +249,14 @@ function Map() {
                 zoomLevel > HIDE_POLYGON_ZOOM_LEVEL && activeOverlay['AR50']
               }
             >
-              <GeoJSON
+              <GeoJsonWithPopup
                 data={madsForestAR50CRS4326}
                 onEachFeature={onEachFeature}
+                activeFeature={activeFeature}
+                activeOverlay={activeOverlay}
+                overlayName="AR50"
+                setActiveFeature={setActiveFeature}
               />
-              {activeFeature && activeOverlay['AR50'] && (
-                <FeaturePopup
-                  activeOverlay={activeOverlay}
-                  activeFeature={{
-                    lng: activeFeature.geometry.coordinates[0][0][0][1],
-                    lat: activeFeature.geometry.coordinates[0][0][0][0],
-                    properties: activeFeature.properties,
-                  }}
-                  setActiveFeature={setActiveFeature}
-                />
-              )}
             </Overlay>
           )}
           {madsForestCLCClipCRS4326 && (
@@ -251,27 +266,17 @@ function Map() {
                 zoomLevel > HIDE_POLYGON_ZOOM_LEVEL && activeOverlay['CLC']
               }
             >
-              <GeoJSON
+              <GeoJsonWithPopup
                 data={madsForestCLCClipCRS4326}
                 onEachFeature={onEachFeature}
+                activeFeature={activeFeature}
+                activeOverlay={activeOverlay}
+                overlayName="CLC"
+                setActiveFeature={setActiveFeature}
               />
-              {activeFeature && activeOverlay['CLC'] && (
-                <FeaturePopup
-                  activeOverlay={activeOverlay}
-                  activeFeature={{
-                    lng: activeFeature.geometry.coordinates[0][0][0][1],
-                    lat: activeFeature.geometry.coordinates[0][0][0][0],
-                    properties: activeFeature.properties,
-                  }}
-                  setActiveFeature={setActiveFeature}
-                />
-              )}
             </Overlay>
           )}
         </LayersControl>
-        <Marker position={mapCoordinations.homePosition}>
-          <Popup>Mads was born in this House!</Popup>
-        </Marker>
       </MapContainer>
     </>
   );

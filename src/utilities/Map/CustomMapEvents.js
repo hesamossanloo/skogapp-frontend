@@ -19,8 +19,6 @@ import {
 CustomMapEvents.propTypes = {
   activeOverlay: PropTypes.shape({
     Hogstklasser: PropTypes.bool,
-    HogstklasserWMS: PropTypes.bool,
-    Forests: PropTypes.bool,
     CLC: PropTypes.bool,
     AR50: PropTypes.bool,
   }).isRequired,
@@ -33,6 +31,7 @@ CustomMapEvents.propTypes = {
   hideLayerControlLabel: PropTypes.func.isRequired,
   madsTeig: PropTypes.object.isRequired,
   bjoernTeig: PropTypes.object.isRequired,
+  knutTeig: PropTypes.object.isRequired,
   cadastres: PropTypes.array.isRequired,
 };
 
@@ -43,6 +42,7 @@ export default function CustomMapEvents({
   hideLayerControlLabel,
   madsTeig,
   bjoernTeig,
+  knutTeig,
   setZoomLevel,
   zoomLevel,
   clickedOnLine,
@@ -145,7 +145,11 @@ export default function CustomMapEvents({
 
       content += '</table>';
 
-      L.popup().setLatLng(e.latlng).setContent(content).openOn(map);
+      L.popup({ interactive: true })
+        // .setLatLng([e.latlng.lat, e.latlng.lng])
+        .setLatLng(e.latlng)
+        .setContent(content)
+        .openOn(map);
     }
   };
 
@@ -161,8 +165,6 @@ export default function CustomMapEvents({
       setActiveOverlay((prevOverlay) => ({
         ...prevOverlay,
         Hogstklasser: flag,
-        HogstklasserWMS: flag,
-        Forests: flag,
       }));
     },
     click: async (e) => {
@@ -203,11 +205,19 @@ export default function CustomMapEvents({
           turfPoint,
           bjoernTurfPolygons
         );
+
+        // Check within Knut Forest
+        let knutPolygons = knutTeig.features[0].geometry.coordinates;
+        let knutTurfPolygons = turf.multiPolygon(knutPolygons);
+        const isWithinKnutGeoJSON = turf.booleanPointInPolygon(
+          turfPoint,
+          knutTurfPolygons
+        );
         if (
-          (isWithinMadsGeoJSON || isWithinBjoernGeoJSON) &&
-          (activeOverlay['Hogstklasser'] ||
-            activeOverlay['HogstklasserWMS'] ||
-            activeOverlay['Forests'])
+          (isWithinMadsGeoJSON ||
+            isWithinBjoernGeoJSON ||
+            isWithinKnutGeoJSON) &&
+          activeOverlay['Hogstklasser']
         ) {
           const params = {
             ...nibioGetFeatInfoBaseParams,
@@ -228,22 +238,12 @@ export default function CustomMapEvents({
       }
     },
     overlayadd: async (e) => {
-      if (
-        activeOverlay['Hogstklasser'] ||
-        activeOverlay['HogstklasserWMS'] ||
-        activeOverlay['Forests']
-      ) {
+      if (activeOverlay['Hogstklasser']) {
         // Wait for the next render cycle to ensure the layer control has been updated
-        setTimeout(() => {
-          hideLayerControlLabel('HogstklasserWMS');
-          hideLayerControlLabel('Forests');
-        }, 0);
 
         setActiveOverlay((prevOverlay) => ({
           ...prevOverlay,
           Hogstklasser: true,
-          HogstklasserWMS: true,
-          Forests: true,
         }));
       }
       setActiveOverlay((prevOverlay) => ({
@@ -254,31 +254,18 @@ export default function CustomMapEvents({
     overlayremove: async (e) => {
       if (
         activeOverlay['Hogstklasser'] ||
-        activeOverlay['HogstklasserWMS'] ||
-        activeOverlay['Forests'] ||
         activeOverlay['CLC'] ||
         activeOverlay['AR50']
       ) {
         map.closePopup();
         setActiveFeature(null);
       }
-      if (
-        (activeOverlay['Hogstklasser'] ||
-          activeOverlay['HogstklasserWMS'] ||
-          activeOverlay['Forests']) &&
-        e.name === 'Hogstklasser'
-      ) {
+      if (activeOverlay['Hogstklasser'] && e.name === 'Hogstklasser') {
         // Wait for the next render cycle to ensure the layer control has been updated
-        setTimeout(() => {
-          hideLayerControlLabel('HogstklasserWMS');
-          hideLayerControlLabel('Forests');
-        }, 0);
         !(zoomLevel <= HIDE_POLYGON_ZOOM_LEVEL) &&
           setActiveOverlay((prevOverlay) => ({
             ...prevOverlay,
             Hogstklasser: false,
-            HogstklasserWMS: false,
-            Forests: false,
           }));
       }
       !(zoomLevel <= HIDE_POLYGON_ZOOM_LEVEL) &&

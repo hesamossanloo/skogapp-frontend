@@ -17,7 +17,7 @@
  */
 /*     brand Colors              */
 /* navbar color */
-@import "leaflet/dist/leaflet.css";
+@import 'leaflet/dist/leaflet.css';
 :root {
   --blue: #5e72e4;
   --indigo: #5603ad;
@@ -12396,6 +12396,9 @@ fieldset[disabled] .btn-link.active {
   background-color: transparent;
   box-shadow: none;
 }
+.form-control:focus + .clear-search {
+  border-color: #e14eca;
+}
 .form-control:focus + .input-group-append .input-group-text, .form-control:focus ~ .input-group-append .input-group-text, .form-control:focus + .input-group-prepend .input-group-text, .form-control:focus ~ .input-group-prepend .input-group-text {
   border: 1px solid #e14eca;
   border-left: none;
@@ -13297,18 +13300,6 @@ img {
 .navbar.navbar-map {
   background: rgba(30, 30, 47, 0.54) !important;
 }
-.navbar.clear-search {
-  border: 1px solid #cad1d7;
-  border-left: 0;
-  border-radius: 0.4285rem;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  border-color: #2b3553;
-  color: rgba(255, 255, 255, 0.8);
-  background-color: transparent;
-  background-clip: padding-box;
-  box-shadow: none;
-}
 .navbar.bg-white .navbar-nav .search-bar.input-group i {
   color: #222a42;
 }
@@ -13363,6 +13354,27 @@ img {
 .navbar .navbar-toggle button:focus,
 .navbar .navbar-toggler {
   outline: none;
+}
+
+.clear-search {
+  border: 1px solid #cad1d7;
+  border-left: 0;
+  border-radius: 0.4285rem;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-color: #2b3553;
+  color: rgba(255, 255, 255, 0.8);
+  background-color: transparent;
+  background-clip: padding-box;
+  box-shadow: none;
+}
+
+.MuiAutocomplete-listbox {
+  background-color: rgba(30, 30, 47, 0.54);
+}
+
+.MuiAutocomplete-option {
+  background-color: rgba(30, 30, 47, 0.54);
 }
 
 .navbar-minimize-fixed {
