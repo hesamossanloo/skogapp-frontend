@@ -31,6 +31,7 @@ CustomMapEvents.propTypes = {
   hideLayerControlLabel: PropTypes.func.isRequired,
   madsTeig: PropTypes.object.isRequired,
   bjoernTeig: PropTypes.object.isRequired,
+  knutTeig: PropTypes.object.isRequired,
   cadastres: PropTypes.array.isRequired,
 };
 
@@ -41,6 +42,7 @@ export default function CustomMapEvents({
   hideLayerControlLabel,
   madsTeig,
   bjoernTeig,
+  knutTeig,
   setZoomLevel,
   zoomLevel,
   clickedOnLine,
@@ -144,6 +146,7 @@ export default function CustomMapEvents({
       content += '</table>';
 
       L.popup({ interactive: true })
+        // .setLatLng([e.latlng.lat, e.latlng.lng])
         .setLatLng(e.latlng)
         .setContent(content)
         .openOn(map);
@@ -202,8 +205,18 @@ export default function CustomMapEvents({
           turfPoint,
           bjoernTurfPolygons
         );
+
+        // Check within Knut Forest
+        let knutPolygons = knutTeig.features[0].geometry.coordinates;
+        let knutTurfPolygons = turf.multiPolygon(knutPolygons);
+        const isWithinKnutGeoJSON = turf.booleanPointInPolygon(
+          turfPoint,
+          knutTurfPolygons
+        );
         if (
-          (isWithinMadsGeoJSON || isWithinBjoernGeoJSON) &&
+          (isWithinMadsGeoJSON ||
+            isWithinBjoernGeoJSON ||
+            isWithinKnutGeoJSON) &&
           activeOverlay['Hogstklasser']
         ) {
           const params = {

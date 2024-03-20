@@ -2,6 +2,9 @@ import madsForestAR50CRS4326 from 'assets/data/QGIS/ar50-clip-RH-fixed.js';
 import bjoernForestPNGImage from 'assets/data/QGIS/bjoern/bjoern-forest.png';
 import bjoernPolygons from 'assets/data/QGIS/bjoern/bjoern-polygons.js';
 import bjoernTeig from 'assets/data/QGIS/bjoern/bjoern-teig.js';
+import knutPolygons from 'assets/data/QGIS/knut/knut-dissolved-polygons.js';
+import knutForestPNGImage from 'assets/data/QGIS/knut/knut-dissolved.png';
+import knutTeig from 'assets/data/QGIS/knut/knut-teig.js';
 import madsForestCLCClipCRS4326 from 'assets/data/QGIS/mads-forest-clc-clip-crs4326-right-hand-fixed.js';
 import madsPolygons from 'assets/data/QGIS/mads-forest-sieve-poly-simplified.js';
 import madsForestPNGImage from 'assets/data/QGIS/mads-hogst-forest-3857.png';
@@ -27,6 +30,7 @@ import {
   HIDE_POLYGON_ZOOM_LEVEL,
   MAP_DEFAULT_ZOOM_LEVEL,
   bjoernForestImageBounds,
+  knutForestImageBounds,
   madsForestImageBounds,
   mapCoordinations,
 } from 'variables/forest';
@@ -53,6 +57,7 @@ function Map() {
 
   const forest1 = mapCoordinations.madsForestPosition;
   const forest2 = mapCoordinations.bjoernForestPosition;
+  const forest3 = mapCoordinations.knutForestPosition;
 
   const [clickedOnLine, setClickedOnLine] = useState(false);
   const [activeFeature, setActiveFeature] = useState(null);
@@ -94,9 +99,9 @@ function Map() {
   };
 
   // eslint-disable-next-line react/prop-types
-  const ChangeView = ({ center }) => {
+  const ChangeView = ({ center, zoom }) => {
     const map = useMap();
-    selectedForestFirstTime && map.setView(center, 13);
+    selectedForestFirstTime && map.setView(center, zoom);
     // To solve the issue with the always centering the map after choosing a forest
     setSelectedForestFirstTime(false);
     return null;
@@ -106,7 +111,13 @@ function Map() {
     const selected = event;
     if (!selectedForestFirstTime) {
       setSelectedForestFirstTime(true);
-      setSelectedForest(selected === 'forest1' ? forest1 : forest2);
+      setSelectedForest(
+        selected === 'forest1'
+          ? forest1
+          : selected === 'forest2'
+            ? forest2
+            : forest3
+      );
     }
   };
 
@@ -122,7 +133,7 @@ function Map() {
         popupMovable={true}
         closePopupOnClick={false}
         zoomControl={false}
-        center={selectedForest}
+        center={selectedForest.coord}
         zoom={zoomLevel}
         continuousWorld={true}
         worldCopyJump={false}
@@ -134,7 +145,10 @@ function Map() {
           width: '100vw',
         }}
       >
-        <ChangeView center={selectedForest} />
+        <ChangeView
+          center={selectedForest.coord}
+          zoom={selectedForest.name === 'forest3' ? 12 : 13}
+        />
         <CustomMapEvents
           activeOverlay={activeOverlay}
           setActiveOverlay={setActiveOverlay}
@@ -142,6 +156,7 @@ function Map() {
           hideLayerControlLabel={hideLayerControlLabel}
           madsTeig={madsTeig}
           bjoernTeig={bjoernTeig}
+          knutTeig={knutTeig}
           setZoomLevel={setZoomLevel}
           zoomLevel={zoomLevel}
           clickedOnLine={clickedOnLine}
@@ -187,6 +202,15 @@ function Map() {
                 activeFeature={activeFeature}
                 setActiveFeature={setActiveFeature}
               />
+              <ImageOverlayWithPopup
+                image={knutForestPNGImage}
+                bounds={knutForestImageBounds}
+                zoomLevel={zoomLevel}
+                activeOverlay={activeOverlay}
+                overlayNames={['Hogstklasser']}
+                activeFeature={activeFeature}
+                setActiveFeature={setActiveFeature}
+              />
               <WMSTileLayer
                 url="https://wms.nibio.no/cgi-bin/skogbruksplan?"
                 layers="hogstklasser"
@@ -205,6 +229,13 @@ function Map() {
               {bjoernPolygons && (
                 <GeoJSON
                   data={bjoernPolygons}
+                  onEachFeature={onEachFeature}
+                  style={{ stroke: false }}
+                />
+              )}
+              {knutPolygons && (
+                <GeoJSON
+                  data={knutPolygons}
                   onEachFeature={onEachFeature}
                   style={{ stroke: false }}
                 />
