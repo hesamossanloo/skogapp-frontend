@@ -143,7 +143,10 @@ export default function CustomMapEvents({
 
       content += '</table>';
 
-      L.popup().setLatLng(e.latlng).setContent(content).openOn(map);
+      L.popup({ interactive: true })
+        .setLatLng(e.latlng)
+        .setContent(content)
+        .openOn(map);
     }
   };
 

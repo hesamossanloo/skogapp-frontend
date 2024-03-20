@@ -30,6 +30,7 @@ import {
   madsForestImageBounds,
   mapCoordinations,
 } from 'variables/forest';
+import '../utilities/Map/PopupMovable.js';
 
 const { BaseLayer, Overlay } = LayersControl;
 delete L.Icon.Default.prototype._getIconUrl;
@@ -118,6 +119,8 @@ function Map() {
       />
       <MapContainer
         id="SkogAppMapContainer"
+        popupMovable={true}
+        closePopupOnClick={false}
         zoomControl={false}
         center={selectedForest}
         zoom={zoomLevel}
