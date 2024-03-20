@@ -1,4 +1,4 @@
-import L from 'leaflet';
+import L, { Point } from 'leaflet';
 
 L.Map.PopupMovable = L.Handler.extend({
   constructor(map) {
@@ -507,6 +507,7 @@ L.Map.PopupMovable = L.Handler.extend({
             L.DomUtil.setPosition(this._container, pos.add(anchor));
           }
         } else {
+          // eslint-disable-next-line no-const-assign
           offset = offset.add(pos).add(anchor);
         }
 
