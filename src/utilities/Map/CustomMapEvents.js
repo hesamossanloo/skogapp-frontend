@@ -28,27 +28,26 @@ CustomMapEvents.propTypes = {
   setZoomLevel: PropTypes.func.isRequired,
   zoomLevel: PropTypes.number.isRequired,
   clickedOnLine: PropTypes.bool.isRequired,
-  hideLayerControlLabel: PropTypes.func.isRequired,
   madsTeig: PropTypes.object.isRequired,
   bjoernTeig: PropTypes.object.isRequired,
   knutTeig: PropTypes.object.isRequired,
   akselTeig: PropTypes.object.isRequired,
-  cadastres: PropTypes.array.isRequired,
+  selectedForest: PropTypes.object.isRequired,
 };
 
 export default function CustomMapEvents({
   activeOverlay,
   setActiveOverlay,
+  setClickedOnLine,
   setActiveFeature,
-  hideLayerControlLabel,
+  setZoomLevel,
+  zoomLevel,
+  clickedOnLine,
   madsTeig,
   bjoernTeig,
   knutTeig,
   akselTeig,
-  setZoomLevel,
-  zoomLevel,
-  clickedOnLine,
-  setClickedOnLine,
+  selectedForest,
 }) {
   const { data: granCSVData } = useCsvData(CSV_URLS.GRAN);
   const { data: furuCSVData } = useCsvData(CSV_URLS.FURU);
@@ -250,7 +249,21 @@ export default function CustomMapEvents({
           const data = await response.text();
           const format = new WMSGetFeatureInfo();
           const features = format.readFeatures(data);
-          handleSkogbrukWMSFeatures(e, features, map);
+          if (selectedForest.name === 'forest1' && isWithinMadsGeoJSON) {
+            handleSkogbrukWMSFeatures(e, features, map);
+          } else if (
+            selectedForest.name === 'forest2' &&
+            isWithinBjoernGeoJSON
+          ) {
+            handleSkogbrukWMSFeatures(e, features, map);
+          } else if (selectedForest.name === 'forest3' && isWithinKnutGeoJSON) {
+            handleSkogbrukWMSFeatures(e, features, map);
+          } else if (
+            selectedForest.name === 'forest4' &&
+            isWithinAkselGeoJSON
+          ) {
+            handleSkogbrukWMSFeatures(e, features, map);
+          }
         }
       }
     },
