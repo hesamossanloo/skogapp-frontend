@@ -35,6 +35,7 @@ import {
   mapCoordinations,
 } from 'variables/forest';
 import '../utilities/Map/PopupMovable.js';
+import '../utilities/Map/SmoothWheelZoom.js';
 
 const { BaseLayer, Overlay } = LayersControl;
 delete L.Icon.Default.prototype._getIconUrl;
@@ -131,6 +132,10 @@ function Map() {
       <MapContainer
         id="SkogAppMapContainer"
         popupMovable={true}
+        popupMovableZoomMode="relative"
+        scrollWheelZoom={false} // disable original zoom function
+        smoothWheelZoom={true} // enable smooth zoom
+        smoothSensitivity={10} // zoom speed. default is 1
         closePopupOnClick={false}
         zoomControl={false}
         center={selectedForest.coord}
