@@ -12,7 +12,7 @@ export const mapCoordinations = {
   madsForestPosition: { name: 'forest1', coord: [59.945, 11.695] }, // Coordinates for Mads' Dad's Forest
   bjoernForestPosition: { name: 'forest2', coord: [60, 11.755] }, // Coordinates for Bjoern's Forest
   knutForestPosition: { name: 'forest3', coord: [59.9607, 11.56955] }, // Coordinates for Knut's Forest 59.96070,11.56955, you can get these from QGIS, by right click inthe center of where you want and get the coordinates of the desired CRS
-  // centerPosition: [23.698, 2.79], // Strange Coordinates for the Nib Center Cache Bild Server
+  akselForestPosition: { name: 'forest4', coord: [59.9562, 11.72415] }, // Coordinates for Knut's Forest 59.96070,11.56955, you can get these from QGIS, by right click inthe center of where you want and get the coordinates of the desired CRS
   norwayPosition: [59.9139, 10.7522], // Coordinates for Oslo, Norway
 };
 
@@ -57,9 +57,15 @@ export const bjoernForestImageBounds = [
   [59.963530782, 11.892033508], // Bottom-left corner
   [60.033538097, 11.694021503], // Top-right corner
 ];
+
 // I got these info from the QGIS PNG layer properties
 // Make sure the polygons are reprojected to 4236 and then print out the PNG
 export const knutForestImageBounds = [
   [59.9133344939999972, 11.4617220300000007], // Bottom-left corner
   [60.0107517499999972, 11.6901970350000006], // Top-right corner
+];
+
+export const akselForestImageBounds = [
+  [59.9209034235166982, 11.6422669866217117], // Bottom-left corner
+  [60.0127997021416988, 11.8577935105911383], // Top-right corner
 ];
