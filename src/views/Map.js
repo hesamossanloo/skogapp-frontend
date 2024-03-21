@@ -53,7 +53,6 @@ L.Icon.Default.mergeOptions({
 /* eslint-disable react/react-in-jsx-scope */
 function Map() {
   const [activeOverlay, setActiveOverlay] = useState({
-    Matrikkel: false,
     Hogstklasser: true,
     MadsForest: false,
     AR50: false,
