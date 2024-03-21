@@ -53,7 +53,6 @@ L.Icon.Default.mergeOptions({
 /* eslint-disable react/react-in-jsx-scope */
 function Map() {
   const [activeOverlay, setActiveOverlay] = useState({
-    Matrikkel: false,
     Hogstklasser: true,
     MadsForest: false,
     AR50: false,
@@ -173,6 +172,7 @@ function Map() {
           setZoomLevel={setZoomLevel}
           zoomLevel={zoomLevel}
           clickedOnLine={clickedOnLine}
+          selectedForest={selectedForest}
           setClickedOnLine={setClickedOnLine}
         />
         <ZoomControl position="bottomright" />
@@ -197,42 +197,50 @@ function Map() {
             name="Hogstklasser"
           >
             <LayerGroup>
-              <ImageOverlayWithPopup
-                image={madsForestPNGImage}
-                bounds={madsForestImageBounds}
-                zoomLevel={zoomLevel}
-                activeOverlay={activeOverlay}
-                overlayNames={['Hogstklasser']}
-                activeFeature={activeFeature}
-                setActiveFeature={setActiveFeature}
-              />
-              <ImageOverlayWithPopup
-                image={bjoernForestPNGImage}
-                bounds={bjoernForestImageBounds}
-                zoomLevel={zoomLevel}
-                activeOverlay={activeOverlay}
-                overlayNames={['Hogstklasser']}
-                activeFeature={activeFeature}
-                setActiveFeature={setActiveFeature}
-              />
-              <ImageOverlayWithPopup
-                image={knutForestPNGImage}
-                bounds={knutForestImageBounds}
-                zoomLevel={zoomLevel}
-                activeOverlay={activeOverlay}
-                overlayNames={['Hogstklasser']}
-                activeFeature={activeFeature}
-                setActiveFeature={setActiveFeature}
-              />
-              <ImageOverlayWithPopup
-                image={akselForestPNGImage}
-                bounds={akselForestImageBounds}
-                zoomLevel={zoomLevel}
-                activeOverlay={activeOverlay}
-                overlayNames={['Hogstklasser']}
-                activeFeature={activeFeature}
-                setActiveFeature={setActiveFeature}
-              />
+              {selectedForest.name === 'forest1' && (
+                <ImageOverlayWithPopup
+                  image={madsForestPNGImage}
+                  bounds={madsForestImageBounds}
+                  zoomLevel={zoomLevel}
+                  activeOverlay={activeOverlay}
+                  overlayNames={['Hogstklasser']}
+                  activeFeature={activeFeature}
+                  setActiveFeature={setActiveFeature}
+                />
+              )}
+              {selectedForest.name === 'forest2' && (
+                <ImageOverlayWithPopup
+                  image={bjoernForestPNGImage}
+                  bounds={bjoernForestImageBounds}
+                  zoomLevel={zoomLevel}
+                  activeOverlay={activeOverlay}
+                  overlayNames={['Hogstklasser']}
+                  activeFeature={activeFeature}
+                  setActiveFeature={setActiveFeature}
+                />
+              )}
+              {selectedForest.name === 'forest3' && (
+                <ImageOverlayWithPopup
+                  image={knutForestPNGImage}
+                  bounds={knutForestImageBounds}
+                  zoomLevel={zoomLevel}
+                  activeOverlay={activeOverlay}
+                  overlayNames={['Hogstklasser']}
+                  activeFeature={activeFeature}
+                  setActiveFeature={setActiveFeature}
+                />
+              )}
+              {selectedForest.name === 'forest4' && (
+                <ImageOverlayWithPopup
+                  image={akselForestPNGImage}
+                  bounds={akselForestImageBounds}
+                  zoomLevel={zoomLevel}
+                  activeOverlay={activeOverlay}
+                  overlayNames={['Hogstklasser']}
+                  activeFeature={activeFeature}
+                  setActiveFeature={setActiveFeature}
+                />
+              )}
               <WMSTileLayer
                 url="https://wms.nibio.no/cgi-bin/skogbruksplan?"
                 layers="hogstklasser"
@@ -241,28 +249,28 @@ function Map() {
                 version="1.3.0"
                 opacity={0}
               />
-              {madsPolygons && (
+              {madsPolygons && selectedForest.name === 'forest1' && (
                 <GeoJSON
                   data={madsPolygons}
                   onEachFeature={onEachFeature}
                   style={{ stroke: false }}
                 />
               )}
-              {bjoernPolygons && (
+              {bjoernPolygons && selectedForest.name === 'forest2' && (
                 <GeoJSON
                   data={bjoernPolygons}
                   onEachFeature={onEachFeature}
                   style={{ stroke: false }}
                 />
               )}
-              {knutPolygons && (
+              {knutPolygons && selectedForest.name === 'forest3' && (
                 <GeoJSON
                   data={knutPolygons}
                   onEachFeature={onEachFeature}
                   style={{ stroke: false }}
                 />
               )}
-              {akselPolygons && (
+              {akselPolygons && selectedForest.name === 'forest4' && (
                 <GeoJSON
                   data={akselPolygons}
                   onEachFeature={onEachFeature}
