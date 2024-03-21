@@ -64,7 +64,8 @@ export default function CustomMapEvents({
         bonitet_beskrivelse: 'Bonitet',
         bontre_beskrivelse: 'Treslag',
         alder: 'Alder',
-        areal: 'Areal (daa)',
+        areal: 'Areal (daa, rd.)',
+        arealm2: 'Areal (daa)',
       };
 
       const activeOverlayNames = Object.keys(activeOverlay).filter(
@@ -89,10 +90,15 @@ export default function CustomMapEvents({
         if (desiredAttributes[key] && key !== 'teig_best_nr') {
           // Exclude the ID from the loop
           let value = values[key];
+          if (key === 'arealm2') {
+            const arealm2 = parseInt(value) / 1000;
+            value = formatNumber(arealm2, 'nb-NO', 2); // Format with the decimal
+          }
           if (key === 'bonitet_beskrivelse') {
             value = value.substring(value.indexOf(' ') + 1); // Remove the first part and keep only the number
           }
-          if (key !== 'DN') {
+          // To ignore the generated polygon (features) with only DN (not useful) values to be shown.
+          if (key !== 'DN' && key !== 'areal') {
             content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">${desiredAttributes[key]}</td><td style="padding: 5px; border: 1px solid black;">${value}</td></tr>`; // Add padding-right and border styles
           }
         }
@@ -140,7 +146,8 @@ export default function CustomMapEvents({
           values.bontre_beskrivelse,
           estimatedStandVolumeM3HAAString
         );
-        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Tømmervolum</td><td style="padding: 5px; border: 1px solid black;">${formatNumber(estimatedStandVolumeM3HAAString, 'nb-NO', 1)} m^3</td></tr>`;
+        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Tømmervolum</td><td style="padding: 5px; border: 1px solid black;">${formatNumber(estimatedStandVolumeM3HAAString, 'nb-NO', 1)} m^3/haa</td></tr>`;
+        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Tømmervolum</td><td style="padding: 5px; border: 1px solid black;">${formatNumber(parseInt(estimatedStandVolumeM3HAAString) * 10, 'nb-NO', 1)} m^3/daa</td></tr>`;
         content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Forv. gj.sn pris per m^3</td><td style="padding: 5px; border: 1px solid black;">${formatNumber(speciesPrice, 'nb-NO', 0)} kr</td></tr>`;
         content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Forv. brutto verdi</td><td style="padding: 5px; border: 1px solid black;">${formatNumber(totalVolume, 'nb-NO', 0)} kr</td></tr>`;
       }
