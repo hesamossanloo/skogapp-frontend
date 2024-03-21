@@ -11797,7 +11797,8 @@ fieldset[disabled] .btn-link.active {
   background: transparent;
 }
 
-.btn:not(:disabled):not(.disabled):active, .btn:not(:disabled):not(.disabled).active {
+.btn:not(:disabled):not(.disabled):active,
+.btn:not(:disabled):not(.disabled).active {
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
 }
 
@@ -11890,6 +11891,12 @@ fieldset[disabled] .btn-link.active {
   margin-left: 5px;
 }
 
+@media screen and (max-width: 428px) {
+  .btn.dropdown-toggle:after,
+  .navbar .navbar-nav > a.btn.dropdown-toggle:after {
+    margin-left: 10px !important;
+  }
+}
 .dropdown-menu {
   border: 0;
   box-shadow: 0px 10px 50px 0px rgba(0, 0, 0, 0.2);
