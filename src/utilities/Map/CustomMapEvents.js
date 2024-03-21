@@ -32,6 +32,7 @@ CustomMapEvents.propTypes = {
   madsTeig: PropTypes.object.isRequired,
   bjoernTeig: PropTypes.object.isRequired,
   knutTeig: PropTypes.object.isRequired,
+  akselTeig: PropTypes.object.isRequired,
   cadastres: PropTypes.array.isRequired,
 };
 
@@ -43,6 +44,7 @@ export default function CustomMapEvents({
   madsTeig,
   bjoernTeig,
   knutTeig,
+  akselTeig,
   setZoomLevel,
   zoomLevel,
   clickedOnLine,
@@ -213,10 +215,18 @@ export default function CustomMapEvents({
           turfPoint,
           knutTurfPolygons
         );
+        // Check within Aksel Forest
+        let akselPolygons = akselTeig.features[0].geometry.coordinates;
+        let akselTurfPolygons = turf.multiPolygon(akselPolygons);
+        const isWithinAkselGeoJSON = turf.booleanPointInPolygon(
+          turfPoint,
+          akselTurfPolygons
+        );
         if (
           (isWithinMadsGeoJSON ||
             isWithinBjoernGeoJSON ||
-            isWithinKnutGeoJSON) &&
+            isWithinKnutGeoJSON ||
+            isWithinAkselGeoJSON) &&
           activeOverlay['Hogstklasser']
         ) {
           const params = {

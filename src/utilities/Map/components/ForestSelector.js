@@ -28,6 +28,9 @@ const ForestSelector = ({ isOpen, toggle, onSelectForest }) => (
       <DropdownItem onClick={() => onSelectForest('forest3')}>
         Forest 3
       </DropdownItem>
+      <DropdownItem onClick={() => onSelectForest('forest4')}>
+        Forest 4
+      </DropdownItem>
     </DropdownMenu>
   </Dropdown>
 );

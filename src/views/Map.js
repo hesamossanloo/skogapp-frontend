@@ -1,3 +1,6 @@
+import akselForestPNGImage from 'assets/data/QGIS/aksel/aksel-forest.png';
+import akselPolygons from 'assets/data/QGIS/aksel/aksel-polygonized.js';
+import akselTeig from 'assets/data/QGIS/aksel/aksel-teig.js';
 import madsForestAR50CRS4326 from 'assets/data/QGIS/ar50-clip-RH-fixed.js';
 import bjoernForestPNGImage from 'assets/data/QGIS/bjoern/bjoern-forest.png';
 import bjoernPolygons from 'assets/data/QGIS/bjoern/bjoern-polygons.js';
@@ -29,6 +32,7 @@ import { hideLayerControlLabel } from 'utilities/Map/utililtyFunctions';
 import {
   HIDE_POLYGON_ZOOM_LEVEL,
   MAP_DEFAULT_ZOOM_LEVEL,
+  akselForestImageBounds,
   bjoernForestImageBounds,
   knutForestImageBounds,
   madsForestImageBounds,
@@ -59,6 +63,7 @@ function Map() {
   const forest1 = mapCoordinations.madsForestPosition;
   const forest2 = mapCoordinations.bjoernForestPosition;
   const forest3 = mapCoordinations.knutForestPosition;
+  const forest4 = mapCoordinations.akselForestPosition;
 
   const [clickedOnLine, setClickedOnLine] = useState(false);
   const [activeFeature, setActiveFeature] = useState(null);
@@ -117,7 +122,9 @@ function Map() {
           ? forest1
           : selected === 'forest2'
             ? forest2
-            : forest3
+            : selected === 'forest3'
+              ? forest3
+              : forest4
       );
     }
   };
@@ -162,6 +169,7 @@ function Map() {
           madsTeig={madsTeig}
           bjoernTeig={bjoernTeig}
           knutTeig={knutTeig}
+          akselTeig={akselTeig}
           setZoomLevel={setZoomLevel}
           zoomLevel={zoomLevel}
           clickedOnLine={clickedOnLine}
@@ -216,6 +224,15 @@ function Map() {
                 activeFeature={activeFeature}
                 setActiveFeature={setActiveFeature}
               />
+              <ImageOverlayWithPopup
+                image={akselForestPNGImage}
+                bounds={akselForestImageBounds}
+                zoomLevel={zoomLevel}
+                activeOverlay={activeOverlay}
+                overlayNames={['Hogstklasser']}
+                activeFeature={activeFeature}
+                setActiveFeature={setActiveFeature}
+              />
               <WMSTileLayer
                 url="https://wms.nibio.no/cgi-bin/skogbruksplan?"
                 layers="hogstklasser"
@@ -241,6 +258,13 @@ function Map() {
               {knutPolygons && (
                 <GeoJSON
                   data={knutPolygons}
+                  onEachFeature={onEachFeature}
+                  style={{ stroke: false }}
+                />
+              )}
+              {akselPolygons && (
+                <GeoJSON
+                  data={akselPolygons}
                   onEachFeature={onEachFeature}
                   style={{ stroke: false }}
                 />
