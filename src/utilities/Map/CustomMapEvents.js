@@ -35,22 +35,25 @@ CustomMapEvents.propTypes = {
   selectedForest: PropTypes.object.isRequired,
 };
 
-export default function CustomMapEvents({
-  activeOverlay,
-  setActiveOverlay,
-  setClickedOnLine,
-  setActiveFeature,
-  setZoomLevel,
-  zoomLevel,
-  clickedOnLine,
-  madsTeig,
-  bjoernTeig,
-  knutTeig,
-  akselTeig,
-  selectedForest,
-}) {
-  const { data: granCSVData } = useCsvData(CSV_URLS.GRAN);
-  const { data: furuCSVData } = useCsvData(CSV_URLS.FURU);
+export default function CustomMapEvents(props) {
+  const {
+    activeOverlay,
+    setActiveOverlay,
+    setClickedOnLine,
+    setActiveFeature,
+    setZoomLevel,
+    zoomLevel,
+    clickedOnLine,
+    madsTeig,
+    bjoernTeig,
+    knutTeig,
+    akselTeig,
+    selectedForest,
+  } = props;
+  const granCSVData = useCsvData(CSV_URLS.GRAN).data;
+  const furuCSVData = useCsvData(CSV_URLS.FURU).data;
+
+  const map = useMap();
 
   const handleSkogbrukWMSFeatures = (e, features, map) => {
     if (features.length > 0 && features[0] && !clickedOnLine) {
@@ -84,10 +87,10 @@ export default function CustomMapEvents({
       let content =
         `<h3 style="color: black; text-align: center;">${activeOverlayNames[0]}</h3>` + // Add the layer name as the title with black color and centered alignment
         '<table style="margin-bottom: 10px; border-collapse: collapse; border: 1px solid black;">'; // Add margin-bottom and border styles
-      content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">ID</td><td style="padding: 5px; border: 1px solid black;">${values.teig_best_nr}</td></tr>`; // Add the ID row
+      content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">ID</td><td style="padding: 5px; border: 1px solid black; font-weight: bold">${values.teig_best_nr}</td></tr>`; // Add the ID row
       for (const key in values) {
+        // Exclude the ID from the loop
         if (desiredAttributes[key] && key !== 'teig_best_nr') {
-          // Exclude the ID from the loop
           let value = values[key];
           if (key === 'arealm2') {
             const arealm2 = parseInt(value) / 1000;
@@ -98,7 +101,7 @@ export default function CustomMapEvents({
           }
           // To ignore the generated polygon (features) with only DN (not useful) values to be shown.
           if (key !== 'DN' && key !== 'areal') {
-            content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">${desiredAttributes[key]}</td><td style="padding: 5px; border: 1px solid black;">${value}</td></tr>`; // Add padding-right and border styles
+            content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">${desiredAttributes[key]}</td><td style="padding: 5px; border: 1px solid black; font-weight: bold">${value}</td></tr>`; // Add padding-right and border styles
           }
         }
       }
@@ -145,10 +148,10 @@ export default function CustomMapEvents({
           values.bontre_beskrivelse,
           estimatedStandVolumeM3HAAString
         );
-        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Tømmervolum</td><td style="padding: 5px; border: 1px solid black;">${formatNumber(estimatedStandVolumeM3HAAString, 'nb-NO', 1)} m^3/haa</td></tr>`;
-        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Tømmervolum</td><td style="padding: 5px; border: 1px solid black;">${formatNumber(parseInt(estimatedStandVolumeM3HAAString) * 10, 'nb-NO', 1)} m^3/daa</td></tr>`;
-        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Forv. gj.sn pris per m^3</td><td style="padding: 5px; border: 1px solid black;">${formatNumber(speciesPrice, 'nb-NO', 0)} kr</td></tr>`;
-        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Forv. brutto verdi</td><td style="padding: 5px; border: 1px solid black;">${formatNumber(totalVolume, 'nb-NO', 0)} kr</td></tr>`;
+        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Tømmervolum</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(estimatedStandVolumeM3HAAString, 'nb-NO', 1)}</span> m^3</td></tr>`;
+        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Tømmertetthet</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(estimatedStandVolume / 10, 'nb-NO', 1)}</span> m^3/daa</td></tr>`;
+        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Forv. gj.sn pris per m^3</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(speciesPrice, 'nb-NO', 0)}</span> kr</td></tr>`;
+        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Forv. brutto verdi</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(totalVolume, 'nb-NO', 0)}</span> kr</td></tr>`;
       }
 
       content += '</table>';
@@ -161,8 +164,20 @@ export default function CustomMapEvents({
     }
   };
 
-  const map = useMap();
-
+  const isPointInsidePolygon = (point, polygon) => {
+    const turfPoint = turf.point([point.lng, point.lat]);
+    const turfPolygon = turf.multiPolygon(polygon);
+    return turf.booleanPointInPolygon(turfPoint, turfPolygon);
+  };
+  const calculateBoundingBox = (map) => {
+    const CRS = map.options.crs.code;
+    const size = map.getSize();
+    const bounds = map.getBounds();
+    const southWest = map.options.crs.project(bounds.getSouthWest());
+    const northEast = map.options.crs.project(bounds.getNorthEast());
+    const BBOX = [southWest.x, southWest.y, northEast.x, northEast.y].join(',');
+    return { CRS, size, BBOX };
+  };
   useMapEvents({
     zoom: async (e) => {
       let flag = false;
@@ -178,62 +193,30 @@ export default function CustomMapEvents({
     click: async (e) => {
       // Handle Clicks on Mads Forest
       setClickedOnLine(madsTeig.features[0].properties.DN === 99);
-      if (!clickedOnLine) {
-        const CRS = map.options.crs.code;
-        // We need to make sure that the BBOX is in the EPSG:3857 format
-        // For that we must to do following
-        const size = map.getSize();
-        const bounds = map.getBounds();
-        const southWest = map.options.crs.project(bounds.getSouthWest());
-        const northEast = map.options.crs.project(bounds.getNorthEast());
-        const BBOX = [southWest.x, southWest.y, northEast.x, northEast.y].join(
-          ','
-        );
+      if (!clickedOnLine && activeOverlay['Hogstklasser']) {
+        // The WMS expects the Query params to follow certain patterns. After
+        // analysing how QGIS made the WMS call, reverse enginnered the call
+        // and here we are building one of those params, i.e. BBOX, size.x, size.y and the CRS
+        const { CRS, size, BBOX } = calculateBoundingBox(map);
 
+        // By default we are closing all the popups, in case there are any opens
+        //  an then we will show the pop up after the new call to the WMS and once
+        // the data are fetched.
         map.closePopup();
+
         // Check if the click is within the coordinates of a GeoJSON
-        // I nthis case I am passing in the Mad's forest Teig Polygon
-        const clickedCoordinates = e.latlng;
-        const turfPoint = turf.point([
-          clickedCoordinates.lng,
-          clickedCoordinates.lat,
-        ]);
-        // Check within Mads Forest
-        let madsPolygons = madsTeig.features[0].geometry.coordinates[0];
-        let madsTurfPolygon = turf.polygon(madsPolygons);
-        const isWithinMadsGeoJSON = turf.booleanPointInPolygon(
-          turfPoint,
-          madsTurfPolygon
-        );
-
-        // Check within Bjoern Forest
-        let bjoernPolygons = bjoernTeig.features[0].geometry.coordinates;
-        let bjoernTurfPolygons = turf.multiPolygon(bjoernPolygons);
-        const isWithinBjoernGeoJSON = turf.booleanPointInPolygon(
-          turfPoint,
-          bjoernTurfPolygons
-        );
-
-        // Check within Knut Forest
-        let knutPolygons = knutTeig.features[0].geometry.coordinates;
-        let knutTurfPolygons = turf.multiPolygon(knutPolygons);
-        const isWithinKnutGeoJSON = turf.booleanPointInPolygon(
-          turfPoint,
-          knutTurfPolygons
-        );
-        // Check within Aksel Forest
-        let akselPolygons = akselTeig.features[0].geometry.coordinates;
-        let akselTurfPolygons = turf.multiPolygon(akselPolygons);
-        const isWithinAkselGeoJSON = turf.booleanPointInPolygon(
-          turfPoint,
-          akselTurfPolygons
+        // In this case I am passing in the Mad's forest Teig Polygon
+        const forests = [madsTeig, bjoernTeig, knutTeig, akselTeig];
+        const forestName = selectedForest.name;
+        const clickedForest = forests.find(
+          (forest) => forest.name === forestName
         );
         if (
-          (isWithinMadsGeoJSON ||
-            isWithinBjoernGeoJSON ||
-            isWithinKnutGeoJSON ||
-            isWithinAkselGeoJSON) &&
-          activeOverlay['Hogstklasser']
+          clickedForest &&
+          isPointInsidePolygon(
+            e.latlng,
+            clickedForest.features[0].geometry.coordinates
+          )
         ) {
           const params = {
             ...nibioGetFeatInfoBaseParams,
@@ -249,21 +232,7 @@ export default function CustomMapEvents({
           const data = await response.text();
           const format = new WMSGetFeatureInfo();
           const features = format.readFeatures(data);
-          if (selectedForest.name === 'forest1' && isWithinMadsGeoJSON) {
-            handleSkogbrukWMSFeatures(e, features, map);
-          } else if (
-            selectedForest.name === 'forest2' &&
-            isWithinBjoernGeoJSON
-          ) {
-            handleSkogbrukWMSFeatures(e, features, map);
-          } else if (selectedForest.name === 'forest3' && isWithinKnutGeoJSON) {
-            handleSkogbrukWMSFeatures(e, features, map);
-          } else if (
-            selectedForest.name === 'forest4' &&
-            isWithinAkselGeoJSON
-          ) {
-            handleSkogbrukWMSFeatures(e, features, map);
-          }
+          handleSkogbrukWMSFeatures(e, features, map);
         }
       }
     },

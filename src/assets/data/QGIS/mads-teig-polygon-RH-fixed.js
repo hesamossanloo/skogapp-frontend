@@ -1,6 +1,6 @@
 const madsTeig = {
   type: 'FeatureCollection',
-  name: 'mads-forest-polygon',
+  name: 'forest1',
   features: [
     {
       type: 'Feature',
