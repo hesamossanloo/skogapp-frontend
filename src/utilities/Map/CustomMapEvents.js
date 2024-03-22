@@ -19,8 +19,6 @@ import {
 CustomMapEvents.propTypes = {
   activeOverlay: PropTypes.shape({
     Hogstklasser: PropTypes.bool,
-    CLC: PropTypes.bool,
-    AR50: PropTypes.bool,
   }).isRequired,
   setActiveOverlay: PropTypes.func.isRequired,
   setClickedOnLine: PropTypes.func.isRequired,
@@ -256,11 +254,7 @@ export default function CustomMapEvents(props) {
       }));
     },
     overlayremove: async (e) => {
-      if (
-        activeOverlay['Hogstklasser'] ||
-        activeOverlay['CLC'] ||
-        activeOverlay['AR50']
-      ) {
+      if (activeOverlay['Hogstklasser']) {
         map.closePopup();
         setActiveFeature(null);
       }

@@ -53,8 +53,6 @@ function Map() {
   const [activeOverlay, setActiveOverlay] = useState({
     Hogstklasser: true,
     MadsForest: false,
-    AR50: false,
-    CLS: false,
   });
 
   const forest1 = mapCoordinations.madsForestPosition;
@@ -66,11 +64,11 @@ function Map() {
   const [activeFeature, setActiveFeature] = useState(null);
   const [zoomLevel, setZoomLevel] = useState(MAP_DEFAULT_ZOOM_LEVEL);
   const [selectedForest, setSelectedForest] = useState(forest1); // Default to forest 1
-  const [selectedForestFirstTime, setSelectedForestFirstTime] = useState(false); // Default to forest 1
+  const [selectedForestFirstTime, setSelectedForestFirstTime] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [multiSelect, setMultiSelect] = useState(false);
 
-  const toggle = () => setDropdownOpen((prevState) => !prevState);
+  const toggleDD = () => setDropdownOpen((prevState) => !prevState);
 
   let activeGeoJSONLayer = null;
   const onEachFeature = (feature, geoJSONLayer) => {
@@ -134,7 +132,7 @@ function Map() {
     <>
       <ForestSelector
         isOpen={dropdownOpen}
-        toggle={toggle}
+        toggle={toggleDD}
         onSelectForest={handleForestSelectChange}
       />
       <ToggleSwitch
