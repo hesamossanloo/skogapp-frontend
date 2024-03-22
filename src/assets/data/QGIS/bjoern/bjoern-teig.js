@@ -1,6 +1,6 @@
 const bjoernTeig = {
   type: 'FeatureCollection',
-  name: 'bjoern-teig',
+  name: 'forest2',
   features: [
     {
       type: 'Feature',
