@@ -12,6 +12,7 @@ import madsForestCLCClipCRS4326 from 'assets/data/QGIS/mads-forest-clc-clip-crs4
 import madsPolygons from 'assets/data/QGIS/mads-forest-sieve-poly-simplified.js';
 import madsForestPNGImage from 'assets/data/QGIS/mads-hogst-forest-3857.png';
 import madsTeig from 'assets/data/QGIS/mads-teig-polygon-RH-fixed.js';
+import ToggleSwitch from 'components/ToggleSwitch/ToggleSwitch.js';
 import L from 'leaflet';
 import { useState } from 'react';
 import {
@@ -70,6 +71,7 @@ function Map() {
   const [selectedForest, setSelectedForest] = useState(forest1); // Default to forest 1
   const [selectedForestFirstTime, setSelectedForestFirstTime] = useState(false); // Default to forest 1
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [multiSelect, setMultiSelect] = useState(false);
 
   const toggle = () => setDropdownOpen((prevState) => !prevState);
 
@@ -127,7 +129,10 @@ function Map() {
       );
     }
   };
-
+  const toggleSelectMultiPolygons = () => {
+    console.log(multiSelect);
+    setMultiSelect(!multiSelect);
+  };
   return (
     <>
       <ForestSelector
@@ -135,6 +140,14 @@ function Map() {
         toggle={toggle}
         onSelectForest={handleForestSelectChange}
       />
+      <ToggleSwitch
+        id="multiPolygon"
+        disabled={!activeOverlay['Hogstklasser']}
+        checked={multiSelect}
+        optionLabels={['Multi Select', 'Single Select']}
+        onChange={toggleSelectMultiPolygons}
+      />
+      <label htmlFor="multiPolygon">Enable Multi Polygon Selection</label>
       <MapContainer
         id="SkogAppMapContainer"
         popupMovable={true}

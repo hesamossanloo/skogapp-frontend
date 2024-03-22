@@ -50,25 +50,25 @@ export default function CustomMapEvents(props) {
     akselTeig,
     selectedForest,
   } = props;
+  const map = useMap();
+
   const granCSVData = useCsvData(CSV_URLS.GRAN).data;
   const furuCSVData = useCsvData(CSV_URLS.FURU).data;
 
-  const map = useMap();
+  const desiredAttributes = {
+    teig_best_nr: 'Bestand nr',
+    hogstkl_verdi: 'Hogstklasse',
+    bonitet_beskrivelse: 'Bonitet',
+    bontre_beskrivelse: 'Treslag',
+    alder: 'Alder',
+    areal: 'Areal (daa, rd.)',
+    arealm2: 'Areal (daa)',
+  };
 
   const handleSkogbrukWMSFeatures = (e, features, map) => {
     if (features.length > 0 && features[0] && !clickedOnLine) {
       const feature = features[0];
       const values = feature.values_;
-
-      const desiredAttributes = {
-        teig_best_nr: 'Bestand nr',
-        hogstkl_verdi: 'Hogstklasse',
-        bonitet_beskrivelse: 'Bonitet',
-        bontre_beskrivelse: 'Treslag',
-        alder: 'Alder',
-        areal: 'Areal (daa, rd.)',
-        arealm2: 'Areal (daa)',
-      };
 
       const activeOverlayNames = Object.keys(activeOverlay).filter(
         (key) => activeOverlay[key] === true
@@ -148,9 +148,14 @@ export default function CustomMapEvents(props) {
           values.bontre_beskrivelse,
           estimatedStandVolumeM3HAAString
         );
+
+        // Showing the tree density volume per stand
         content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Tømmervolum</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(estimatedStandVolumeM3HAAString, 'nb-NO', 1)}</span> m^3</td></tr>`;
+        // Calculating the estimatedStandVolume per decare (daa)
         content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Tømmertetthet</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(estimatedStandVolume / 10, 'nb-NO', 1)}</span> m^3/daa</td></tr>`;
+        // The price of the timber for a species
         content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Forv. gj.sn pris per m^3</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(speciesPrice, 'nb-NO', 0)}</span> kr</td></tr>`;
+        // We rae showing the total volume
         content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Forv. brutto verdi</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(totalVolume, 'nb-NO', 0)}</span> kr</td></tr>`;
       }
 
