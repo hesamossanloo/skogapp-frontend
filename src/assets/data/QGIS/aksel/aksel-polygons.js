@@ -1,4 +1,4 @@
-const akselForest = {
+const akselPolygons = {
 "type": "FeatureCollection",
 "name": "forest4",
 "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
@@ -1575,4 +1575,4 @@ const akselForest = {
 { "type": "Feature", "properties": { "DN": 10003, "area": -1 }, "geometry": { "type": "MultiPolygon", "coordinates": [ [ [ [ 11.763516126157539, 59.958152045026722 ], [ 11.763549598816645, 59.957843426341988 ], [ 11.763393393074137, 59.957666074032581 ], [ 11.763237187331628, 59.957681435293779 ], [ 11.763318079591141, 59.957890906326725 ], [ 11.763376656744581, 59.958022174165791 ], [ 11.763387814297618, 59.958150648568569 ], [ 11.763516126157539, 59.958152045026722 ] ] ] ] } }
 ]
 }
-export default akselForest;
+export default akselPolygons;

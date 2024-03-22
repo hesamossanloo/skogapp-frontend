@@ -1,16 +1,17 @@
-import akselPolygons from 'assets/data/QGIS/aksel/aksel-polygons.js';
-import akselPolygonsPNG from 'assets/data/QGIS/aksel/aksel-polygons.png';
+import akselForestPNGImage from 'assets/data/QGIS/aksel/aksel-forest.png';
+import akselPolygons from 'assets/data/QGIS/aksel/aksel-polygonized.js';
 import akselTeig from 'assets/data/QGIS/aksel/aksel-teig.js';
+import madsForestAR50CRS4326 from 'assets/data/QGIS/ar50-clip-RH-fixed.js';
+import bjoernForestPNGImage from 'assets/data/QGIS/bjoern/bjoern-forest.png';
 import bjoernPolygons from 'assets/data/QGIS/bjoern/bjoern-polygons.js';
-import bjoernPolygonsPNG from 'assets/data/QGIS/bjoern/bjoern-polygons.png';
 import bjoernTeig from 'assets/data/QGIS/bjoern/bjoern-teig.js';
-import knutPolygons from 'assets/data/QGIS/knut/knut-polygons.js';
-import knutPolygonsPNG from 'assets/data/QGIS/knut/knut-polygons.png';
+import knutPolygons from 'assets/data/QGIS/knut/knut-dissolved-polygons.js';
+import knutForestPNGImage from 'assets/data/QGIS/knut/knut-dissolved.png';
 import knutTeig from 'assets/data/QGIS/knut/knut-teig.js';
-import madsPolygons from 'assets/data/QGIS/mads/mads-polygons.js';
-import madsPolygonsPNG from 'assets/data/QGIS/mads/mads-polygons.png';
-import madsTeig from 'assets/data/QGIS/mads/mads-teig.js';
-import ToggleSwitch from 'components/ToggleSwitch/ToggleSwitch.js';
+import madsForestCLCClipCRS4326 from 'assets/data/QGIS/mads-forest-clc-clip-crs4326-right-hand-fixed.js';
+import madsPolygons from 'assets/data/QGIS/mads-forest-sieve-poly-simplified.js';
+import madsForestPNGImage from 'assets/data/QGIS/mads-hogst-forest-3857.png';
+import madsTeig from 'assets/data/QGIS/mads-teig-polygon-RH-fixed.js';
 import L from 'leaflet';
 import { useState } from 'react';
 import {
@@ -24,16 +25,17 @@ import {
   useMap,
 } from 'react-leaflet';
 import ForestSelector from 'utilities/Map/components/ForestSelector';
+import GeoJsonWithPopup from 'utilities/Map/components/GeoJsonWithPopup';
 import ImageOverlayWithPopup from 'utilities/Map/components/ImageOverlayWithPopup';
 import CustomMapEvents from 'utilities/Map/CustomMapEvents';
 import { hideLayerControlLabel } from 'utilities/Map/utililtyFunctions';
 import {
   HIDE_POLYGON_ZOOM_LEVEL,
   MAP_DEFAULT_ZOOM_LEVEL,
-  akselPolygonsPNGBounds,
-  bjoernPolygonsPNGBounds,
-  knutPolygonsPNGBounds,
-  madsPolygonsPNGBounds,
+  akselForestImageBounds,
+  bjoernForestImageBounds,
+  knutForestImageBounds,
+  madsForestImageBounds,
   mapCoordinations,
 } from 'variables/forest';
 import '../utilities/Map/PopupMovable.js';
@@ -63,12 +65,11 @@ function Map() {
   const forest4 = mapCoordinations.akselForestPosition;
 
   const [clickedOnLine, setClickedOnLine] = useState(false);
-  const [activeFeature, setActiveFeature] = useState(null);
+  const [activeFeatures, setActiveFeatures] = useState([]);
   const [zoomLevel, setZoomLevel] = useState(MAP_DEFAULT_ZOOM_LEVEL);
   const [selectedForest, setSelectedForest] = useState(forest1); // Default to forest 1
   const [selectedForestFirstTime, setSelectedForestFirstTime] = useState(false); // Default to forest 1
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [multiSelect, setMultiSelect] = useState(false);
 
   const toggle = () => setDropdownOpen((prevState) => !prevState);
 
@@ -81,7 +82,18 @@ function Map() {
 
     geoJSONLayer.on({
       click: () => {
-        setActiveFeature(feature);
+        const featureIndex = activeFeatures.findIndex(
+          (f) => f.id === feature.id
+        );
+        if (featureIndex === -1) {
+          // If feature is not already selected, add it to the selection.
+          setActiveFeatures([...activeFeatures, feature]);
+        } else {
+          // If feature is already selected, remove it from the selection.
+          setActiveFeatures(
+            activeFeatures.filter((_, index) => index !== featureIndex)
+          );
+        }
         // Highlight the selected polygon
         if (activeGeoJSONLayer) {
           activeGeoJSONLayer.setStyle({
@@ -126,10 +138,7 @@ function Map() {
       );
     }
   };
-  const toggleSelectMultiPolygons = () => {
-    console.log(multiSelect);
-    setMultiSelect(!multiSelect);
-  };
+
   return (
     <>
       <ForestSelector
@@ -137,14 +146,6 @@ function Map() {
         toggle={toggle}
         onSelectForest={handleForestSelectChange}
       />
-      <ToggleSwitch
-        id="multiPolygon"
-        disabled={!activeOverlay['Hogstklasser']}
-        checked={multiSelect}
-        optionLabels={['Multi Select', 'Single Select']}
-        onChange={toggleSelectMultiPolygons}
-      />
-      <label htmlFor="multiPolygon">Enable Multi Polygon Selection</label>
       <MapContainer
         id="SkogAppMapContainer"
         popupMovable={true}
@@ -173,7 +174,7 @@ function Map() {
         <CustomMapEvents
           activeOverlay={activeOverlay}
           setActiveOverlay={setActiveOverlay}
-          setActiveFeature={setActiveFeature}
+          setActiveFeatures={setActiveFeatures}
           hideLayerControlLabel={hideLayerControlLabel}
           madsTeig={madsTeig}
           bjoernTeig={bjoernTeig}
@@ -209,46 +210,46 @@ function Map() {
             <LayerGroup>
               {selectedForest.name === 'forest1' && (
                 <ImageOverlayWithPopup
-                  image={madsPolygonsPNG}
-                  bounds={madsPolygonsPNGBounds}
+                  image={madsForestPNGImage}
+                  bounds={madsForestImageBounds}
                   zoomLevel={zoomLevel}
                   activeOverlay={activeOverlay}
                   overlayNames={['Hogstklasser']}
-                  activeFeature={activeFeature}
-                  setActiveFeature={setActiveFeature}
+                  activeFeatures={activeFeatures}
+                  setActiveFeatures={setActiveFeatures}
                 />
               )}
               {selectedForest.name === 'forest2' && (
                 <ImageOverlayWithPopup
-                  image={bjoernPolygonsPNG}
-                  bounds={bjoernPolygonsPNGBounds}
+                  image={bjoernForestPNGImage}
+                  bounds={bjoernForestImageBounds}
                   zoomLevel={zoomLevel}
                   activeOverlay={activeOverlay}
                   overlayNames={['Hogstklasser']}
-                  activeFeature={activeFeature}
-                  setActiveFeature={setActiveFeature}
+                  activeFeatures={activeFeatures}
+                  setActiveFeatures={setActiveFeatures}
                 />
               )}
               {selectedForest.name === 'forest3' && (
                 <ImageOverlayWithPopup
-                  image={knutPolygonsPNG}
-                  bounds={knutPolygonsPNGBounds}
+                  image={knutForestPNGImage}
+                  bounds={knutForestImageBounds}
                   zoomLevel={zoomLevel}
                   activeOverlay={activeOverlay}
                   overlayNames={['Hogstklasser']}
-                  activeFeature={activeFeature}
-                  setActiveFeature={setActiveFeature}
+                  activeFeatures={activeFeatures}
+                  setActiveFeatures={setActiveFeatures}
                 />
               )}
               {selectedForest.name === 'forest4' && (
                 <ImageOverlayWithPopup
-                  image={akselPolygonsPNG}
-                  bounds={akselPolygonsPNGBounds}
+                  image={akselForestPNGImage}
+                  bounds={akselForestImageBounds}
                   zoomLevel={zoomLevel}
                   activeOverlay={activeOverlay}
                   overlayNames={['Hogstklasser']}
-                  activeFeature={activeFeature}
-                  setActiveFeature={setActiveFeature}
+                  activeFeatures={activeFeatures}
+                  setActiveFeatures={setActiveFeatures}
                 />
               )}
               <WMSTileLayer
@@ -289,6 +290,40 @@ function Map() {
               )}
             </LayerGroup>
           </Overlay>
+          {madsForestAR50CRS4326 && (
+            <Overlay
+              name="AR50"
+              checked={
+                zoomLevel > HIDE_POLYGON_ZOOM_LEVEL && activeOverlay['AR50']
+              }
+            >
+              <GeoJsonWithPopup
+                data={madsForestAR50CRS4326}
+                onEachFeature={onEachFeature}
+                activeFeatures={activeFeatures}
+                activeOverlay={activeOverlay}
+                overlayName="AR50"
+                setActiveFeatures={setActiveFeatures}
+              />
+            </Overlay>
+          )}
+          {madsForestCLCClipCRS4326 && (
+            <Overlay
+              name="CLC"
+              checked={
+                zoomLevel > HIDE_POLYGON_ZOOM_LEVEL && activeOverlay['CLC']
+              }
+            >
+              <GeoJsonWithPopup
+                data={madsForestCLCClipCRS4326}
+                onEachFeature={onEachFeature}
+                activeFeatures={activeFeatures}
+                activeOverlay={activeOverlay}
+                overlayName="CLC"
+                setActiveFeatures={setActiveFeatures}
+              />
+            </Overlay>
+          )}
         </LayersControl>
       </MapContainer>
     </>
