@@ -85,8 +85,10 @@ function Map() {
 
     geoJSONLayer.on({
       click: () => {
+        // If multiPolygonSelectRef.current is false, unhighlight the previous layer
         if (!multiPolygonSelectRef.current) {
-          // If multiPolygonSelectRef.current is false, unhighlight the previous layer
+          setActiveFeature(feature);
+          setActiveFeatures([feature]);
           previousGeoJSONLayers.forEach((layer) => {
             layer.setStyle({
               fillColor: 'transparent',
@@ -104,6 +106,7 @@ function Map() {
           previousGeoJSONLayers.push(geoJSONLayer); // Add the clicked layer to the list of previous layers
         } else {
           // If multiPolygonSelectRef.current is true, just highlight the clicked layer
+          setActiveFeatures((prevFeatures) => [...prevFeatures, feature]);
           geoJSONLayer.setStyle({
             fillColor: 'rgb(255, 255, 0)',
             fillOpacity: 1,
@@ -111,8 +114,6 @@ function Map() {
 
           previousGeoJSONLayers.push(geoJSONLayer); // Add the clicked layer to the list of previous layers
         }
-
-        setActiveFeature(feature);
       },
     });
   };
