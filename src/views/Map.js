@@ -12,7 +12,7 @@ import madsPolygonsPNG from 'assets/data/QGIS/mads/mads-polygons.png';
 import madsTeig from 'assets/data/QGIS/mads/mads-teig.js';
 import ToggleSwitch from 'components/ToggleSwitch/ToggleSwitch.js';
 import L from 'leaflet';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   GeoJSON,
   LayerGroup,
@@ -52,7 +52,6 @@ L.Icon.Default.mergeOptions({
 function Map() {
   const [activeOverlay, setActiveOverlay] = useState({
     Hogstklasser: true,
-    MadsForest: false,
   });
 
   const forest1 = mapCoordinations.madsForestPosition;
@@ -62,15 +61,22 @@ function Map() {
 
   const [clickedOnLine, setClickedOnLine] = useState(false);
   const [activeFeature, setActiveFeature] = useState(null);
+  const [activeFeatures, setActiveFeatures] = useState([]);
   const [zoomLevel, setZoomLevel] = useState(MAP_DEFAULT_ZOOM_LEVEL);
   const [selectedForest, setSelectedForest] = useState(forest1); // Default to forest 1
   const [selectedForestFirstTime, setSelectedForestFirstTime] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [multiSelect, setMultiSelect] = useState(false);
+  const [multiPolygonSelect, setMultiPolygonSelect] = useState(false);
+  const multiPolygonSelectRef = useRef(multiPolygonSelect);
 
+  // Update the ref every time multiPolygonSelect changes
+  useEffect(() => {
+    multiPolygonSelectRef.current = multiPolygonSelect;
+  }, [multiPolygonSelect]);
   const toggleDD = () => setDropdownOpen((prevState) => !prevState);
 
-  let activeGeoJSONLayer = null;
+  let previousGeoJSONLayers = []; // To keep track of the previous layers
+
   const onEachFeature = (feature, geoJSONLayer) => {
     geoJSONLayer.setStyle({
       fillColor: 'transparent',
@@ -79,23 +85,34 @@ function Map() {
 
     geoJSONLayer.on({
       click: () => {
-        setActiveFeature(feature);
-        // Highlight the selected polygon
-        if (activeGeoJSONLayer) {
-          activeGeoJSONLayer.setStyle({
-            fillColor: 'transparent',
-            fillOpacity: 0,
-          }); // Reset style of previous active layer
-        }
-        if (feature.properties.DN !== 99) {
+        if (!multiPolygonSelectRef.current) {
+          // If multiPolygonSelectRef.current is false, unhighlight the previous layer
+          previousGeoJSONLayers.forEach((layer) => {
+            layer.setStyle({
+              fillColor: 'transparent',
+              fillOpacity: 0,
+            });
+          });
+          previousGeoJSONLayers = []; // Reset the list of previous layers
+
+          // Highlight the clicked layer
           geoJSONLayer.setStyle({
             fillColor: 'rgb(255, 255, 0)',
             fillOpacity: 1,
-          }); // Set style of current active layer to neon yellow
+          });
+
+          previousGeoJSONLayers.push(geoJSONLayer); // Add the clicked layer to the list of previous layers
         } else {
-          return {}; // Default style for other features
+          // If multiPolygonSelectRef.current is true, just highlight the clicked layer
+          geoJSONLayer.setStyle({
+            fillColor: 'rgb(255, 255, 0)',
+            fillOpacity: 1,
+          });
+
+          previousGeoJSONLayers.push(geoJSONLayer); // Add the clicked layer to the list of previous layers
         }
-        activeGeoJSONLayer = geoJSONLayer; // Update active layer
+
+        setActiveFeature(feature);
       },
     });
   };
@@ -125,8 +142,7 @@ function Map() {
     }
   };
   const toggleSelectMultiPolygons = () => {
-    console.log(multiSelect);
-    setMultiSelect(!multiSelect);
+    setMultiPolygonSelect((prevState) => !prevState);
   };
   return (
     <>
@@ -138,7 +154,7 @@ function Map() {
       <ToggleSwitch
         id="multiPolygon"
         disabled={!activeOverlay['Hogstklasser']}
-        checked={multiSelect}
+        checked={multiPolygonSelect}
         optionLabels={['Multi Select', 'Single Select']}
         onChange={toggleSelectMultiPolygons}
       />
