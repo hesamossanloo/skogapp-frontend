@@ -22,7 +22,7 @@ CustomMapEvents.propTypes = {
   }).isRequired,
   setActiveOverlay: PropTypes.func.isRequired,
   setClickedOnLine: PropTypes.func.isRequired,
-  setActiveFeature: PropTypes.func.isRequired,
+  setActiveFeatures: PropTypes.func.isRequired,
   setZoomLevel: PropTypes.func.isRequired,
   zoomLevel: PropTypes.number.isRequired,
   clickedOnLine: PropTypes.bool.isRequired,
@@ -38,7 +38,7 @@ export default function CustomMapEvents(props) {
     activeOverlay,
     setActiveOverlay,
     setClickedOnLine,
-    setActiveFeature,
+    setActiveFeatures,
     setZoomLevel,
     zoomLevel,
     clickedOnLine,
@@ -256,7 +256,7 @@ export default function CustomMapEvents(props) {
     overlayremove: async (e) => {
       if (activeOverlay['Hogstklasser']) {
         map.closePopup();
-        setActiveFeature(null);
+        setActiveFeatures([]);
       }
       if (activeOverlay['Hogstklasser'] && e.name === 'Hogstklasser') {
         // Wait for the next render cycle to ensure the layer control has been updated

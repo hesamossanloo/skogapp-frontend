@@ -15,6 +15,7 @@ import L from 'leaflet';
 import { useEffect, useRef, useState } from 'react';
 import {
   GeoJSON,
+  ImageOverlay,
   LayerGroup,
   LayersControl,
   MapContainer,
@@ -24,7 +25,6 @@ import {
   useMap,
 } from 'react-leaflet';
 import ForestSelector from 'utilities/Map/components/ForestSelector';
-import ImageOverlayWithPopup from 'utilities/Map/components/ImageOverlayWithPopup';
 import CustomMapEvents from 'utilities/Map/CustomMapEvents';
 import { hideLayerControlLabel } from 'utilities/Map/utililtyFunctions';
 import {
@@ -60,7 +60,6 @@ function Map() {
   const forest4 = mapCoordinations.akselForestPosition;
 
   const [clickedOnLine, setClickedOnLine] = useState(false);
-  const [activeFeature, setActiveFeature] = useState(null);
   const [activeFeatures, setActiveFeatures] = useState([]);
   const [zoomLevel, setZoomLevel] = useState(MAP_DEFAULT_ZOOM_LEVEL);
   const [selectedForest, setSelectedForest] = useState(forest1); // Default to forest 1
@@ -85,34 +84,35 @@ function Map() {
 
     geoJSONLayer.on({
       click: () => {
-        // If multiPolygonSelectRef.current is false, unhighlight the previous layer
-        if (!multiPolygonSelectRef.current) {
-          setActiveFeature(feature);
-          setActiveFeatures([feature]);
-          previousGeoJSONLayers.forEach((layer) => {
-            layer.setStyle({
-              fillColor: 'transparent',
-              fillOpacity: 0,
+        if (feature.properties.DN !== 99) {
+          // If multiPolygonSelectRef.current is false, unhighlight the previous layer
+          if (!multiPolygonSelectRef.current) {
+            setActiveFeatures([feature]);
+            previousGeoJSONLayers.forEach((layer) => {
+              layer.setStyle({
+                fillColor: 'transparent',
+                fillOpacity: 0,
+              });
             });
-          });
-          previousGeoJSONLayers = []; // Reset the list of previous layers
+            previousGeoJSONLayers = []; // Reset the list of previous layers
 
-          // Highlight the clicked layer
-          geoJSONLayer.setStyle({
-            fillColor: 'rgb(255, 255, 0)',
-            fillOpacity: 1,
-          });
+            // Highlight the clicked layer
+            geoJSONLayer.setStyle({
+              fillColor: 'rgb(255, 255, 0)',
+              fillOpacity: 1,
+            });
 
-          previousGeoJSONLayers.push(geoJSONLayer); // Add the clicked layer to the list of previous layers
-        } else {
-          // If multiPolygonSelectRef.current is true, just highlight the clicked layer
-          setActiveFeatures((prevFeatures) => [...prevFeatures, feature]);
-          geoJSONLayer.setStyle({
-            fillColor: 'rgb(255, 255, 0)',
-            fillOpacity: 1,
-          });
+            previousGeoJSONLayers.push(geoJSONLayer); // Add the clicked layer to the list of previous layers
+          } else {
+            // If multiPolygonSelectRef.current is true, just highlight the clicked layer
+            setActiveFeatures((prevFeatures) => [...prevFeatures, feature]);
+            geoJSONLayer.setStyle({
+              fillColor: 'rgb(255, 255, 0)',
+              fillOpacity: 1,
+            });
 
-          previousGeoJSONLayers.push(geoJSONLayer); // Add the clicked layer to the list of previous layers
+            previousGeoJSONLayers.push(geoJSONLayer); // Add the clicked layer to the list of previous layers
+          }
         }
       },
     });
@@ -188,7 +188,7 @@ function Map() {
         <CustomMapEvents
           activeOverlay={activeOverlay}
           setActiveOverlay={setActiveOverlay}
-          setActiveFeature={setActiveFeature}
+          setActiveFeatures={setActiveFeatures}
           hideLayerControlLabel={hideLayerControlLabel}
           madsTeig={madsTeig}
           bjoernTeig={bjoernTeig}
@@ -223,47 +223,31 @@ function Map() {
           >
             <LayerGroup>
               {selectedForest.name === 'forest1' && (
-                <ImageOverlayWithPopup
-                  image={madsPolygonsPNG}
+                <ImageOverlay
+                  url={madsPolygonsPNG}
                   bounds={madsPolygonsPNGBounds}
-                  zoomLevel={zoomLevel}
-                  activeOverlay={activeOverlay}
-                  overlayNames={['Hogstklasser']}
-                  activeFeature={activeFeature}
-                  setActiveFeature={setActiveFeature}
+                  opacity={0.5}
                 />
               )}
               {selectedForest.name === 'forest2' && (
-                <ImageOverlayWithPopup
-                  image={bjoernPolygonsPNG}
+                <ImageOverlay
+                  url={bjoernPolygonsPNG}
                   bounds={bjoernPolygonsPNGBounds}
-                  zoomLevel={zoomLevel}
-                  activeOverlay={activeOverlay}
-                  overlayNames={['Hogstklasser']}
-                  activeFeature={activeFeature}
-                  setActiveFeature={setActiveFeature}
+                  opacity={0.5}
                 />
               )}
               {selectedForest.name === 'forest3' && (
-                <ImageOverlayWithPopup
-                  image={knutPolygonsPNG}
+                <ImageOverlay
+                  url={knutPolygonsPNG}
                   bounds={knutPolygonsPNGBounds}
-                  zoomLevel={zoomLevel}
-                  activeOverlay={activeOverlay}
-                  overlayNames={['Hogstklasser']}
-                  activeFeature={activeFeature}
-                  setActiveFeature={setActiveFeature}
+                  opacity={0.5}
                 />
               )}
               {selectedForest.name === 'forest4' && (
-                <ImageOverlayWithPopup
-                  image={akselPolygonsPNG}
+                <ImageOverlay
+                  url={akselPolygonsPNG}
                   bounds={akselPolygonsPNGBounds}
-                  zoomLevel={zoomLevel}
-                  activeOverlay={activeOverlay}
-                  overlayNames={['Hogstklasser']}
-                  activeFeature={activeFeature}
-                  setActiveFeature={setActiveFeature}
+                  opacity={0.5}
                 />
               )}
               <WMSTileLayer
