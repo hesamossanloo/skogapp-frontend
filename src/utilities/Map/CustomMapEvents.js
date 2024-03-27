@@ -1,19 +1,19 @@
-import * as turf from '@turf/turf';
 import L from 'leaflet';
 import { WMSGetFeatureInfo } from 'ol/format';
 import PropTypes from 'prop-types';
+import { useState } from 'react';
 import { useMap, useMapEvents } from 'react-leaflet';
 import {
   CSV_URLS,
   HIDE_POLYGON_ZOOM_LEVEL,
-  SPECIES,
   nibioGetFeatInfoBaseParams,
 } from 'variables/forest';
 import useCsvData from './useCSVData';
 import {
-  calculateEstimatedHeightAndCrossSectionArea,
-  calculteSpeciesBasedPrice,
+  calculateAdditionalRows,
+  calculateBoundingBox,
   formatNumber,
+  isPointInsidePolygon,
 } from './utililtyFunctions';
 
 CustomMapEvents.propTypes = {
@@ -22,10 +22,10 @@ CustomMapEvents.propTypes = {
   }).isRequired,
   setActiveOverlay: PropTypes.func.isRequired,
   setClickedOnLine: PropTypes.func.isRequired,
-  setActiveFeatures: PropTypes.func.isRequired,
   setZoomLevel: PropTypes.func.isRequired,
   zoomLevel: PropTypes.number.isRequired,
   clickedOnLine: PropTypes.bool.isRequired,
+  multiPolygonSelect: PropTypes.bool.isRequired,
   madsTeig: PropTypes.object.isRequired,
   bjoernTeig: PropTypes.object.isRequired,
   knutTeig: PropTypes.object.isRequired,
@@ -38,7 +38,6 @@ export default function CustomMapEvents(props) {
     activeOverlay,
     setActiveOverlay,
     setClickedOnLine,
-    setActiveFeatures,
     setZoomLevel,
     zoomLevel,
     clickedOnLine,
@@ -46,9 +45,11 @@ export default function CustomMapEvents(props) {
     bjoernTeig,
     knutTeig,
     akselTeig,
+    multiPolygonSelect,
     selectedForest,
   } = props;
   const map = useMap();
+  const [selectedFeatures, setSelectedFeatures] = useState([]);
 
   const granCSVData = useCsvData(CSV_URLS.GRAN).data;
   const furuCSVData = useCsvData(CSV_URLS.FURU).data;
@@ -59,11 +60,37 @@ export default function CustomMapEvents(props) {
     bonitet_beskrivelse: 'Bonitet',
     bontre_beskrivelse: 'Treslag',
     alder: 'Alder',
-    areal: 'Areal (daa, rd.)',
     arealm2: 'Areal (daa)',
   };
 
-  const handleSkogbrukWMSFeatures = (e, features, map) => {
+  const handleSkogbrukWMSFeatures = (e, features, map, multi) => {
+    if (multi) {
+      const joinedTeigBestNr = features
+        .map((feature) => feature[0].values_.teig_best_nr)
+        .join(', ');
+      const joinedHogstklVerdi = features
+        .map((feature) => feature[0].values_.hogstkl_verdi)
+        .join(', ');
+      const joinedBonitetBeskrivelse = features
+        .map((feature) =>
+          feature[0].values_.bonitet_beskrivelse.substring(
+            feature[0].values_.bonitet_beskrivelse.indexOf(' ') + 1
+          )
+        )
+        .join(', ');
+      const joinedBontreBeskrivelse = features
+        .map((feature) => feature[0].values_.bontre_beskrivelse)
+        .join(', ');
+      const joinedAlder = features
+        .map((feature) => feature[0].values_.alder)
+        .join(', ');
+
+      // TODO sum all the arealm2
+
+      return;
+    } else {
+      // Single
+    }
     if (features.length > 0 && features[0] && !clickedOnLine) {
       const feature = features[0];
       const values = feature.values_;
@@ -71,16 +98,6 @@ export default function CustomMapEvents(props) {
       const activeOverlayNames = Object.keys(activeOverlay).filter(
         (key) => activeOverlay[key] === true
       );
-      // Step 1 get the H from the Gran and Furu csv files
-      let estimatedHeightString;
-      // Step 2
-      // Gu = exp( -12.920 - 0.021*alder + 2.379*ln(alder) + 0.540*ln(N) + 1.587*ln(Ht40))
-      let crossSectionArea;
-      // Step 3
-      // V = 0.250(Gu^1.150)*H^(1.012)*exp(2.320/alder)
-      let estimatedStandVolume;
-      // Step 4
-      let estimatedStandVolumeM3HAAString;
 
       let content =
         `<h3 style="color: black; text-align: center;">${activeOverlayNames[0]}</h3>` + // Add the layer name as the title with black color and centered alignment
@@ -106,46 +123,12 @@ export default function CustomMapEvents(props) {
 
       // Add the additional row if hogstkl_verdi is 4 or 5
       if (values.hogstkl_verdi === '4' || values.hogstkl_verdi === '5') {
-        if (granCSVData.length > 0 || furuCSVData.length > 0) {
-          let csvData;
-          if (values.bontre_beskrivelse === SPECIES.GRAN) {
-            csvData = granCSVData;
-          } else if (values.bontre_beskrivelse === SPECIES.FURU) {
-            csvData = furuCSVData;
-          } else {
-            // TODO: There are also other species e.g. Bjørk / lauv from ID:1-36
-            csvData = granCSVData;
-          }
-
-          // Calculating Step 1 and 2
-          if (csvData) {
-            const { estimatedHeightCSV, crossSectionAreaCalc } =
-              calculateEstimatedHeightAndCrossSectionArea(values, csvData);
-            estimatedHeightString = estimatedHeightCSV;
-            crossSectionArea = crossSectionAreaCalc;
-          }
-          // Calculating Step 3
-          // V = 0.250(G^1.150)*H^(1.012)*exp(2.320/alder)
-          estimatedStandVolume =
-            0.25 *
-            Math.pow(crossSectionArea, 1.15) *
-            Math.pow(
-              parseFloat(estimatedHeightString.replace(',', '.')),
-              1.012
-            ) *
-            Math.exp(2.32 / parseInt(values.alder));
-          console.log('V: ', estimatedStandVolume);
-
-          // Step 4:
-          // SV_in_bestand_249 = arealm2/10000*249 = 11391*249/10000 = 283.636
-          estimatedStandVolumeM3HAAString =
-            (parseInt(values.arealm2) / 10000) * estimatedStandVolume;
-          console.log('SV: ', estimatedStandVolumeM3HAAString);
-        }
-        const { totalVolume, speciesPrice } = calculteSpeciesBasedPrice(
-          values.bontre_beskrivelse,
-          estimatedStandVolumeM3HAAString
-        );
+        const {
+          estimatedStandVolumeM3HAAString,
+          estimatedStandVolume,
+          speciesPrice,
+          totalVolume,
+        } = calculateAdditionalRows(granCSVData, furuCSVData, values);
 
         // Showing the tree density volume per stand
         content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Tømmervolum</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(estimatedStandVolumeM3HAAString, 'nb-NO', 1)}</span> m^3</td></tr>`;
@@ -160,27 +143,12 @@ export default function CustomMapEvents(props) {
       content += '</table>';
 
       L.popup({ interactive: true })
-        // .setLatLng([e.latlng.lat, e.latlng.lng])
         .setLatLng(e.latlng)
         .setContent(content)
         .openOn(map);
     }
   };
 
-  const isPointInsidePolygon = (point, polygon) => {
-    const turfPoint = turf.point([point.lng, point.lat]);
-    const turfPolygon = turf.multiPolygon(polygon);
-    return turf.booleanPointInPolygon(turfPoint, turfPolygon);
-  };
-  const calculateBoundingBox = (map) => {
-    const CRS = map.options.crs.code;
-    const size = map.getSize();
-    const bounds = map.getBounds();
-    const southWest = map.options.crs.project(bounds.getSouthWest());
-    const northEast = map.options.crs.project(bounds.getNorthEast());
-    const BBOX = [southWest.x, southWest.y, northEast.x, northEast.y].join(',');
-    return { CRS, size, BBOX };
-  };
   useMapEvents({
     zoom: async (e) => {
       let flag = false;
@@ -234,8 +202,35 @@ export default function CustomMapEvents(props) {
           const response = await fetch(url);
           const data = await response.text();
           const format = new WMSGetFeatureInfo();
-          const features = format.readFeatures(data);
-          handleSkogbrukWMSFeatures(e, features, map);
+          const newFeatures = format.readFeatures(data);
+
+          // In case the selected feature is already in the array,
+          // which means the user has clicked on it before, we don't
+          // need to add it to the array. That's why we check if theteigBestNr
+          // already exists or not!
+          const teigBestNr = newFeatures[0]?.values_?.teig_best_nr;
+          if (
+            teigBestNr &&
+            !selectedFeatures.some(
+              (feature) => feature[0].values_?.teig_best_nr === teigBestNr
+            )
+          ) {
+            selectedFeatures.push(newFeatures);
+            setSelectedFeatures(selectedFeatures);
+          }
+          if (multiPolygonSelect) {
+            handleSkogbrukWMSFeatures(e, selectedFeatures, map, true);
+          } else {
+            // In case the selected feature is already in the array,
+            // which means the user has clicked on it before, then we need to find it and
+            // truen that feature only
+            const selectedFeature = selectedFeatures.find(
+              (feature) => feature[0].values_.teig_best_nr === teigBestNr
+            );
+            if (selectedFeature) {
+              handleSkogbrukWMSFeatures(e, selectedFeature, map, false);
+            }
+          }
         }
       }
     },
@@ -256,7 +251,6 @@ export default function CustomMapEvents(props) {
     overlayremove: async (e) => {
       if (activeOverlay['Hogstklasser']) {
         map.closePopup();
-        setActiveFeatures([]);
       }
       if (activeOverlay['Hogstklasser'] && e.name === 'Hogstklasser') {
         // Wait for the next render cycle to ensure the layer control has been updated

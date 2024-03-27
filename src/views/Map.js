@@ -60,7 +60,6 @@ function Map() {
   const forest4 = mapCoordinations.akselForestPosition;
 
   const [clickedOnLine, setClickedOnLine] = useState(false);
-  const [activeFeatures, setActiveFeatures] = useState([]);
   const [zoomLevel, setZoomLevel] = useState(MAP_DEFAULT_ZOOM_LEVEL);
   const [selectedForest, setSelectedForest] = useState(forest1); // Default to forest 1
   const [selectedForestFirstTime, setSelectedForestFirstTime] = useState(false);
@@ -87,7 +86,6 @@ function Map() {
         if (feature.properties.DN !== 99) {
           // If multiPolygonSelectRef.current is false, unhighlight the previous layer
           if (!multiPolygonSelectRef.current) {
-            setActiveFeatures([feature]);
             previousGeoJSONLayers.forEach((layer) => {
               layer.setStyle({
                 fillColor: 'transparent',
@@ -105,7 +103,7 @@ function Map() {
             previousGeoJSONLayers.push(geoJSONLayer); // Add the clicked layer to the list of previous layers
           } else {
             // If multiPolygonSelectRef.current is true, just highlight the clicked layer
-            setActiveFeatures((prevFeatures) => [...prevFeatures, feature]);
+
             geoJSONLayer.setStyle({
               fillColor: 'rgb(255, 255, 0)',
               fillOpacity: 1,
@@ -123,7 +121,9 @@ function Map() {
     const map = useMap();
     selectedForestFirstTime && map.setView(center, zoom);
     // To solve the issue with the always centering the map after choosing a forest
-    setSelectedForestFirstTime(false);
+    useEffect(() => {
+      setSelectedForestFirstTime(false);
+    }, []);
     return null;
   };
 
@@ -188,7 +188,7 @@ function Map() {
         <CustomMapEvents
           activeOverlay={activeOverlay}
           setActiveOverlay={setActiveOverlay}
-          setActiveFeatures={setActiveFeatures}
+          multiPolygonSelect={multiPolygonSelect}
           hideLayerControlLabel={hideLayerControlLabel}
           madsTeig={madsTeig}
           bjoernTeig={bjoernTeig}
