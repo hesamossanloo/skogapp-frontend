@@ -1,7 +1,7 @@
 import L from 'leaflet';
 import { WMSGetFeatureInfo } from 'ol/format';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMap, useMapEvents } from 'react-leaflet';
 import {
   CSV_URLS,
@@ -13,6 +13,7 @@ import {
   calculateAdditionalRows,
   calculateBoundingBox,
   formatNumber,
+  formatTheStringArealM2,
   isPointInsidePolygon,
 } from './utililtyFunctions';
 
@@ -63,8 +64,21 @@ export default function CustomMapEvents(props) {
     arealm2: 'Areal (daa)',
   };
 
+  useEffect(() => {
+    // This will reset the selected features when multiPolygonSelect changes
+    setSelectedFeatures([...selectedFeatures]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [multiPolygonSelect]); // Dependency array includes multiPolygonSelect
+
   const handleSkogbrukWMSFeatures = (e, features, map, multi) => {
+    const sumObj = {};
+    const activeOverlayNames = Object.keys(activeOverlay).filter(
+      (key) => activeOverlay[key] === true
+    );
+    sumObj.title = activeOverlayNames[0];
+
     if (multi) {
+      // Multi polygon selection switch is selected
       const joinedTeigBestNr = features
         .map((feature) => feature[0].values_.teig_best_nr)
         .join(', ');
@@ -84,69 +98,94 @@ export default function CustomMapEvents(props) {
       const joinedAlder = features
         .map((feature) => feature[0].values_.alder)
         .join(', ');
+      const totalArealM2 = features
+        .map((feature) => parseInt(feature[0].values_.arealm2))
+        .reduce((total, area) => total + area, 0);
 
-      // TODO sum all the arealm2
-
-      return;
+      sumObj.teig_best_nr = joinedTeigBestNr;
+      sumObj.hogstkl_verdi = joinedHogstklVerdi;
+      sumObj.bonitet_beskrivelse = joinedBonitetBeskrivelse;
+      sumObj.bontre_beskrivelse = joinedBontreBeskrivelse;
+      sumObj.alder = joinedAlder;
+      sumObj.arealm2 = formatTheStringArealM2(totalArealM2);
     } else {
-      // Single
-    }
-    if (features.length > 0 && features[0] && !clickedOnLine) {
-      const feature = features[0];
-      const values = feature.values_;
+      // Single polygon selection switch is selected
 
-      const activeOverlayNames = Object.keys(activeOverlay).filter(
-        (key) => activeOverlay[key] === true
-      );
+      if (features.length > 0 && features[0] && !clickedOnLine) {
+        const feature = features[0];
+        const values = feature[0].values_;
+        sumObj.teig_best_nr = values.teig_best_nr;
 
-      let content =
-        `<h3 style="color: black; text-align: center;">${activeOverlayNames[0]}</h3>` + // Add the layer name as the title with black color and centered alignment
-        '<table style="margin-bottom: 10px; border-collapse: collapse; border: 1px solid black;">'; // Add margin-bottom and border styles
-      content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">ID</td><td style="padding: 5px; border: 1px solid black; font-weight: bold">${values.teig_best_nr}</td></tr>`; // Add the ID row
-      for (const key in values) {
-        // Exclude the ID from the loop
-        if (desiredAttributes[key] && key !== 'teig_best_nr') {
-          let value = values[key];
-          if (key === 'arealm2') {
-            const arealm2 = parseInt(value) / 1000;
-            value = formatNumber(arealm2, 'nb-NO', 2); // Format with the decimal
-          }
-          if (key === 'bonitet_beskrivelse') {
-            value = value.substring(value.indexOf(' ') + 1); // Remove the first part and keep only the number
-          }
-          // To ignore the generated polygon (features) with only DN (not useful) values to be shown.
-          if (key !== 'DN' && key !== 'areal') {
-            content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">${desiredAttributes[key]}</td><td style="padding: 5px; border: 1px solid black; font-weight: bold">${value}</td></tr>`; // Add padding-right and border styles
-          }
+        // Get Hogstklasse
+        sumObj.hogstkl_verdi = values.hogstkl_verdi;
+
+        // Get the Bonitet
+        sumObj.bonitet_beskrivelse = values.bonitet_beskrivelse.substring(
+          values.bonitet_beskrivelse.indexOf(' ') + 1
+        ); // Remove the first part and keep only the number
+
+        // Get the Treslag
+        sumObj.bontre_beskrivelse = values.bontre_beskrivelse;
+
+        // Calculate arealm2
+        sumObj.arealm2 = formatTheStringArealM2(values.arealm2);
+
+        // Get the Alder
+        sumObj.alder = values.alder;
+
+        // Add the additional row if hogstkl_verdi is 4 or 5
+        if (values.hogstkl_verdi === '4' || values.hogstkl_verdi === '5') {
+          const {
+            estimatedStandVolumeM3HAAString,
+            estimatedStandVolume,
+            speciesPrice,
+            totalVolume,
+          } = calculateAdditionalRows(granCSVData, furuCSVData, values);
+
+          // The tree density volume per stand
+          sumObj.estimatedStandVolumeM3HAAString =
+            estimatedStandVolumeM3HAAString;
+          // The estimatedStandVolume per decare (daa)
+          sumObj.estimatedStandVolume = estimatedStandVolume;
+          // The price of the timber for a species
+          sumObj.speciesPrice = speciesPrice;
+          // The total volume
+          sumObj.totalVolume = totalVolume;
         }
       }
-
-      // Add the additional row if hogstkl_verdi is 4 or 5
-      if (values.hogstkl_verdi === '4' || values.hogstkl_verdi === '5') {
-        const {
-          estimatedStandVolumeM3HAAString,
-          estimatedStandVolume,
-          speciesPrice,
-          totalVolume,
-        } = calculateAdditionalRows(granCSVData, furuCSVData, values);
-
-        // Showing the tree density volume per stand
-        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Tømmervolum</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(estimatedStandVolumeM3HAAString, 'nb-NO', 1)}</span> m^3</td></tr>`;
-        // Calculating the estimatedStandVolume per decare (daa)
-        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Tømmertetthet</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(estimatedStandVolume / 10, 'nb-NO', 1)}</span> m^3/daa</td></tr>`;
-        // The price of the timber for a species
-        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Forv. gj.sn pris per m^3</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(speciesPrice, 'nb-NO', 0)}</span> kr</td></tr>`;
-        // We rae showing the total volume
-        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Forv. brutto verdi</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(totalVolume, 'nb-NO', 0)}</span> kr</td></tr>`;
-      }
-
-      content += '</table>';
-
-      L.popup({ interactive: true })
-        .setLatLng(e.latlng)
-        .setContent(content)
-        .openOn(map);
     }
+    let content =
+      // Add the layer name as the title with black color and centered alignment
+      `<h3 style="color: black; text-align: center;">${sumObj.title}</h3>` +
+      // Add margin-bottom and border styles
+      '<table style="margin-bottom: 10px; border-collapse: collapse; border: 1px solid black;">' +
+      // Add the ID row
+      `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">ID</td><td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.teig_best_nr}</td></tr>` +
+      // Add Hogstklasse
+      `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">${desiredAttributes['hogstkl_verdi']}</td><td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.hogstkl_verdi}</td></tr>` +
+      // Add Bonitet
+      `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">${desiredAttributes['bonitet_beskrivelse']}</td><td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.bonitet_beskrivelse}</td></tr>` +
+      // Add the Treslag
+      `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">${desiredAttributes['bontre_beskrivelse']}</td><td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.bontre_beskrivelse}</td></tr>` +
+      // Add the ArealM2
+      `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">${desiredAttributes['arealm2']}</td><td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.arealm2}</td></tr>` +
+      // Add the Alder
+      `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">${desiredAttributes['alder']}</td><td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.alder}</td></tr>`;
+    if (sumObj.estimatedStandVolumeM3HAAString) {
+      // Showing the tree density volume per stand
+      content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Tømmervolum</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.estimatedStandVolumeM3HAAString, 'nb-NO', 1)}</span> m^3</td></tr>`;
+      // Calculating the estimatedStandVolume per decare (daa)
+      content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Tømmertetthet</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.estimatedStandVolume / 10, 'nb-NO', 1)}</span> m^3/daa</td></tr>`;
+      // The price of the timber for a species
+      content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Forv. gj.sn pris per m^3</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.speciesPrice, 'nb-NO', 0)}</span> kr</td></tr>`;
+      // We rae showing the total volume
+      content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Forv. brutto verdi</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.totalVolume, 'nb-NO', 0)}</span> kr</td></tr>`;
+    }
+    content += '</table>';
+    L.popup({ interactive: true })
+      .setLatLng(e.latlng)
+      .setContent(content)
+      .openOn(map);
   };
 
   useMapEvents({
@@ -206,31 +245,53 @@ export default function CustomMapEvents(props) {
 
           // In case the selected feature is already in the array,
           // which means the user has clicked on it before, we don't
-          // need to add it to the array. That's why we check if theteigBestNr
+          // need to add it to the array. That's why we check if the teigBestNr
           // already exists or not!
-          const teigBestNr = newFeatures[0]?.values_?.teig_best_nr;
-          if (
-            teigBestNr &&
-            !selectedFeatures.some(
-              (feature) => feature[0].values_?.teig_best_nr === teigBestNr
-            )
-          ) {
-            selectedFeatures.push(newFeatures);
-            setSelectedFeatures(selectedFeatures);
-          }
-          if (multiPolygonSelect) {
-            handleSkogbrukWMSFeatures(e, selectedFeatures, map, true);
+          const teigBestNrLastSelected = newFeatures[0]?.values_?.teig_best_nr;
+
+          // Reset selected features if not in multiPolygonSelect mode
+          if (!multiPolygonSelect) {
+            setSelectedFeatures([newFeatures]); // Only the last selected feature is kept
+            handleSkogbrukWMSFeatures(e, [newFeatures], map, false);
           } else {
-            // In case the selected feature is already in the array,
-            // which means the user has clicked on it before, then we need to find it and
-            // truen that feature only
-            const selectedFeature = selectedFeatures.find(
-              (feature) => feature[0].values_.teig_best_nr === teigBestNr
-            );
-            if (selectedFeature) {
-              handleSkogbrukWMSFeatures(e, selectedFeature, map, false);
+            if (
+              teigBestNrLastSelected &&
+              !selectedFeatures.some(
+                (feature) =>
+                  feature[0].values_?.teig_best_nr === teigBestNrLastSelected
+              )
+            ) {
+              setSelectedFeatures([...selectedFeatures, newFeatures]);
+              // Add to selected features for multi selection mode
+              setSelectedFeatures([...selectedFeatures, newFeatures]);
+              handleSkogbrukWMSFeatures(
+                e,
+                selectedFeatures.concat([newFeatures]),
+                map,
+                true
+              );
+            } else {
+              handleSkogbrukWMSFeatures(e, selectedFeatures, map, true);
             }
           }
+          // if (multiPolygonSelect) {
+          //   handleSkogbrukWMSFeatures(e, selectedFeatures, map, true);
+          // } else {
+          //   // In case the selected feature is already in the array,
+          //   // which means the user has clicked on it before, then we need to find it and
+          //   // show that feature only
+          //   const selectedFeatureTMP = selectedFeatures.find(
+          //     (feature) =>
+          //       feature[0].values_.teig_best_nr === teigBestNrLastSelected
+          //   );
+          //   if (selectedFeatureTMP) {
+          //     setSelectedFeatures([selectedFeatureTMP]);
+          //     handleSkogbrukWMSFeatures(e, selectedFeatureTMP, map, false);
+          //   } else {
+          //     setSelectedFeatures([newFeatures]);
+          //     handleSkogbrukWMSFeatures(e, newFeatures, map, false);
+          //   }
+          // }
         }
       }
     },

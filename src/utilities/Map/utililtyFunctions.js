@@ -5,6 +5,10 @@ import {
   TREANTALL_PER_HEKTAR,
 } from 'variables/forest';
 
+export const formatTheStringArealM2 = (value) => {
+  const arealm2 = parseInt(value) / 1000;
+  return formatNumber(arealm2, 'nb-NO', 2); // Format with the decimal
+};
 export const calculateAdditionalRows = (granCSVData, furuCSVData, values) => {
   // Step 1 get the H from the Gran and Furu csv files
   let estimatedHeightString;
