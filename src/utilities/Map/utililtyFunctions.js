@@ -19,7 +19,7 @@ export const calculateAdditionalRows = (granCSVData, furuCSVData, values) => {
   // V = 0.250(Gu^1.150)*H^(1.012)*exp(2.320/alder)
   let estimatedStandVolume;
   // Step 4
-  let estimatedStandVolumeM3HAAString;
+  let estimatedStandVolumeM3HAANumber;
   if (granCSVData.length > 0 || furuCSVData.length > 0) {
     let csvData;
     if (values.bontre_beskrivelse === SPECIES.GRAN) {
@@ -50,22 +50,22 @@ export const calculateAdditionalRows = (granCSVData, furuCSVData, values) => {
 
     // Step 4:
     // SV_in_bestand_249 = arealm2/10000*249 = 11391*249/10000 = 283.636
-    estimatedStandVolumeM3HAAString = calculateEstimatedStandVolumeM3HAA(
+    estimatedStandVolumeM3HAANumber = calculateEstimatedStandVolumeM3HAA(
       values.arealm2,
       estimatedStandVolume
     );
     console.log(' ', 'Use the V and arealm2 to calculte the SV.');
-    console.log(' ', 'SV: ', estimatedStandVolumeM3HAAString);
+    console.log(' ', 'SV: ', estimatedStandVolumeM3HAANumber);
     console.log('FINISHED:', 'Calculation for the Teig: ', values.teig_best_nr);
     console.log('############  END  #############');
   }
   const { totalVolume, speciesPrice } = calculteSpeciesBasedPrice(
     values.bontre_beskrivelse,
-    estimatedStandVolumeM3HAAString
+    estimatedStandVolumeM3HAANumber
   );
 
   return {
-    estimatedStandVolumeM3HAAString,
+    estimatedStandVolumeM3HAANumber,
     estimatedStandVolume,
     speciesPrice,
     totalVolume,

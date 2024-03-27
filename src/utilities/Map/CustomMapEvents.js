@@ -108,6 +108,41 @@ export default function CustomMapEvents(props) {
       sumObj.bontre_beskrivelse = joinedBontreBeskrivelse;
       sumObj.alder = joinedAlder;
       sumObj.arealm2 = formatTheStringArealM2(totalArealM2);
+
+      const {
+        estimatedStandVolumeM3HAANumber,
+        estimatedStandVolume,
+        speciesPrice,
+        totalVolume,
+      } = features.reduce(
+        (result, feature) => {
+          const values = feature[0].values_;
+          if (values.hogstkl_verdi === '4' || values.hogstkl_verdi === '5') {
+            const additionalRows = calculateAdditionalRows(
+              granCSVData,
+              furuCSVData,
+              values
+            );
+            result.estimatedStandVolumeM3HAANumber +=
+              additionalRows.estimatedStandVolumeM3HAANumber || 0;
+            result.estimatedStandVolume +=
+              additionalRows.estimatedStandVolume || 0;
+            result.speciesPrice = additionalRows.speciesPrice || 0;
+            result.totalVolume += additionalRows.totalVolume || 0;
+          }
+          return result;
+        },
+        {
+          estimatedStandVolumeM3HAANumber: 0,
+          estimatedStandVolume: 0,
+          totalVolume: 0,
+        }
+      );
+
+      sumObj.estimatedStandVolumeM3HAANumber = estimatedStandVolumeM3HAANumber;
+      sumObj.estimatedStandVolume = estimatedStandVolume;
+      sumObj.speciesPrice = speciesPrice;
+      sumObj.totalVolume = totalVolume;
     } else {
       // Single polygon selection switch is selected
 
@@ -136,15 +171,15 @@ export default function CustomMapEvents(props) {
         // Add the additional row if hogstkl_verdi is 4 or 5
         if (values.hogstkl_verdi === '4' || values.hogstkl_verdi === '5') {
           const {
-            estimatedStandVolumeM3HAAString,
+            estimatedStandVolumeM3HAANumber,
             estimatedStandVolume,
             speciesPrice,
             totalVolume,
           } = calculateAdditionalRows(granCSVData, furuCSVData, values);
 
           // The tree density volume per stand
-          sumObj.estimatedStandVolumeM3HAAString =
-            estimatedStandVolumeM3HAAString;
+          sumObj.estimatedStandVolumeM3HAANumber =
+            estimatedStandVolumeM3HAANumber;
           // The estimatedStandVolume per decare (daa)
           sumObj.estimatedStandVolume = estimatedStandVolume;
           // The price of the timber for a species
@@ -171,9 +206,9 @@ export default function CustomMapEvents(props) {
       `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">${desiredAttributes['arealm2']}</td><td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.arealm2}</td></tr>` +
       // Add the Alder
       `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">${desiredAttributes['alder']}</td><td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.alder}</td></tr>`;
-    if (sumObj.estimatedStandVolumeM3HAAString) {
+    if (sumObj.estimatedStandVolumeM3HAANumber) {
       // Showing the tree density volume per stand
-      content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Tømmervolum</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.estimatedStandVolumeM3HAAString, 'nb-NO', 1)}</span> m^3</td></tr>`;
+      content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Tømmervolum</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.estimatedStandVolumeM3HAANumber, 'nb-NO', 1)}</span> m^3</td></tr>`;
       // Calculating the estimatedStandVolume per decare (daa)
       content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Tømmertetthet</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.estimatedStandVolume / 10, 'nb-NO', 1)}</span> m^3/daa</td></tr>`;
       // The price of the timber for a species
@@ -274,24 +309,6 @@ export default function CustomMapEvents(props) {
               handleSkogbrukWMSFeatures(e, selectedFeatures, map, true);
             }
           }
-          // if (multiPolygonSelect) {
-          //   handleSkogbrukWMSFeatures(e, selectedFeatures, map, true);
-          // } else {
-          //   // In case the selected feature is already in the array,
-          //   // which means the user has clicked on it before, then we need to find it and
-          //   // show that feature only
-          //   const selectedFeatureTMP = selectedFeatures.find(
-          //     (feature) =>
-          //       feature[0].values_.teig_best_nr === teigBestNrLastSelected
-          //   );
-          //   if (selectedFeatureTMP) {
-          //     setSelectedFeatures([selectedFeatureTMP]);
-          //     handleSkogbrukWMSFeatures(e, selectedFeatureTMP, map, false);
-          //   } else {
-          //     setSelectedFeatures([newFeatures]);
-          //     handleSkogbrukWMSFeatures(e, newFeatures, map, false);
-          //   }
-          // }
         }
       }
     },
