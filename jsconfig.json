@@ -5,5 +5,5 @@
       "*": ["src/*"]
     }
   },
-  "exclude": ["assets/data/QGIS/**"]
+  "exclude": ["assets/data/QGIS/**", "node_modules", ".history", "build"]
 }
