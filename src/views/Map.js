@@ -26,7 +26,6 @@ import {
 } from 'react-leaflet';
 import ForestSelector from 'utilities/Map/components/ForestSelector';
 import CustomMapEvents from 'utilities/Map/CustomMapEvents';
-import { hideLayerControlLabel } from 'utilities/Map/utililtyFunctions';
 import {
   HIDE_POLYGON_ZOOM_LEVEL,
   MAP_DEFAULT_ZOOM_LEVEL,
@@ -189,7 +188,6 @@ function Map() {
           activeOverlay={activeOverlay}
           setActiveOverlay={setActiveOverlay}
           multiPolygonSelect={multiPolygonSelect}
-          hideLayerControlLabel={hideLayerControlLabel}
           madsTeig={madsTeig}
           bjoernTeig={bjoernTeig}
           knutTeig={knutTeig}
