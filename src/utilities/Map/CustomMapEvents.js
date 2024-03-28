@@ -23,10 +23,12 @@ CustomMapEvents.propTypes = {
   }).isRequired,
   setActiveOverlay: PropTypes.func.isRequired,
   setClickedOnLine: PropTypes.func.isRequired,
+  setDeselectPolygons: PropTypes.func.isRequired,
   setZoomLevel: PropTypes.func.isRequired,
   zoomLevel: PropTypes.number.isRequired,
   clickedOnLine: PropTypes.bool.isRequired,
   multiPolygonSelect: PropTypes.bool.isRequired,
+  deselectPolygons: PropTypes.bool.isRequired,
   madsTeig: PropTypes.object.isRequired,
   bjoernTeig: PropTypes.object.isRequired,
   knutTeig: PropTypes.object.isRequired,
@@ -39,6 +41,7 @@ export default function CustomMapEvents(props) {
     activeOverlay,
     setActiveOverlay,
     setClickedOnLine,
+    setDeselectPolygons,
     setZoomLevel,
     zoomLevel,
     clickedOnLine,
@@ -47,6 +50,7 @@ export default function CustomMapEvents(props) {
     knutTeig,
     akselTeig,
     multiPolygonSelect,
+    deselectPolygons,
     selectedForest,
   } = props;
   const map = useMap();
@@ -65,10 +69,16 @@ export default function CustomMapEvents(props) {
   };
 
   useEffect(() => {
-    // This will reset the selected features when multiPolygonSelect changes
-    setSelectedFeatures([...selectedFeatures]);
+    if (deselectPolygons) {
+      map.closePopup();
+      setSelectedFeatures([]);
+      setDeselectPolygons(false);
+    } else {
+      // This will reset the selected features when multiPolygonSelect changes
+      setSelectedFeatures([...selectedFeatures]);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [multiPolygonSelect]); // Dependency array includes multiPolygonSelect
+  }, [multiPolygonSelect, deselectPolygons]); // Dependency array includes multiPolygonSelect
 
   const handleSkogbrukWMSFeatures = (e, features, map, multi) => {
     const sumObj = {};

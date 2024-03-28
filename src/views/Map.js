@@ -24,6 +24,7 @@ import {
   ZoomControl,
   useMap,
 } from 'react-leaflet';
+import { Button } from 'reactstrap';
 import ForestSelector from 'utilities/Map/components/ForestSelector';
 import CustomMapEvents from 'utilities/Map/CustomMapEvents';
 import {
@@ -64,15 +65,15 @@ function Map() {
   const [selectedForestFirstTime, setSelectedForestFirstTime] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [multiPolygonSelect, setMultiPolygonSelect] = useState(false);
+  const [deselectPolygons, setDeselectPolygons] = useState(false);
   const multiPolygonSelectRef = useRef(multiPolygonSelect);
+  const previousGeoJSONLayersRef = useRef([]);
 
   // Update the ref every time multiPolygonSelect changes
   useEffect(() => {
     multiPolygonSelectRef.current = multiPolygonSelect;
   }, [multiPolygonSelect]);
   const toggleDD = () => setDropdownOpen((prevState) => !prevState);
-
-  let previousGeoJSONLayers = []; // To keep track of the previous layers
 
   const onEachFeature = (feature, geoJSONLayer) => {
     geoJSONLayer.setStyle({
@@ -85,21 +86,20 @@ function Map() {
         if (feature.properties.DN !== 99) {
           // If multiPolygonSelectRef.current is false, unhighlight the previous layer
           if (!multiPolygonSelectRef.current) {
-            previousGeoJSONLayers.forEach((layer) => {
+            previousGeoJSONLayersRef.current.forEach((layer) => {
               layer.setStyle({
                 fillColor: 'transparent',
                 fillOpacity: 0,
               });
             });
-            previousGeoJSONLayers = []; // Reset the list of previous layers
-
+            previousGeoJSONLayersRef.current = []; // Reset the list of previous layers
             // Highlight the clicked layer
             geoJSONLayer.setStyle({
               fillColor: 'rgb(255, 255, 0)',
               fillOpacity: 1,
             });
 
-            previousGeoJSONLayers.push(geoJSONLayer); // Add the clicked layer to the list of previous layers
+            previousGeoJSONLayersRef.current = [geoJSONLayer];
           } else {
             // If multiPolygonSelectRef.current is true, just highlight the clicked layer
 
@@ -108,7 +108,7 @@ function Map() {
               fillOpacity: 1,
             });
 
-            previousGeoJSONLayers.push(geoJSONLayer); // Add the clicked layer to the list of previous layers
+            previousGeoJSONLayersRef.current.push(geoJSONLayer);
           }
         }
       },
@@ -144,6 +144,16 @@ function Map() {
   const toggleSelectMultiPolygons = () => {
     setMultiPolygonSelect((prevState) => !prevState);
   };
+  const resetHighlightedFeatures = () => {
+    previousGeoJSONLayersRef.current.forEach((layer) => {
+      layer.setStyle({
+        fillColor: 'transparent',
+        fillOpacity: 0,
+      });
+    });
+    // Clear the array after resetting styles
+    setDeselectPolygons(true);
+  };
   return (
     <>
       <ForestSelector
@@ -158,7 +168,20 @@ function Map() {
         optionLabels={['Multi Select', 'Single Select']}
         onChange={toggleSelectMultiPolygons}
       />
-      <label htmlFor="multiPolygon">Enable Multi Polygon Selection</label>
+      <Button
+        color="warning"
+        style={{
+          zIndex: '10',
+          position: 'fixed',
+          right: '10px',
+          top: '120px',
+          width: '115px',
+          padding: '10px 0 10px 0',
+        }}
+        onClick={resetHighlightedFeatures} // Update this line
+      >
+        Deselect
+      </Button>
       <MapContainer
         id="SkogAppMapContainer"
         popupMovable={true}
@@ -188,6 +211,7 @@ function Map() {
           activeOverlay={activeOverlay}
           setActiveOverlay={setActiveOverlay}
           multiPolygonSelect={multiPolygonSelect}
+          deselectPolygons={deselectPolygons}
           madsTeig={madsTeig}
           bjoernTeig={bjoernTeig}
           knutTeig={knutTeig}
@@ -197,6 +221,7 @@ function Map() {
           clickedOnLine={clickedOnLine}
           selectedForest={selectedForest}
           setClickedOnLine={setClickedOnLine}
+          setDeselectPolygons={setDeselectPolygons}
         />
         <ZoomControl position="bottomright" />
         <LayersControl position="bottomright">
