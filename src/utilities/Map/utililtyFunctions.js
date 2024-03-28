@@ -9,7 +9,11 @@ export const formatTheStringArealM2 = (value) => {
   const arealm2 = parseInt(value) / 1000;
   return formatNumber(arealm2, 'nb-NO', 2); // Format with the decimal
 };
-export const calculateAdditionalRows = (granCSVData, furuCSVData, values) => {
+export const calculateHeightVolumeStandVolume = (
+  granCSVData,
+  furuCSVData,
+  values
+) => {
   // Step 1 get the H from the Gran and Furu csv files
   let estimatedHeightString;
   // Step 2
