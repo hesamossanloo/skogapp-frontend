@@ -10,8 +10,8 @@ import {
 } from 'variables/forest';
 import useCsvData from './useCSVData';
 import {
-  calculateAdditionalRows,
   calculateBoundingBox,
+  calculateHeightVolumeStandVolume,
   formatNumber,
   formatTheStringArealM2,
   isPointInsidePolygon,
@@ -118,7 +118,7 @@ export default function CustomMapEvents(props) {
         (result, feature) => {
           const values = feature[0].values_;
           if (values.hogstkl_verdi === '4' || values.hogstkl_verdi === '5') {
-            const additionalRows = calculateAdditionalRows(
+            const additionalRows = calculateHeightVolumeStandVolume(
               granCSVData,
               furuCSVData,
               values
@@ -175,7 +175,11 @@ export default function CustomMapEvents(props) {
             estimatedStandVolume,
             speciesPrice,
             totalVolume,
-          } = calculateAdditionalRows(granCSVData, furuCSVData, values);
+          } = calculateHeightVolumeStandVolume(
+            granCSVData,
+            furuCSVData,
+            values
+          );
 
           // The tree density volume per stand
           sumObj.estimatedStandVolumeM3HAANumber =
