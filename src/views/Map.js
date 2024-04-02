@@ -311,6 +311,14 @@ function Map() {
               )}
             </LayerGroup>
           </Overlay>
+          <Overlay name="High Resolution" checked>
+            <WMSTileLayer
+              url="http://localhost:5001/wms"
+              layers="0"
+              format="image/png"
+              version="1.3.0"
+            />
+          </Overlay>
         </LayersControl>
       </MapContainer>
     </>

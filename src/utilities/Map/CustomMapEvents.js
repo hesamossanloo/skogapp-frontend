@@ -254,7 +254,7 @@ export default function CustomMapEvents(props) {
       setClickedOnLine(madsTeig.features[0].properties.DN === 99);
       if (!clickedOnLine && activeOverlay['Hogstklasser']) {
         // The WMS expects the Query params to follow certain patterns. After
-        // analysing how QGIS made the WMS call, reverse enginnered the call
+        // analysing how QGIS made the WMS call, reverse engineered the call
         // and here we are building one of those params, i.e. BBOX, size.x, size.y and the CRS
         const { CRS, size, BBOX } = calculateBoundingBox(map);
 
@@ -277,6 +277,7 @@ export default function CustomMapEvents(props) {
             clickedForest.features[0].geometry.coordinates
           )
         ) {
+          // The params should be in uppercase, unless the WMS won't accept it
           const params = {
             ...nibioGetFeatInfoBaseParams,
             BBOX,
