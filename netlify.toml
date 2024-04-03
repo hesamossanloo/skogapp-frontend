@@ -1,6 +1,5 @@
 [build]
     edge_functions = "netlify/edge-functions"
-    publish = "public"
 [[edge_functions]]
     function = "testEdge"
     path = "/edge/test"
