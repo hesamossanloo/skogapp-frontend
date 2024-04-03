@@ -19,6 +19,7 @@
     "classnames": "2.3.2",
     "geotiff": "^2.1.2",
     "leaflet": "^1.9.4",
+    "node-fetch": "^3.3.2",
     "ol": "^8.2.0",
     "papaparse": "^5.4.1",
     "perfect-scrollbar": "1.5.5",
@@ -40,7 +41,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start",
+    "netlify:dev": "netlify dev",
+    "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && yarn install && yarn start",
     "compile-scss": "sass src/assets/scss/black-dashboard-react.scss src/assets/css/black-dashboard-react.css",
     "minify-scss": "sass src/assets/scss/black-dashboard-react.scss src/assets/css/black-dashboard-react.min.css --style compressed"
   },

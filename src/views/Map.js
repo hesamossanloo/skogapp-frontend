@@ -313,9 +313,9 @@ function Map() {
           </Overlay>
           <Overlay name="High Resolution" checked>
             <WMSTileLayer
-              url="http://localhost:5001/wms"
+              url="/edge/wms"
               layers="0"
-              format="image/png"
+              format="image/jpeg"
               version="1.3.0"
             />
           </Overlay>
