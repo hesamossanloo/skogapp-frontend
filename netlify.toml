@@ -1,5 +1,4 @@
 [build]
-    functions = "netlify/functions"
     edge_functions = "netlify/edge-functions"
     publish = "public"
 [[edge_functions]]
