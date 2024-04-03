@@ -1,0 +1,12 @@
+[build]
+    edge_functions = "netlify/edge-functions"
+    publish = "public"
+[[edge_functions]]
+    function = "testEdge"
+    path = "/edge/test"
+[[edge_functions]]
+    function = "helloEdge"
+    path = "/edge/hello"
+[[edge_functions]]
+    function = "wmsEdge"
+    path = "/edge/wms"

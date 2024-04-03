@@ -2,3 +2,5 @@ src/assets/data/QGIS/bjoern
 src/assets/data/QGIS/mads-forest-sieve-poly-simplified.js
 src/assets/data/QGIS/knut
 src/assets/data/QGIS/aksel
+**/*.deno.js
+**/*.deno.ts
