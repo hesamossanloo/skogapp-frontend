@@ -9,7 +9,7 @@ Usage: <ToggleSwitch id="id" checked={value} onChange={checked => setValue(check
 const Style = {
   position: 'absolute',
   top: 80,
-  right: 0,
+  right: 10,
   zIndex: 9999,
 };
 

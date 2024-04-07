@@ -16127,7 +16127,7 @@ textarea.form-control {
 
 .toggle-switch {
   position: relative;
-  width: 75px;
+  width: 140px;
   display: inline-block;
   vertical-align: middle;
   -webkit-user-select: none;
@@ -16166,7 +16166,7 @@ textarea.form-control {
   box-sizing: border-box;
 }
 .toggle-switch-inner:before {
-  content: "Yes";
+  content: attr(data-yes);
   text-transform: uppercase;
   padding-left: 10px;
   background-color: #f90;
@@ -16181,7 +16181,7 @@ textarea.form-control {
   cursor: not-allowed;
 }
 .toggle-switch-inner:after {
-  content: "No";
+  content: attr(data-no);
   text-transform: uppercase;
   padding-right: 10px;
   background-color: #bbb;
@@ -16196,7 +16196,7 @@ textarea.form-control {
   position: absolute;
   top: 0;
   bottom: 0;
-  right: 40px;
+  right: 107px;
   border: 0 solid #bbb;
   border-radius: 20px;
   transition: all 0.3s ease-in 0s;
@@ -16206,6 +16206,19 @@ textarea.form-control {
 }
 .toggle-switch-checkbox:checked + .toggle-switch-label .toggle-switch-switch {
   right: 0px;
+}
+.toggle-switch.small-switch {
+  width: 40px;
+}
+.toggle-switch.small-switch .toggle-switch-inner:after, .toggle-switch.small-switch .toggle-switch-inner:before {
+  content: "";
+  height: 20px;
+  line-height: 20px;
+}
+.toggle-switch.small-switch .toggle-switch-switch {
+  width: 16px;
+  right: 20px;
+  margin: 2px;
 }
 
 /*
