@@ -41,7 +41,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "netlify:dev": "netlify dev",
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && yarn install && yarn start",
     "compile-scss": "sass src/assets/scss/black-dashboard-react.scss src/assets/css/black-dashboard-react.css",
     "minify-scss": "sass src/assets/scss/black-dashboard-react.scss src/assets/css/black-dashboard-react.min.css --style compressed"
