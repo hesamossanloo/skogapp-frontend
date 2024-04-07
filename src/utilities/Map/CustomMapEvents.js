@@ -241,7 +241,10 @@ export default function CustomMapEvents(props) {
     zoom: async (e) => {
       let flag = false;
       setZoomLevel(map.getZoom());
-      if (map.getZoom() > HIDE_POLYGON_ZOOM_LEVEL) {
+      if (
+        map.getZoom() > HIDE_POLYGON_ZOOM_LEVEL &&
+        activeOverlay['Hogstklasser']
+      ) {
         flag = true;
       }
       setActiveOverlay((prevOverlay) => ({
