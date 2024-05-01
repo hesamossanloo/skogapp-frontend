@@ -27,6 +27,7 @@ import {
 import { Button } from 'reactstrap';
 import ForestSelector from 'utilities/Map/components/ForestSelector';
 import CustomMapEvents from 'utilities/Map/CustomMapEvents';
+import { downloadCSV } from 'utilities/Map/utililtyFunctions.js';
 import {
   HIDE_POLYGON_ZOOM_LEVEL,
   MAP_DEFAULT_ZOOM_LEVEL,
@@ -58,6 +59,8 @@ function Map() {
   const forest2 = mapCoordinations.bjoernForestPosition;
   const forest3 = mapCoordinations.knutForestPosition;
   const forest4 = mapCoordinations.akselForestPosition;
+
+  const [CSVData, setCSVData] = useState([]);
 
   const [clickedOnLine, setClickedOnLine] = useState(false);
   const [zoomLevel, setZoomLevel] = useState(MAP_DEFAULT_ZOOM_LEVEL);
@@ -182,6 +185,20 @@ function Map() {
       >
         Deselect
       </Button>
+      <Button
+        color="warning"
+        style={{
+          zIndex: '10',
+          position: 'fixed',
+          right: '10px',
+          top: '160px',
+          width: '115px',
+          padding: '10px 0 10px 0',
+        }}
+        onClick={() => downloadCSV(CSVData)} // Update this line
+      >
+        CSV
+      </Button>
       <MapContainer
         id="SkogAppMapContainer"
         popupMovable={true}
@@ -222,6 +239,7 @@ function Map() {
           selectedForest={selectedForest}
           setClickedOnLine={setClickedOnLine}
           setDeselectPolygons={setDeselectPolygons}
+          setCSVData={setCSVData}
         />
         <ZoomControl position="bottomright" />
         <LayersControl position="bottomright">

@@ -1,4 +1,6 @@
 import * as turf from '@turf/turf';
+import { saveAs } from 'file-saver';
+import Papa from 'papaparse';
 import {
   SPECIES,
   SPECIES_PRICES,
@@ -206,3 +208,15 @@ export const calculteSpeciesBasedPrice = (species, volume) => {
   }
   return { totalVolume: volume * speciesPrice, speciesPrice };
 };
+
+// Function to download the CSV file
+export function downloadCSV(csvData) {
+  // Convert JSON to CSV
+  const csv = Papa.unparse(csvData);
+
+  // Create a blob from the CSV data
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+
+  // Use FileSaver to save the file
+  saveAs(blob, 'featureInfos.csv');
+}
