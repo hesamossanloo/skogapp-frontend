@@ -87,7 +87,7 @@ export default function CustomMapEvents(props) {
     );
     sumObj.title = activeOverlayNames[0];
 
-    if (multi) {
+    if (multi && features[0] && features[0][0] && features[0][0].values_) {
       // Multi polygon selection switch is selected
       const joinedTeigBestNr = features
         .map((feature) => feature[0].values_.teig_best_nr)
@@ -156,7 +156,13 @@ export default function CustomMapEvents(props) {
     } else {
       // Single polygon selection switch is selected
 
-      if (features.length > 0 && features[0] && !clickedOnLine) {
+      if (
+        features.length > 0 &&
+        features[0] &&
+        features[0][0] &&
+        features[0][0].values_ &&
+        !clickedOnLine
+      ) {
         const feature = features[0];
         const values = feature[0].values_;
         sumObj.teig_best_nr = values.teig_best_nr;
@@ -203,38 +209,45 @@ export default function CustomMapEvents(props) {
         }
       }
     }
-    let content =
-      // Add the layer name as the title with black color and centered alignment
-      `<h3 style="color: black; text-align: center;">${sumObj.title}</h3>` +
-      // Add margin-bottom and border styles
-      '<table style="margin-bottom: 10px; border-collapse: collapse; border: 1px solid black;">' +
-      // Add the ID row
-      `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">ID</td><td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.teig_best_nr}</td></tr>` +
-      // Add Hogstklasse
-      `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">${desiredAttributes['hogstkl_verdi']}</td><td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.hogstkl_verdi}</td></tr>` +
-      // Add Bonitet
-      `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">${desiredAttributes['bonitet_beskrivelse']}</td><td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.bonitet_beskrivelse}</td></tr>` +
-      // Add the Treslag
-      `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">${desiredAttributes['bontre_beskrivelse']}</td><td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.bontre_beskrivelse}</td></tr>` +
-      // Add the ArealM2
-      `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">${desiredAttributes['arealm2']}</td><td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.arealm2}</td></tr>` +
-      // Add the Alder
-      `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">${desiredAttributes['alder']}</td><td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.alder}</td></tr>`;
-    if (sumObj.estimatedStandVolumeM3HAANumber) {
-      // Showing the tree density volume per stand
-      content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Tømmervolum</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.estimatedStandVolumeM3HAANumber, 'nb-NO', 1)}</span> m^3</td></tr>`;
-      // Calculating the estimatedStandVolume per decare (daa)
-      content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Tømmertetthet</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.estimatedStandVolume / 10, 'nb-NO', 1)}</span> m^3/daa</td></tr>`;
-      // The price of the timber for a species
-      content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Forv. gj.sn pris per m^3</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.speciesPrice, 'nb-NO', 0)}</span> kr</td></tr>`;
-      // We rae showing the total volume
-      content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Forv. brutto verdi</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.totalVolume, 'nb-NO', 0)}</span> kr</td></tr>`;
+    if (
+      features.length > 0 &&
+      features[0] &&
+      features[0][0] &&
+      features[0][0].values_
+    ) {
+      let content =
+        // Add the layer name as the title with black color and centered alignment
+        `<h3 style="color: black; text-align: center;">${sumObj.title}</h3>` +
+        // Add margin-bottom and border styles
+        '<table style="margin-bottom: 10px; border-collapse: collapse; border: 1px solid black;">' +
+        // Add the ID row
+        `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">ID</td><td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.teig_best_nr}</td></tr>` +
+        // Add Hogstklasse
+        `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">${desiredAttributes['hogstkl_verdi']}</td><td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.hogstkl_verdi}</td></tr>` +
+        // Add Bonitet
+        `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">${desiredAttributes['bonitet_beskrivelse']}</td><td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.bonitet_beskrivelse}</td></tr>` +
+        // Add the Treslag
+        `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">${desiredAttributes['bontre_beskrivelse']}</td><td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.bontre_beskrivelse}</td></tr>` +
+        // Add the ArealM2
+        `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">${desiredAttributes['arealm2']}</td><td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.arealm2}</td></tr>` +
+        // Add the Alder
+        `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">${desiredAttributes['alder']}</td><td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.alder}</td></tr>`;
+      if (sumObj.estimatedStandVolumeM3HAANumber) {
+        // Showing the tree density volume per stand
+        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Tømmervolum</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.estimatedStandVolumeM3HAANumber, 'nb-NO', 1)}</span> m^3</td></tr>`;
+        // Calculating the estimatedStandVolume per decare (daa)
+        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Tømmertetthet</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.estimatedStandVolume / 10, 'nb-NO', 1)}</span> m^3/daa</td></tr>`;
+        // The price of the timber for a species
+        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Forv. gj.sn pris per m^3</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.speciesPrice, 'nb-NO', 0)}</span> kr</td></tr>`;
+        // We rae showing the total volume
+        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Forv. brutto verdi</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.totalVolume, 'nb-NO', 0)}</span> kr</td></tr>`;
+      }
+      content += '</table>';
+      L.popup({ interactive: true })
+        .setLatLng(e.latlng)
+        .setContent(content)
+        .openOn(map);
     }
-    content += '</table>';
-    L.popup({ interactive: true })
-      .setLatLng(e.latlng)
-      .setContent(content)
-      .openOn(map);
   };
 
   useMapEvents({

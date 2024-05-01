@@ -79,6 +79,8 @@ function Map() {
     geoJSONLayer.setStyle({
       fillColor: 'transparent',
       fillOpacity: 0,
+      color: 'transparent', // Make borders transparent initially
+      weight: 1,
     }); // Set default transparent style for the GeoJSON layer
 
     geoJSONLayer.on({
@@ -90,13 +92,17 @@ function Map() {
               layer.setStyle({
                 fillColor: 'transparent',
                 fillOpacity: 0,
+                color: 'transparent', // Reset borders to transparent
+                weight: 1,
               });
             });
             previousGeoJSONLayersRef.current = []; // Reset the list of previous layers
             // Highlight the clicked layer
             geoJSONLayer.setStyle({
               fillColor: 'rgb(255, 255, 0)',
-              fillOpacity: 1,
+              fillOpacity: 0,
+              color: 'rgb(255, 255, 0)', // Color for the border
+              weight: 3, // Increase border width to make it visible
             });
 
             previousGeoJSONLayersRef.current = [geoJSONLayer];
@@ -105,7 +111,9 @@ function Map() {
 
             geoJSONLayer.setStyle({
               fillColor: 'rgb(255, 255, 0)',
-              fillOpacity: 1,
+              fillOpacity: 0,
+              color: 'rgb(255, 255, 0)', // Color for the border
+              weight: 3, // Increase border width to make it visible
             });
 
             previousGeoJSONLayersRef.current.push(geoJSONLayer);
@@ -149,6 +157,8 @@ function Map() {
       layer.setStyle({
         fillColor: 'transparent',
         fillOpacity: 0,
+        color: 'transparent', // Reset borders to transparent
+        weight: 1,
       });
     });
     // Clear the array after resetting styles
@@ -285,7 +295,7 @@ function Map() {
                 <GeoJSON
                   data={madsPolygons}
                   onEachFeature={onEachFeature}
-                  style={{ stroke: false }}
+                  // style={{ stroke: false }}
                 />
               )}
               {bjoernPolygons && selectedForest.name === 'forest2' && (
