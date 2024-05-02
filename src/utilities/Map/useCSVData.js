@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import Papa from 'papaparse';
 
-const useCsvData = (url) => {
+const useCSVData = (url) => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
 
@@ -30,4 +30,4 @@ const useCsvData = (url) => {
 
   return { data, error };
 };
-export default useCsvData;
+export default useCSVData;

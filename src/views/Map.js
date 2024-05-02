@@ -85,7 +85,8 @@ function Map() {
 
     geoJSONLayer.on({
       click: () => {
-        if (feature.properties.DN !== 99) {
+        if (feature.properties.DN !== 395) {
+          console.log('DN:', feature.properties.DN);
           // If multiPolygonSelectRef.current is false, unhighlight the previous layer
           if (!multiPolygonSelectRef.current) {
             previousGeoJSONLayersRef.current.forEach((layer) => {

@@ -8,7 +8,7 @@ import {
   HIDE_POLYGON_ZOOM_LEVEL,
   nibioGetFeatInfoBaseParams,
 } from 'variables/forest';
-import useCsvData from './useCSVData';
+import useCSVData from './useCSVData';
 import {
   calculateBoundingBox,
   calculateHeightVolumeStandVolume,
@@ -56,8 +56,8 @@ export default function CustomMapEvents(props) {
   const map = useMap();
   const [selectedFeatures, setSelectedFeatures] = useState([]);
 
-  const granCSVData = useCsvData(CSV_URLS.GRAN).data;
-  const furuCSVData = useCsvData(CSV_URLS.FURU).data;
+  const granCSVData = useCSVData(CSV_URLS.GRAN).data;
+  const furuCSVData = useCSVData(CSV_URLS.FURU).data;
 
   const desiredAttributes = {
     teig_best_nr: 'Bestand nr',
@@ -267,7 +267,7 @@ export default function CustomMapEvents(props) {
     },
     click: async (e) => {
       // Handle Clicks on Mads Forest
-      setClickedOnLine(madsTeig.features[0].properties.DN === 99);
+      setClickedOnLine(madsTeig.features[0].properties.DN === 395);
       if (!clickedOnLine && activeOverlay['Hogstklasser']) {
         // The WMS expects the Query params to follow certain patterns. After
         // analysing how QGIS made the WMS call, reverse engineered the call
@@ -309,6 +309,7 @@ export default function CustomMapEvents(props) {
           const format = new WMSGetFeatureInfo();
           const newFeatures = format.readFeatures(data);
 
+          console.log('Params:', params);
           // In case the selected feature is already in the array,
           // which means the user has clicked on it before, we don't
           // need to add it to the array. That's why we check if the teigBestNr
