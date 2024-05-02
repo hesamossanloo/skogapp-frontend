@@ -21,7 +21,6 @@ CustomMapEvents.propTypes = {
   }).isRequired,
   setCSVData: PropTypes.func.isRequired,
   setActiveOverlay: PropTypes.func.isRequired,
-  setClickedOnLine: PropTypes.func.isRequired,
   setDeselectPolygons: PropTypes.func.isRequired,
   setZoomLevel: PropTypes.func.isRequired,
   zoomLevel: PropTypes.number.isRequired,
@@ -40,7 +39,6 @@ export default function CustomMapEvents(props) {
     activeOverlay,
     setCSVData,
     setActiveOverlay,
-    setClickedOnLine,
     setDeselectPolygons,
     setZoomLevel,
     zoomLevel,
@@ -254,7 +252,6 @@ export default function CustomMapEvents(props) {
     },
     click: async (e) => {
       // Handle Clicks on Mads Forest
-      setClickedOnLine(madsTeig.features[0].properties.DN === 99);
       if (!clickedOnLine && activeOverlay['Hogstklasser']) {
         // The WMS expects the Query params to follow certain patterns. After
         // analysing how QGIS made the WMS call, reverse engineered the call
@@ -303,7 +300,7 @@ export default function CustomMapEvents(props) {
           const teigBestNrLastSelected = newFeatures[0]?.values_?.teig_best_nr;
           // Check if newFeatures[0]?.values_ exists
           if (newFeatures[0]?.values_) {
-            const newRow = { ...newFeatures[0].values_, BBOX, CRS };
+            const newRow = { ...newFeatures[0].values_, CRS };
 
             setCSVData((prevCSVData) => {
               // Check if the feature is already included in the CSV data by comparing some unique identifier

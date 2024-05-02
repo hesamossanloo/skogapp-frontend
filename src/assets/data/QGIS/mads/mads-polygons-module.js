@@ -33987,4 +33987,4 @@ const madsPolygons = {
   ],
 };
 
-export default madsPolygons;
+module.exports = madsPolygons;

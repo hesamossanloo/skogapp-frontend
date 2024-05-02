@@ -86,7 +86,7 @@ function Map() {
 
     geoJSONLayer.on({
       click: () => {
-        if (feature.properties.DN !== 99) {
+        if (feature.properties.DN !== -1) {
           // If multiPolygonSelectRef.current is false, unhighlight the previous layer
           if (!multiPolygonSelectRef.current) {
             previousGeoJSONLayersRef.current.forEach((layer) => {
@@ -113,6 +113,9 @@ function Map() {
 
             previousGeoJSONLayersRef.current.push(geoJSONLayer);
           }
+        } else {
+          // If the feature is a line, set the clickedOnLine state to true
+          setClickedOnLine(true);
         }
       },
     });
@@ -237,7 +240,6 @@ function Map() {
           zoomLevel={zoomLevel}
           clickedOnLine={clickedOnLine}
           selectedForest={selectedForest}
-          setClickedOnLine={setClickedOnLine}
           setDeselectPolygons={setDeselectPolygons}
           setCSVData={setCSVData}
         />
