@@ -22,11 +22,10 @@ CustomMapEvents.propTypes = {
     Hogstklasser: PropTypes.bool,
   }).isRequired,
   setActiveOverlay: PropTypes.func.isRequired,
-  setClickedOnLine: PropTypes.func.isRequired,
   setDeselectPolygons: PropTypes.func.isRequired,
   setZoomLevel: PropTypes.func.isRequired,
   zoomLevel: PropTypes.number.isRequired,
-  clickedOnLine: PropTypes.bool.isRequired,
+  clickedOnLineRef: PropTypes.object.isRequired,
   multiPolygonSelect: PropTypes.bool.isRequired,
   deselectPolygons: PropTypes.bool.isRequired,
   madsTeig: PropTypes.object.isRequired,
@@ -40,11 +39,10 @@ export default function CustomMapEvents(props) {
   const {
     activeOverlay,
     setActiveOverlay,
-    setClickedOnLine,
     setDeselectPolygons,
     setZoomLevel,
     zoomLevel,
-    clickedOnLine,
+    clickedOnLineRef,
     madsTeig,
     bjoernTeig,
     knutTeig,
@@ -161,7 +159,7 @@ export default function CustomMapEvents(props) {
         features[0] &&
         features[0][0] &&
         features[0][0].values_ &&
-        !clickedOnLine
+        !clickedOnLineRef.current
       ) {
         const feature = features[0];
         const values = feature[0].values_;
@@ -266,9 +264,9 @@ export default function CustomMapEvents(props) {
       }));
     },
     click: async (e) => {
+      console.log('CustomMapEvents Forbidden Area: ', clickedOnLineRef.current);
       // Handle Clicks on Mads Forest
-      setClickedOnLine(madsTeig.features[0].properties.DN === 99);
-      if (!clickedOnLine && activeOverlay['Hogstklasser']) {
+      if (!clickedOnLineRef.current && activeOverlay['Hogstklasser']) {
         // The WMS expects the Query params to follow certain patterns. After
         // analysing how QGIS made the WMS call, reverse engineered the call
         // and here we are building one of those params, i.e. BBOX, size.x, size.y and the CRS
