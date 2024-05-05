@@ -8,11 +8,7 @@ const parsedGeoJSON = JSON.parse(stringifiedGeoJSON);
 const ascendingDN = () => {
   // Assign ascending numbers to DN property
   parsedGeoJSON.features.forEach((feature, index) => {
-    if (feature.properties.DN === 99) {
-      feature.properties.DN = -1;
-    } else {
-      feature.properties.DN = index + 1;
-    }
+    feature.properties.DN = index + 1;
   });
   // Convert the modified data back to JSON string
   const modifiedDataString = JSON.stringify(parsedGeoJSON, null, 2);

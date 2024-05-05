@@ -51,8 +51,8 @@ export const calculateHeightVolumeStandVolume = (
       estimatedHeightString,
       values.alder
     );
-    console.log(' ', 'Use the H and Gu to calculte the V.');
-    console.log(' ', 'V: ', estimatedStandVolume);
+    // console.log(' ', 'Use the H and Gu to calculte the V.');
+    // console.log(' ', 'V: ', estimatedStandVolume);
 
     // Step 4:
     // SV_in_bestand_249 = arealm2/10000*249 = 11391*249/10000 = 283.636
@@ -60,10 +60,10 @@ export const calculateHeightVolumeStandVolume = (
       values.arealm2,
       estimatedStandVolume
     );
-    console.log(' ', 'Use the V and arealm2 to calculte the SV.');
-    console.log(' ', 'SV: ', estimatedStandVolumeM3HAANumber);
-    console.log('FINISHED:', 'Calculation for the Teig: ', values.teig_best_nr);
-    console.log('############  END  #############');
+    // console.log(' ', 'Use the V and arealm2 to calculte the SV.');
+    // console.log(' ', 'SV: ', estimatedStandVolumeM3HAANumber);
+    // console.log('FINISHED:', 'Calculation for the Teig: ', values.teig_best_nr);
+    // console.log('############  END  #############');
   }
   const { totalVolume, speciesPrice } = calculteSpeciesBasedPrice(
     values.bontre_beskrivelse,
@@ -179,16 +179,16 @@ export const calculateEstimatedHeightAndCrossSectionArea = (
       );
     }
   }
-  console.log('############ START #############');
-  console.log(
-    'START:',
-    'Calculation for the Teig: ',
-    featureValues.teig_best_nr
-  );
-  console.log(' ', 'START:', 'Reading values from the CSV file:');
-  console.log('   ', 'H: ', estimatedHeightFromCSVString);
-  console.log('   ', 'Gu: ', calculatedCrossSectionAreaNumber);
-  console.log(' ', 'FINISHED:', 'Reading values from the CSV file.');
+  // console.log('############ START #############');
+  // console.log(
+  //   'START:',
+  //   'Calculation for the Teig: ',
+  //   featureValues.teig_best_nr
+  // );
+  // console.log(' ', 'START:', 'Reading values from the CSV file:');
+  // console.log('   ', 'H: ', estimatedHeightFromCSVString);
+  // console.log('   ', 'Gu: ', calculatedCrossSectionAreaNumber);
+  // console.log(' ', 'FINISHED:', 'Reading values from the CSV file.');
 
   return {
     estimatedHeightCSV: estimatedHeightFromCSVString,

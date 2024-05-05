@@ -61,8 +61,11 @@ function Map() {
   const forest4 = mapCoordinations.akselForestPosition;
 
   const [CSVData, setCSVData] = useState([]);
+  const [DN, setDN] = useState(0);
+  const DNRef = useRef(DN);
 
   const [clickedOnLine, setClickedOnLine] = useState(false);
+  const clickedOnLineRef = useRef(clickedOnLine);
   const [zoomLevel, setZoomLevel] = useState(MAP_DEFAULT_ZOOM_LEVEL);
   const [selectedForest, setSelectedForest] = useState(forest1); // Default to forest 1
   const [selectedForestFirstTime, setSelectedForestFirstTime] = useState(false);
@@ -72,6 +75,13 @@ function Map() {
   const multiPolygonSelectRef = useRef(multiPolygonSelect);
   const previousGeoJSONLayersRef = useRef([]);
 
+  // We need a ref so that when we pass it to the child component, it always shows the current value and not the previous value
+  useEffect(() => {
+    DNRef.current = DN;
+  }, [DN]);
+  useEffect(() => {
+    clickedOnLineRef.current = clickedOnLine;
+  }, [clickedOnLine]);
   // Update the ref every time multiPolygonSelect changes
   useEffect(() => {
     multiPolygonSelectRef.current = multiPolygonSelect;
@@ -86,7 +96,19 @@ function Map() {
 
     geoJSONLayer.on({
       click: () => {
-        if (feature.properties.DN !== -1) {
+        const newDN = feature.properties.DN;
+        setDN(newDN);
+        DNRef.current = newDN;
+        const forbideanArea = [
+          21, 29, 39, 92, 70, 35, 31, 18, 123, 101, 201, 173, 222, 220, 273,
+          161, 305, 268, 321, 137, 218, 285, 310, 312, 316, 317, 299, 294, 381,
+          109, 105, 82, 362, 395,
+        ].includes(feature.properties.DN);
+        setClickedOnLine(forbideanArea);
+        clickedOnLineRef.current = forbideanArea;
+        console.log('Map DN:', feature.properties.DN);
+        console.log('Map Forbiden:', forbideanArea);
+        if (!forbideanArea) {
           // If multiPolygonSelectRef.current is false, unhighlight the previous layer
           if (!multiPolygonSelectRef.current) {
             previousGeoJSONLayersRef.current.forEach((layer) => {
@@ -113,9 +135,6 @@ function Map() {
 
             previousGeoJSONLayersRef.current.push(geoJSONLayer);
           }
-        } else {
-          // If the feature is a line, set the clickedOnLine state to true
-          setClickedOnLine(true);
         }
       },
     });
@@ -238,10 +257,11 @@ function Map() {
           akselTeig={akselTeig}
           setZoomLevel={setZoomLevel}
           zoomLevel={zoomLevel}
-          clickedOnLine={clickedOnLine}
+          clickedOnLineRef={clickedOnLineRef}
           selectedForest={selectedForest}
           setDeselectPolygons={setDeselectPolygons}
           setCSVData={setCSVData}
+          DNRef={DNRef}
         />
         <ZoomControl position="bottomright" />
         <LayersControl position="bottomright">
@@ -331,7 +351,7 @@ function Map() {
               )}
             </LayerGroup>
           </Overlay>
-          <Overlay name="High Resolution" checked>
+          <Overlay name="High Resolution">
             <WMSTileLayer
               url="https://services.geodataonline.no:443/arcgis/services/Geocache_UTM33_EUREF89/GeocacheBilder/MapServer/WMSServer"
               // url="https://xvkdluncc4.execute-api.eu-north-1.amazonaws.com/Prod/hello"
