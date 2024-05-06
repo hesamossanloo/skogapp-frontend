@@ -182,7 +182,9 @@ function Map() {
       />
       <ToggleSwitch
         id="multiPolygon"
-        disabled={!activeOverlay['Hogstklasser']}
+        disabled={
+          !activeOverlay['Hogstklasser'] && !activeOverlay['WMSHogstklasser']
+        }
         checked={multiPolygonSelect}
         optionLabels={['Multi Select', 'Single Select']}
         onChange={toggleSelectMultiPolygons}

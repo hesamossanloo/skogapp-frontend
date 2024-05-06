@@ -280,6 +280,7 @@ export default function CustomMapEvents(props) {
               key !== 'Teig' ? false : value,
             ])
           );
+          map.closePopup();
           setActiveOverlay(newOverlay);
         }
       }
@@ -288,7 +289,10 @@ export default function CustomMapEvents(props) {
     },
     click: async (e) => {
       // Handle Clicks on Mads Forest
-      if (!clickedOnLineRef.current && activeOverlay['Hogstklasser']) {
+      if (
+        !clickedOnLineRef.current &&
+        (activeOverlay['Hogstklasser'] || activeOverlay['WMSHogstklasser'])
+      ) {
         // The WMS expects the Query params to follow certain patterns. After
         // analysing how QGIS made the WMS call, reverse engineered the call
         // and here we are building one of those params, i.e. BBOX, size.x, size.y and the CRS
@@ -370,7 +374,7 @@ export default function CustomMapEvents(props) {
       }));
     },
     overlayremove: async (e) => {
-      if (activeOverlay['Hogstklasser']) {
+      if (activeOverlay['Hogstklasser'] || activeOverlay['WMSHogstklasser']) {
         map.closePopup();
       }
       !(zoomLevel <= HIDE_POLYGON_ZOOM_LEVEL) &&
