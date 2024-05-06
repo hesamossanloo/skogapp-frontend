@@ -1,7 +1,7 @@
 import L from 'leaflet';
 import { WMSGetFeatureInfo } from 'ol/format';
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useMap, useMapEvents } from 'react-leaflet';
 import {
   CSV_URLS,
@@ -19,7 +19,9 @@ import {
 
 CustomMapEvents.propTypes = {
   activeOverlay: PropTypes.shape({
+    Teig: PropTypes.bool,
     Hogstklasser: PropTypes.bool,
+    WMSHogstklasser: PropTypes.bool,
   }).isRequired,
   setActiveOverlay: PropTypes.func.isRequired,
   setDeselectPolygons: PropTypes.func.isRequired,
@@ -53,6 +55,8 @@ export default function CustomMapEvents(props) {
   } = props;
   const map = useMap();
   const [selectedFeatures, setSelectedFeatures] = useState([]);
+  const [savedOverlays, setSavedOverlays] = useState({});
+  const previousZoomLevel = useRef(map.getZoom());
 
   const granCSVData = useCsvData(CSV_URLS.GRAN).data;
   const furuCSVData = useCsvData(CSV_URLS.FURU).data;
@@ -249,22 +253,40 @@ export default function CustomMapEvents(props) {
   };
 
   useMapEvents({
-    zoom: async (e) => {
-      let flag = false;
-      setZoomLevel(map.getZoom());
-      if (
-        map.getZoom() > HIDE_POLYGON_ZOOM_LEVEL &&
-        activeOverlay['Hogstklasser']
-      ) {
-        flag = true;
+    zoomstart: (e) => {
+      previousZoomLevel.current = map.getZoom();
+    },
+    zoomend: (e) => {
+      const currentZoomLevel = map.getZoom();
+      setZoomLevel(currentZoomLevel);
+
+      // User is zooming in
+      if (currentZoomLevel > previousZoomLevel.current) {
+        if (Object.keys(savedOverlays).length) {
+          // Restore the active layers when zoom level goes beneath the threshold
+          setActiveOverlay(savedOverlays);
+        }
+      } else if (currentZoomLevel < previousZoomLevel.current) {
+        // User is zooming out
+        if (currentZoomLevel < HIDE_POLYGON_ZOOM_LEVEL) {
+          if (!Object.keys(savedOverlays).length) {
+            // Save the current active layers if they haven't been saved yet
+            setSavedOverlays(activeOverlay);
+          }
+          // Set all layers to false
+          const newOverlay = Object.fromEntries(
+            Object.entries(activeOverlay).map(([key, value]) => [
+              key,
+              key !== 'Teig' ? false : value,
+            ])
+          );
+          setActiveOverlay(newOverlay);
+        }
       }
-      setActiveOverlay((prevOverlay) => ({
-        ...prevOverlay,
-        Hogstklasser: flag,
-      }));
+
+      previousZoomLevel.current = currentZoomLevel;
     },
     click: async (e) => {
-      console.log('CustomMapEvents Forbidden Area: ', clickedOnLineRef.current);
       // Handle Clicks on Mads Forest
       if (!clickedOnLineRef.current && activeOverlay['Hogstklasser']) {
         // The WMS expects the Query params to follow certain patterns. After
@@ -342,14 +364,6 @@ export default function CustomMapEvents(props) {
       }
     },
     overlayadd: async (e) => {
-      if (activeOverlay['Hogstklasser']) {
-        // Wait for the next render cycle to ensure the layer control has been updated
-
-        setActiveOverlay((prevOverlay) => ({
-          ...prevOverlay,
-          Hogstklasser: true,
-        }));
-      }
       setActiveOverlay((prevOverlay) => ({
         ...prevOverlay,
         [e.name]: true,
@@ -358,14 +372,6 @@ export default function CustomMapEvents(props) {
     overlayremove: async (e) => {
       if (activeOverlay['Hogstklasser']) {
         map.closePopup();
-      }
-      if (activeOverlay['Hogstklasser'] && e.name === 'Hogstklasser') {
-        // Wait for the next render cycle to ensure the layer control has been updated
-        !(zoomLevel <= HIDE_POLYGON_ZOOM_LEVEL) &&
-          setActiveOverlay((prevOverlay) => ({
-            ...prevOverlay,
-            Hogstklasser: false,
-          }));
       }
       !(zoomLevel <= HIDE_POLYGON_ZOOM_LEVEL) &&
         setActiveOverlay((prevOverlay) => ({
