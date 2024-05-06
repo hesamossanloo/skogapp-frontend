@@ -303,34 +303,77 @@ function Map() {
                 version="1.3.0"
                 opacity={0}
               />
-              {madsPolygons && selectedForest.name === 'forest1' && (
-                <GeoJSON
-                  data={madsPolygons}
-                  onEachFeature={onEachFeature}
-                  // style={{ stroke: false }}
-                />
-              )}
-              {bjoernPolygons && selectedForest.name === 'forest2' && (
-                <GeoJSON
-                  data={bjoernPolygons}
-                  onEachFeature={onEachFeature}
-                  style={{ stroke: false }}
-                />
-              )}
-              {knutPolygons && selectedForest.name === 'forest3' && (
-                <GeoJSON
-                  data={knutPolygons}
-                  onEachFeature={onEachFeature}
-                  style={{ stroke: false }}
-                />
-              )}
-              {akselPolygons && selectedForest.name === 'forest4' && (
-                <GeoJSON
-                  data={akselPolygons}
-                  onEachFeature={onEachFeature}
-                  style={{ stroke: false }}
-                />
-              )}
+              {madsTeig &&
+                madsPolygons &&
+                selectedForest.name === 'forest1' && (
+                  <>
+                    <GeoJSON
+                      data={madsTeig}
+                      style={() => ({
+                        color: 'blue', // color of the lines
+                        fillColor: 'transparent', // fill color
+                      })}
+                    />
+                    <GeoJSON
+                      data={madsPolygons}
+                      onEachFeature={onEachFeature}
+                    />
+                  </>
+                )}
+              {bjoernTeig &&
+                bjoernPolygons &&
+                selectedForest.name === 'forest2' && (
+                  <>
+                    <GeoJSON
+                      data={bjoernTeig}
+                      style={() => ({
+                        color: 'blue', // color of the lines
+                        fillColor: 'transparent', // fill color
+                      })}
+                    />
+                    <GeoJSON
+                      data={bjoernPolygons}
+                      onEachFeature={onEachFeature}
+                      style={{ stroke: false }}
+                    />
+                  </>
+                )}
+              {knutTeig &&
+                knutPolygons &&
+                selectedForest.name === 'forest3' && (
+                  <>
+                    <GeoJSON
+                      data={knutTeig}
+                      style={() => ({
+                        color: 'blue', // color of the lines
+                        fillColor: 'transparent', // fill color
+                      })}
+                    />
+                    <GeoJSON
+                      data={knutPolygons}
+                      onEachFeature={onEachFeature}
+                      style={{ stroke: false }}
+                    />
+                  </>
+                )}
+              {akselTeig &&
+                akselPolygons &&
+                selectedForest.name === 'forest4' && (
+                  <>
+                    <GeoJSON
+                      data={akselTeig}
+                      style={() => ({
+                        color: 'blue', // color of the lines
+                        fillColor: 'transparent', // fill color
+                      })}
+                    />
+                    <GeoJSON
+                      data={akselPolygons}
+                      onEachFeature={onEachFeature}
+                      style={{ stroke: false }}
+                    />
+                  </>
+                )}
             </LayerGroup>
           </Overlay>
           <Overlay name="High Resolution">
