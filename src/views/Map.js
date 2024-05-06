@@ -51,7 +51,9 @@ L.Icon.Default.mergeOptions({
 /* eslint-disable react/react-in-jsx-scope */
 function Map() {
   const [activeOverlay, setActiveOverlay] = useState({
-    Hogstklasser: true,
+    Teig: true,
+    Hogstklasser: false,
+    WMSHogstklasser: false,
   });
 
   const forest1 = mapCoordinations.madsForestPosition;
@@ -103,8 +105,6 @@ function Map() {
           if (!multiPolygonSelectRef.current) {
             previousGeoJSONLayersRef.current.forEach((layer) => {
               layer.setStyle({
-                fillColor: 'transparent',
-                fillOpacity: 0,
                 color: 'transparent', // Reset borders to transparent
                 weight: 1,
               });
@@ -112,10 +112,8 @@ function Map() {
             previousGeoJSONLayersRef.current = []; // Reset the list of previous layers
             // Highlight the clicked layer
             geoJSONLayer.setStyle({
-              fillColor: 'rgb(255, 255, 0)',
-              fillOpacity: 0,
-              color: 'rgb(255, 255, 0)', // Color for the border
-              weight: 3, // Increase border width to make it visible
+              color: 'rgb(252, 123, 8)', // Color for the border
+              weight: 6, // Increase border width to make it visible
             });
 
             previousGeoJSONLayersRef.current = [geoJSONLayer];
@@ -123,10 +121,8 @@ function Map() {
             // If multiPolygonSelectRef.current is true, just highlight the clicked layer
 
             geoJSONLayer.setStyle({
-              fillColor: 'rgb(255, 255, 0)',
-              fillOpacity: 0,
-              color: 'rgb(255, 255, 0)', // Color for the border
-              weight: 3, // Increase border width to make it visible
+              color: 'rgb(252, 123, 8)', // Color for the border
+              weight: 6, // Increase border width to make it visible
             });
 
             previousGeoJSONLayersRef.current.push(geoJSONLayer);
@@ -186,7 +182,9 @@ function Map() {
       />
       <ToggleSwitch
         id="multiPolygon"
-        disabled={!activeOverlay['Hogstklasser']}
+        disabled={
+          !activeOverlay['Hogstklasser'] && !activeOverlay['WMSHogstklasser']
+        }
         checked={multiPolygonSelect}
         optionLabels={['Multi Select', 'Single Select']}
         onChange={toggleSelectMultiPolygons}
@@ -262,9 +260,9 @@ function Map() {
           <Overlay
             checked={
               zoomLevel > HIDE_POLYGON_ZOOM_LEVEL &&
-              activeOverlay['Hogstklasser']
+              activeOverlay['WMSHogstklasser']
             }
-            name="Hogstklasser"
+            name="WMSHogstklasser"
           >
             <LayerGroup>
               {selectedForest.name === 'forest1' && (
@@ -303,11 +301,68 @@ function Map() {
                 version="1.3.0"
                 opacity={0}
               />
+            </LayerGroup>
+          </Overlay>
+          <Overlay
+            name="Teig"
+            checked={
+              zoomLevel > HIDE_POLYGON_ZOOM_LEVEL && activeOverlay['Teig']
+            }
+          >
+            <LayerGroup>
+              {madsTeig && selectedForest.name === 'forest1' && (
+                <GeoJSON
+                  data={madsTeig}
+                  style={() => ({
+                    color: 'blue', // color of the lines
+                    fillColor: 'transparent', // fill color
+                  })}
+                />
+              )}
+              {bjoernTeig && selectedForest.name === 'forest2' && (
+                <GeoJSON
+                  data={bjoernTeig}
+                  style={() => ({
+                    color: 'blue', // color of the lines
+                    fillColor: 'transparent', // fill color
+                  })}
+                />
+              )}
+              {knutTeig && selectedForest.name === 'forest3' && (
+                <GeoJSON
+                  data={knutTeig}
+                  style={() => ({
+                    color: 'blue', // color of the lines
+                    fillColor: 'transparent', // fill color
+                  })}
+                />
+              )}
+              {akselTeig && selectedForest.name === 'forest4' && (
+                <GeoJSON
+                  data={akselTeig}
+                  style={() => ({
+                    color: 'blue', // color of the lines
+                    fillColor: 'transparent', // fill color
+                  })}
+                />
+              )}
+            </LayerGroup>
+          </Overlay>
+          <Overlay
+            name="Hogstklasser"
+            checked={
+              zoomLevel > HIDE_POLYGON_ZOOM_LEVEL &&
+              activeOverlay['Hogstklasser']
+            }
+          >
+            <LayerGroup>
               {madsPolygons && selectedForest.name === 'forest1' && (
                 <GeoJSON
                   data={madsPolygons}
                   onEachFeature={onEachFeature}
-                  // style={{ stroke: false }}
+                  style={() => ({
+                    color: 'blue', // color of the lines
+                  })}
                 />
               )}
               {bjoernPolygons && selectedForest.name === 'forest2' && (
