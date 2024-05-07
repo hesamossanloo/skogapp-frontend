@@ -11,8 +11,9 @@ import madsPolygons from 'assets/data/QGIS/mads/mads-polygons.js';
 import madsPolygonsPNG from 'assets/data/QGIS/mads/mads-polygons.png';
 import madsTeig from 'assets/data/QGIS/mads/mads-teig.js';
 import ToggleSwitch from 'components/ToggleSwitch/ToggleSwitch.js';
+import { MapFilterContext } from 'contexts/MapFilterContext.js';
 import L from 'leaflet';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import {
   GeoJSON,
   ImageOverlay,
@@ -28,14 +29,13 @@ import { Button } from 'reactstrap';
 import ForestSelector from 'utilities/Map/components/ForestSelector';
 import CustomMapEvents from 'utilities/Map/CustomMapEvents';
 import {
-  HIDE_POLYGON_ZOOM_LEVEL,
-  MAP_DEFAULT_ZOOM_LEVEL,
   akselPolygonsPNGBounds,
   bjoernPolygonsPNGBounds,
   knutPolygonsPNGBounds,
   madsPolygonsPNGBounds,
   mapCoordinations,
 } from 'variables/forest';
+import { MAP_DEFAULT_ZOOM_LEVEL, forbideanAreas } from 'variables/forest.js';
 import '../utilities/Map/PopupMovable.js';
 import '../utilities/Map/SmoothWheelZoom.js';
 
@@ -51,7 +51,9 @@ L.Icon.Default.mergeOptions({
 /* eslint-disable react/react-in-jsx-scope */
 function Map() {
   const [activeOverlay, setActiveOverlay] = useState({
-    Hogstklasser: true,
+    Teig: true,
+    Hogstklasser: false,
+    WMSHogstklasser: false,
   });
 
   const forest1 = mapCoordinations.madsForestPosition;
@@ -59,8 +61,10 @@ function Map() {
   const forest3 = mapCoordinations.knutForestPosition;
   const forest4 = mapCoordinations.akselForestPosition;
 
+  const [mapFilter] = useContext(MapFilterContext);
+
   const [clickedOnLine, setClickedOnLine] = useState(false);
-  const [zoomLevel, setZoomLevel] = useState(MAP_DEFAULT_ZOOM_LEVEL);
+  const clickedOnLineRef = useRef(clickedOnLine);
   const [selectedForest, setSelectedForest] = useState(forest1); // Default to forest 1
   const [selectedForestFirstTime, setSelectedForestFirstTime] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -68,7 +72,51 @@ function Map() {
   const [deselectPolygons, setDeselectPolygons] = useState(false);
   const multiPolygonSelectRef = useRef(multiPolygonSelect);
   const previousGeoJSONLayersRef = useRef([]);
+  const madsPolygonsRef = useRef(null);
 
+  useEffect(() => {
+    // I want to get a specific geojson layer and update the styles of each feature
+    const geoJsonLayer = madsPolygonsRef.current;
+    // Iterate over each feature layer in the GeoJSON layer
+    geoJsonLayer &&
+      geoJsonLayer.eachLayer((layer) => {
+        // Get the feature associated with the layer
+        const feature = layer.feature;
+
+        // Determine the style based on the feature properties
+        if (feature.properties.hogstkl_verdi === '5') {
+          if (mapFilter.HK5) {
+            layer.setStyle({
+              color: 'red', // Color for the border
+              weight: 6, // Increase border width to make it visible
+            });
+          } else {
+            layer.setStyle({
+              color: 'transparent',
+              weight: 1,
+            });
+          }
+        }
+        if (feature.properties.hogstkl_verdi === '4') {
+          if (mapFilter.HK4) {
+            layer.setStyle({
+              color: 'green', // Color for the border
+              weight: 6, // Increase border width to make it visible
+            });
+          } else {
+            layer.setStyle({
+              color: 'transparent',
+              weight: 1,
+            });
+          }
+        }
+      });
+  }, [mapFilter]);
+
+  // We need a ref so that when we pass it to the child component, it always shows the current value and not the previous value
+  useEffect(() => {
+    clickedOnLineRef.current = clickedOnLine;
+  }, [clickedOnLine]);
   // Update the ref every time multiPolygonSelect changes
   useEffect(() => {
     multiPolygonSelectRef.current = multiPolygonSelect;
@@ -85,13 +133,14 @@ function Map() {
 
     geoJSONLayer.on({
       click: () => {
-        if (feature.properties.DN !== 99) {
+        forbideanAreas.includes(feature.properties.DN);
+        setClickedOnLine(forbideanAreas);
+        clickedOnLineRef.current = forbideanAreas;
+        if (!forbideanAreas) {
           // If multiPolygonSelectRef.current is false, unhighlight the previous layer
           if (!multiPolygonSelectRef.current) {
             previousGeoJSONLayersRef.current.forEach((layer) => {
               layer.setStyle({
-                fillColor: 'transparent',
-                fillOpacity: 0,
                 color: 'transparent', // Reset borders to transparent
                 weight: 1,
               });
@@ -99,10 +148,8 @@ function Map() {
             previousGeoJSONLayersRef.current = []; // Reset the list of previous layers
             // Highlight the clicked layer
             geoJSONLayer.setStyle({
-              fillColor: 'rgb(255, 255, 0)',
-              fillOpacity: 0,
-              color: 'rgb(255, 255, 0)', // Color for the border
-              weight: 3, // Increase border width to make it visible
+              color: 'rgb(252, 123, 8)', // Color for the border
+              weight: 6, // Increase border width to make it visible
             });
 
             previousGeoJSONLayersRef.current = [geoJSONLayer];
@@ -110,10 +157,8 @@ function Map() {
             // If multiPolygonSelectRef.current is true, just highlight the clicked layer
 
             geoJSONLayer.setStyle({
-              fillColor: 'rgb(255, 255, 0)',
-              fillOpacity: 0,
-              color: 'rgb(255, 255, 0)', // Color for the border
-              weight: 3, // Increase border width to make it visible
+              color: 'rgb(252, 123, 8)', // Color for the border
+              weight: 6, // Increase border width to make it visible
             });
 
             previousGeoJSONLayersRef.current.push(geoJSONLayer);
@@ -173,7 +218,15 @@ function Map() {
       />
       <ToggleSwitch
         id="multiPolygon"
-        disabled={!activeOverlay['Hogstklasser']}
+        disabled={
+          !activeOverlay['Hogstklasser'] && !activeOverlay['WMSHogstklasser']
+        }
+        style={{
+          position: 'absolute',
+          top: 80,
+          right: 10,
+          zIndex: 9999,
+        }}
         checked={multiPolygonSelect}
         optionLabels={['Multi Select', 'Single Select']}
         onChange={toggleSelectMultiPolygons}
@@ -202,7 +255,7 @@ function Map() {
         closePopupOnClick={false}
         zoomControl={false}
         center={selectedForest.coord}
-        zoom={zoomLevel}
+        zoom={MAP_DEFAULT_ZOOM_LEVEL}
         continuousWorld={true}
         worldCopyJump={false}
         style={{
@@ -226,11 +279,8 @@ function Map() {
           bjoernTeig={bjoernTeig}
           knutTeig={knutTeig}
           akselTeig={akselTeig}
-          setZoomLevel={setZoomLevel}
-          zoomLevel={zoomLevel}
-          clickedOnLine={clickedOnLine}
+          clickedOnLineRef={clickedOnLineRef}
           selectedForest={selectedForest}
-          setClickedOnLine={setClickedOnLine}
           setDeselectPolygons={setDeselectPolygons}
         />
         <ZoomControl position="bottomright" />
@@ -247,12 +297,10 @@ function Map() {
               attribution='&copy; <a href="https://www.esri.com/">Esri</a> contributors'
             />
           </BaseLayer>
+          {/* WMSHogstklasser */}
           <Overlay
-            checked={
-              zoomLevel > HIDE_POLYGON_ZOOM_LEVEL &&
-              activeOverlay['Hogstklasser']
-            }
-            name="Hogstklasser"
+            checked={activeOverlay['WMSHogstklasser']}
+            name="WMSHogstklasser"
           >
             <LayerGroup>
               {selectedForest.name === 'forest1' && (
@@ -291,11 +339,60 @@ function Map() {
                 version="1.3.0"
                 opacity={0}
               />
+            </LayerGroup>
+          </Overlay>
+          {/* Teig */}
+          <Overlay name="Teig" checked={activeOverlay['Teig']}>
+            <LayerGroup>
+              {madsTeig && selectedForest.name === 'forest1' && (
+                <GeoJSON
+                  data={madsTeig}
+                  style={() => ({
+                    color: 'blue', // color of the lines
+                    fillColor: 'transparent', // fill color
+                  })}
+                />
+              )}
+              {bjoernTeig && selectedForest.name === 'forest2' && (
+                <GeoJSON
+                  data={bjoernTeig}
+                  style={() => ({
+                    color: 'blue', // color of the lines
+                    fillColor: 'transparent', // fill color
+                  })}
+                />
+              )}
+              {knutTeig && selectedForest.name === 'forest3' && (
+                <GeoJSON
+                  data={knutTeig}
+                  style={() => ({
+                    color: 'blue', // color of the lines
+                    fillColor: 'transparent', // fill color
+                  })}
+                />
+              )}
+              {akselTeig && selectedForest.name === 'forest4' && (
+                <GeoJSON
+                  data={akselTeig}
+                  style={() => ({
+                    color: 'blue', // color of the lines
+                    fillColor: 'transparent', // fill color
+                  })}
+                />
+              )}
+            </LayerGroup>
+          </Overlay>
+          {/* Hogstklasser */}
+          <Overlay name="Hogstklasser" checked={activeOverlay['Hogstklasser']}>
+            <LayerGroup>
               {madsPolygons && selectedForest.name === 'forest1' && (
                 <GeoJSON
-                  data={madsPolygons}
+                  ref={madsPolygonsRef}
                   onEachFeature={onEachFeature}
-                  // style={{ stroke: false }}
+                  data={madsPolygons}
+                  style={{
+                    color: 'blue', // color of the lines
+                  }}
                 />
               )}
               {bjoernPolygons && selectedForest.name === 'forest2' && (

@@ -3,11 +3,7 @@ import { WMSGetFeatureInfo } from 'ol/format';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { useMap, useMapEvents } from 'react-leaflet';
-import {
-  CSV_URLS,
-  HIDE_POLYGON_ZOOM_LEVEL,
-  nibioGetFeatInfoBaseParams,
-} from 'variables/forest';
+import { CSV_URLS, nibioGetFeatInfoBaseParams } from 'variables/forest';
 import useCsvData from './useCSVData';
 import {
   calculateBoundingBox,
@@ -19,14 +15,14 @@ import {
 
 CustomMapEvents.propTypes = {
   activeOverlay: PropTypes.shape({
+    Teig: PropTypes.bool,
     Hogstklasser: PropTypes.bool,
+    WMSHogstklasser: PropTypes.bool,
   }).isRequired,
   setActiveOverlay: PropTypes.func.isRequired,
-  setClickedOnLine: PropTypes.func.isRequired,
   setDeselectPolygons: PropTypes.func.isRequired,
   setZoomLevel: PropTypes.func.isRequired,
-  zoomLevel: PropTypes.number.isRequired,
-  clickedOnLine: PropTypes.bool.isRequired,
+  clickedOnLineRef: PropTypes.object.isRequired,
   multiPolygonSelect: PropTypes.bool.isRequired,
   deselectPolygons: PropTypes.bool.isRequired,
   madsTeig: PropTypes.object.isRequired,
@@ -40,11 +36,8 @@ export default function CustomMapEvents(props) {
   const {
     activeOverlay,
     setActiveOverlay,
-    setClickedOnLine,
     setDeselectPolygons,
-    setZoomLevel,
-    zoomLevel,
-    clickedOnLine,
+    clickedOnLineRef,
     madsTeig,
     bjoernTeig,
     knutTeig,
@@ -161,7 +154,7 @@ export default function CustomMapEvents(props) {
         features[0] &&
         features[0][0] &&
         features[0][0].values_ &&
-        !clickedOnLine
+        !clickedOnLineRef.current
       ) {
         const feature = features[0];
         const values = feature[0].values_;
@@ -251,24 +244,12 @@ export default function CustomMapEvents(props) {
   };
 
   useMapEvents({
-    zoom: async (e) => {
-      let flag = false;
-      setZoomLevel(map.getZoom());
-      if (
-        map.getZoom() > HIDE_POLYGON_ZOOM_LEVEL &&
-        activeOverlay['Hogstklasser']
-      ) {
-        flag = true;
-      }
-      setActiveOverlay((prevOverlay) => ({
-        ...prevOverlay,
-        Hogstklasser: flag,
-      }));
-    },
     click: async (e) => {
       // Handle Clicks on Mads Forest
-      setClickedOnLine(madsTeig.features[0].properties.DN === 99);
-      if (!clickedOnLine && activeOverlay['Hogstklasser']) {
+      if (
+        !clickedOnLineRef.current &&
+        (activeOverlay['Hogstklasser'] || activeOverlay['WMSHogstklasser'])
+      ) {
         // The WMS expects the Query params to follow certain patterns. After
         // analysing how QGIS made the WMS call, reverse engineered the call
         // and here we are building one of those params, i.e. BBOX, size.x, size.y and the CRS
@@ -344,36 +325,15 @@ export default function CustomMapEvents(props) {
       }
     },
     overlayadd: async (e) => {
-      if (activeOverlay['Hogstklasser']) {
-        // Wait for the next render cycle to ensure the layer control has been updated
-
-        setActiveOverlay((prevOverlay) => ({
-          ...prevOverlay,
-          Hogstklasser: true,
-        }));
-      }
       setActiveOverlay((prevOverlay) => ({
         ...prevOverlay,
         [e.name]: true,
       }));
     },
     overlayremove: async (e) => {
-      if (activeOverlay['Hogstklasser']) {
+      if (activeOverlay['Hogstklasser'] || activeOverlay['WMSHogstklasser']) {
         map.closePopup();
       }
-      if (activeOverlay['Hogstklasser'] && e.name === 'Hogstklasser') {
-        // Wait for the next render cycle to ensure the layer control has been updated
-        !(zoomLevel <= HIDE_POLYGON_ZOOM_LEVEL) &&
-          setActiveOverlay((prevOverlay) => ({
-            ...prevOverlay,
-            Hogstklasser: false,
-          }));
-      }
-      !(zoomLevel <= HIDE_POLYGON_ZOOM_LEVEL) &&
-        setActiveOverlay((prevOverlay) => ({
-          ...prevOverlay,
-          [e.name]: false,
-        }));
     },
   });
 
