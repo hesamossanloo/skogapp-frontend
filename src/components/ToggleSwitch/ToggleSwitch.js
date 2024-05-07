@@ -6,13 +6,6 @@ The props name, small, disabled and optionLabels are optional.
 Usage: <ToggleSwitch id="id" checked={value} onChange={checked => setValue(checked)}} />
 */
 
-const Style = {
-  position: 'absolute',
-  top: 80,
-  right: 10,
-  zIndex: 9999,
-};
-
 const ToggleSwitch = ({
   id,
   name,
@@ -21,11 +14,12 @@ const ToggleSwitch = ({
   optionLabels,
   small,
   disabled,
+  style,
 }) => {
   return (
     <div
       className={'toggle-switch' + (small ? ' small-switch' : '')}
-      style={Style}
+      style={style}
     >
       <input
         type="checkbox"
@@ -67,12 +61,13 @@ ToggleSwitch.defaultProps = {
 
 ToggleSwitch.propTypes = {
   id: PropTypes.string.isRequired,
-  checked: PropTypes.bool.isRequired,
+  checked: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string,
   optionLabels: PropTypes.array,
   small: PropTypes.bool,
   disabled: PropTypes.bool,
+  style: PropTypes.object,
 };
 
 export default ToggleSwitch;

@@ -25,7 +25,10 @@ import { PropTypes } from 'prop-types';
 import PerfectScrollbar from 'perfect-scrollbar';
 
 // reactstrap components
+import Accordion from 'components/Accordion/Accordion';
 import { BackgroundColorContext } from 'contexts/BackgroundColorContext';
+import { MapFilterContext } from 'contexts/MapFilterContext';
+import { useContext } from 'react';
 import { Nav } from 'reactstrap';
 
 var ps;
@@ -37,6 +40,9 @@ function Sidebar(props) {
   const activeRoute = (routeName) => {
     return location.pathname === routeName ? 'active' : '';
   };
+
+  const [mapFilter, setMapFilter] = useContext(MapFilterContext);
+
   React.useEffect(() => {
     if (navigator.platform.indexOf('Win') > -1) {
       ps = new PerfectScrollbar(sidebarRef.current, {
@@ -130,15 +136,12 @@ function Sidebar(props) {
                       <i className={prop.icon} />
                       <p>{rtlActive ? prop.rtlName : prop.name}</p>
                     </NavLink>
+                    {prop.name === 'Map' && (
+                      <Accordion onChange={setMapFilter} />
+                    )}
                   </li>
                 );
               })}
-              {/* <li className="active-pro">
-                <ReactstrapNavLink href="https://skogapp.no">
-                  <i className="tim-icons icon-spaceship" />
-                  <p>Forest Norway</p>
-                </ReactstrapNavLink>
-              </li> */}
             </Nav>
           </div>
         </div>

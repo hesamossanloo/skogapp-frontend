@@ -11,8 +11,9 @@ import madsPolygons from 'assets/data/QGIS/mads/mads-polygons.js';
 import madsPolygonsPNG from 'assets/data/QGIS/mads/mads-polygons.png';
 import madsTeig from 'assets/data/QGIS/mads/mads-teig.js';
 import ToggleSwitch from 'components/ToggleSwitch/ToggleSwitch.js';
+import { MapFilterContext } from 'contexts/MapFilterContext.js';
 import L from 'leaflet';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import {
   GeoJSON,
   ImageOverlay,
@@ -28,14 +29,13 @@ import { Button } from 'reactstrap';
 import ForestSelector from 'utilities/Map/components/ForestSelector';
 import CustomMapEvents from 'utilities/Map/CustomMapEvents';
 import {
-  HIDE_POLYGON_ZOOM_LEVEL,
-  MAP_DEFAULT_ZOOM_LEVEL,
   akselPolygonsPNGBounds,
   bjoernPolygonsPNGBounds,
   knutPolygonsPNGBounds,
   madsPolygonsPNGBounds,
   mapCoordinations,
 } from 'variables/forest';
+import { MAP_DEFAULT_ZOOM_LEVEL, forbideanAreas } from 'variables/forest.js';
 import '../utilities/Map/PopupMovable.js';
 import '../utilities/Map/SmoothWheelZoom.js';
 
@@ -52,7 +52,7 @@ L.Icon.Default.mergeOptions({
 function Map() {
   const [activeOverlay, setActiveOverlay] = useState({
     Teig: true,
-    Hogstklasser: false,
+    Hogstklasser: true,
     WMSHogstklasser: false,
   });
 
@@ -61,9 +61,10 @@ function Map() {
   const forest3 = mapCoordinations.knutForestPosition;
   const forest4 = mapCoordinations.akselForestPosition;
 
+  const [mapFilter] = useContext(MapFilterContext);
+
   const [clickedOnLine, setClickedOnLine] = useState(false);
   const clickedOnLineRef = useRef(clickedOnLine);
-  const [zoomLevel, setZoomLevel] = useState(MAP_DEFAULT_ZOOM_LEVEL);
   const [selectedForest, setSelectedForest] = useState(forest1); // Default to forest 1
   const [selectedForestFirstTime, setSelectedForestFirstTime] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -71,6 +72,47 @@ function Map() {
   const [deselectPolygons, setDeselectPolygons] = useState(false);
   const multiPolygonSelectRef = useRef(multiPolygonSelect);
   const previousGeoJSONLayersRef = useRef([]);
+  const madsPolygonsRef = useRef(null);
+
+  useEffect(() => {
+    console.log('Map Filter:', mapFilter);
+    // I want to get a specific geojson layer and update the styles of each feature
+    const geoJsonLayer = madsPolygonsRef.current;
+    // Iterate over each feature layer in the GeoJSON layer
+    geoJsonLayer &&
+      geoJsonLayer.eachLayer((layer) => {
+        // Get the feature associated with the layer
+        const feature = layer.feature;
+
+        // Determine the style based on the feature properties
+        if (feature.properties.hogstkl_verdi === '5') {
+          if (mapFilter.HK5) {
+            layer.setStyle({
+              color: 'red', // Color for the border
+              weight: 6, // Increase border width to make it visible
+            });
+          } else {
+            layer.setStyle({
+              color: 'transparent',
+              weight: 1,
+            });
+          }
+        }
+        if (feature.properties.hogstkl_verdi === '4') {
+          if (mapFilter.HK4) {
+            layer.setStyle({
+              color: 'green', // Color for the border
+              weight: 6, // Increase border width to make it visible
+            });
+          } else {
+            layer.setStyle({
+              color: 'transparent',
+              weight: 1,
+            });
+          }
+        }
+      });
+  }, [mapFilter]);
 
   // We need a ref so that when we pass it to the child component, it always shows the current value and not the previous value
   useEffect(() => {
@@ -92,15 +134,11 @@ function Map() {
 
     geoJSONLayer.on({
       click: () => {
-        const forbideanArea = [
-          21, 29, 39, 92, 70, 35, 31, 18, 123, 101, 201, 173, 222, 220, 273,
-          161, 305, 268, 321, 137, 218, 285, 310, 312, 316, 317, 299, 294, 381,
-          109, 105, 82, 362, 395,
-        ].includes(feature.properties.DN);
-        setClickedOnLine(forbideanArea);
-        clickedOnLineRef.current = forbideanArea;
-        console.log('Map Forbiden:', forbideanArea);
-        if (!forbideanArea) {
+        forbideanAreas.includes(feature.properties.DN);
+        setClickedOnLine(forbideanAreas);
+        clickedOnLineRef.current = forbideanAreas;
+        console.log('Map Forbiden:', forbideanAreas);
+        if (!forbideanAreas) {
           // If multiPolygonSelectRef.current is false, unhighlight the previous layer
           if (!multiPolygonSelectRef.current) {
             previousGeoJSONLayersRef.current.forEach((layer) => {
@@ -185,6 +223,12 @@ function Map() {
         disabled={
           !activeOverlay['Hogstklasser'] && !activeOverlay['WMSHogstklasser']
         }
+        style={{
+          position: 'absolute',
+          top: 80,
+          right: 10,
+          zIndex: 9999,
+        }}
         checked={multiPolygonSelect}
         optionLabels={['Multi Select', 'Single Select']}
         onChange={toggleSelectMultiPolygons}
@@ -213,7 +257,7 @@ function Map() {
         closePopupOnClick={false}
         zoomControl={false}
         center={selectedForest.coord}
-        zoom={zoomLevel}
+        zoom={MAP_DEFAULT_ZOOM_LEVEL}
         continuousWorld={true}
         worldCopyJump={false}
         style={{
@@ -237,8 +281,6 @@ function Map() {
           bjoernTeig={bjoernTeig}
           knutTeig={knutTeig}
           akselTeig={akselTeig}
-          setZoomLevel={setZoomLevel}
-          zoomLevel={zoomLevel}
           clickedOnLineRef={clickedOnLineRef}
           selectedForest={selectedForest}
           setDeselectPolygons={setDeselectPolygons}
@@ -257,11 +299,9 @@ function Map() {
               attribution='&copy; <a href="https://www.esri.com/">Esri</a> contributors'
             />
           </BaseLayer>
+          {/* WMSHogstklasser */}
           <Overlay
-            checked={
-              zoomLevel > HIDE_POLYGON_ZOOM_LEVEL &&
-              activeOverlay['WMSHogstklasser']
-            }
+            checked={activeOverlay['WMSHogstklasser']}
             name="WMSHogstklasser"
           >
             <LayerGroup>
@@ -303,12 +343,8 @@ function Map() {
               />
             </LayerGroup>
           </Overlay>
-          <Overlay
-            name="Teig"
-            checked={
-              zoomLevel > HIDE_POLYGON_ZOOM_LEVEL && activeOverlay['Teig']
-            }
-          >
+          {/* Teig */}
+          <Overlay name="Teig" checked={activeOverlay['Teig']}>
             <LayerGroup>
               {madsTeig && selectedForest.name === 'forest1' && (
                 <GeoJSON
@@ -348,21 +384,17 @@ function Map() {
               )}
             </LayerGroup>
           </Overlay>
-          <Overlay
-            name="Hogstklasser"
-            checked={
-              zoomLevel > HIDE_POLYGON_ZOOM_LEVEL &&
-              activeOverlay['Hogstklasser']
-            }
-          >
+          {/* Hogstklasser */}
+          <Overlay name="Hogstklasser" checked={activeOverlay['Hogstklasser']}>
             <LayerGroup>
               {madsPolygons && selectedForest.name === 'forest1' && (
                 <GeoJSON
-                  data={madsPolygons}
+                  ref={madsPolygonsRef}
                   onEachFeature={onEachFeature}
-                  style={() => ({
+                  data={madsPolygons}
+                  style={{
                     color: 'blue', // color of the lines
-                  })}
+                  }}
                 />
               )}
               {bjoernPolygons && selectedForest.name === 'forest2' && (

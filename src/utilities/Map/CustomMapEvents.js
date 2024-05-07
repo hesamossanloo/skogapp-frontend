@@ -1,13 +1,9 @@
 import L from 'leaflet';
 import { WMSGetFeatureInfo } from 'ol/format';
 import PropTypes from 'prop-types';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMap, useMapEvents } from 'react-leaflet';
-import {
-  CSV_URLS,
-  HIDE_POLYGON_ZOOM_LEVEL,
-  nibioGetFeatInfoBaseParams,
-} from 'variables/forest';
+import { CSV_URLS, nibioGetFeatInfoBaseParams } from 'variables/forest';
 import useCsvData from './useCSVData';
 import {
   calculateBoundingBox,
@@ -26,7 +22,6 @@ CustomMapEvents.propTypes = {
   setActiveOverlay: PropTypes.func.isRequired,
   setDeselectPolygons: PropTypes.func.isRequired,
   setZoomLevel: PropTypes.func.isRequired,
-  zoomLevel: PropTypes.number.isRequired,
   clickedOnLineRef: PropTypes.object.isRequired,
   multiPolygonSelect: PropTypes.bool.isRequired,
   deselectPolygons: PropTypes.bool.isRequired,
@@ -42,8 +37,6 @@ export default function CustomMapEvents(props) {
     activeOverlay,
     setActiveOverlay,
     setDeselectPolygons,
-    setZoomLevel,
-    zoomLevel,
     clickedOnLineRef,
     madsTeig,
     bjoernTeig,
@@ -55,8 +48,6 @@ export default function CustomMapEvents(props) {
   } = props;
   const map = useMap();
   const [selectedFeatures, setSelectedFeatures] = useState([]);
-  const [savedOverlays, setSavedOverlays] = useState({});
-  const previousZoomLevel = useRef(map.getZoom());
 
   const granCSVData = useCsvData(CSV_URLS.GRAN).data;
   const furuCSVData = useCsvData(CSV_URLS.FURU).data;
@@ -253,40 +244,6 @@ export default function CustomMapEvents(props) {
   };
 
   useMapEvents({
-    zoomstart: (e) => {
-      previousZoomLevel.current = map.getZoom();
-    },
-    zoomend: (e) => {
-      const currentZoomLevel = map.getZoom();
-      setZoomLevel(currentZoomLevel);
-
-      // User is zooming in
-      if (currentZoomLevel > previousZoomLevel.current) {
-        if (Object.keys(savedOverlays).length) {
-          // Restore the active layers when zoom level goes beneath the threshold
-          setActiveOverlay(savedOverlays);
-        }
-      } else if (currentZoomLevel < previousZoomLevel.current) {
-        // User is zooming out
-        if (currentZoomLevel < HIDE_POLYGON_ZOOM_LEVEL) {
-          if (!Object.keys(savedOverlays).length) {
-            // Save the current active layers if they haven't been saved yet
-            setSavedOverlays(activeOverlay);
-          }
-          // Set all layers to false
-          const newOverlay = Object.fromEntries(
-            Object.entries(activeOverlay).map(([key, value]) => [
-              key,
-              key !== 'Teig' ? false : value,
-            ])
-          );
-          map.closePopup();
-          setActiveOverlay(newOverlay);
-        }
-      }
-
-      previousZoomLevel.current = currentZoomLevel;
-    },
     click: async (e) => {
       // Handle Clicks on Mads Forest
       if (
@@ -377,11 +334,6 @@ export default function CustomMapEvents(props) {
       if (activeOverlay['Hogstklasser'] || activeOverlay['WMSHogstklasser']) {
         map.closePopup();
       }
-      !(zoomLevel <= HIDE_POLYGON_ZOOM_LEVEL) &&
-        setActiveOverlay((prevOverlay) => ({
-          ...prevOverlay,
-          [e.name]: false,
-        }));
     },
   });
 
