@@ -29,14 +29,13 @@ import { Button } from 'reactstrap';
 import ForestSelector from 'utilities/Map/components/ForestSelector';
 import CustomMapEvents from 'utilities/Map/CustomMapEvents';
 import {
-  HIDE_POLYGON_ZOOM_LEVEL,
-  MAP_DEFAULT_ZOOM_LEVEL,
   akselPolygonsPNGBounds,
   bjoernPolygonsPNGBounds,
   knutPolygonsPNGBounds,
   madsPolygonsPNGBounds,
   mapCoordinations,
 } from 'variables/forest';
+import { MAP_DEFAULT_ZOOM_LEVEL, forbideanAreas } from 'variables/forest.js';
 import '../utilities/Map/PopupMovable.js';
 import '../utilities/Map/SmoothWheelZoom.js';
 
@@ -66,8 +65,6 @@ function Map() {
 
   const [clickedOnLine, setClickedOnLine] = useState(false);
   const clickedOnLineRef = useRef(clickedOnLine);
-  const [zoomLevel, setZoomLevel] = useState(MAP_DEFAULT_ZOOM_LEVEL);
-  const zoomLevelRef = useRef(zoomLevel);
   const [selectedForest, setSelectedForest] = useState(forest1); // Default to forest 1
   const [selectedForestFirstTime, setSelectedForestFirstTime] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -75,14 +72,39 @@ function Map() {
   const [deselectPolygons, setDeselectPolygons] = useState(false);
   const multiPolygonSelectRef = useRef(multiPolygonSelect);
   const previousGeoJSONLayersRef = useRef([]);
+  const madsPolygonsRef = useRef(null);
+
+  useEffect(() => {
+    console.log('Map Filter:', mapFilter);
+    // I want to get a specific geojson layer and update the styles of each feature
+    const geoJsonLayer = madsPolygonsRef.current;
+    // Iterate over each feature layer in the GeoJSON layer
+    geoJsonLayer &&
+      geoJsonLayer.eachLayer((layer) => {
+        // Get the feature associated with the layer
+        const feature = layer.feature;
+
+        // Determine the style based on the feature properties
+        if ([14, 19, 302].includes(feature.properties.DN)) {
+          if (mapFilter.HK5) {
+            layer.setStyle({
+              color: 'rgb(252, 123, 8)', // Color for the border
+              weight: 6, // Increase border width to make it visible
+            });
+          } else {
+            layer.setStyle({
+              color: 'transparent',
+              weight: 1,
+            });
+          }
+        }
+      });
+  }, [mapFilter]);
 
   // We need a ref so that when we pass it to the child component, it always shows the current value and not the previous value
   useEffect(() => {
     clickedOnLineRef.current = clickedOnLine;
   }, [clickedOnLine]);
-  useEffect(() => {
-    zoomLevelRef.current = zoomLevel;
-  }, [zoomLevel]);
   // Update the ref every time multiPolygonSelect changes
   useEffect(() => {
     multiPolygonSelectRef.current = multiPolygonSelect;
@@ -99,15 +121,11 @@ function Map() {
 
     geoJSONLayer.on({
       click: () => {
-        const forbideanArea = [
-          21, 29, 39, 92, 70, 35, 31, 18, 123, 101, 201, 173, 222, 220, 273,
-          161, 305, 268, 321, 137, 218, 285, 310, 312, 316, 317, 299, 294, 381,
-          109, 105, 82, 362, 395,
-        ].includes(feature.properties.DN);
-        setClickedOnLine(forbideanArea);
-        clickedOnLineRef.current = forbideanArea;
-        console.log('Map Forbiden:', forbideanArea);
-        if (!forbideanArea) {
+        forbideanAreas.includes(feature.properties.DN);
+        setClickedOnLine(forbideanAreas);
+        clickedOnLineRef.current = forbideanAreas;
+        console.log('Map Forbiden:', forbideanAreas);
+        if (!forbideanAreas) {
           // If multiPolygonSelectRef.current is false, unhighlight the previous layer
           if (!multiPolygonSelectRef.current) {
             previousGeoJSONLayersRef.current.forEach((layer) => {
@@ -226,7 +244,7 @@ function Map() {
         closePopupOnClick={false}
         zoomControl={false}
         center={selectedForest.coord}
-        zoom={zoomLevelRef.current}
+        zoom={MAP_DEFAULT_ZOOM_LEVEL}
         continuousWorld={true}
         worldCopyJump={false}
         style={{
@@ -250,8 +268,6 @@ function Map() {
           bjoernTeig={bjoernTeig}
           knutTeig={knutTeig}
           akselTeig={akselTeig}
-          setZoomLevel={setZoomLevel}
-          zoomLevelRef={zoomLevelRef}
           clickedOnLineRef={clickedOnLineRef}
           selectedForest={selectedForest}
           setDeselectPolygons={setDeselectPolygons}
@@ -272,10 +288,7 @@ function Map() {
           </BaseLayer>
           {/* WMSHogstklasser */}
           <Overlay
-            checked={
-              zoomLevelRef.current >= HIDE_POLYGON_ZOOM_LEVEL &&
-              activeOverlay['WMSHogstklasser']
-            }
+            checked={activeOverlay['WMSHogstklasser']}
             name="WMSHogstklasser"
           >
             <LayerGroup>
@@ -318,13 +331,7 @@ function Map() {
             </LayerGroup>
           </Overlay>
           {/* Teig */}
-          <Overlay
-            name="Teig"
-            checked={
-              zoomLevelRef.current >= HIDE_POLYGON_ZOOM_LEVEL &&
-              activeOverlay['Teig']
-            }
-          >
+          <Overlay name="Teig" checked={activeOverlay['Teig']}>
             <LayerGroup>
               {madsTeig && selectedForest.name === 'forest1' && (
                 <GeoJSON
@@ -365,33 +372,16 @@ function Map() {
             </LayerGroup>
           </Overlay>
           {/* Hogstklasser */}
-          <Overlay
-            name="Hogstklasser"
-            checked={
-              zoomLevelRef.current >= HIDE_POLYGON_ZOOM_LEVEL &&
-              activeOverlay['Hogstklasser']
-            }
-          >
+          <Overlay name="Hogstklasser" checked={activeOverlay['Hogstklasser']}>
             <LayerGroup>
               {madsPolygons && selectedForest.name === 'forest1' && (
                 <GeoJSON
+                  ref={madsPolygonsRef}
                   onEachFeature={onEachFeature}
                   data={madsPolygons}
                   style={{
                     color: 'blue', // color of the lines
                   }}
-                  // filter={(feature) => {
-                  //   if (mapFilter.HK5 && feature.properties.DN === '14') {
-                  //     return true;
-                  //   }
-                  //   if (mapFilter.HK4 && feature.properties.DN === '19') {
-                  //     return true;
-                  //   }
-                  //   if (mapFilter.Protected && feature.properties.DN === '20') {
-                  //     return true;
-                  //   }
-                  //   return false;
-                  // }}
                 />
               )}
               {bjoernPolygons && selectedForest.name === 'forest2' && (
