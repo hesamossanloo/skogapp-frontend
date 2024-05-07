@@ -52,7 +52,7 @@ L.Icon.Default.mergeOptions({
 function Map() {
   const [activeOverlay, setActiveOverlay] = useState({
     Teig: true,
-    Hogstklasser: true,
+    Hogstklasser: false,
     WMSHogstklasser: false,
   });
 
@@ -75,7 +75,6 @@ function Map() {
   const madsPolygonsRef = useRef(null);
 
   useEffect(() => {
-    console.log('Map Filter:', mapFilter);
     // I want to get a specific geojson layer and update the styles of each feature
     const geoJsonLayer = madsPolygonsRef.current;
     // Iterate over each feature layer in the GeoJSON layer
@@ -137,7 +136,6 @@ function Map() {
         forbideanAreas.includes(feature.properties.DN);
         setClickedOnLine(forbideanAreas);
         clickedOnLineRef.current = forbideanAreas;
-        console.log('Map Forbiden:', forbideanAreas);
         if (!forbideanAreas) {
           // If multiPolygonSelectRef.current is false, unhighlight the previous layer
           if (!multiPolygonSelectRef.current) {
@@ -420,7 +418,7 @@ function Map() {
               )}
             </LayerGroup>
           </Overlay>
-          <Overlay name="High Resolution">
+          <Overlay name="High Resolution" checked>
             <WMSTileLayer
               url="https://services.geodataonline.no:443/arcgis/services/Geocache_UTM33_EUREF89/GeocacheBilder/MapServer/WMSServer"
               // url="https://xvkdluncc4.execute-api.eu-north-1.amazonaws.com/Prod/hello"
