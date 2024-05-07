@@ -11,8 +11,9 @@ import madsPolygons from 'assets/data/QGIS/mads/mads-polygons.js';
 import madsPolygonsPNG from 'assets/data/QGIS/mads/mads-polygons.png';
 import madsTeig from 'assets/data/QGIS/mads/mads-teig.js';
 import ToggleSwitch from 'components/ToggleSwitch/ToggleSwitch.js';
+import { MapFilterContext } from 'contexts/MapFilterContext.js';
 import L from 'leaflet';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import {
   GeoJSON,
   ImageOverlay,
@@ -52,7 +53,7 @@ L.Icon.Default.mergeOptions({
 function Map() {
   const [activeOverlay, setActiveOverlay] = useState({
     Teig: true,
-    Hogstklasser: false,
+    Hogstklasser: true,
     WMSHogstklasser: false,
   });
 
@@ -61,9 +62,12 @@ function Map() {
   const forest3 = mapCoordinations.knutForestPosition;
   const forest4 = mapCoordinations.akselForestPosition;
 
+  const [mapFilter] = useContext(MapFilterContext);
+
   const [clickedOnLine, setClickedOnLine] = useState(false);
   const clickedOnLineRef = useRef(clickedOnLine);
   const [zoomLevel, setZoomLevel] = useState(MAP_DEFAULT_ZOOM_LEVEL);
+  const zoomLevelRef = useRef(zoomLevel);
   const [selectedForest, setSelectedForest] = useState(forest1); // Default to forest 1
   const [selectedForestFirstTime, setSelectedForestFirstTime] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -76,6 +80,9 @@ function Map() {
   useEffect(() => {
     clickedOnLineRef.current = clickedOnLine;
   }, [clickedOnLine]);
+  useEffect(() => {
+    zoomLevelRef.current = zoomLevel;
+  }, [zoomLevel]);
   // Update the ref every time multiPolygonSelect changes
   useEffect(() => {
     multiPolygonSelectRef.current = multiPolygonSelect;
@@ -185,6 +192,12 @@ function Map() {
         disabled={
           !activeOverlay['Hogstklasser'] && !activeOverlay['WMSHogstklasser']
         }
+        style={{
+          position: 'absolute',
+          top: 80,
+          right: 10,
+          zIndex: 9999,
+        }}
         checked={multiPolygonSelect}
         optionLabels={['Multi Select', 'Single Select']}
         onChange={toggleSelectMultiPolygons}
@@ -213,7 +226,7 @@ function Map() {
         closePopupOnClick={false}
         zoomControl={false}
         center={selectedForest.coord}
-        zoom={zoomLevel}
+        zoom={zoomLevelRef.current}
         continuousWorld={true}
         worldCopyJump={false}
         style={{
@@ -238,7 +251,7 @@ function Map() {
           knutTeig={knutTeig}
           akselTeig={akselTeig}
           setZoomLevel={setZoomLevel}
-          zoomLevel={zoomLevel}
+          zoomLevelRef={zoomLevelRef}
           clickedOnLineRef={clickedOnLineRef}
           selectedForest={selectedForest}
           setDeselectPolygons={setDeselectPolygons}
@@ -257,9 +270,10 @@ function Map() {
               attribution='&copy; <a href="https://www.esri.com/">Esri</a> contributors'
             />
           </BaseLayer>
+          {/* WMSHogstklasser */}
           <Overlay
             checked={
-              zoomLevel > HIDE_POLYGON_ZOOM_LEVEL &&
+              zoomLevelRef.current >= HIDE_POLYGON_ZOOM_LEVEL &&
               activeOverlay['WMSHogstklasser']
             }
             name="WMSHogstklasser"
@@ -303,10 +317,12 @@ function Map() {
               />
             </LayerGroup>
           </Overlay>
+          {/* Teig */}
           <Overlay
             name="Teig"
             checked={
-              zoomLevel > HIDE_POLYGON_ZOOM_LEVEL && activeOverlay['Teig']
+              zoomLevelRef.current >= HIDE_POLYGON_ZOOM_LEVEL &&
+              activeOverlay['Teig']
             }
           >
             <LayerGroup>
@@ -348,21 +364,34 @@ function Map() {
               )}
             </LayerGroup>
           </Overlay>
+          {/* Hogstklasser */}
           <Overlay
             name="Hogstklasser"
             checked={
-              zoomLevel > HIDE_POLYGON_ZOOM_LEVEL &&
+              zoomLevelRef.current >= HIDE_POLYGON_ZOOM_LEVEL &&
               activeOverlay['Hogstklasser']
             }
           >
             <LayerGroup>
               {madsPolygons && selectedForest.name === 'forest1' && (
                 <GeoJSON
-                  data={madsPolygons}
                   onEachFeature={onEachFeature}
-                  style={() => ({
+                  data={madsPolygons}
+                  style={{
                     color: 'blue', // color of the lines
-                  })}
+                  }}
+                  // filter={(feature) => {
+                  //   if (mapFilter.HK5 && feature.properties.DN === '14') {
+                  //     return true;
+                  //   }
+                  //   if (mapFilter.HK4 && feature.properties.DN === '19') {
+                  //     return true;
+                  //   }
+                  //   if (mapFilter.Protected && feature.properties.DN === '20') {
+                  //     return true;
+                  //   }
+                  //   return false;
+                  // }}
                 />
               )}
               {bjoernPolygons && selectedForest.name === 'forest2' && (

@@ -26,7 +26,7 @@ CustomMapEvents.propTypes = {
   setActiveOverlay: PropTypes.func.isRequired,
   setDeselectPolygons: PropTypes.func.isRequired,
   setZoomLevel: PropTypes.func.isRequired,
-  zoomLevel: PropTypes.number.isRequired,
+  zoomLevelRef: PropTypes.object.isRequired,
   clickedOnLineRef: PropTypes.object.isRequired,
   multiPolygonSelect: PropTypes.bool.isRequired,
   deselectPolygons: PropTypes.bool.isRequired,
@@ -43,7 +43,7 @@ export default function CustomMapEvents(props) {
     setActiveOverlay,
     setDeselectPolygons,
     setZoomLevel,
-    zoomLevel,
+    zoomLevelRef,
     clickedOnLineRef,
     madsTeig,
     bjoernTeig,
@@ -261,12 +261,12 @@ export default function CustomMapEvents(props) {
       setZoomLevel(currentZoomLevel);
 
       // User is zooming in
-      if (currentZoomLevel > previousZoomLevel.current) {
+      if (currentZoomLevel >= previousZoomLevel.current) {
         if (Object.keys(savedOverlays).length) {
           // Restore the active layers when zoom level goes beneath the threshold
           setActiveOverlay(savedOverlays);
         }
-      } else if (currentZoomLevel < previousZoomLevel.current) {
+      } else if (currentZoomLevel <= previousZoomLevel.current) {
         // User is zooming out
         if (currentZoomLevel < HIDE_POLYGON_ZOOM_LEVEL) {
           if (!Object.keys(savedOverlays).length) {
@@ -377,7 +377,7 @@ export default function CustomMapEvents(props) {
       if (activeOverlay['Hogstklasser'] || activeOverlay['WMSHogstklasser']) {
         map.closePopup();
       }
-      !(zoomLevel <= HIDE_POLYGON_ZOOM_LEVEL) &&
+      !(zoomLevelRef.current <= HIDE_POLYGON_ZOOM_LEVEL) &&
         setActiveOverlay((prevOverlay) => ({
           ...prevOverlay,
           [e.name]: false,

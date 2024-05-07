@@ -29,6 +29,7 @@ import routes from 'routes.js';
 
 import logo from 'assets/img/favicon.png';
 import { BackgroundColorContext } from 'contexts/BackgroundColorContext';
+import { MapFilterProvider } from 'contexts/MapFilterContext';
 
 var ps;
 
@@ -101,33 +102,35 @@ function Admin(props) {
       {({ color, changeColor }) => (
         <React.Fragment>
           <div className="wrapper">
-            <Sidebar
-              routes={routes}
-              logo={{
-                outterLink: '',
-                text: 'SKOGAPP',
-                imgSrc: logo,
-              }}
-              toggleSidebar={toggleSidebar}
-            />
-            <div className="main-panel" ref={mainPanelRef} data={color}>
-              <AdminNavbar
-                brandText={getBrandText(location.pathname)}
+            <MapFilterProvider>
+              <Sidebar
+                routes={routes}
+                logo={{
+                  outterLink: '',
+                  text: 'SKOGAPP',
+                  imgSrc: logo,
+                }}
                 toggleSidebar={toggleSidebar}
-                sidebarOpened={sidebarOpened}
               />
-              <Routes>
-                {getRoutes(routes)}
-                <Route
-                  path="/"
-                  element={<Navigate to="/admin/dashboard" replace />}
+              <div className="main-panel" ref={mainPanelRef} data={color}>
+                <AdminNavbar
+                  brandText={getBrandText(location.pathname)}
+                  toggleSidebar={toggleSidebar}
+                  sidebarOpened={sidebarOpened}
                 />
-              </Routes>
-              {
-                // we don't want the Footer to be rendered on map page
-                location.pathname === '/admin/map' ? null : <Footer fluid />
-              }
-            </div>
+                <Routes>
+                  {getRoutes(routes)}
+                  <Route
+                    path="/"
+                    element={<Navigate to="/admin/map" replace />}
+                  />
+                </Routes>
+                {
+                  // we don't want the Footer to be rendered on map page
+                  location.pathname === '/admin/map' ? null : <Footer fluid />
+                }
+              </div>
+            </MapFilterProvider>
           </div>
         </React.Fragment>
       )}
