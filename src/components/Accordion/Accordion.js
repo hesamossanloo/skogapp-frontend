@@ -25,7 +25,7 @@ const Accordion = class Collapses extends React.Component {
         <Button color="warning" href="#mapFilter" id="linkToggler">
           FILTER
         </Button>
-        <UncontrolledCollapse toggler="#linkToggler">
+        <UncontrolledCollapse toggler="#linkToggler" defaultOpen>
           <Card style={cardStyle}>
             <CardBody>
               <div
