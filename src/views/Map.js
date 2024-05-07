@@ -85,10 +85,23 @@ function Map() {
         const feature = layer.feature;
 
         // Determine the style based on the feature properties
-        if ([14, 19, 302].includes(feature.properties.DN)) {
+        if (feature.properties.hogstkl_verdi === '5') {
           if (mapFilter.HK5) {
             layer.setStyle({
-              color: 'rgb(252, 123, 8)', // Color for the border
+              color: 'red', // Color for the border
+              weight: 6, // Increase border width to make it visible
+            });
+          } else {
+            layer.setStyle({
+              color: 'transparent',
+              weight: 1,
+            });
+          }
+        }
+        if (feature.properties.hogstkl_verdi === '4') {
+          if (mapFilter.HK4) {
+            layer.setStyle({
+              color: 'green', // Color for the border
               weight: 6, // Increase border width to make it visible
             });
           } else {
