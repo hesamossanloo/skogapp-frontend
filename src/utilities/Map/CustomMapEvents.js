@@ -16,7 +16,7 @@ import {
 CustomMapEvents.propTypes = {
   activeOverlay: PropTypes.shape({
     Teig: PropTypes.bool,
-    Hogstklasser: PropTypes.bool,
+    Stands: PropTypes.bool,
     WMSHogstklasser: PropTypes.bool,
   }).isRequired,
   setActiveOverlay: PropTypes.func.isRequired,
@@ -248,13 +248,8 @@ export default function CustomMapEvents(props) {
       // Handle Clicks on Mads Forest
       if (
         !clickedOnLineRef.current &&
-        (activeOverlay['Hogstklasser'] || activeOverlay['WMSHogstklasser'])
+        (activeOverlay['Stands'] || activeOverlay['WMSHogstklasser'])
       ) {
-        // The WMS expects the Query params to follow certain patterns. After
-        // analysing how QGIS made the WMS call, reverse engineered the call
-        // and here we are building one of those params, i.e. BBOX, size.x, size.y and the CRS
-        const { CRS, size, BBOX } = calculateBoundingBox(map);
-
         // By default we are closing all the popups, in case there are any opens
         //  an then we will show the pop up after the new call to the WMS and once
         // the data are fetched.
@@ -274,6 +269,10 @@ export default function CustomMapEvents(props) {
             clickedForest.features[0].geometry.coordinates
           )
         ) {
+          // The WMS expects the Query params to follow certain patterns. After
+          // analysing how QGIS made the WMS call, reverse engineered the call
+          // and here we are building one of those params, i.e. BBOX, size.x, size.y and the CRS
+          const { CRS, size, BBOX } = calculateBoundingBox(map);
           // The params should be in uppercase, unless the WMS won't accept it
           const params = {
             ...nibioGetFeatInfoBaseParams,
@@ -331,7 +330,7 @@ export default function CustomMapEvents(props) {
       }));
     },
     overlayremove: async (e) => {
-      if (activeOverlay['Hogstklasser'] || activeOverlay['WMSHogstklasser']) {
+      if (activeOverlay['Stands'] || activeOverlay['WMSHogstklasser']) {
         map.closePopup();
       }
     },
