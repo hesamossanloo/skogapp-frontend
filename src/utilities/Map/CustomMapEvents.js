@@ -246,6 +246,14 @@ export default function CustomMapEvents(props) {
   useMapEvents({
     click: async (e) => {
       // Handle Clicks on Mads Forest
+      if (clickedOnLineRef.current) {
+        L.popup({ interactive: true })
+          .setLatLng(e.latlng)
+          .setContent(
+            '<h3 style="color: black; text-align: center;">This is either a Lake or a Protected Area!</h3>'
+          )
+          .openOn(map);
+      }
       if (
         !clickedOnLineRef.current &&
         (activeOverlay['Stands'] || activeOverlay['WMSHogstklasser'])
