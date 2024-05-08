@@ -32,6 +32,7 @@ export const nibioGetFeatInfoBaseParams = {
 export const CSV_URLS = {
   GRAN: '/csvs/gran.csv',
   FURU: '/csvs/furu.csv',
+  FEATUREINFOS: '/csvs/featureInfos.csv',
 };
 
 export const TREANTALL_PER_HEKTAR = 200;
@@ -39,6 +40,7 @@ export const TREANTALL_PER_HEKTAR = 200;
 export const SPECIES = {
   GRAN: 'Gran',
   FURU: 'Furu',
+  LAU: 'Bjørk / lauv',
 };
 export const SPECIES_PRICES = {
   GRAN: 538,

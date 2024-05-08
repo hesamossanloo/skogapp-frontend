@@ -28,7 +28,7 @@ import PerfectScrollbar from 'perfect-scrollbar';
 import Accordion from 'components/Accordion/Accordion';
 import { BackgroundColorContext } from 'contexts/BackgroundColorContext';
 import { MapFilterContext } from 'contexts/MapFilterContext';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { Nav } from 'reactstrap';
 
 var ps;
@@ -43,7 +43,7 @@ function Sidebar(props) {
 
   const [mapFilter, setMapFilter] = useContext(MapFilterContext);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (navigator.platform.indexOf('Win') > -1) {
       ps = new PerfectScrollbar(sidebarRef.current, {
         suppressScrollX: true,
@@ -137,7 +137,9 @@ function Sidebar(props) {
                       <p>{rtlActive ? prop.rtlName : prop.name}</p>
                     </NavLink>
                     {prop.name === 'Map' && (
-                      <Accordion onChange={setMapFilter} />
+                      <>
+                        <Accordion onChange={setMapFilter} defaultOpen={true} />
+                      </>
                     )}
                   </li>
                 );
