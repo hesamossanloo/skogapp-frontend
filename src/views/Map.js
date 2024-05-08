@@ -61,7 +61,7 @@ function Map() {
   const forest3 = mapCoordinations.knutForestPosition;
   const forest4 = mapCoordinations.akselForestPosition;
 
-  const [mapFilter] = useContext(MapFilterContext);
+  const [mapFilter, setMapFilter] = useContext(MapFilterContext);
 
   const [clickedOnLine, setClickedOnLine] = useState(false);
   const clickedOnLineRef = useRef(clickedOnLine);
@@ -74,6 +74,7 @@ function Map() {
   const previousGeoJSONLayersRef = useRef([]);
   const madsPolygonsRef = useRef(null);
 
+  // Handles the Map Filter states
   useEffect(() => {
     // I want to get a specific geojson layer and update the styles of each feature
     const geoJsonLayer = madsPolygonsRef.current;
@@ -127,7 +128,7 @@ function Map() {
     geoJSONLayer.setStyle({
       fillColor: 'transparent',
       fillOpacity: 0,
-      color: 'transparent', // Make borders transparent initially
+      color: 'blue', // Make borders transparent initially
       weight: 1,
     }); // Set default transparent style for the GeoJSON layer
 
@@ -199,6 +200,11 @@ function Map() {
     setMultiPolygonSelect((prevState) => !prevState);
   };
   const resetHighlightedFeatures = () => {
+    setMapFilter({
+      HK4: false,
+      HK5: false,
+      Protected: false,
+    });
     previousGeoJSONLayersRef.current.forEach((layer) => {
       layer.setStyle({
         fillColor: 'transparent',
