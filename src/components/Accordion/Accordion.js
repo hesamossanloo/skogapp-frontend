@@ -109,28 +109,6 @@ const Accordion = ({ onChange, defaultOpen }) => {
                 }
               />
             </div>
-            {/* Protected */}
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                marginTop: 10,
-              }}
-            >
-              <Label style={labelStyle}>Protected</Label>
-              <ToggleSwitch
-                id="Protected"
-                optionLabels={['ON', 'OFF']}
-                small
-                checked={mapFilter.Protected}
-                onChange={() =>
-                  onChange((prevState) => ({
-                    ...prevState,
-                    Protected: !prevState.Protected,
-                  }))
-                }
-              />
-            </div>
             {/* Summaries */}
             <div
               style={{
