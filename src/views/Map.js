@@ -52,7 +52,7 @@ L.Icon.Default.mergeOptions({
 function Map() {
   const [activeOverlay, setActiveOverlay] = useState({
     Teig: true,
-    Hogstklasser: false,
+    Stands: true,
     WMSHogstklasser: false,
   });
 
@@ -61,7 +61,7 @@ function Map() {
   const forest3 = mapCoordinations.knutForestPosition;
   const forest4 = mapCoordinations.akselForestPosition;
 
-  const [mapFilter] = useContext(MapFilterContext);
+  const [mapFilter, setMapFilter] = useContext(MapFilterContext);
 
   const [clickedOnLine, setClickedOnLine] = useState(false);
   const clickedOnLineRef = useRef(clickedOnLine);
@@ -74,6 +74,7 @@ function Map() {
   const previousGeoJSONLayersRef = useRef([]);
   const madsPolygonsRef = useRef(null);
 
+  // Handles the Map Filter states
   useEffect(() => {
     // I want to get a specific geojson layer and update the styles of each feature
     const geoJsonLayer = madsPolygonsRef.current;
@@ -127,16 +128,17 @@ function Map() {
     geoJSONLayer.setStyle({
       fillColor: 'transparent',
       fillOpacity: 0,
-      color: 'transparent', // Make borders transparent initially
+      color: 'blue', // Make borders transparent initially
       weight: 1,
     }); // Set default transparent style for the GeoJSON layer
 
     geoJSONLayer.on({
       click: () => {
-        forbideanAreas.includes(feature.properties.DN);
-        setClickedOnLine(forbideanAreas);
-        clickedOnLineRef.current = forbideanAreas;
-        if (!forbideanAreas) {
+        setClickedOnLine(forbideanAreas.includes(feature.properties.DN));
+        clickedOnLineRef.current = forbideanAreas.includes(
+          feature.properties.DN
+        );
+        if (!clickedOnLineRef.current) {
           // If multiPolygonSelectRef.current is false, unhighlight the previous layer
           if (!multiPolygonSelectRef.current) {
             previousGeoJSONLayersRef.current.forEach((layer) => {
@@ -148,7 +150,7 @@ function Map() {
             previousGeoJSONLayersRef.current = []; // Reset the list of previous layers
             // Highlight the clicked layer
             geoJSONLayer.setStyle({
-              color: 'rgb(252, 123, 8)', // Color for the border
+              color: 'yellow', // Color for the border
               weight: 6, // Increase border width to make it visible
             });
 
@@ -157,7 +159,7 @@ function Map() {
             // If multiPolygonSelectRef.current is true, just highlight the clicked layer
 
             geoJSONLayer.setStyle({
-              color: 'rgb(252, 123, 8)', // Color for the border
+              color: 'yellow', // Color for the border
               weight: 6, // Increase border width to make it visible
             });
 
@@ -198,6 +200,11 @@ function Map() {
     setMultiPolygonSelect((prevState) => !prevState);
   };
   const resetHighlightedFeatures = () => {
+    setMapFilter({
+      HK4: false,
+      HK5: false,
+      Protected: false,
+    });
     previousGeoJSONLayersRef.current.forEach((layer) => {
       layer.setStyle({
         fillColor: 'transparent',
@@ -218,9 +225,7 @@ function Map() {
       />
       <ToggleSwitch
         id="multiPolygon"
-        disabled={
-          !activeOverlay['Hogstklasser'] && !activeOverlay['WMSHogstklasser']
-        }
+        disabled={!activeOverlay['Stands'] && !activeOverlay['WMSHogstklasser']}
         style={{
           position: 'absolute',
           top: 80,
@@ -382,8 +387,8 @@ function Map() {
               )}
             </LayerGroup>
           </Overlay>
-          {/* Hogstklasser */}
-          <Overlay name="Hogstklasser" checked={activeOverlay['Hogstklasser']}>
+          {/* Stands */}
+          <Overlay name="Stands" checked={activeOverlay['Stands']}>
             <LayerGroup>
               {madsPolygons && selectedForest.name === 'forest1' && (
                 <GeoJSON
