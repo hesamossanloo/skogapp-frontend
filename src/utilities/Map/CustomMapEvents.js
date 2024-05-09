@@ -74,10 +74,7 @@ export default function CustomMapEvents(props) {
 
   const handleSkogbrukWMSFeatures = (e, features, map, multi) => {
     const sumObj = {};
-    const activeOverlayNames = Object.keys(activeOverlay).filter(
-      (key) => activeOverlay[key] === true
-    );
-    sumObj.title = activeOverlayNames[0];
+    sumObj.title = 'Bestand';
 
     if (multi && features[0] && features[0][0] && features[0][0].values_) {
       // Multi polygon selection switch is selected
@@ -249,7 +246,7 @@ export default function CustomMapEvents(props) {
         L.popup({ interactive: true })
           .setLatLng(e.latlng)
           .setContent(
-            '<h3 style="color: black; text-align: center;">This is either a Lake or a Protected Area!</h3>'
+            '<h3 style="color: black; text-align: center;">This is not a Bestand!</h3>'
           )
           .openOn(map);
       }

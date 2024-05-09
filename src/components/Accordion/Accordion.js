@@ -138,7 +138,7 @@ const Accordion = ({ onChange, defaultOpen }) => {
                 marginTop: 10,
               }}
             >
-              <Label style={labelStyle}>Total Worth</Label>
+              <Label style={labelStyle}>Est. Gross Value</Label>
               <Label style={labelStyle}>{Math.ceil(worth)} kr</Label>
             </div>
             <div

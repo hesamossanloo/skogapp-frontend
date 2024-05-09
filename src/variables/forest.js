@@ -43,9 +43,9 @@ export const SPECIES = {
   LAU: 'Bjørk / lauv',
 };
 export const SPECIES_PRICES = {
-  GRAN: 538,
-  FURU: 537,
-  LAU: 486,
+  GRAN: 674,
+  FURU: 598,
+  LAU: 574,
 };
 
 export const HIDE_POLYGON_ZOOM_LEVEL = 10;
