@@ -10,6 +10,7 @@ import {
   UncontrolledCollapse,
 } from 'reactstrap';
 import useCsvData from 'utilities/Map/useCSVData';
+import { formatNumber } from 'utilities/Map/utililtyFunctions';
 import { CSV_URLS, SPECIES, SPECIES_PRICES } from 'variables/forest';
 
 const cardStyle = {
@@ -129,7 +130,9 @@ const Accordion = ({ onChange, defaultOpen }) => {
               }}
             >
               <Label style={labelStyle}>Total Volume</Label>
-              <Label style={labelStyle}>{Math.ceil(volume)} m3</Label>
+              <Label style={labelStyle}>
+                {formatNumber(Math.ceil(volume), 'nb-NO', 0)} m3
+              </Label>
             </div>
             <div
               style={{
@@ -139,7 +142,9 @@ const Accordion = ({ onChange, defaultOpen }) => {
               }}
             >
               <Label style={labelStyle}>Est. Gross Value</Label>
-              <Label style={labelStyle}>{Math.ceil(worth)} kr</Label>
+              <Label style={labelStyle}>
+                {formatNumber(Math.ceil(worth), 'nb-NO', 0)} kr
+              </Label>
             </div>
             <div
               style={{
