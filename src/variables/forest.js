@@ -42,6 +42,7 @@ export const SPECIES = {
   FURU: 'Furu',
   LAU: 'Bjørk / lauv',
 };
+
 export const SPECIES_PRICES = {
   GRAN: 674,
   FURU: 598,
