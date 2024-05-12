@@ -282,7 +282,7 @@ export default function CustomMapEvents(props) {
         content += `
         <tr style="border: 1px solid black;">
           <td style="padding: 5px; border: 1px solid black;">Tømmervolum</td>
-          <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.standVolumeWMSDensityPerHectareMads, 'nb-NO', 1)}</span> m^3</td>
+          <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.standVolumeMads, 'nb-NO', 1)}</span> m^3</td>
         </tr>`;
         // Calculating the standVolumeWMS per decare (daa)
         // content += `
@@ -293,7 +293,7 @@ export default function CustomMapEvents(props) {
         content += `
         <tr style="border: 1px solid black;">
           <td style="padding: 5px; border: 1px solid black;">Tømmertetthet</td>
-          <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.standVolumeMads / 10, 'nb-NO', 1)}</span> m^3/daa</td>
+          <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.standVolumeWMSDensityPerHectareMads / 10, 'nb-NO', 1)}</span> m^3/daa</td>
         </tr>`;
         // The price of the timber for a species
         content += `
