@@ -22,20 +22,21 @@ const labelStyle = {
   fontSize: '0.80rem',
 };
 const Accordion = ({ onChange, defaultOpen }) => {
-  const featureInfosData = useCsvData(CSV_URLS.FEATUREINFOS).data;
+  const CSVFeatureInfosData = useCsvData(CSV_URLS.FEATUREINFOS).data;
   const [mapFilter] = useContext(MapFilterContext);
   const [volume, setVolume] = useState(0);
-  const [worth, setWorth] = useState(0);
+  const [ESTGrossValue, setESTGrossValue] = useState(0);
 
   // On HK5 change, go through the featureInfosData and find the rows where the hogstkl_verdi is 5
   // Then, get the sum of the values under the column Volume
   const calculateVolume = () => {
     let sumV = 0;
     let sumWorth = 0;
-    featureInfosData.forEach((row) => {
+    CSVFeatureInfosData.forEach((row) => {
       const rowV = parseFloat(row.Volume) || 0;
       if (mapFilter.HK5 && row.hogstkl_verdi === '5') {
         sumV += rowV;
+
         if (row.bontre_beskrivelse === 'Bjørk / lauv') {
           sumWorth += rowV * (SPECIES_PRICES.LAU || 0);
         } else {
@@ -61,7 +62,7 @@ const Accordion = ({ onChange, defaultOpen }) => {
   useEffect(() => {
     const [sumV, sumWorth] = calculateVolume();
     setVolume(sumV);
-    setWorth(sumWorth);
+    setESTGrossValue(sumWorth);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mapFilter]);
   return (
@@ -143,7 +144,7 @@ const Accordion = ({ onChange, defaultOpen }) => {
             >
               <Label style={labelStyle}>Est. Gross Value</Label>
               <Label style={labelStyle}>
-                {formatNumber(Math.ceil(worth), 'nb-NO', 0)} kr
+                {formatNumber(Math.ceil(ESTGrossValue), 'nb-NO', 0)} kr
               </Label>
             </div>
             <div

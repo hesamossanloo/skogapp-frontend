@@ -65,6 +65,8 @@ function Map() {
 
   const [clickedOnLine, setClickedOnLine] = useState(false);
   const clickedOnLineRef = useRef(clickedOnLine);
+  const [selectedVectorFeature, setSelectedVectorFeature] = useState(null);
+  const selectedVectorFeatureRef = useRef(selectedVectorFeature);
   const [selectedForest, setSelectedForest] = useState(forest1); // Default to forest 1
   const [selectedForestFirstTime, setSelectedForestFirstTime] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -118,6 +120,9 @@ function Map() {
   useEffect(() => {
     clickedOnLineRef.current = clickedOnLine;
   }, [clickedOnLine]);
+  useEffect(() => {
+    selectedVectorFeatureRef.current = selectedVectorFeature;
+  }, [selectedVectorFeature]);
   // Update the ref every time multiPolygonSelect changes
   useEffect(() => {
     multiPolygonSelectRef.current = multiPolygonSelect;
@@ -135,6 +140,8 @@ function Map() {
     geoJSONLayer.on({
       click: () => {
         setClickedOnLine(forbideanAreas.includes(feature.properties.DN));
+        selectedVectorFeatureRef.current = feature;
+        setSelectedVectorFeature(feature);
         clickedOnLineRef.current = forbideanAreas.includes(
           feature.properties.DN
         );
@@ -143,25 +150,29 @@ function Map() {
           if (!multiPolygonSelectRef.current) {
             previousGeoJSONLayersRef.current.forEach((layer) => {
               layer.setStyle({
-                color: 'transparent', // Reset borders to transparent
+                color: 'blue', // Make borders transparent initially
                 weight: 1,
               });
             });
             previousGeoJSONLayersRef.current = []; // Reset the list of previous layers
             // Highlight the clicked layer
-            geoJSONLayer.setStyle({
-              color: 'yellow', // Color for the border
-              weight: 6, // Increase border width to make it visible
-            });
+            setTimeout(() => {
+              geoJSONLayer.setStyle({
+                color: 'yellow', // Color for the border
+                weight: 6, // Increase border width to make it visible
+              });
+            }, 0);
 
             previousGeoJSONLayersRef.current = [geoJSONLayer];
           } else {
             // If multiPolygonSelectRef.current is true, just highlight the clicked layer
 
-            geoJSONLayer.setStyle({
-              color: 'yellow', // Color for the border
-              weight: 6, // Increase border width to make it visible
-            });
+            setTimeout(() => {
+              geoJSONLayer.setStyle({
+                color: 'yellow', // Color for the border
+                weight: 6, // Increase border width to make it visible
+              });
+            }, 0);
 
             previousGeoJSONLayersRef.current.push(geoJSONLayer);
           }
@@ -285,6 +296,7 @@ function Map() {
           knutTeig={knutTeig}
           akselTeig={akselTeig}
           clickedOnLineRef={clickedOnLineRef}
+          selectedVectorFeatureRef={selectedVectorFeatureRef}
           selectedForest={selectedForest}
           setDeselectPolygons={setDeselectPolygons}
         />
@@ -395,9 +407,6 @@ function Map() {
                   ref={madsPolygonsRef}
                   onEachFeature={onEachFeature}
                   data={madsPolygons}
-                  // style={{
-                  //   color: 'blue', // color of the lines
-                  // }}
                 />
               )}
               {bjoernPolygons && selectedForest.name === 'forest2' && (

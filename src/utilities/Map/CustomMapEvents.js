@@ -1,13 +1,11 @@
 import L from 'leaflet';
-import { WMSGetFeatureInfo } from 'ol/format';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { useMap, useMapEvents } from 'react-leaflet';
-import { CSV_URLS, nibioGetFeatInfoBaseParams } from 'variables/forest';
+import { CSV_URLS } from 'variables/forest';
 import useCsvData from './useCSVData';
 import {
-  calculateBoundingBox,
-  calculateHeightVolumeStandVolume,
+  calculateVolumeAndGrossValue,
   formatNumber,
   formatTheStringArealM2,
   isPointInsidePolygon,
@@ -22,6 +20,7 @@ CustomMapEvents.propTypes = {
   setActiveOverlay: PropTypes.func.isRequired,
   setDeselectPolygons: PropTypes.func.isRequired,
   clickedOnLineRef: PropTypes.object.isRequired,
+  selectedVectorFeatureRef: PropTypes.object.isRequired,
   multiPolygonSelect: PropTypes.bool.isRequired,
   deselectPolygons: PropTypes.bool.isRequired,
   madsTeig: PropTypes.object.isRequired,
@@ -37,6 +36,7 @@ export default function CustomMapEvents(props) {
     setActiveOverlay,
     setDeselectPolygons,
     clickedOnLineRef,
+    selectedVectorFeatureRef,
     madsTeig,
     bjoernTeig,
     knutTeig,
@@ -76,29 +76,29 @@ export default function CustomMapEvents(props) {
     const sumObj = {};
     sumObj.title = 'Bestand';
 
-    if (multi && features[0] && features[0][0] && features[0][0].values_) {
+    if (multi && features[0] && features[0].properties) {
       // Multi polygon selection switch is selected
       const joinedTeigBestNr = features
-        .map((feature) => feature[0].values_.teig_best_nr)
+        .map((feature) => feature.properties.teig_best_nr)
         .join(', ');
       const joinedHogstklVerdi = features
-        .map((feature) => feature[0].values_.hogstkl_verdi)
+        .map((feature) => feature.properties.hogstkl_verdi)
         .join(', ');
       const joinedBonitetBeskrivelse = features
         .map((feature) =>
-          feature[0].values_.bonitet_beskrivelse.substring(
-            feature[0].values_.bonitet_beskrivelse.indexOf(' ') + 1
+          feature.properties.bonitet_beskrivelse.substring(
+            feature.properties.bonitet_beskrivelse.indexOf(' ') + 1
           )
         )
         .join(', ');
       const joinedBontreBeskrivelse = features
-        .map((feature) => feature[0].values_.bontre_beskrivelse)
+        .map((feature) => feature.properties.bontre_beskrivelse)
         .join(', ');
       const joinedAlder = features
-        .map((feature) => feature[0].values_.alder)
+        .map((feature) => feature.properties.alder)
         .join(', ');
       const totalArealM2 = features
-        .map((feature) => parseInt(feature[0].values_.arealm2))
+        .map((feature) => parseInt(feature.properties.arealm2))
         .reduce((total, area) => total + area, 0);
 
       sumObj.teig_best_nr = joinedTeigBestNr;
@@ -109,127 +109,209 @@ export default function CustomMapEvents(props) {
       sumObj.arealm2 = formatTheStringArealM2(totalArealM2);
 
       const {
-        estimatedStandVolumeM3HAANumber,
-        estimatedStandVolume,
-        speciesPrice,
-        totalVolume,
+        standVolumeWMSDensityPerHectareWMS,
+        standVolumeWMSDensityPerHectareMads,
+        standVolumeWMS,
+        standVolumeMads,
+        hardCodedSpeciesPrice,
+        speciesPriceMads,
+        totalESTGrossValueWMS,
+        totalESTGrossValueMads,
       } = features.reduce(
         (result, feature) => {
-          const values = feature[0].values_;
-          if (values.hogstkl_verdi === '4' || values.hogstkl_verdi === '5') {
-            const additionalRows = calculateHeightVolumeStandVolume(
+          const featProps = feature.properties;
+          if (
+            featProps.hogstkl_verdi === '4' ||
+            featProps.hogstkl_verdi === '5'
+          ) {
+            const additionalRows = calculateVolumeAndGrossValue(
               granCSVData,
               furuCSVData,
-              values
+              featProps
             );
-            result.estimatedStandVolumeM3HAANumber +=
-              additionalRows.estimatedStandVolumeM3HAANumber || 0;
-            result.estimatedStandVolume +=
-              additionalRows.estimatedStandVolume || 0;
-            result.speciesPrice = additionalRows.speciesPrice || 0;
-            result.totalVolume += additionalRows.totalVolume || 0;
+            result.standVolumeWMSDensityPerHectareWMS +=
+              additionalRows.standVolumeWMSDensityPerHectareWMS || 0;
+            result.standVolumeWMSDensityPerHectareMads +=
+              parseFloat(featProps.Volume_per_hectare) || 0;
+            result.standVolumeWMS += additionalRows.standVolumeWMS || 0;
+            result.standVolumeMads += parseFloat(featProps.Volume) || 0;
+            result.hardCodedSpeciesPrice =
+              additionalRows.hardCodedSpeciesPrice || 0;
+            result.speciesPriceMads = parseFloat(featProps.avg_price_m3) || 0;
+            result.totalESTGrossValueWMS +=
+              additionalRows.totalESTGrossValueWMS || 0;
+            result.totalESTGrossValueMads +=
+              parseFloat(featProps.gross_value_standing_volume) || 0;
           }
           return result;
         },
         {
-          estimatedStandVolumeM3HAANumber: 0,
-          estimatedStandVolume: 0,
-          totalVolume: 0,
+          standVolumeWMSDensityPerHectareWMS: 0,
+          standVolumeWMSDensityPerHectareMads: 0,
+          standVolumeWMS: 0,
+          standVolumeMads: 0,
+          hardCodedSpeciesPrice: 0,
+          speciesPriceMads: 0,
+          totalESTGrossValueWMS: 0,
+          totalESTGrossValueMads: 0,
         }
       );
 
-      sumObj.estimatedStandVolumeM3HAANumber = estimatedStandVolumeM3HAANumber;
-      sumObj.estimatedStandVolume = estimatedStandVolume;
-      sumObj.speciesPrice = speciesPrice;
-      sumObj.totalVolume = totalVolume;
+      sumObj.standVolumeWMSDensityPerHectareWMS =
+        standVolumeWMSDensityPerHectareWMS;
+      sumObj.standVolumeWMSDensityPerHectareMads =
+        standVolumeWMSDensityPerHectareMads;
+      sumObj.standVolumeWMS = standVolumeWMS;
+      sumObj.standVolumeMads = standVolumeMads;
+      sumObj.hardCodedSpeciesPrice = hardCodedSpeciesPrice;
+      sumObj.speciesPriceMads = speciesPriceMads;
+      sumObj.totalESTGrossValueWMS = totalESTGrossValueWMS;
+      sumObj.totalESTGrossValueMads = totalESTGrossValueMads;
     } else {
       // Single polygon selection switch is selected
 
       if (
         features.length > 0 &&
         features[0] &&
-        features[0][0] &&
-        features[0][0].values_ &&
+        features[0].properties &&
         !clickedOnLineRef.current
       ) {
         const feature = features[0];
-        const values = feature[0].values_;
-        sumObj.teig_best_nr = values.teig_best_nr;
+        const properties = feature.properties;
+        sumObj.teig_best_nr = properties.teig_best_nr;
 
         // Get Hogstklasse
-        sumObj.hogstkl_verdi = values.hogstkl_verdi;
+        sumObj.hogstkl_verdi = properties.hogstkl_verdi;
 
         // Get the Bonitet
-        sumObj.bonitet_beskrivelse = values.bonitet_beskrivelse.substring(
-          values.bonitet_beskrivelse.indexOf(' ') + 1
+        sumObj.bonitet_beskrivelse = properties.bonitet_beskrivelse.substring(
+          properties.bonitet_beskrivelse.indexOf(' ') + 1
         ); // Remove the first part and keep only the number
 
         // Get the Treslag
-        sumObj.bontre_beskrivelse = values.bontre_beskrivelse;
+        sumObj.bontre_beskrivelse = properties.bontre_beskrivelse;
 
         // Calculate arealm2
-        sumObj.arealm2 = formatTheStringArealM2(values.arealm2);
+        sumObj.arealm2 = formatTheStringArealM2(properties.arealm2);
 
         // Get the Alder
-        sumObj.alder = values.alder;
+        sumObj.alder = properties.alder;
 
         // Add the additional row if hogstkl_verdi is 4 or 5
-        if (values.hogstkl_verdi === '4' || values.hogstkl_verdi === '5') {
+        if (
+          properties.hogstkl_verdi === '4' ||
+          properties.hogstkl_verdi === '5'
+        ) {
           const {
-            estimatedStandVolumeM3HAANumber,
-            estimatedStandVolume,
-            speciesPrice,
-            totalVolume,
-          } = calculateHeightVolumeStandVolume(
+            standVolumeWMSDensityPerHectareWMS,
+            standVolumeWMS,
+            hardCodedSpeciesPrice,
+            totalESTGrossValueWMS,
+          } = calculateVolumeAndGrossValue(
             granCSVData,
             furuCSVData,
-            values
+            properties
           );
 
           // The tree density volume per stand
-          sumObj.estimatedStandVolumeM3HAANumber =
-            estimatedStandVolumeM3HAANumber;
-          // The estimatedStandVolume per decare (daa)
-          sumObj.estimatedStandVolume = estimatedStandVolume;
+          sumObj.standVolumeWMSDensityPerHectareWMS =
+            standVolumeWMSDensityPerHectareWMS;
+          sumObj.standVolumeWMSDensityPerHectareMads = parseFloat(
+            feature.properties.Volume_per_hectare
+          );
+          // The standVolumeWMS per decare (daa)
+          sumObj.standVolumeWMS = standVolumeWMS;
+          sumObj.standVolumeMads = parseFloat(feature.properties.Volume);
           // The price of the timber for a species
-          sumObj.speciesPrice = speciesPrice;
+          sumObj.hardCodedSpeciesPrice = hardCodedSpeciesPrice;
+          sumObj.speciesPriceMads = parseFloat(feature.properties.avg_price_m3);
           // The total volume
-          sumObj.totalVolume = totalVolume;
+          sumObj.totalESTGrossValueWMS = totalESTGrossValueWMS;
+          sumObj.totalESTGrossValueMads = parseFloat(
+            feature.properties.gross_value_standing_volume
+          );
         }
       }
     }
-    if (
-      features.length > 0 &&
-      features[0] &&
-      features[0][0] &&
-      features[0][0].values_
-    ) {
+    if (features.length > 0 && features[0] && features[0].properties) {
       let content =
         // Add the layer name as the title with black color and centered alignment
         `<h3 style="color: black; text-align: center;">${sumObj.title}</h3>` +
         // Add margin-bottom and border styles
         '<table style="margin-bottom: 10px; border-collapse: collapse; border: 1px solid black;">' +
         // Add the ID row
-        `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">ID</td><td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.teig_best_nr}</td></tr>` +
+        `<tr style="border: 1px solid black;">
+          <td style="padding: 5px; border: 1px solid black;">ID</td>
+          <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.teig_best_nr}</td>
+        </tr>` +
         // Add Hogstklasse
-        `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">${desiredAttributes['hogstkl_verdi']}</td><td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.hogstkl_verdi}</td></tr>` +
+        `<tr style="border: 1px solid black;">
+          <td style="padding: 5px; border: 1px solid black;">${desiredAttributes['hogstkl_verdi']}</td>
+          <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.hogstkl_verdi}</td>
+        </tr>` +
         // Add Bonitet
-        `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">${desiredAttributes['bonitet_beskrivelse']}</td><td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.bonitet_beskrivelse}</td></tr>` +
+        `<tr style="border: 1px solid black;">
+          <td style="padding: 5px; border: 1px solid black;">${desiredAttributes['bonitet_beskrivelse']}</td>
+          <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.bonitet_beskrivelse}</td>
+        </tr>` +
         // Add the Treslag
-        `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">${desiredAttributes['bontre_beskrivelse']}</td><td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.bontre_beskrivelse}</td></tr>` +
+        `<tr style="border: 1px solid black;">
+          <td style="padding: 5px; border: 1px solid black;">${desiredAttributes['bontre_beskrivelse']}</td>
+          <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.bontre_beskrivelse}</td>
+        </tr>` +
         // Add the ArealM2
-        `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">${desiredAttributes['arealm2']}</td><td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.arealm2}</td></tr>` +
+        `<tr style="border: 1px solid black;">
+          <td style="padding: 5px; border: 1px solid black;">${desiredAttributes['arealm2']}</td>
+          <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.arealm2}</td>
+        </tr>` +
         // Add the Alder
-        `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">${desiredAttributes['alder']}</td><td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.alder}</td></tr>`;
-      if (sumObj.estimatedStandVolumeM3HAANumber) {
+        `<tr style="border: 1px solid black;">
+          <td style="padding: 5px; border: 1px solid black;">${desiredAttributes['alder']}</td>
+          <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.alder}</td>
+        </tr>`;
+      if (
+        sumObj.standVolumeWMSDensityPerHectareWMS &&
+        sumObj.standVolumeWMSDensityPerHectareMads
+      ) {
         // Showing the tree density volume per stand
-        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Tømmervolum</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.estimatedStandVolumeM3HAANumber, 'nb-NO', 1)}</span> m^3</td></tr>`;
-        // Calculating the estimatedStandVolume per decare (daa)
-        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Tømmertetthet</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.estimatedStandVolume / 10, 'nb-NO', 1)}</span> m^3/daa</td></tr>`;
+        // content += `
+        // <tr style="border: 1px solid black;">
+        //   <td style="padding: 5px; border: 1px solid black;">Tømmervolum</td>
+        //   <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.standVolumeWMSDensityPerHectareWMS, 'nb-NO', 1)}</span> m^3</td>
+        // </tr>`;
+        content += `
+        <tr style="border: 1px solid black;">
+          <td style="padding: 5px; border: 1px solid black;">Tømmervolum</td>
+          <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.standVolumeWMSDensityPerHectareMads, 'nb-NO', 1)}</span> m^3</td>
+        </tr>`;
+        // Calculating the standVolumeWMS per decare (daa)
+        // content += `
+        // <tr style="border: 1px solid black;">
+        //   <td style="padding: 5px; border: 1px solid black;">Tømmertetthet</td>
+        //   <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.standVolumeWMS / 10, 'nb-NO', 1)}</span> m^3/daa</td>
+        // </tr>`;
+        content += `
+        <tr style="border: 1px solid black;">
+          <td style="padding: 5px; border: 1px solid black;">Tømmertetthet</td>
+          <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.standVolumeMads / 10, 'nb-NO', 1)}</span> m^3/daa</td>
+        </tr>`;
         // The price of the timber for a species
-        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Forv. gj.sn pris per m^3</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.speciesPrice, 'nb-NO', 0)}</span> kr</td></tr>`;
-        // We rae showing the total volume
-        content += `<tr style="border: 1px solid black;"><td style="padding: 5px; border: 1px solid black;">Forv. brutto verdi</td><td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.totalVolume, 'nb-NO', 0)}</span> kr</td></tr>`;
+        content += `
+        <tr style="border: 1px solid black;">
+          <td style="padding: 5px; border: 1px solid black;">Forv. gj.sn pris per m^3</td>
+          <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.speciesPriceMads, 'nb-NO', 0)}</span> kr</td>
+        </tr>`;
+        // We are showing the total volume
+        // content += `
+        // <tr style="border: 1px solid black;">
+        //   <td style="padding: 5px; border: 1px solid black;">Forv. brutto verdi</td>
+        //   <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.totalESTGrossValueWMS, 'nb-NO', 0)}</span> kr</td>
+        // </tr>`;
+        content += `
+        <tr style="border: 1px solid black;">
+          <td style="padding: 5px; border: 1px solid black;">Forv. brutto verdi</td>
+          <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.totalESTGrossValueMads, 'nb-NO', 0)}</span> kr</td>
+        </tr>`;
       }
       content += '</table>';
       L.popup({ interactive: true })
@@ -273,50 +355,59 @@ export default function CustomMapEvents(props) {
             clickedForest.features[0].geometry.coordinates
           )
         ) {
-          // The WMS expects the Query params to follow certain patterns. After
-          // analysing how QGIS made the WMS call, reverse engineered the call
-          // and here we are building one of those params, i.e. BBOX, size.x, size.y and the CRS
-          const { CRS, size, BBOX } = calculateBoundingBox(map);
-          // The params should be in uppercase, unless the WMS won't accept it
-          const params = {
-            ...nibioGetFeatInfoBaseParams,
-            BBOX,
-            CRS,
-            WIDTH: size.x,
-            HEIGHT: size.y,
-            I: Math.round(e.containerPoint.x),
-            J: Math.round(e.containerPoint.y),
-          };
-          const url = `https://wms.nibio.no/cgi-bin/skogbruksplan?${new URLSearchParams(params).toString()}`;
-          const response = await fetch(url);
-          const data = await response.text();
-          const format = new WMSGetFeatureInfo();
-          const newFeatures = format.readFeatures(data);
+          // // The WMS expects the Query params to follow certain patterns. After
+          // // analysing how QGIS made the WMS call, reverse engineered the call
+          // // and here we are building one of those params, i.e. BBOX, size.x, size.y and the CRS
+          // const { CRS, size, BBOX } = calculateBoundingBox(map);
+          // // The params should be in uppercase, unless the WMS won't accept it
+          // const params = {
+          //   ...nibioGetFeatInfoBaseParams,
+          //   BBOX,
+          //   CRS,
+          //   WIDTH: size.x,
+          //   HEIGHT: size.y,
+          //   I: Math.round(e.containerPoint.x),
+          //   J: Math.round(e.containerPoint.y),
+          // };
+          // const url = `https://wms.nibio.no/cgi-bin/skogbruksplan?${new URLSearchParams(params).toString()}`;
+          // const response = await fetch(url);
+          // const data = await response.text();
+          // const format = new WMSGetFeatureInfo();
+          // const newFeatures = format.readFeatures(data);
 
           // In case the selected feature is already in the array,
           // which means the user has clicked on it before, we don't
           // need to add it to the array. That's why we check if the teigBestNr
           // already exists or not!
-          const teigBestNrLastSelected = newFeatures[0]?.values_?.teig_best_nr;
+          // const teigBestNrLastSelected = newFeatures[0]?.properties?.teig_best_nr;
+          const teigBestNrLastSelected =
+            selectedVectorFeatureRef.current.properties.teig_best_nr;
 
           // Reset selected features if not in multiPolygonSelect mode
           if (!multiPolygonSelect) {
-            setSelectedFeatures([newFeatures]); // Only the last selected feature is kept
-            handleSkogbrukWMSFeatures(e, [newFeatures], map, false);
+            setSelectedFeatures([selectedVectorFeatureRef.current]); // Only the last selected feature is kept
+            handleSkogbrukWMSFeatures(
+              e,
+              [selectedVectorFeatureRef.current],
+              map,
+              false
+            );
           } else {
             if (
               teigBestNrLastSelected &&
               !selectedFeatures.some(
                 (feature) =>
-                  feature[0].values_?.teig_best_nr === teigBestNrLastSelected
+                  feature.properties?.teig_best_nr === teigBestNrLastSelected
               )
             ) {
-              setSelectedFeatures([...selectedFeatures, newFeatures]);
               // Add to selected features for multi selection mode
-              setSelectedFeatures([...selectedFeatures, newFeatures]);
+              setSelectedFeatures([
+                ...selectedFeatures,
+                selectedVectorFeatureRef.current,
+              ]);
               handleSkogbrukWMSFeatures(
                 e,
-                selectedFeatures.concat([newFeatures]),
+                selectedFeatures.concat([selectedVectorFeatureRef.current]),
                 map,
                 true
               );
