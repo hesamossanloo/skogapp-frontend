@@ -289,6 +289,7 @@ const madsPolygons = {
         Volume: '293.64',
         avg_price_m3: '659',
         Volume_per_hectare: '304',
+        gross_value_standing_volume: '193638',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -343,6 +344,7 @@ const madsPolygons = {
         Volume: '23.04',
         avg_price_m3: '664',
         Volume_per_hectare: '36',
+        gross_value_standing_volume: '15293',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -393,6 +395,7 @@ const madsPolygons = {
         Volume: '36.65',
         avg_price_m3: '668',
         Volume_per_hectare: '58',
+        gross_value_standing_volume: '24488',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -441,6 +444,7 @@ const madsPolygons = {
         Volume: '161.93',
         avg_price_m3: '691',
         Volume_per_hectare: '63',
+        gross_value_standing_volume: '111946',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -560,6 +564,7 @@ const madsPolygons = {
         Volume: '219.78',
         avg_price_m3: '659',
         Volume_per_hectare: '304',
+        gross_value_standing_volume: '144933',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -609,6 +614,7 @@ const madsPolygons = {
         Volume: '282.70',
         avg_price_m3: '664',
         Volume_per_hectare: '107',
+        gross_value_standing_volume: '187657',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -703,6 +709,7 @@ const madsPolygons = {
         Volume: '204.77',
         avg_price_m3: '703',
         Volume_per_hectare: '80',
+        gross_value_standing_volume: '143973',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -791,6 +798,7 @@ const madsPolygons = {
         Volume: '58.30',
         avg_price_m3: '691',
         Volume_per_hectare: '351',
+        gross_value_standing_volume: '40303',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -833,6 +841,7 @@ const madsPolygons = {
         Volume: '1000.61',
         avg_price_m3: '659',
         Volume_per_hectare: '231',
+        gross_value_standing_volume: '659855',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -892,6 +901,7 @@ const madsPolygons = {
         Volume: '371.41',
         avg_price_m3: '664',
         Volume_per_hectare: '301',
+        gross_value_standing_volume: '246545',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -953,6 +963,7 @@ const madsPolygons = {
         Volume: '148.99',
         avg_price_m3: '691',
         Volume_per_hectare: '351',
+        gross_value_standing_volume: '102999',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -1005,6 +1016,7 @@ const madsPolygons = {
         Volume: '249.37',
         avg_price_m3: '664',
         Volume_per_hectare: '107',
+        gross_value_standing_volume: '165533',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -1083,6 +1095,7 @@ const madsPolygons = {
         Volume: '61.64',
         avg_price_m3: '691',
         Volume_per_hectare: '86',
+        gross_value_standing_volume: '42614',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -1173,6 +1186,7 @@ const madsPolygons = {
         Volume: '300.65',
         avg_price_m3: '691',
         Volume_per_hectare: '169',
+        gross_value_standing_volume: '207849',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -1268,6 +1282,7 @@ const madsPolygons = {
         Volume: '218.85',
         avg_price_m3: '703',
         Volume_per_hectare: '184',
+        gross_value_standing_volume: '153867',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -1326,6 +1341,7 @@ const madsPolygons = {
         Volume: '398.53',
         avg_price_m3: '703',
         Volume_per_hectare: '136',
+        gross_value_standing_volume: '280201',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -1410,6 +1426,7 @@ const madsPolygons = {
         Volume: '308.24',
         avg_price_m3: '668',
         Volume_per_hectare: '414',
+        gross_value_standing_volume: '205952',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -1488,6 +1505,7 @@ const madsPolygons = {
         Volume: '143.92',
         avg_price_m3: '684',
         Volume_per_hectare: '314',
+        gross_value_standing_volume: '98369',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -1537,6 +1555,7 @@ const madsPolygons = {
         Volume: '73.59',
         avg_price_m3: '703',
         Volume_per_hectare: '184',
+        gross_value_standing_volume: '51738',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -1580,6 +1599,7 @@ const madsPolygons = {
         Volume: '641.80',
         avg_price_m3: '664',
         Volume_per_hectare: '107',
+        gross_value_standing_volume: '426025',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -1704,6 +1724,7 @@ const madsPolygons = {
         Volume: '51.83',
         avg_price_m3: '664',
         Volume_per_hectare: '107',
+        gross_value_standing_volume: '34406',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -1752,6 +1773,7 @@ const madsPolygons = {
         Volume: '133.75',
         avg_price_m3: '691',
         Volume_per_hectare: '86',
+        gross_value_standing_volume: '92464',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -1839,6 +1861,7 @@ const madsPolygons = {
         Volume: '642.00',
         avg_price_m3: '703',
         Volume_per_hectare: '288',
+        gross_value_standing_volume: '451376',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -1937,6 +1960,7 @@ const madsPolygons = {
         Volume: '383.99',
         avg_price_m3: '703',
         Volume_per_hectare: '288',
+        gross_value_standing_volume: '269977',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -2006,6 +2030,7 @@ const madsPolygons = {
         Volume: '161.03',
         avg_price_m3: '664',
         Volume_per_hectare: '301',
+        gross_value_standing_volume: '106890',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -2057,6 +2082,7 @@ const madsPolygons = {
         Volume: '97.50',
         avg_price_m3: '703',
         Volume_per_hectare: '95',
+        gross_value_standing_volume: '68554',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -2178,6 +2204,7 @@ const madsPolygons = {
         Volume: '230.98',
         avg_price_m3: '691',
         Volume_per_hectare: '140',
+        gross_value_standing_volume: '159684',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -2248,6 +2275,7 @@ const madsPolygons = {
         Volume: '97.24',
         avg_price_m3: '652',
         Volume_per_hectare: '121',
+        gross_value_standing_volume: '63423',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -2312,6 +2340,7 @@ const madsPolygons = {
         Volume: '1888.97',
         avg_price_m3: '691',
         Volume_per_hectare: '140',
+        gross_value_standing_volume: '1305906',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -2475,6 +2504,7 @@ const madsPolygons = {
         Volume: '30.08',
         avg_price_m3: '703',
         Volume_per_hectare: '16',
+        gross_value_standing_volume: '21151',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -2547,6 +2577,7 @@ const madsPolygons = {
         Volume: '546.15',
         avg_price_m3: '684',
         Volume_per_hectare: '539',
+        gross_value_standing_volume: '373296',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -2601,6 +2632,7 @@ const madsPolygons = {
         Volume: '175.08',
         avg_price_m3: '691',
         Volume_per_hectare: '169',
+        gross_value_standing_volume: '121039',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -2658,6 +2690,7 @@ const madsPolygons = {
         Volume: '279.15',
         avg_price_m3: '684',
         Volume_per_hectare: '239',
+        gross_value_standing_volume: '190797',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -2710,6 +2743,7 @@ const madsPolygons = {
         Volume: '89.02',
         avg_price_m3: '664',
         Volume_per_hectare: '138',
+        gross_value_standing_volume: '59088',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -2758,6 +2792,7 @@ const madsPolygons = {
         Volume: '196.53',
         avg_price_m3: '659',
         Volume_per_hectare: '291',
+        gross_value_standing_volume: '129601',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -2813,6 +2848,7 @@ const madsPolygons = {
         Volume: '387.56',
         avg_price_m3: '703',
         Volume_per_hectare: '288',
+        gross_value_standing_volume: '272484',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -2880,6 +2916,7 @@ const madsPolygons = {
         Volume: '637.18',
         avg_price_m3: '703',
         Volume_per_hectare: '340',
+        gross_value_standing_volume: '447991',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -2947,6 +2984,7 @@ const madsPolygons = {
         Volume: '379.12',
         avg_price_m3: '684',
         Volume_per_hectare: '393',
+        gross_value_standing_volume: '259126',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -2999,6 +3037,7 @@ const madsPolygons = {
         Volume: '185.92',
         avg_price_m3: '703',
         Volume_per_hectare: '136',
+        gross_value_standing_volume: '130719',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -3084,6 +3123,7 @@ const madsPolygons = {
         Volume: '513.17',
         avg_price_m3: '691',
         Volume_per_hectare: '140',
+        gross_value_standing_volume: '354772',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -3199,6 +3239,7 @@ const madsPolygons = {
         Volume: '1014.26',
         avg_price_m3: '703',
         Volume_per_hectare: '340',
+        gross_value_standing_volume: '713106',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -3334,6 +3375,7 @@ const madsPolygons = {
         Volume: '604.05',
         avg_price_m3: '691',
         Volume_per_hectare: '169',
+        gross_value_standing_volume: '417599',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -3424,6 +3466,7 @@ const madsPolygons = {
         Volume: '103.71',
         avg_price_m3: '691',
         Volume_per_hectare: '226',
+        gross_value_standing_volume: '71699',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -3470,6 +3513,7 @@ const madsPolygons = {
         Volume: '1020.67',
         avg_price_m3: '664',
         Volume_per_hectare: '396',
+        gross_value_standing_volume: '677521',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -3557,6 +3601,7 @@ const madsPolygons = {
         Volume: '234.81',
         avg_price_m3: '659',
         Volume_per_hectare: '231',
+        gross_value_standing_volume: '154843',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -3610,6 +3655,7 @@ const madsPolygons = {
         Volume: '165.51',
         avg_price_m3: '691',
         Volume_per_hectare: '169',
+        gross_value_standing_volume: '114424',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -3674,6 +3720,7 @@ const madsPolygons = {
         Volume: '187.20',
         avg_price_m3: '664',
         Volume_per_hectare: '301',
+        gross_value_standing_volume: '124262',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -3767,6 +3814,7 @@ const madsPolygons = {
         Volume: '590.84',
         avg_price_m3: '691',
         Volume_per_hectare: '197',
+        gross_value_standing_volume: '408469',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -3840,6 +3888,7 @@ const madsPolygons = {
         Volume: '645.49',
         avg_price_m3: '664',
         Volume_per_hectare: '329',
+        gross_value_standing_volume: '428473',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -3924,6 +3973,7 @@ const madsPolygons = {
         Volume: '',
         avg_price_m3: '703',
         Volume_per_hectare: '',
+        gross_value_standing_volume: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -3977,6 +4027,7 @@ const madsPolygons = {
         Volume: '178.24',
         avg_price_m3: '691',
         Volume_per_hectare: '140',
+        gross_value_standing_volume: '123226',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -4044,6 +4095,7 @@ const madsPolygons = {
         Volume: '73.24',
         avg_price_m3: '691',
         Volume_per_hectare: '197',
+        gross_value_standing_volume: '50632',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -4085,6 +4137,7 @@ const madsPolygons = {
         Volume: '1311.56',
         avg_price_m3: '655',
         Volume_per_hectare: '167',
+        gross_value_standing_volume: '859204',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -4247,6 +4300,7 @@ const madsPolygons = {
         Volume: '268.75',
         avg_price_m3: '703',
         Volume_per_hectare: '235',
+        gross_value_standing_volume: '188952',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -4305,6 +4359,7 @@ const madsPolygons = {
         Volume: '',
         avg_price_m3: '703',
         Volume_per_hectare: '',
+        gross_value_standing_volume: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -4356,6 +4411,7 @@ const madsPolygons = {
         Volume: '348.98',
         avg_price_m3: '664',
         Volume_per_hectare: '239',
+        gross_value_standing_volume: '231651',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -4437,6 +4493,7 @@ const madsPolygons = {
         Volume: '',
         avg_price_m3: '',
         Volume_per_hectare: '',
+        gross_value_standing_volume: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -4509,6 +4566,7 @@ const madsPolygons = {
         Volume: '882.37',
         avg_price_m3: '703',
         Volume_per_hectare: '288',
+        gross_value_standing_volume: '620382',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -4639,6 +4697,7 @@ const madsPolygons = {
         Volume: '',
         avg_price_m3: '',
         Volume_per_hectare: '',
+        gross_value_standing_volume: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -4716,6 +4775,7 @@ const madsPolygons = {
         Volume: '616.78',
         avg_price_m3: '659',
         Volume_per_hectare: '254',
+        gross_value_standing_volume: '406736',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -4857,6 +4917,7 @@ const madsPolygons = {
         Volume: '1815.00',
         avg_price_m3: '664',
         Volume_per_hectare: '271',
+        gross_value_standing_volume: '1204798',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -5007,6 +5068,7 @@ const madsPolygons = {
         Volume: '13.14',
         avg_price_m3: '703',
         Volume_per_hectare: '34',
+        gross_value_standing_volume: '9237',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -5137,6 +5199,7 @@ const madsPolygons = {
         Volume: '541.59',
         avg_price_m3: '703',
         Volume_per_hectare: '391',
+        gross_value_standing_volume: '380782',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -5208,6 +5271,7 @@ const madsPolygons = {
         Volume: '235.59',
         avg_price_m3: '664',
         Volume_per_hectare: '205',
+        gross_value_standing_volume: '156382',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -5262,6 +5326,7 @@ const madsPolygons = {
         Volume: '428.64',
         avg_price_m3: '691',
         Volume_per_hectare: '316',
+        gross_value_standing_volume: '296330',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -5348,6 +5413,7 @@ const madsPolygons = {
         Volume: '581.15',
         avg_price_m3: '703',
         Volume_per_hectare: '510',
+        gross_value_standing_volume: '408595',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -5410,6 +5476,7 @@ const madsPolygons = {
         Volume: '614.46',
         avg_price_m3: '659',
         Volume_per_hectare: '231',
+        gross_value_standing_volume: '405206',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -5533,6 +5600,7 @@ const madsPolygons = {
         Volume: '131.60',
         avg_price_m3: '703',
         Volume_per_hectare: '95',
+        gross_value_standing_volume: '92526',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -5670,6 +5738,7 @@ const madsPolygons = {
         Volume: '601.53',
         avg_price_m3: '691',
         Volume_per_hectare: '316',
+        gross_value_standing_volume: '415855',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -5728,6 +5797,7 @@ const madsPolygons = {
         Volume: '226.89',
         avg_price_m3: '691',
         Volume_per_hectare: '63',
+        gross_value_standing_volume: '156859',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -5816,6 +5886,7 @@ const madsPolygons = {
         Volume: '303.69',
         avg_price_m3: '691',
         Volume_per_hectare: '169',
+        gross_value_standing_volume: '209949',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -5915,6 +5986,7 @@ const madsPolygons = {
         Volume: '187.21',
         avg_price_m3: '691',
         Volume_per_hectare: '169',
+        gross_value_standing_volume: '129427',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -5976,6 +6048,7 @@ const madsPolygons = {
         Volume: '273.57',
         avg_price_m3: '691',
         Volume_per_hectare: '140',
+        gross_value_standing_volume: '189125',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -6055,6 +6128,7 @@ const madsPolygons = {
         Volume: '186.47',
         avg_price_m3: '655',
         Volume_per_hectare: '173',
+        gross_value_standing_volume: '122156',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -6151,6 +6225,7 @@ const madsPolygons = {
         Volume: '431.75',
         avg_price_m3: '703',
         Volume_per_hectare: '340',
+        gross_value_standing_volume: '303559',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -6219,6 +6294,7 @@ const madsPolygons = {
         Volume: '211.98',
         avg_price_m3: '691',
         Volume_per_hectare: '140',
+        gross_value_standing_volume: '146548',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -6320,6 +6396,7 @@ const madsPolygons = {
         Volume: '108.10',
         avg_price_m3: '655',
         Volume_per_hectare: '159',
+        gross_value_standing_volume: '70814',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -6378,6 +6455,7 @@ const madsPolygons = {
         Volume: '27.76',
         avg_price_m3: '703',
         Volume_per_hectare: '34',
+        gross_value_standing_volume: '19521',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -6429,6 +6507,7 @@ const madsPolygons = {
         Volume: '629.80',
         avg_price_m3: '664',
         Volume_per_hectare: '171',
+        gross_value_standing_volume: '418058',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -6526,6 +6605,7 @@ const madsPolygons = {
         Volume: '359.02',
         avg_price_m3: '691',
         Volume_per_hectare: '226',
+        gross_value_standing_volume: '248200',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -6592,6 +6672,7 @@ const madsPolygons = {
         Volume: '172.16',
         avg_price_m3: '703',
         Volume_per_hectare: '235',
+        gross_value_standing_volume: '121042',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -6644,6 +6725,7 @@ const madsPolygons = {
         Volume: '340.75',
         avg_price_m3: '703',
         Volume_per_hectare: '557',
+        gross_value_standing_volume: '239574',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -6694,6 +6776,7 @@ const madsPolygons = {
         Volume: '296.86',
         avg_price_m3: '659',
         Volume_per_hectare: '275',
+        gross_value_standing_volume: '195768',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -6762,6 +6845,7 @@ const madsPolygons = {
         Volume: '181.20',
         avg_price_m3: '668',
         Volume_per_hectare: '212',
+        gross_value_standing_volume: '121071',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -6820,6 +6904,7 @@ const madsPolygons = {
         Volume: '23.34',
         avg_price_m3: '703',
         Volume_per_hectare: '34',
+        gross_value_standing_volume: '16407',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -6867,6 +6952,7 @@ const madsPolygons = {
         Volume: '55.54',
         avg_price_m3: '684',
         Volume_per_hectare: '63',
+        gross_value_standing_volume: '37963',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -7008,6 +7094,7 @@ const madsPolygons = {
         Volume: '156.39',
         avg_price_m3: '703',
         Volume_per_hectare: '184',
+        gross_value_standing_volume: '109953',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -7059,6 +7146,7 @@ const madsPolygons = {
         Volume: '134.25',
         avg_price_m3: '691',
         Volume_per_hectare: '86',
+        gross_value_standing_volume: '92810',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -7140,6 +7228,7 @@ const madsPolygons = {
         Volume: '209.77',
         avg_price_m3: '703',
         Volume_per_hectare: '577',
+        gross_value_standing_volume: '147483',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -7186,6 +7275,7 @@ const madsPolygons = {
         Volume: '968.22',
         avg_price_m3: '684',
         Volume_per_hectare: '732',
+        gross_value_standing_volume: '661777',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -7236,6 +7326,7 @@ const madsPolygons = {
         Volume: '154.20',
         avg_price_m3: '703',
         Volume_per_hectare: '436',
+        gross_value_standing_volume: '108416',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -7278,6 +7369,7 @@ const madsPolygons = {
         Volume: '674.55',
         avg_price_m3: '703',
         Volume_per_hectare: '579',
+        gross_value_standing_volume: '474265',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -7334,6 +7426,7 @@ const madsPolygons = {
         Volume: '162.88',
         avg_price_m3: '703',
         Volume_per_hectare: '288',
+        gross_value_standing_volume: '114517',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -7390,6 +7483,7 @@ const madsPolygons = {
         Volume: '181.17',
         avg_price_m3: '703',
         Volume_per_hectare: '436',
+        gross_value_standing_volume: '127375',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -7463,6 +7557,7 @@ const madsPolygons = {
         Volume: '67.20',
         avg_price_m3: '703',
         Volume_per_hectare: '60',
+        gross_value_standing_volume: '47246',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -7510,6 +7605,7 @@ const madsPolygons = {
         Volume: '47.33',
         avg_price_m3: '655',
         Volume_per_hectare: '72',
+        gross_value_standing_volume: '31007',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -7562,6 +7658,7 @@ const madsPolygons = {
         Volume: '1247.57',
         avg_price_m3: '703',
         Volume_per_hectare: '577',
+        gross_value_standing_volume: '877146',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -7745,6 +7842,7 @@ const madsPolygons = {
         Volume: '471.11',
         avg_price_m3: '703',
         Volume_per_hectare: '436',
+        gross_value_standing_volume: '331231',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -7812,6 +7910,7 @@ const madsPolygons = {
         Volume: '624.82',
         avg_price_m3: '659',
         Volume_per_hectare: '231',
+        gross_value_standing_volume: '412040',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -7883,6 +7982,7 @@ const madsPolygons = {
         Volume: '583.15',
         avg_price_m3: '668',
         Volume_per_hectare: '259',
+        gross_value_standing_volume: '389630',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -7951,6 +8051,7 @@ const madsPolygons = {
         Volume: '518.16',
         avg_price_m3: '664',
         Volume_per_hectare: '107',
+        gross_value_standing_volume: '343954',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -8054,6 +8155,7 @@ const madsPolygons = {
         Volume: '1058.00',
         avg_price_m3: '691',
         Volume_per_hectare: '226',
+        gross_value_standing_volume: '731433',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -8167,6 +8269,7 @@ const madsPolygons = {
         Volume: '452.18',
         avg_price_m3: '664',
         Volume_per_hectare: '301',
+        gross_value_standing_volume: '300160',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -8225,6 +8328,7 @@ const madsPolygons = {
         Volume: '666.19',
         avg_price_m3: '664',
         Volume_per_hectare: '239',
+        gross_value_standing_volume: '442218',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -8339,6 +8443,7 @@ const madsPolygons = {
         Volume: '178.47',
         avg_price_m3: '659',
         Volume_per_hectare: '145',
+        gross_value_standing_volume: '117689',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -8423,6 +8528,7 @@ const madsPolygons = {
         Volume: '353.39',
         avg_price_m3: '664',
         Volume_per_hectare: '239',
+        gross_value_standing_volume: '234584',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -8504,6 +8610,7 @@ const madsPolygons = {
         Volume: '102.75',
         avg_price_m3: '691',
         Volume_per_hectare: '197',
+        gross_value_standing_volume: '71033',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -8555,6 +8662,7 @@ const madsPolygons = {
         Volume: '248.04',
         avg_price_m3: '703',
         Volume_per_hectare: '340',
+        gross_value_standing_volume: '174394',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -8642,6 +8750,7 @@ const madsPolygons = {
         Volume: '52.10',
         avg_price_m3: '703',
         Volume_per_hectare: '34',
+        gross_value_standing_volume: '36634',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -8715,6 +8824,7 @@ const madsPolygons = {
         Volume: '45.26',
         avg_price_m3: '691',
         Volume_per_hectare: '15',
+        gross_value_standing_volume: '31288',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -8797,6 +8907,7 @@ const madsPolygons = {
         Volume: '226.14',
         avg_price_m3: '691',
         Volume_per_hectare: '140',
+        gross_value_standing_volume: '156340',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -8900,6 +9011,7 @@ const madsPolygons = {
         Volume: '356.09',
         avg_price_m3: '659',
         Volume_per_hectare: '250',
+        gross_value_standing_volume: '234820',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -8963,6 +9075,7 @@ const madsPolygons = {
         Volume: '125.87',
         avg_price_m3: '691',
         Volume_per_hectare: '140',
+        gross_value_standing_volume: '87019',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -9027,6 +9140,7 @@ const madsPolygons = {
         Volume: '131.31',
         avg_price_m3: '703',
         Volume_per_hectare: '340',
+        gross_value_standing_volume: '92322',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -9098,6 +9212,7 @@ const madsPolygons = {
         Volume: '244.44',
         avg_price_m3: '703',
         Volume_per_hectare: '340',
+        gross_value_standing_volume: '171861',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -9148,6 +9263,7 @@ const madsPolygons = {
         Volume: '280.36',
         avg_price_m3: '703',
         Volume_per_hectare: '391',
+        gross_value_standing_volume: '197117',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -9465,6 +9581,7 @@ const madsPolygons = {
         Volume: '128.73',
         avg_price_m3: '684',
         Volume_per_hectare: '109',
+        gross_value_standing_volume: '87986',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -9523,6 +9640,7 @@ const madsPolygons = {
         Volume: '',
         avg_price_m3: '703',
         Volume_per_hectare: '',
+        gross_value_standing_volume: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -9615,6 +9733,7 @@ const madsPolygons = {
         Volume: '277.14',
         avg_price_m3: '703',
         Volume_per_hectare: '184',
+        gross_value_standing_volume: '194854',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -9671,6 +9790,7 @@ const madsPolygons = {
         Volume: '190.20',
         avg_price_m3: '703',
         Volume_per_hectare: '136',
+        gross_value_standing_volume: '133725',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -9749,6 +9869,7 @@ const madsPolygons = {
         Volume: '2158.27',
         avg_price_m3: '659',
         Volume_per_hectare: '275',
+        gross_value_standing_volume: '1423274',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -9918,6 +10039,7 @@ const madsPolygons = {
         Volume: '1326.24',
         avg_price_m3: '703',
         Volume_per_hectare: '579',
+        gross_value_standing_volume: '932457',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -10020,6 +10142,7 @@ const madsPolygons = {
         Volume: '1953.53',
         avg_price_m3: '655',
         Volume_per_hectare: '176',
+        gross_value_standing_volume: '1279760',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -10204,6 +10327,7 @@ const madsPolygons = {
         Volume: '',
         avg_price_m3: '691',
         Volume_per_hectare: '',
+        gross_value_standing_volume: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -10290,6 +10414,7 @@ const madsPolygons = {
         Volume: '41.84',
         avg_price_m3: '691',
         Volume_per_hectare: '15',
+        gross_value_standing_volume: '28926',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -10396,6 +10521,7 @@ const madsPolygons = {
         Volume: '54.19',
         avg_price_m3: '691',
         Volume_per_hectare: '86',
+        gross_value_standing_volume: '37466',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -10465,6 +10591,7 @@ const madsPolygons = {
         Volume: '775.65',
         avg_price_m3: '703',
         Volume_per_hectare: '95',
+        gross_value_standing_volume: '545349',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -10620,6 +10747,7 @@ const madsPolygons = {
         Volume: '213.22',
         avg_price_m3: '684',
         Volume_per_hectare: '314',
+        gross_value_standing_volume: '145738',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -10674,6 +10802,7 @@ const madsPolygons = {
         Volume: '171.44',
         avg_price_m3: '664',
         Volume_per_hectare: '351',
+        gross_value_standing_volume: '113804',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -10721,6 +10850,7 @@ const madsPolygons = {
         Volume: '1059.08',
         avg_price_m3: '691',
         Volume_per_hectare: '299',
+        gross_value_standing_volume: '732180',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -10799,6 +10929,7 @@ const madsPolygons = {
         Volume: '',
         avg_price_m3: '703',
         Volume_per_hectare: '',
+        gross_value_standing_volume: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -10899,6 +11030,7 @@ const madsPolygons = {
         Volume: '148.77',
         avg_price_m3: '691',
         Volume_per_hectare: '299',
+        gross_value_standing_volume: '102852',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -10944,6 +11076,7 @@ const madsPolygons = {
         Volume: '13.02',
         avg_price_m3: '691',
         Volume_per_hectare: '15',
+        gross_value_standing_volume: '8998',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -10995,6 +11128,7 @@ const madsPolygons = {
         Volume: '1112.29',
         avg_price_m3: '703',
         Volume_per_hectare: '184',
+        gross_value_standing_volume: '782031',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -11121,6 +11255,7 @@ const madsPolygons = {
         Volume: '53.76',
         avg_price_m3: '659',
         Volume_per_hectare: '280',
+        gross_value_standing_volume: '35452',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -11167,6 +11302,7 @@ const madsPolygons = {
         Volume: '181.64',
         avg_price_m3: '703',
         Volume_per_hectare: '235',
+        gross_value_standing_volume: '127705',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -11221,6 +11357,7 @@ const madsPolygons = {
         Volume: '979.23',
         avg_price_m3: '664',
         Volume_per_hectare: '239',
+        gross_value_standing_volume: '650011',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -11302,6 +11439,7 @@ const madsPolygons = {
         Volume: '27.83',
         avg_price_m3: '691',
         Volume_per_hectare: '63',
+        gross_value_standing_volume: '19241',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -11345,6 +11483,7 @@ const madsPolygons = {
         Volume: '88.45',
         avg_price_m3: '703',
         Volume_per_hectare: '136',
+        gross_value_standing_volume: '62190',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -11401,6 +11540,7 @@ const madsPolygons = {
         Volume: '125.23',
         avg_price_m3: '703',
         Volume_per_hectare: '16',
+        gross_value_standing_volume: '88047',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -11604,6 +11744,7 @@ const madsPolygons = {
         Volume: '375.66',
         avg_price_m3: '664',
         Volume_per_hectare: '351',
+        gross_value_standing_volume: '249366',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -11668,6 +11809,7 @@ const madsPolygons = {
         Volume: '15.12',
         avg_price_m3: '703',
         Volume_per_hectare: '16',
+        gross_value_standing_volume: '10628',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -11719,6 +11861,7 @@ const madsPolygons = {
         Volume: '104.50',
         avg_price_m3: '684',
         Volume_per_hectare: '30',
+        gross_value_standing_volume: '71428',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -11767,6 +11910,7 @@ const madsPolygons = {
         Volume: '458.02',
         avg_price_m3: '659',
         Volume_per_hectare: '231',
+        gross_value_standing_volume: '302043',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -11857,6 +12001,7 @@ const madsPolygons = {
         Volume: '601.78',
         avg_price_m3: '691',
         Volume_per_hectare: '226',
+        gross_value_standing_volume: '416027',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -11951,6 +12096,7 @@ const madsPolygons = {
         Volume: '154.08',
         avg_price_m3: '680',
         Volume_per_hectare: '68',
+        gross_value_standing_volume: '104707',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -12026,6 +12172,7 @@ const madsPolygons = {
         Volume: '224.15',
         avg_price_m3: '684',
         Volume_per_hectare: '656',
+        gross_value_standing_volume: '153206',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -12157,6 +12304,7 @@ const madsPolygons = {
         Volume: '6.39',
         avg_price_m3: '691',
         Volume_per_hectare: '7',
+        gross_value_standing_volume: '4414',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -12214,6 +12362,7 @@ const madsPolygons = {
         Volume: '125.18',
         avg_price_m3: '703',
         Volume_per_hectare: '436',
+        gross_value_standing_volume: '88015',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -12255,6 +12404,7 @@ const madsPolygons = {
         Volume: '1394.03',
         avg_price_m3: '691',
         Volume_per_hectare: '226',
+        gross_value_standing_volume: '963736',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -12364,6 +12514,7 @@ const madsPolygons = {
         Volume: '',
         avg_price_m3: '691',
         Volume_per_hectare: '',
+        gross_value_standing_volume: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -12426,6 +12577,7 @@ const madsPolygons = {
         Volume: '433.92',
         avg_price_m3: '703',
         Volume_per_hectare: '391',
+        gross_value_standing_volume: '305083',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -12497,6 +12649,7 @@ const madsPolygons = {
         Volume: '',
         avg_price_m3: '691',
         Volume_per_hectare: '',
+        gross_value_standing_volume: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -12552,6 +12705,7 @@ const madsPolygons = {
         Volume: '190.80',
         avg_price_m3: '691',
         Volume_per_hectare: '316',
+        gross_value_standing_volume: '131904',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -12628,6 +12782,7 @@ const madsPolygons = {
         Volume: '211.88',
         avg_price_m3: '691',
         Volume_per_hectare: '252',
+        gross_value_standing_volume: '146477',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -12688,6 +12843,7 @@ const madsPolygons = {
         Volume: '338.51',
         avg_price_m3: '659',
         Volume_per_hectare: '291',
+        gross_value_standing_volume: '223230',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -12752,6 +12908,7 @@ const madsPolygons = {
         Volume: '50.06',
         avg_price_m3: '691',
         Volume_per_hectare: '112',
+        gross_value_standing_volume: '34610',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -12800,6 +12957,7 @@ const madsPolygons = {
         Volume: '1382.37',
         avg_price_m3: '655',
         Volume_per_hectare: '167',
+        gross_value_standing_volume: '905587',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -12961,6 +13119,7 @@ const madsPolygons = {
         Volume: '264.41',
         avg_price_m3: '691',
         Volume_per_hectare: '316',
+        gross_value_standing_volume: '182798',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -13017,6 +13176,7 @@ const madsPolygons = {
         Volume: '282.02',
         avg_price_m3: '703',
         Volume_per_hectare: '340',
+        gross_value_standing_volume: '198287',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -13075,6 +13235,7 @@ const madsPolygons = {
         Volume: '272.40',
         avg_price_m3: '691',
         Volume_per_hectare: '197',
+        gross_value_standing_volume: '188320',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -13200,6 +13361,7 @@ const madsPolygons = {
         Volume: '752.41',
         avg_price_m3: '659',
         Volume_per_hectare: '254',
+        gross_value_standing_volume: '496177',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -13330,6 +13492,7 @@ const madsPolygons = {
         Volume: '142.92',
         avg_price_m3: '684',
         Volume_per_hectare: '762',
+        gross_value_standing_volume: '97683',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -13398,6 +13561,7 @@ const madsPolygons = {
         Volume: '73.04',
         avg_price_m3: '691',
         Volume_per_hectare: '15',
+        gross_value_standing_volume: '50497',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -13530,6 +13694,7 @@ const madsPolygons = {
         Volume: '28.70',
         avg_price_m3: '703',
         Volume_per_hectare: '16',
+        gross_value_standing_volume: '20179',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -13607,6 +13772,7 @@ const madsPolygons = {
         Volume: '183.41',
         avg_price_m3: '703',
         Volume_per_hectare: '579',
+        gross_value_standing_volume: '128953',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -13654,6 +13820,7 @@ const madsPolygons = {
         Volume: '616.63',
         avg_price_m3: '703',
         Volume_per_hectare: '436',
+        gross_value_standing_volume: '433543',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -13713,6 +13880,7 @@ const madsPolygons = {
         Volume: '50.52',
         avg_price_m3: '703',
         Volume_per_hectare: '34',
+        gross_value_standing_volume: '35516',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -13791,6 +13959,7 @@ const madsPolygons = {
         Volume: '255.38',
         avg_price_m3: '655',
         Volume_per_hectare: '176',
+        gross_value_standing_volume: '167300',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -13856,6 +14025,7 @@ const madsPolygons = {
         Volume: '84.03',
         avg_price_m3: '664',
         Volume_per_hectare: '56',
+        gross_value_standing_volume: '55781',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -13919,6 +14089,7 @@ const madsPolygons = {
         Volume: '587.14',
         avg_price_m3: '691',
         Volume_per_hectare: '169',
+        gross_value_standing_volume: '405910',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -14037,6 +14208,7 @@ const madsPolygons = {
         Volume: '344.97',
         avg_price_m3: '703',
         Volume_per_hectare: '288',
+        gross_value_standing_volume: '242540',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -14135,6 +14307,7 @@ const madsPolygons = {
         Volume: '591.96',
         avg_price_m3: '659',
         Volume_per_hectare: '304',
+        gross_value_standing_volume: '390368',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -14193,6 +14366,7 @@ const madsPolygons = {
         Volume: '135.64',
         avg_price_m3: '659',
         Volume_per_hectare: '189',
+        gross_value_standing_volume: '89448',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -14240,6 +14414,7 @@ const madsPolygons = {
         Volume: '',
         avg_price_m3: '691',
         Volume_per_hectare: '',
+        gross_value_standing_volume: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -14299,6 +14474,7 @@ const madsPolygons = {
         Volume: '143.85',
         avg_price_m3: '659',
         Volume_per_hectare: '231',
+        gross_value_standing_volume: '94864',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -14349,6 +14525,7 @@ const madsPolygons = {
         Volume: '1035.50',
         avg_price_m3: '691',
         Volume_per_hectare: '197',
+        gross_value_standing_volume: '715877',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -14430,6 +14607,7 @@ const madsPolygons = {
         Volume: '334.60',
         avg_price_m3: '691',
         Volume_per_hectare: '357',
+        gross_value_standing_volume: '231323',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -14484,6 +14662,7 @@ const madsPolygons = {
         Volume: '140.48',
         avg_price_m3: '691',
         Volume_per_hectare: '197',
+        gross_value_standing_volume: '97119',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -14531,6 +14710,7 @@ const madsPolygons = {
         Volume: '59.81',
         avg_price_m3: '680',
         Volume_per_hectare: '68',
+        gross_value_standing_volume: '40645',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -14600,6 +14780,7 @@ const madsPolygons = {
         Volume: '',
         avg_price_m3: '680',
         Volume_per_hectare: '',
+        gross_value_standing_volume: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -14653,6 +14834,7 @@ const madsPolygons = {
         Volume: '',
         avg_price_m3: '',
         Volume_per_hectare: '',
+        gross_value_standing_volume: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -14708,6 +14890,7 @@ const madsPolygons = {
         Volume: '291.04',
         avg_price_m3: '691',
         Volume_per_hectare: '252',
+        gross_value_standing_volume: '201208',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -14776,6 +14959,7 @@ const madsPolygons = {
         Volume: '226.99',
         avg_price_m3: '664',
         Volume_per_hectare: '351',
+        gross_value_standing_volume: '150674',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -14832,6 +15016,7 @@ const madsPolygons = {
         Volume: '96.33',
         avg_price_m3: '652',
         Volume_per_hectare: '120',
+        gross_value_standing_volume: '62829',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -14894,6 +15079,7 @@ const madsPolygons = {
         Volume: '816.05',
         avg_price_m3: '659',
         Volume_per_hectare: '231',
+        gross_value_standing_volume: '538144',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -15084,6 +15270,7 @@ const madsPolygons = {
         Volume: '226.11',
         avg_price_m3: '664',
         Volume_per_hectare: '301',
+        gross_value_standing_volume: '150090',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -15136,6 +15323,7 @@ const madsPolygons = {
         Volume: '550.48',
         avg_price_m3: '664',
         Volume_per_hectare: '351',
+        gross_value_standing_volume: '365408',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -15201,6 +15389,7 @@ const madsPolygons = {
         Volume: '90.59',
         avg_price_m3: '664',
         Volume_per_hectare: '301',
+        gross_value_standing_volume: '60132',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -15243,6 +15432,7 @@ const madsPolygons = {
         Volume: '',
         avg_price_m3: '668',
         Volume_per_hectare: '',
+        gross_value_standing_volume: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -15310,6 +15500,7 @@ const madsPolygons = {
         Volume: '697.03',
         avg_price_m3: '664',
         Volume_per_hectare: '329',
+        gross_value_standing_volume: '462691',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -15375,6 +15566,7 @@ const madsPolygons = {
         Volume: '342.98',
         avg_price_m3: '703',
         Volume_per_hectare: '235',
+        gross_value_standing_volume: '241145',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -15461,6 +15653,7 @@ const madsPolygons = {
         Volume: '102.64',
         avg_price_m3: '664',
         Volume_per_hectare: '56',
+        gross_value_standing_volume: '68130',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -15527,6 +15720,7 @@ const madsPolygons = {
         Volume: '174.70',
         avg_price_m3: '664',
         Volume_per_hectare: '107',
+        gross_value_standing_volume: '115964',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -15588,6 +15782,7 @@ const madsPolygons = {
         Volume: '200.92',
         avg_price_m3: '691',
         Volume_per_hectare: '140',
+        gross_value_standing_volume: '138903',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -15782,6 +15977,7 @@ const madsPolygons = {
         Volume: '377.65',
         avg_price_m3: '691',
         Volume_per_hectare: '169',
+        gross_value_standing_volume: '261083',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -15845,6 +16041,7 @@ const madsPolygons = {
         Volume: '806.63',
         avg_price_m3: '655',
         Volume_per_hectare: '175',
+        gross_value_standing_volume: '528423',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -15970,6 +16167,7 @@ const madsPolygons = {
         Volume: '143.09',
         avg_price_m3: '691',
         Volume_per_hectare: '112',
+        gross_value_standing_volume: '98921',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -16034,6 +16232,7 @@ const madsPolygons = {
         Volume: '414.86',
         avg_price_m3: '664',
         Volume_per_hectare: '205',
+        gross_value_standing_volume: '275387',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -16095,6 +16294,7 @@ const madsPolygons = {
         Volume: '288.30',
         avg_price_m3: '691',
         Volume_per_hectare: '86',
+        gross_value_standing_volume: '199309',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -16173,6 +16373,7 @@ const madsPolygons = {
         Volume: '127.79',
         avg_price_m3: '703',
         Volume_per_hectare: '136',
+        gross_value_standing_volume: '89849',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -16242,6 +16443,7 @@ const madsPolygons = {
         Volume: '',
         avg_price_m3: '691',
         Volume_per_hectare: '',
+        gross_value_standing_volume: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -16433,6 +16635,7 @@ const madsPolygons = {
         Volume: '573.65',
         avg_price_m3: '659',
         Volume_per_hectare: '275',
+        gross_value_standing_volume: '378296',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -16494,6 +16697,7 @@ const madsPolygons = {
         Volume: '115.31',
         avg_price_m3: '691',
         Volume_per_hectare: '112',
+        gross_value_standing_volume: '79721',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -16571,6 +16775,7 @@ const madsPolygons = {
         Volume: '1519.72',
         avg_price_m3: '703',
         Volume_per_hectare: '436',
+        gross_value_standing_volume: '1068488',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -16681,6 +16886,7 @@ const madsPolygons = {
         Volume: '252.61',
         avg_price_m3: '703',
         Volume_per_hectare: '235',
+        gross_value_standing_volume: '177606',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -16907,6 +17113,7 @@ const madsPolygons = {
         Volume: '227.09',
         avg_price_m3: '652',
         Volume_per_hectare: '122',
+        gross_value_standing_volume: '148110',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -17053,6 +17260,7 @@ const madsPolygons = {
         Volume: '611.17',
         avg_price_m3: '655',
         Volume_per_hectare: '173',
+        gross_value_standing_volume: '400380',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -17137,6 +17345,7 @@ const madsPolygons = {
         Volume: '614.01',
         avg_price_m3: '664',
         Volume_per_hectare: '239',
+        gross_value_standing_volume: '407581',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -17207,6 +17416,7 @@ const madsPolygons = {
         Volume: '554.28',
         avg_price_m3: '703',
         Volume_per_hectare: '95',
+        gross_value_standing_volume: '389708',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -17260,6 +17470,7 @@ const madsPolygons = {
         Volume: '732.63',
         avg_price_m3: '664',
         Volume_per_hectare: '239',
+        gross_value_standing_volume: '486319',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -17335,6 +17546,7 @@ const madsPolygons = {
         Volume: '461.86',
         avg_price_m3: '703',
         Volume_per_hectare: '391',
+        gross_value_standing_volume: '324723',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -17414,6 +17626,7 @@ const madsPolygons = {
         Volume: '508.31',
         avg_price_m3: '659',
         Volume_per_hectare: '231',
+        gross_value_standing_volume: '335205',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -17500,6 +17713,7 @@ const madsPolygons = {
         Volume: '126.66',
         avg_price_m3: '655',
         Volume_per_hectare: '176',
+        gross_value_standing_volume: '82973',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -17553,6 +17767,7 @@ const madsPolygons = {
         Volume: '93.26',
         avg_price_m3: '691',
         Volume_per_hectare: '26',
+        gross_value_standing_volume: '64471',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -17721,6 +17936,7 @@ const madsPolygons = {
         Volume: '995.66',
         avg_price_m3: '668',
         Volume_per_hectare: '168',
+        gross_value_standing_volume: '665251',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -17818,6 +18034,7 @@ const madsPolygons = {
         Volume: '122.87',
         avg_price_m3: '703',
         Volume_per_hectare: '60',
+        gross_value_standing_volume: '86388',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -17865,6 +18082,7 @@ const madsPolygons = {
         Volume: '171.53',
         avg_price_m3: '703',
         Volume_per_hectare: '288',
+        gross_value_standing_volume: '120603',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -17911,6 +18129,7 @@ const madsPolygons = {
         Volume: '173.37',
         avg_price_m3: '664',
         Volume_per_hectare: '369',
+        gross_value_standing_volume: '115082',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -17960,6 +18179,7 @@ const madsPolygons = {
         Volume: '483.98',
         avg_price_m3: '664',
         Volume_per_hectare: '271',
+        gross_value_standing_volume: '321269',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -18045,6 +18265,7 @@ const madsPolygons = {
         Volume: '116.09',
         avg_price_m3: '664',
         Volume_per_hectare: '138',
+        gross_value_standing_volume: '77060',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -18094,6 +18315,7 @@ const madsPolygons = {
         Volume: '13.76',
         avg_price_m3: '680',
         Volume_per_hectare: '8',
+        gross_value_standing_volume: '9350',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -18174,6 +18396,7 @@ const madsPolygons = {
         Volume: '63.53',
         avg_price_m3: '664',
         Volume_per_hectare: '107',
+        gross_value_standing_volume: '42173',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -18245,6 +18468,7 @@ const madsPolygons = {
         Volume: '151.71',
         avg_price_m3: '659',
         Volume_per_hectare: '250',
+        gross_value_standing_volume: '100045',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -18308,6 +18532,7 @@ const madsPolygons = {
         Volume: '32.35',
         avg_price_m3: '691',
         Volume_per_hectare: '43',
+        gross_value_standing_volume: '22367',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -18359,6 +18584,7 @@ const madsPolygons = {
         Volume: '22.57',
         avg_price_m3: '691',
         Volume_per_hectare: '26',
+        gross_value_standing_volume: '15600',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -18443,6 +18669,7 @@ const madsPolygons = {
         Volume: '70.42',
         avg_price_m3: '668',
         Volume_per_hectare: '35',
+        gross_value_standing_volume: '47031',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -18567,6 +18794,7 @@ const madsPolygons = {
         Volume: '130.25',
         avg_price_m3: '691',
         Volume_per_hectare: '140',
+        gross_value_standing_volume: '90044',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -18627,6 +18855,7 @@ const madsPolygons = {
         Volume: '117.69',
         avg_price_m3: '703',
         Volume_per_hectare: '95',
+        gross_value_standing_volume: '82747',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -18683,6 +18912,7 @@ const madsPolygons = {
         Volume: '83.66',
         avg_price_m3: '691',
         Volume_per_hectare: '26',
+        gross_value_standing_volume: '57837',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -19016,6 +19246,7 @@ const madsPolygons = {
         Volume: '116.46',
         avg_price_m3: '691',
         Volume_per_hectare: '169',
+        gross_value_standing_volume: '80510',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -19071,6 +19302,7 @@ const madsPolygons = {
         Volume: '53.31',
         avg_price_m3: '680',
         Volume_per_hectare: '79',
+        gross_value_standing_volume: '36231',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -19127,6 +19359,7 @@ const madsPolygons = {
         Volume: '38.85',
         avg_price_m3: '691',
         Volume_per_hectare: '43',
+        gross_value_standing_volume: '26861',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -19172,6 +19405,7 @@ const madsPolygons = {
         Volume: '216.00',
         avg_price_m3: '659',
         Volume_per_hectare: '266',
+        gross_value_standing_volume: '142444',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -19255,6 +19489,7 @@ const madsPolygons = {
         Volume: '58.85',
         avg_price_m3: '659',
         Volume_per_hectare: '46',
+        gross_value_standing_volume: '38809',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -19351,6 +19586,7 @@ const madsPolygons = {
         Volume: '141.35',
         avg_price_m3: '684',
         Volume_per_hectare: '109',
+        gross_value_standing_volume: '96614',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -19410,6 +19646,7 @@ const madsPolygons = {
         Volume: '480.26',
         avg_price_m3: '659',
         Volume_per_hectare: '167',
+        gross_value_standing_volume: '316710',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -19513,6 +19750,7 @@ const madsPolygons = {
         Volume: '326.90',
         avg_price_m3: '703',
         Volume_per_hectare: '136',
+        gross_value_standing_volume: '229834',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -19641,6 +19879,7 @@ const madsPolygons = {
         Volume: '329.58',
         avg_price_m3: '655',
         Volume_per_hectare: '169',
+        gross_value_standing_volume: '215910',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -19716,6 +19955,7 @@ const madsPolygons = {
         Volume: '174.81',
         avg_price_m3: '691',
         Volume_per_hectare: '226',
+        gross_value_standing_volume: '120855',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -19773,6 +20013,7 @@ const madsPolygons = {
         Volume: '1112.83',
         avg_price_m3: '664',
         Volume_per_hectare: '301',
+        gross_value_standing_volume: '738695',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -19931,6 +20172,7 @@ const madsPolygons = {
         Volume: '165.09',
         avg_price_m3: '691',
         Volume_per_hectare: '332',
+        gross_value_standing_volume: '114136',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -19977,6 +20219,7 @@ const madsPolygons = {
         Volume: '1278.10',
         avg_price_m3: '655',
         Volume_per_hectare: '176',
+        gross_value_standing_volume: '837283',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -20144,6 +20387,7 @@ const madsPolygons = {
         Volume: '131.53',
         avg_price_m3: '691',
         Volume_per_hectare: '63',
+        gross_value_standing_volume: '90930',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -20209,6 +20453,7 @@ const madsPolygons = {
         Volume: '1485.49',
         avg_price_m3: '703',
         Volume_per_hectare: '288',
+        gross_value_standing_volume: '1044424',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -20315,6 +20560,7 @@ const madsPolygons = {
         Volume: '310.60',
         avg_price_m3: '703',
         Volume_per_hectare: '184',
+        gross_value_standing_volume: '218378',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -20498,6 +20744,7 @@ const madsPolygons = {
         Volume: '1234.61',
         avg_price_m3: '691',
         Volume_per_hectare: '197',
+        gross_value_standing_volume: '853524',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -20623,6 +20870,7 @@ const madsPolygons = {
         Volume: '408.09',
         avg_price_m3: '703',
         Volume_per_hectare: '235',
+        gross_value_standing_volume: '286923',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -20707,6 +20955,7 @@ const madsPolygons = {
         Volume: '30.42',
         avg_price_m3: '691',
         Volume_per_hectare: '43',
+        gross_value_standing_volume: '21032',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -20765,6 +21014,7 @@ const madsPolygons = {
         Volume: '231.13',
         avg_price_m3: '703',
         Volume_per_hectare: '95',
+        gross_value_standing_volume: '162504',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -20873,6 +21123,7 @@ const madsPolygons = {
         Volume: '204.07',
         avg_price_m3: '691',
         Volume_per_hectare: '169',
+        gross_value_standing_volume: '141082',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -20941,6 +21192,7 @@ const madsPolygons = {
         Volume: '161.83',
         avg_price_m3: '655',
         Volume_per_hectare: '169',
+        gross_value_standing_volume: '106017',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -21004,6 +21256,7 @@ const madsPolygons = {
         Volume: '358.71',
         avg_price_m3: '703',
         Volume_per_hectare: '288',
+        gross_value_standing_volume: '252205',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -21069,6 +21322,7 @@ const madsPolygons = {
         Volume: '238.76',
         avg_price_m3: '703',
         Volume_per_hectare: '436',
+        gross_value_standing_volume: '167871',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -21124,6 +21378,7 @@ const madsPolygons = {
         Volume: '135.89',
         avg_price_m3: '680',
         Volume_per_hectare: '89',
+        gross_value_standing_volume: '92352',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -21201,6 +21456,7 @@ const madsPolygons = {
         Volume: '454.14',
         avg_price_m3: '703',
         Volume_per_hectare: '95',
+        gross_value_standing_volume: '319297',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -21308,6 +21564,7 @@ const madsPolygons = {
         Volume: '476.90',
         avg_price_m3: '664',
         Volume_per_hectare: '205',
+        gross_value_standing_volume: '316567',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -21384,6 +21641,7 @@ const madsPolygons = {
         Volume: '822.13',
         avg_price_m3: '684',
         Volume_per_hectare: '393',
+        gross_value_standing_volume: '561927',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -21460,6 +21718,7 @@ const madsPolygons = {
         Volume: '219.83',
         avg_price_m3: '664',
         Volume_per_hectare: '239',
+        gross_value_standing_volume: '145921',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -21520,6 +21779,7 @@ const madsPolygons = {
         Volume: '62.73',
         avg_price_m3: '655',
         Volume_per_hectare: '176',
+        gross_value_standing_volume: '41095',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -21563,6 +21823,7 @@ const madsPolygons = {
         Volume: '538.19',
         avg_price_m3: '664',
         Volume_per_hectare: '369',
+        gross_value_standing_volume: '357247',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -21650,6 +21911,7 @@ const madsPolygons = {
         Volume: '205.02',
         avg_price_m3: '691',
         Volume_per_hectare: '63',
+        gross_value_standing_volume: '141735',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -21753,6 +22015,7 @@ const madsPolygons = {
         Volume: '255.89',
         avg_price_m3: '703',
         Volume_per_hectare: '340',
+        gross_value_standing_volume: '179913',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -21809,6 +22072,7 @@ const madsPolygons = {
         Volume: '489.85',
         avg_price_m3: '664',
         Volume_per_hectare: '396',
+        gross_value_standing_volume: '325165',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -21874,6 +22138,7 @@ const madsPolygons = {
         Volume: '9.29',
         avg_price_m3: '691',
         Volume_per_hectare: '7',
+        gross_value_standing_volume: '6423',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -21950,6 +22215,7 @@ const madsPolygons = {
         Volume: '710.85',
         avg_price_m3: '655',
         Volume_per_hectare: '173',
+        gross_value_standing_volume: '465679',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -22040,6 +22306,7 @@ const madsPolygons = {
         Volume: '473.06',
         avg_price_m3: '691',
         Volume_per_hectare: '226',
+        gross_value_standing_volume: '327044',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -22117,6 +22384,7 @@ const madsPolygons = {
         Volume: '171.32',
         avg_price_m3: '664',
         Volume_per_hectare: '239',
+        gross_value_standing_volume: '113725',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -22177,6 +22445,7 @@ const madsPolygons = {
         Volume: '85.61',
         avg_price_m3: '703',
         Volume_per_hectare: '95',
+        gross_value_standing_volume: '60193',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -22269,6 +22538,7 @@ const madsPolygons = {
         Volume: '311.87',
         avg_price_m3: '703',
         Volume_per_hectare: '288',
+        gross_value_standing_volume: '219269',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -22364,6 +22634,7 @@ const madsPolygons = {
         Volume: '1318.79',
         avg_price_m3: '659',
         Volume_per_hectare: '304',
+        gross_value_standing_volume: '869676',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -22447,6 +22718,7 @@ const madsPolygons = {
         Volume: '',
         avg_price_m3: '',
         Volume_per_hectare: '',
+        gross_value_standing_volume: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -22523,6 +22795,7 @@ const madsPolygons = {
         Volume: '583.27',
         avg_price_m3: '703',
         Volume_per_hectare: '288',
+        gross_value_standing_volume: '410090',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -22593,6 +22866,7 @@ const madsPolygons = {
         Volume: '432.02',
         avg_price_m3: '668',
         Volume_per_hectare: '457',
+        gross_value_standing_volume: '288654',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -22645,6 +22919,7 @@ const madsPolygons = {
         Volume: '',
         avg_price_m3: '',
         Volume_per_hectare: '',
+        gross_value_standing_volume: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -22735,6 +23010,7 @@ const madsPolygons = {
         Volume: '140.74',
         avg_price_m3: '668',
         Volume_per_hectare: '259',
+        gross_value_standing_volume: '94038',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -22786,6 +23062,7 @@ const madsPolygons = {
         Volume: '115.98',
         avg_price_m3: '668',
         Volume_per_hectare: '259',
+        gross_value_standing_volume: '77493',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -22887,6 +23164,7 @@ const madsPolygons = {
         Volume: '207.57',
         avg_price_m3: '664',
         Volume_per_hectare: '383',
+        gross_value_standing_volume: '137784',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -22931,6 +23209,7 @@ const madsPolygons = {
         Volume: '386.65',
         avg_price_m3: '664',
         Volume_per_hectare: '301',
+        gross_value_standing_volume: '256660',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -22996,6 +23275,7 @@ const madsPolygons = {
         Volume: '698.37',
         avg_price_m3: '664',
         Volume_per_hectare: '205',
+        gross_value_standing_volume: '463577',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -23075,6 +23355,7 @@ const madsPolygons = {
         Volume: '262.03',
         avg_price_m3: '691',
         Volume_per_hectare: '226',
+        gross_value_standing_volume: '181150',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -23140,6 +23421,7 @@ const madsPolygons = {
         Volume: '90.62',
         avg_price_m3: '664',
         Volume_per_hectare: '171',
+        gross_value_standing_volume: '60154',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -23190,6 +23472,7 @@ const madsPolygons = {
         Volume: '111.25',
         avg_price_m3: '655',
         Volume_per_hectare: '161',
+        gross_value_standing_volume: '72881',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -23244,6 +23527,7 @@ const madsPolygons = {
         Volume: '124.27',
         avg_price_m3: '655',
         Volume_per_hectare: '167',
+        gross_value_standing_volume: '81411',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -23299,6 +23583,7 @@ const madsPolygons = {
         Volume: '77.73',
         avg_price_m3: '664',
         Volume_per_hectare: '107',
+        gross_value_standing_volume: '51595',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -23357,6 +23642,7 @@ const madsPolygons = {
         Volume: '263.27',
         avg_price_m3: '664',
         Volume_per_hectare: '301',
+        gross_value_standing_volume: '174758',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -23407,6 +23693,7 @@ const madsPolygons = {
         Volume: '505.71',
         avg_price_m3: '659',
         Volume_per_hectare: '291',
+        gross_value_standing_volume: '333491',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -23477,6 +23764,7 @@ const madsPolygons = {
         Volume: '1811.76',
         avg_price_m3: '703',
         Volume_per_hectare: '184',
+        gross_value_standing_volume: '1273815',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -23633,6 +23921,7 @@ const madsPolygons = {
         Volume: '217.38',
         avg_price_m3: '659',
         Volume_per_hectare: '291',
+        gross_value_standing_volume: '143353',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -23684,6 +23973,7 @@ const madsPolygons = {
         Volume: '372.49',
         avg_price_m3: '659',
         Volume_per_hectare: '254',
+        gross_value_standing_volume: '245638',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -23738,6 +24028,7 @@ const madsPolygons = {
         Volume: '442.79',
         avg_price_m3: '659',
         Volume_per_hectare: '254',
+        gross_value_standing_volume: '291998',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -23845,6 +24136,7 @@ const madsPolygons = {
         Volume: '240.06',
         avg_price_m3: '664',
         Volume_per_hectare: '351',
+        gross_value_standing_volume: '159349',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -23892,6 +24184,7 @@ const madsPolygons = {
         Volume: '467.63',
         avg_price_m3: '703',
         Volume_per_hectare: '184',
+        gross_value_standing_volume: '328785',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -23973,6 +24266,7 @@ const madsPolygons = {
         Volume: '49.30',
         avg_price_m3: '659',
         Volume_per_hectare: '46',
+        gross_value_standing_volume: '32508',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -24023,6 +24317,7 @@ const madsPolygons = {
         Volume: '285.69',
         avg_price_m3: '664',
         Volume_per_hectare: '239',
+        gross_value_standing_volume: '189642',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -24082,6 +24377,7 @@ const madsPolygons = {
         Volume: '125.45',
         avg_price_m3: '691',
         Volume_per_hectare: '140',
+        gross_value_standing_volume: '86729',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -24182,6 +24478,7 @@ const madsPolygons = {
         Volume: '297.89',
         avg_price_m3: '703',
         Volume_per_hectare: '288',
+        gross_value_standing_volume: '209443',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -24236,6 +24533,7 @@ const madsPolygons = {
         Volume: '520.70',
         avg_price_m3: '664',
         Volume_per_hectare: '301',
+        gross_value_standing_volume: '345638',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -24297,6 +24595,7 @@ const madsPolygons = {
         Volume: '809.80',
         avg_price_m3: '659',
         Volume_per_hectare: '275',
+        gross_value_standing_volume: '534021',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -24360,6 +24659,7 @@ const madsPolygons = {
         Volume: '408.91',
         avg_price_m3: '655',
         Volume_per_hectare: '167',
+        gross_value_standing_volume: '267874',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -24429,6 +24729,7 @@ const madsPolygons = {
         Volume: '296.33',
         avg_price_m3: '664',
         Volume_per_hectare: '297',
+        gross_value_standing_volume: '196704',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -24494,6 +24795,7 @@ const madsPolygons = {
         Volume: '80.78',
         avg_price_m3: '680',
         Volume_per_hectare: '142',
+        gross_value_standing_volume: '54897',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -24537,6 +24839,7 @@ const madsPolygons = {
         Volume: '369.95',
         avg_price_m3: '659',
         Volume_per_hectare: '254',
+        gross_value_standing_volume: '243964',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -38816,6 +39119,7 @@ const madsPolygons = {
         Volume: '442.87',
         avg_price_m3: '659',
         Volume_per_hectare: '304',
+        gross_value_standing_volume: '292053',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -38869,6 +39173,7 @@ const madsPolygons = {
         Volume: '',
         avg_price_m3: '659',
         Volume_per_hectare: '',
+        gross_value_standing_volume: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -38917,6 +39222,7 @@ const madsPolygons = {
         Volume: '245.42',
         avg_price_m3: '691',
         Volume_per_hectare: '357',
+        gross_value_standing_volume: '169668',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -39000,6 +39306,7 @@ const madsPolygons = {
         Volume: '69.23',
         avg_price_m3: '664',
         Volume_per_hectare: '239',
+        gross_value_standing_volume: '45956',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -39046,6 +39353,7 @@ const madsPolygons = {
         Volume: '33.16',
         avg_price_m3: '659',
         Volume_per_hectare: '32',
+        gross_value_standing_volume: '21867',
       },
       geometry: {
         type: 'MultiPolygon',

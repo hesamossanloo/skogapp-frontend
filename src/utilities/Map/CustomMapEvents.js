@@ -109,10 +109,14 @@ export default function CustomMapEvents(props) {
       sumObj.arealm2 = formatTheStringArealM2(totalArealM2);
 
       const {
-        standVolumeDensityPerHectare,
-        standVolume,
+        standVolumeWMSDensityPerHectareWMS,
+        standVolumeWMSDensityPerHectareMads,
+        standVolumeWMS,
+        standVolumeMads,
         hardCodedSpeciesPrice,
-        totalESTGrossValue,
+        speciesPriceMads,
+        totalESTGrossValueWMS,
+        totalESTGrossValueMads,
       } = features.reduce(
         (result, feature) => {
           const featProps = feature.properties;
@@ -125,26 +129,44 @@ export default function CustomMapEvents(props) {
               furuCSVData,
               featProps
             );
-            result.standVolumeDensityPerHectare +=
-              additionalRows.standVolumeDensityPerHectare || 0;
-            result.standVolume += additionalRows.standVolume || 0;
+            result.standVolumeWMSDensityPerHectareWMS +=
+              additionalRows.standVolumeWMSDensityPerHectareWMS || 0;
+            result.standVolumeWMSDensityPerHectareMads +=
+              parseFloat(featProps.Volume_per_hectare) || 0;
+            result.standVolumeWMS += additionalRows.standVolumeWMS || 0;
+            result.standVolumeMads += parseFloat(featProps.Volume) || 0;
             result.hardCodedSpeciesPrice =
               additionalRows.hardCodedSpeciesPrice || 0;
-            result.totalESTGrossValue += additionalRows.totalESTGrossValue || 0;
+            result.speciesPriceMads = parseFloat(featProps.avg_price_m3) || 0;
+            result.totalESTGrossValueWMS +=
+              additionalRows.totalESTGrossValueWMS || 0;
+            result.totalESTGrossValueMads +=
+              parseFloat(featProps.gross_value_standing_volume) || 0;
           }
           return result;
         },
         {
-          standVolumeDensityPerHectare: 0,
-          standVolume: 0,
-          totalESTGrossValue: 0,
+          standVolumeWMSDensityPerHectareWMS: 0,
+          standVolumeWMSDensityPerHectareMads: 0,
+          standVolumeWMS: 0,
+          standVolumeMads: 0,
+          hardCodedSpeciesPrice: 0,
+          speciesPriceMads: 0,
+          totalESTGrossValueWMS: 0,
+          totalESTGrossValueMads: 0,
         }
       );
 
-      sumObj.standVolumeDensityPerHectare = standVolumeDensityPerHectare;
-      sumObj.standVolume = standVolume;
+      sumObj.standVolumeWMSDensityPerHectareWMS =
+        standVolumeWMSDensityPerHectareWMS;
+      sumObj.standVolumeWMSDensityPerHectareMads =
+        standVolumeWMSDensityPerHectareMads;
+      sumObj.standVolumeWMS = standVolumeWMS;
+      sumObj.standVolumeMads = standVolumeMads;
       sumObj.hardCodedSpeciesPrice = hardCodedSpeciesPrice;
-      sumObj.totalESTGrossValue = totalESTGrossValue;
+      sumObj.speciesPriceMads = speciesPriceMads;
+      sumObj.totalESTGrossValueWMS = totalESTGrossValueWMS;
+      sumObj.totalESTGrossValueMads = totalESTGrossValueMads;
     } else {
       // Single polygon selection switch is selected
 
@@ -181,10 +203,10 @@ export default function CustomMapEvents(props) {
           properties.hogstkl_verdi === '5'
         ) {
           const {
-            standVolumeDensityPerHectare,
-            standVolume,
+            standVolumeWMSDensityPerHectareWMS,
+            standVolumeWMS,
             hardCodedSpeciesPrice,
-            totalESTGrossValue,
+            totalESTGrossValueWMS,
           } = calculateVolumeAndGrossValue(
             granCSVData,
             furuCSVData,
@@ -192,13 +214,22 @@ export default function CustomMapEvents(props) {
           );
 
           // The tree density volume per stand
-          sumObj.standVolumeDensityPerHectare = standVolumeDensityPerHectare;
-          // The standVolume per decare (daa)
-          sumObj.standVolume = standVolume;
+          sumObj.standVolumeWMSDensityPerHectareWMS =
+            standVolumeWMSDensityPerHectareWMS;
+          sumObj.standVolumeWMSDensityPerHectareMads = parseFloat(
+            feature.properties.Volume_per_hectare
+          );
+          // The standVolumeWMS per decare (daa)
+          sumObj.standVolumeWMS = standVolumeWMS;
+          sumObj.standVolumeMads = parseFloat(feature.properties.Volume);
           // The price of the timber for a species
           sumObj.hardCodedSpeciesPrice = hardCodedSpeciesPrice;
+          sumObj.speciesPriceMads = parseFloat(feature.properties.avg_price_m3);
           // The total volume
-          sumObj.totalESTGrossValue = totalESTGrossValue;
+          sumObj.totalESTGrossValueWMS = totalESTGrossValueWMS;
+          sumObj.totalESTGrossValueMads = parseFloat(
+            feature.properties.gross_value_standing_volume
+          );
         }
       }
     }
@@ -238,40 +269,48 @@ export default function CustomMapEvents(props) {
           <td style="padding: 5px; border: 1px solid black;">${desiredAttributes['alder']}</td>
           <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.alder}</td>
         </tr>`;
-      if (sumObj.standVolumeDensityPerHectare) {
+      if (
+        sumObj.standVolumeWMSDensityPerHectareWMS &&
+        sumObj.standVolumeWMSDensityPerHectareMads
+      ) {
         // Showing the tree density volume per stand
+        // content += `
+        // <tr style="border: 1px solid black;">
+        //   <td style="padding: 5px; border: 1px solid black;">Tømmervolum</td>
+        //   <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.standVolumeWMSDensityPerHectareWMS, 'nb-NO', 1)}</span> m^3</td>
+        // </tr>`;
         content += `
         <tr style="border: 1px solid black;">
           <td style="padding: 5px; border: 1px solid black;">Tømmervolum</td>
-          <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.standVolumeDensityPerHectare, 'nb-NO', 1)}</span> m^3</td>
+          <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.standVolumeWMSDensityPerHectareMads, 'nb-NO', 1)}</span> m^3</td>
         </tr>`;
-        content += `
-        <tr style="border: 1px solid black;">
-          <td style="padding: 5px; border: 1px solid black;">Tømmervolum (Mads)</td>
-          <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(features[0].properties.Volume_per_hectare, 'nb-NO', 1)}</span> m^3</td>
-        </tr>`;
-        // Calculating the standVolume per decare (daa)
+        // Calculating the standVolumeWMS per decare (daa)
+        // content += `
+        // <tr style="border: 1px solid black;">
+        //   <td style="padding: 5px; border: 1px solid black;">Tømmertetthet</td>
+        //   <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.standVolumeWMS / 10, 'nb-NO', 1)}</span> m^3/daa</td>
+        // </tr>`;
         content += `
         <tr style="border: 1px solid black;">
           <td style="padding: 5px; border: 1px solid black;">Tømmertetthet</td>
-          <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.standVolume / 10, 'nb-NO', 1)}</span> m^3/daa</td>
-        </tr>`;
-        content += `
-        <tr style="border: 1px solid black;">
-          <td style="padding: 5px; border: 1px solid black;">Tømmertetthet (Mads)</td>
-          <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(features[0].properties.Volume / 10, 'nb-NO', 1)}</span> m^3/daa</td>
+          <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.standVolumeMads / 10, 'nb-NO', 1)}</span> m^3/daa</td>
         </tr>`;
         // The price of the timber for a species
         content += `
         <tr style="border: 1px solid black;">
           <td style="padding: 5px; border: 1px solid black;">Forv. gj.sn pris per m^3</td>
-          <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(features[0].properties.avg_price_m3, 'nb-NO', 0)}</span> kr</td>
+          <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.speciesPriceMads, 'nb-NO', 0)}</span> kr</td>
         </tr>`;
         // We are showing the total volume
+        // content += `
+        // <tr style="border: 1px solid black;">
+        //   <td style="padding: 5px; border: 1px solid black;">Forv. brutto verdi</td>
+        //   <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.totalESTGrossValueWMS, 'nb-NO', 0)}</span> kr</td>
+        // </tr>`;
         content += `
         <tr style="border: 1px solid black;">
           <td style="padding: 5px; border: 1px solid black;">Forv. brutto verdi</td>
-          <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.totalESTGrossValue, 'nb-NO', 0)}</span> kr</td>
+          <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.totalESTGrossValueMads, 'nb-NO', 0)}</span> kr</td>
         </tr>`;
       }
       content += '</table>';

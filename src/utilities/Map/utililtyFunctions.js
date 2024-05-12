@@ -21,9 +21,9 @@ export const calculateVolumeAndGrossValue = (
   let crossSectionArea;
   // Step 3
   // V = 0.250(Gu^1.150)*H^(1.012)*exp(2.320/alder)
-  let standVolume;
+  let standVolumeWMS;
   // Step 4
-  let standVolumeDensityPerHectare;
+  let standVolumeWMSDensityPerHectareWMS;
   if (granCSVData.length > 0 || furuCSVData.length > 0) {
     let csvData;
     if (properties.bontre_beskrivelse === SPECIES.GRAN) {
@@ -44,22 +44,23 @@ export const calculateVolumeAndGrossValue = (
     }
     // Calculating Step 3
     // V = 0.250(G^1.150)*H^(1.012)*exp(2.320/alder)
-    standVolume = calculateStandVolume(
+    standVolumeWMS = calculatestandVolumeWMS(
       crossSectionArea,
       estimatedHeightString,
       properties.alder
     );
     console.log(' ', 'Use the H and Gu to calculte the SV.');
-    console.log(' ', 'SV: ', standVolume);
+    console.log(' ', 'SV: ', standVolumeWMS);
 
     // Step 4:
     // SV_in_bestand_249 = arealm2/10000*249 = 11391*249/10000 = 283.636
-    standVolumeDensityPerHectare = calculateStandVolumeDensityPerHectare(
-      properties.arealm2,
-      standVolume
-    );
+    standVolumeWMSDensityPerHectareWMS =
+      calculatestandVolumeWMSDensityPerHectareWMS(
+        properties.arealm2,
+        standVolumeWMS
+      );
     console.log(' ', 'Use the SV and arealm2 to calculte the SV_HA.');
-    console.log(' ', 'SV_HA: ', standVolumeDensityPerHectare);
+    console.log(' ', 'SV_HA: ', standVolumeWMSDensityPerHectareWMS);
     console.log(
       'FINISHED:',
       'Calculation for the Teig: ',
@@ -67,22 +68,22 @@ export const calculateVolumeAndGrossValue = (
     );
     console.log('############  END  #############');
   }
-  const { totalESTGrossValue, hardCodedSpeciesPrice } =
+  const { totalESTGrossValueWMS, hardCodedSpeciesPrice } =
     calculteSpeciesBasedPrice(
       properties.bontre_beskrivelse,
-      standVolumeDensityPerHectare
+      standVolumeWMSDensityPerHectareWMS
     );
 
   return {
-    standVolumeDensityPerHectare,
-    standVolume,
+    standVolumeWMSDensityPerHectareWMS,
+    standVolumeWMS,
     hardCodedSpeciesPrice,
-    totalESTGrossValue,
+    totalESTGrossValueWMS,
   };
 };
 
 // Function to calculate estimated stand volume
-export const calculateStandVolume = (
+export const calculatestandVolumeWMS = (
   crossSectionArea,
   estimatedHeightString,
   alder
@@ -96,8 +97,11 @@ export const calculateStandVolume = (
 };
 
 // Function to calculate estimated stand volume M3 HAA
-export const calculateStandVolumeDensityPerHectare = (arealm2, standVolume) => {
-  return (parseInt(arealm2) / 10000) * standVolume;
+export const calculatestandVolumeWMSDensityPerHectareWMS = (
+  arealm2,
+  standVolumeWMS
+) => {
+  return (parseInt(arealm2) / 10000) * standVolumeWMS;
 };
 
 export const isPointInsidePolygon = (point, polygon) => {
@@ -207,7 +211,7 @@ export const calculteSpeciesBasedPrice = (species, volume) => {
     hardcodedSpeciesPrice = SPECIES_PRICES.LAU;
   }
   return {
-    totalESTGrossValue: volume * hardcodedSpeciesPrice,
+    totalESTGrossValueWMS: volume * hardcodedSpeciesPrice,
     hardcodedSpeciesPrice,
   };
 };
