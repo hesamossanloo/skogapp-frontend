@@ -286,6 +286,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191737',
         teig_best_nr: '1-311',
+        Volume: '293.64',
+        avg_price_m3: '659',
+        Volume_per_hectare: '304',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -337,6 +340,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191740',
         teig_best_nr: '1-312',
+        Volume: '23.04',
+        avg_price_m3: '664',
+        Volume_per_hectare: '36',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -384,6 +390,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191802',
         teig_best_nr: '1-310',
+        Volume: '36.65',
+        avg_price_m3: '668',
+        Volume_per_hectare: '58',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -429,6 +438,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191780',
         teig_best_nr: '1-309',
+        Volume: '161.93',
+        avg_price_m3: '691',
+        Volume_per_hectare: '63',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -545,6 +557,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192044',
         teig_best_nr: '1-307',
+        Volume: '219.78',
+        avg_price_m3: '659',
+        Volume_per_hectare: '304',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -591,6 +606,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171538',
         teig_best_nr: '1-306',
+        Volume: '282.70',
+        avg_price_m3: '664',
+        Volume_per_hectare: '107',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -682,6 +700,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191798',
         teig_best_nr: '1-308',
+        Volume: '204.77',
+        avg_price_m3: '703',
+        Volume_per_hectare: '80',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -767,6 +788,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10176380',
         teig_best_nr: '1-303',
+        Volume: '58.30',
+        avg_price_m3: '691',
+        Volume_per_hectare: '351',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -806,6 +830,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191813',
         teig_best_nr: '1-305',
+        Volume: '1000.61',
+        avg_price_m3: '659',
+        Volume_per_hectare: '231',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -862,6 +889,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192037',
         teig_best_nr: '1-300',
+        Volume: '371.41',
+        avg_price_m3: '664',
+        Volume_per_hectare: '301',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -920,6 +950,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192043',
         teig_best_nr: '1-298',
+        Volume: '148.99',
+        avg_price_m3: '691',
+        Volume_per_hectare: '351',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -969,6 +1002,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10163298',
         teig_best_nr: '1-304',
+        Volume: '249.37',
+        avg_price_m3: '664',
+        Volume_per_hectare: '107',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -1044,6 +1080,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191770',
         teig_best_nr: '1-297',
+        Volume: '61.64',
+        avg_price_m3: '691',
+        Volume_per_hectare: '86',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -1131,6 +1170,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191783',
         teig_best_nr: '1-301',
+        Volume: '300.65',
+        avg_price_m3: '691',
+        Volume_per_hectare: '169',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -1223,6 +1265,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192050',
         teig_best_nr: '1-295',
+        Volume: '218.85',
+        avg_price_m3: '703',
+        Volume_per_hectare: '184',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -1278,6 +1323,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171559',
         teig_best_nr: '1-302',
+        Volume: '398.53',
+        avg_price_m3: '703',
+        Volume_per_hectare: '136',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -1359,6 +1407,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192029',
         teig_best_nr: '1-294',
+        Volume: '308.24',
+        avg_price_m3: '668',
+        Volume_per_hectare: '414',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -1434,6 +1485,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192073',
         teig_best_nr: '1-293',
+        Volume: '143.92',
+        avg_price_m3: '684',
+        Volume_per_hectare: '314',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -1480,6 +1534,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192072',
         teig_best_nr: '1-290',
+        Volume: '73.59',
+        avg_price_m3: '703',
+        Volume_per_hectare: '184',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -1520,6 +1577,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191800',
         teig_best_nr: '1-299',
+        Volume: '641.80',
+        avg_price_m3: '664',
+        Volume_per_hectare: '107',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -1641,6 +1701,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191745',
         teig_best_nr: '1-288',
+        Volume: '51.83',
+        avg_price_m3: '664',
+        Volume_per_hectare: '107',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -1686,6 +1749,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10175062',
         teig_best_nr: '1-291',
+        Volume: '133.75',
+        avg_price_m3: '691',
+        Volume_per_hectare: '86',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -1770,6 +1836,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171447',
         teig_best_nr: '1-292',
+        Volume: '642.00',
+        avg_price_m3: '703',
+        Volume_per_hectare: '288',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -1865,6 +1934,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192074',
         teig_best_nr: '1-287',
+        Volume: '383.99',
+        avg_price_m3: '703',
+        Volume_per_hectare: '288',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -1931,6 +2003,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171449',
         teig_best_nr: '1-286',
+        Volume: '161.03',
+        avg_price_m3: '664',
+        Volume_per_hectare: '301',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -1979,6 +2054,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191761',
         teig_best_nr: '1-283',
+        Volume: '97.50',
+        avg_price_m3: '703',
+        Volume_per_hectare: '95',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -2097,6 +2175,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191790',
         teig_best_nr: '1-285',
+        Volume: '230.98',
+        avg_price_m3: '691',
+        Volume_per_hectare: '140',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -2164,6 +2245,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171557',
         teig_best_nr: '1-284',
+        Volume: '97.24',
+        avg_price_m3: '652',
+        Volume_per_hectare: '121',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -2225,6 +2309,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10202860',
         teig_best_nr: '1-296',
+        Volume: '1888.97',
+        avg_price_m3: '691',
+        Volume_per_hectare: '140',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -2385,6 +2472,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171457',
         teig_best_nr: '1-289',
+        Volume: '30.08',
+        avg_price_m3: '703',
+        Volume_per_hectare: '16',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -2454,6 +2544,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10163344',
         teig_best_nr: '1-277',
+        Volume: '546.15',
+        avg_price_m3: '684',
+        Volume_per_hectare: '539',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -2505,6 +2598,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192076',
         teig_best_nr: '1-275',
+        Volume: '175.08',
+        avg_price_m3: '691',
+        Volume_per_hectare: '169',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -2559,6 +2655,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192075',
         teig_best_nr: '1-272',
+        Volume: '279.15',
+        avg_price_m3: '684',
+        Volume_per_hectare: '239',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -2608,6 +2707,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10160043',
         teig_best_nr: '1-270',
+        Volume: '89.02',
+        avg_price_m3: '664',
+        Volume_per_hectare: '138',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -2653,6 +2755,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191821',
         teig_best_nr: '1-276',
+        Volume: '196.53',
+        avg_price_m3: '659',
+        Volume_per_hectare: '291',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -2705,6 +2810,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192062',
         teig_best_nr: '1-281',
+        Volume: '387.56',
+        avg_price_m3: '703',
+        Volume_per_hectare: '288',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -2769,6 +2877,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171462',
         teig_best_nr: '1-280',
+        Volume: '637.18',
+        avg_price_m3: '703',
+        Volume_per_hectare: '340',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -2833,6 +2944,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192039',
         teig_best_nr: '1-268',
+        Volume: '379.12',
+        avg_price_m3: '684',
+        Volume_per_hectare: '393',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -2882,6 +2996,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191806',
         teig_best_nr: '1-273',
+        Volume: '185.92',
+        avg_price_m3: '703',
+        Volume_per_hectare: '136',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -2964,6 +3081,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171456',
         teig_best_nr: '1-282',
+        Volume: '513.17',
+        avg_price_m3: '691',
+        Volume_per_hectare: '140',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -3076,6 +3196,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192079',
         teig_best_nr: '1-274',
+        Volume: '1014.26',
+        avg_price_m3: '703',
+        Volume_per_hectare: '340',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -3208,6 +3331,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192041',
         teig_best_nr: '1-279',
+        Volume: '604.05',
+        avg_price_m3: '691',
+        Volume_per_hectare: '169',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -3295,6 +3421,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10163296',
         teig_best_nr: '1-259',
+        Volume: '103.71',
+        avg_price_m3: '691',
+        Volume_per_hectare: '226',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -3338,6 +3467,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191760',
         teig_best_nr: '1-278',
+        Volume: '1020.67',
+        avg_price_m3: '664',
+        Volume_per_hectare: '396',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -3422,6 +3554,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191776',
         teig_best_nr: '1-262',
+        Volume: '234.81',
+        avg_price_m3: '659',
+        Volume_per_hectare: '231',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -3472,6 +3607,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192063',
         teig_best_nr: '1-271',
+        Volume: '165.51',
+        avg_price_m3: '691',
+        Volume_per_hectare: '169',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -3533,6 +3671,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191824',
         teig_best_nr: '1-263',
+        Volume: '187.20',
+        avg_price_m3: '664',
+        Volume_per_hectare: '301',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -3623,6 +3764,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171448',
         teig_best_nr: '1-266',
+        Volume: '590.84',
+        avg_price_m3: '691',
+        Volume_per_hectare: '197',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -3693,6 +3837,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171461',
         teig_best_nr: '1-265',
+        Volume: '645.49',
+        avg_price_m3: '664',
+        Volume_per_hectare: '329',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -3774,6 +3921,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191829',
         teig_best_nr: '1-264',
+        Volume: '',
+        avg_price_m3: '703',
+        Volume_per_hectare: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -3824,6 +3974,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171560',
         teig_best_nr: '1-258',
+        Volume: '178.24',
+        avg_price_m3: '691',
+        Volume_per_hectare: '140',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -3888,6 +4041,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191769',
         teig_best_nr: '1-241',
+        Volume: '73.24',
+        avg_price_m3: '691',
+        Volume_per_hectare: '197',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -3926,6 +4082,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191836',
         teig_best_nr: '1-269',
+        Volume: '1311.56',
+        avg_price_m3: '655',
+        Volume_per_hectare: '167',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -4085,6 +4244,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191788',
         teig_best_nr: '1-255',
+        Volume: '268.75',
+        avg_price_m3: '703',
+        Volume_per_hectare: '235',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -4140,6 +4302,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191837',
         teig_best_nr: '1-256',
+        Volume: '',
+        avg_price_m3: '703',
+        Volume_per_hectare: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -4188,6 +4353,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191795',
         teig_best_nr: '1-254',
+        Volume: '348.98',
+        avg_price_m3: '664',
+        Volume_per_hectare: '239',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -4266,6 +4434,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10160042',
         teig_best_nr: '1-248',
+        Volume: '',
+        avg_price_m3: '',
+        Volume_per_hectare: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -4335,6 +4506,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192083',
         teig_best_nr: '1-261',
+        Volume: '882.37',
+        avg_price_m3: '703',
+        Volume_per_hectare: '288',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -4462,6 +4636,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192018',
         teig_best_nr: '1-257',
+        Volume: '',
+        avg_price_m3: '',
+        Volume_per_hectare: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -4536,6 +4713,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171558',
         teig_best_nr: '1-253',
+        Volume: '616.78',
+        avg_price_m3: '659',
+        Volume_per_hectare: '254',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -4674,6 +4854,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191819',
         teig_best_nr: '1-267',
+        Volume: '1815.00',
+        avg_price_m3: '664',
+        Volume_per_hectare: '271',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -4821,6 +5004,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192026',
         teig_best_nr: '1-242',
+        Volume: '13.14',
+        avg_price_m3: '703',
+        Volume_per_hectare: '34',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -4948,6 +5134,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192046',
         teig_best_nr: '1-247',
+        Volume: '541.59',
+        avg_price_m3: '703',
+        Volume_per_hectare: '391',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -5016,6 +5205,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191755',
         teig_best_nr: '1-240',
+        Volume: '235.59',
+        avg_price_m3: '664',
+        Volume_per_hectare: '205',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -5067,6 +5259,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192061',
         teig_best_nr: '1-251',
+        Volume: '428.64',
+        avg_price_m3: '691',
+        Volume_per_hectare: '316',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -5150,6 +5345,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191822',
         teig_best_nr: '1-249',
+        Volume: '581.15',
+        avg_price_m3: '703',
+        Volume_per_hectare: '510',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -5209,6 +5407,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191827',
         teig_best_nr: '1-260',
+        Volume: '614.46',
+        avg_price_m3: '659',
+        Volume_per_hectare: '231',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -5329,6 +5530,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191807',
         teig_best_nr: '1-245',
+        Volume: '131.60',
+        avg_price_m3: '703',
+        Volume_per_hectare: '95',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -5463,6 +5667,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192060',
         teig_best_nr: '1-252',
+        Volume: '601.53',
+        avg_price_m3: '691',
+        Volume_per_hectare: '316',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -5518,6 +5725,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192080',
         teig_best_nr: '1-246',
+        Volume: '226.89',
+        avg_price_m3: '691',
+        Volume_per_hectare: '63',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -5603,6 +5813,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192064',
         teig_best_nr: '1-250',
+        Volume: '303.69',
+        avg_price_m3: '691',
+        Volume_per_hectare: '169',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -5699,6 +5912,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191775',
         teig_best_nr: '1-237',
+        Volume: '187.21',
+        avg_price_m3: '691',
+        Volume_per_hectare: '169',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -5757,6 +5973,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191793',
         teig_best_nr: '1-239',
+        Volume: '273.57',
+        avg_price_m3: '691',
+        Volume_per_hectare: '140',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -5833,6 +6052,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171451',
         teig_best_nr: '1-238',
+        Volume: '186.47',
+        avg_price_m3: '655',
+        Volume_per_hectare: '173',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -5926,6 +6148,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171458',
         teig_best_nr: '1-243',
+        Volume: '431.75',
+        avg_price_m3: '703',
+        Volume_per_hectare: '340',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -5991,6 +6216,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192069',
         teig_best_nr: '1-236',
+        Volume: '211.98',
+        avg_price_m3: '691',
+        Volume_per_hectare: '140',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -6089,6 +6317,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171445',
         teig_best_nr: '1-231',
+        Volume: '108.10',
+        avg_price_m3: '655',
+        Volume_per_hectare: '159',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -6144,6 +6375,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10163339',
         teig_best_nr: '1-229',
+        Volume: '27.76',
+        avg_price_m3: '703',
+        Volume_per_hectare: '34',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -6192,6 +6426,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192082',
         teig_best_nr: '1-235',
+        Volume: '629.80',
+        avg_price_m3: '664',
+        Volume_per_hectare: '171',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -6286,6 +6523,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171465',
         teig_best_nr: '1-244',
+        Volume: '359.02',
+        avg_price_m3: '691',
+        Volume_per_hectare: '226',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -6349,6 +6589,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171541',
         teig_best_nr: '1-227',
+        Volume: '172.16',
+        avg_price_m3: '703',
+        Volume_per_hectare: '235',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -6398,6 +6641,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171539',
         teig_best_nr: '1-225',
+        Volume: '340.75',
+        avg_price_m3: '703',
+        Volume_per_hectare: '557',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -6445,6 +6691,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192071',
         teig_best_nr: '1-233',
+        Volume: '296.86',
+        avg_price_m3: '659',
+        Volume_per_hectare: '275',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -6510,6 +6759,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191747',
         teig_best_nr: '1-234',
+        Volume: '181.20',
+        avg_price_m3: '668',
+        Volume_per_hectare: '212',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -6565,6 +6817,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192052',
         teig_best_nr: '1-230',
+        Volume: '23.34',
+        avg_price_m3: '703',
+        Volume_per_hectare: '34',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -6609,6 +6864,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171564',
         teig_best_nr: '1-228',
+        Volume: '55.54',
+        avg_price_m3: '684',
+        Volume_per_hectare: '63',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -6747,6 +7005,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191796',
         teig_best_nr: '1-224',
+        Volume: '156.39',
+        avg_price_m3: '703',
+        Volume_per_hectare: '184',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -6795,6 +7056,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10175983',
         teig_best_nr: '1-222',
+        Volume: '134.25',
+        avg_price_m3: '691',
+        Volume_per_hectare: '86',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -6873,6 +7137,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10160684',
         teig_best_nr: '1-210',
+        Volume: '209.77',
+        avg_price_m3: '703',
+        Volume_per_hectare: '577',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -6916,6 +7183,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10175984',
         teig_best_nr: '1-217',
+        Volume: '968.22',
+        avg_price_m3: '684',
+        Volume_per_hectare: '732',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -6963,6 +7233,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192014',
         teig_best_nr: '1-205',
+        Volume: '154.20',
+        avg_price_m3: '703',
+        Volume_per_hectare: '436',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -7002,6 +7275,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191823',
         teig_best_nr: '1-219',
+        Volume: '674.55',
+        avg_price_m3: '703',
+        Volume_per_hectare: '579',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -7055,6 +7331,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191812',
         teig_best_nr: '1-216',
+        Volume: '162.88',
+        avg_price_m3: '703',
+        Volume_per_hectare: '288',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -7108,6 +7387,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171521',
         teig_best_nr: '1-207',
+        Volume: '181.17',
+        avg_price_m3: '703',
+        Volume_per_hectare: '436',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -7178,6 +7460,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191841',
         teig_best_nr: '1-215',
+        Volume: '67.20',
+        avg_price_m3: '703',
+        Volume_per_hectare: '60',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -7222,6 +7507,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171450',
         teig_best_nr: '1-211',
+        Volume: '47.33',
+        avg_price_m3: '655',
+        Volume_per_hectare: '72',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -7271,6 +7559,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10204929',
         teig_best_nr: '1-218',
+        Volume: '1247.57',
+        avg_price_m3: '703',
+        Volume_per_hectare: '577',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -7451,6 +7742,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10163346',
         teig_best_nr: '1-206',
+        Volume: '471.11',
+        avg_price_m3: '703',
+        Volume_per_hectare: '436',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -7515,6 +7809,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191840',
         teig_best_nr: '1-232',
+        Volume: '624.82',
+        avg_price_m3: '659',
+        Volume_per_hectare: '231',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -7583,6 +7880,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191752',
         teig_best_nr: '1-221',
+        Volume: '583.15',
+        avg_price_m3: '668',
+        Volume_per_hectare: '259',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -7648,6 +7948,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191777',
         teig_best_nr: '1-209',
+        Volume: '518.16',
+        avg_price_m3: '664',
+        Volume_per_hectare: '107',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -7748,6 +8051,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192070',
         teig_best_nr: '1-226',
+        Volume: '1058.00',
+        avg_price_m3: '691',
+        Volume_per_hectare: '226',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -7858,6 +8164,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171454',
         teig_best_nr: '1-213',
+        Volume: '452.18',
+        avg_price_m3: '664',
+        Volume_per_hectare: '301',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -7913,6 +8222,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192068',
         teig_best_nr: '1-208',
+        Volume: '666.19',
+        avg_price_m3: '664',
+        Volume_per_hectare: '239',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -8024,6 +8336,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10202858',
         teig_best_nr: '1-220',
+        Volume: '178.47',
+        avg_price_m3: '659',
+        Volume_per_hectare: '145',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -8105,6 +8420,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191833',
         teig_best_nr: '1-223',
+        Volume: '353.39',
+        avg_price_m3: '664',
+        Volume_per_hectare: '239',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -8183,6 +8501,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171434',
         teig_best_nr: '1-199',
+        Volume: '102.75',
+        avg_price_m3: '691',
+        Volume_per_hectare: '197',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -8231,6 +8552,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10175051',
         teig_best_nr: '1-202',
+        Volume: '248.04',
+        avg_price_m3: '703',
+        Volume_per_hectare: '340',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -8315,6 +8639,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10163349',
         teig_best_nr: '1-188',
+        Volume: '52.10',
+        avg_price_m3: '703',
+        Volume_per_hectare: '34',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -8385,6 +8712,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171464',
         teig_best_nr: '1-214',
+        Volume: '45.26',
+        avg_price_m3: '691',
+        Volume_per_hectare: '15',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -8464,6 +8794,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191843',
         teig_best_nr: '1-204',
+        Volume: '226.14',
+        avg_price_m3: '691',
+        Volume_per_hectare: '140',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -8564,6 +8897,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171546',
         teig_best_nr: '1-201',
+        Volume: '356.09',
+        avg_price_m3: '659',
+        Volume_per_hectare: '250',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -8624,6 +8960,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191772',
         teig_best_nr: '1-195',
+        Volume: '125.87',
+        avg_price_m3: '691',
+        Volume_per_hectare: '140',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -8685,6 +9024,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171544',
         teig_best_nr: '1-190',
+        Volume: '131.31',
+        avg_price_m3: '703',
+        Volume_per_hectare: '340',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -8753,6 +9095,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191781',
         teig_best_nr: '1-203',
+        Volume: '244.44',
+        avg_price_m3: '703',
+        Volume_per_hectare: '340',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -8800,6 +9145,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191750',
         teig_best_nr: '1-193',
+        Volume: '280.36',
+        avg_price_m3: '703',
+        Volume_per_hectare: '391',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -9114,6 +9462,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191748',
         teig_best_nr: '1-187',
+        Volume: '128.73',
+        avg_price_m3: '684',
+        Volume_per_hectare: '109',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -9169,6 +9520,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191845',
         teig_best_nr: '1-194',
+        Volume: '',
+        avg_price_m3: '703',
+        Volume_per_hectare: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -9258,6 +9612,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191742',
         teig_best_nr: '1-185',
+        Volume: '277.14',
+        avg_price_m3: '703',
+        Volume_per_hectare: '184',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -9311,6 +9668,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191834',
         teig_best_nr: '1-196',
+        Volume: '190.20',
+        avg_price_m3: '703',
+        Volume_per_hectare: '136',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -9386,6 +9746,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191839',
         teig_best_nr: '1-212',
+        Volume: '2158.27',
+        avg_price_m3: '659',
+        Volume_per_hectare: '275',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -9552,6 +9915,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191832',
         teig_best_nr: '1-200',
+        Volume: '1326.24',
+        avg_price_m3: '703',
+        Volume_per_hectare: '579',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -9651,6 +10017,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10204932',
         teig_best_nr: '1-197',
+        Volume: '1953.53',
+        avg_price_m3: '655',
+        Volume_per_hectare: '176',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -9832,6 +10201,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192051',
         teig_best_nr: '1-184',
+        Volume: '',
+        avg_price_m3: '691',
+        Volume_per_hectare: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -9915,6 +10287,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192090',
         teig_best_nr: '1-191',
+        Volume: '41.84',
+        avg_price_m3: '691',
+        Volume_per_hectare: '15',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -10018,6 +10393,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171547',
         teig_best_nr: '1-179',
+        Volume: '54.19',
+        avg_price_m3: '691',
+        Volume_per_hectare: '86',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -10084,6 +10462,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192085',
         teig_best_nr: '1-198',
+        Volume: '775.65',
+        avg_price_m3: '703',
+        Volume_per_hectare: '95',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -10236,6 +10617,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171554',
         teig_best_nr: '1-181',
+        Volume: '213.22',
+        avg_price_m3: '684',
+        Volume_per_hectare: '314',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -10287,6 +10671,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171581',
         teig_best_nr: '1-176',
+        Volume: '171.44',
+        avg_price_m3: '664',
+        Volume_per_hectare: '351',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -10331,6 +10718,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171452',
         teig_best_nr: '1-186',
+        Volume: '1059.08',
+        avg_price_m3: '691',
+        Volume_per_hectare: '299',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -10406,6 +10796,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171549',
         teig_best_nr: '1-182',
+        Volume: '',
+        avg_price_m3: '703',
+        Volume_per_hectare: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -10503,6 +10896,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10163337',
         teig_best_nr: '1-168',
+        Volume: '148.77',
+        avg_price_m3: '691',
+        Volume_per_hectare: '299',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -10545,6 +10941,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191831',
         teig_best_nr: '1-177',
+        Volume: '13.02',
+        avg_price_m3: '691',
+        Volume_per_hectare: '15',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -10593,6 +10992,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192033',
         teig_best_nr: '1-189',
+        Volume: '1112.29',
+        avg_price_m3: '703',
+        Volume_per_hectare: '184',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -10716,6 +11118,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10160044',
         teig_best_nr: '1-165',
+        Volume: '53.76',
+        avg_price_m3: '659',
+        Volume_per_hectare: '280',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -10759,6 +11164,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192054',
         teig_best_nr: '1-116',
+        Volume: '181.64',
+        avg_price_m3: '703',
+        Volume_per_hectare: '235',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -10810,6 +11218,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171460',
         teig_best_nr: '1-183',
+        Volume: '979.23',
+        avg_price_m3: '664',
+        Volume_per_hectare: '239',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -10888,6 +11299,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10163300',
         teig_best_nr: '1-170',
+        Volume: '27.83',
+        avg_price_m3: '691',
+        Volume_per_hectare: '63',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -10928,6 +11342,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171563',
         teig_best_nr: '1-172',
+        Volume: '88.45',
+        avg_price_m3: '703',
+        Volume_per_hectare: '136',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -10981,6 +11398,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10165156',
         teig_best_nr: '1-192',
+        Volume: '125.23',
+        avg_price_m3: '703',
+        Volume_per_hectare: '16',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -11181,6 +11601,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192053',
         teig_best_nr: '1-174',
+        Volume: '375.66',
+        avg_price_m3: '664',
+        Volume_per_hectare: '351',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -11242,6 +11665,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171543',
         teig_best_nr: '1-115',
+        Volume: '15.12',
+        avg_price_m3: '703',
+        Volume_per_hectare: '16',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -11290,6 +11716,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192087',
         teig_best_nr: '1-131',
+        Volume: '104.50',
+        avg_price_m3: '684',
+        Volume_per_hectare: '30',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -11335,6 +11764,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171580',
         teig_best_nr: '1-117',
+        Volume: '458.02',
+        avg_price_m3: '659',
+        Volume_per_hectare: '231',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -11422,6 +11854,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191767',
         teig_best_nr: '1-173',
+        Volume: '601.78',
+        avg_price_m3: '691',
+        Volume_per_hectare: '226',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -11513,6 +11948,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171444',
         teig_best_nr: '1-175',
+        Volume: '154.08',
+        avg_price_m3: '680',
+        Volume_per_hectare: '68',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -11585,6 +12023,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10189002',
         teig_best_nr: '1-171',
+        Volume: '224.15',
+        avg_price_m3: '684',
+        Volume_per_hectare: '656',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -11713,6 +12154,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10163347',
         teig_best_nr: '1-113',
+        Volume: '6.39',
+        avg_price_m3: '691',
+        Volume_per_hectare: '7',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -11767,6 +12211,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171421',
         teig_best_nr: '1-139',
+        Volume: '125.18',
+        avg_price_m3: '703',
+        Volume_per_hectare: '436',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -11805,6 +12252,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191842',
         teig_best_nr: '1-178',
+        Volume: '1394.03',
+        avg_price_m3: '691',
+        Volume_per_hectare: '226',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -11911,6 +12361,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192055',
         teig_best_nr: '1-114',
+        Volume: '',
+        avg_price_m3: '691',
+        Volume_per_hectare: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -11970,6 +12423,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171433',
         teig_best_nr: '1-166',
+        Volume: '433.92',
+        avg_price_m3: '703',
+        Volume_per_hectare: '391',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -12038,6 +12494,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171548',
         teig_best_nr: '1-112',
+        Volume: '',
+        avg_price_m3: '691',
+        Volume_per_hectare: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -12090,6 +12549,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191765',
         teig_best_nr: '1-107',
+        Volume: '190.80',
+        avg_price_m3: '691',
+        Volume_per_hectare: '316',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -12163,6 +12625,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191808',
         teig_best_nr: '1-110',
+        Volume: '211.88',
+        avg_price_m3: '691',
+        Volume_per_hectare: '252',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -12220,6 +12685,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191814',
         teig_best_nr: '1-111',
+        Volume: '338.51',
+        avg_price_m3: '659',
+        Volume_per_hectare: '291',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -12281,6 +12749,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171551',
         teig_best_nr: '1-109',
+        Volume: '50.06',
+        avg_price_m3: '691',
+        Volume_per_hectare: '112',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -12326,6 +12797,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192115',
         teig_best_nr: '1-180',
+        Volume: '1382.37',
+        avg_price_m3: '655',
+        Volume_per_hectare: '167',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -12484,6 +12958,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191734',
         teig_best_nr: '1-135',
+        Volume: '264.41',
+        avg_price_m3: '691',
+        Volume_per_hectare: '316',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -12537,6 +13014,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10160034',
         teig_best_nr: '1-164',
+        Volume: '282.02',
+        avg_price_m3: '703',
+        Volume_per_hectare: '340',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -12592,6 +13072,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171562',
         teig_best_nr: '1-137',
+        Volume: '272.40',
+        avg_price_m3: '691',
+        Volume_per_hectare: '197',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -12714,6 +13197,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192040',
         teig_best_nr: '1-167',
+        Volume: '752.41',
+        avg_price_m3: '659',
+        Volume_per_hectare: '254',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -12841,6 +13327,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171527',
         teig_best_nr: '1-161',
+        Volume: '142.92',
+        avg_price_m3: '684',
+        Volume_per_hectare: '762',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -12906,6 +13395,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10202872',
         teig_best_nr: '1-136',
+        Volume: '73.04',
+        avg_price_m3: '691',
+        Volume_per_hectare: '15',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -13035,6 +13527,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192078',
         teig_best_nr: '1-106',
+        Volume: '28.70',
+        avg_price_m3: '703',
+        Volume_per_hectare: '16',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -13109,6 +13604,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171553',
         teig_best_nr: '1-160',
+        Volume: '183.41',
+        avg_price_m3: '703',
+        Volume_per_hectare: '579',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -13153,6 +13651,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10163343',
         teig_best_nr: '1-169',
+        Volume: '616.63',
+        avg_price_m3: '703',
+        Volume_per_hectare: '436',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -13209,6 +13710,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10163345',
         teig_best_nr: '1-158',
+        Volume: '50.52',
+        avg_price_m3: '703',
+        Volume_per_hectare: '34',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -13284,6 +13788,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10160031',
         teig_best_nr: '1-105',
+        Volume: '255.38',
+        avg_price_m3: '655',
+        Volume_per_hectare: '176',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -13346,6 +13853,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191828',
         teig_best_nr: '1-163',
+        Volume: '84.03',
+        avg_price_m3: '664',
+        Volume_per_hectare: '56',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -13406,6 +13916,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191759',
         teig_best_nr: '1-138',
+        Volume: '587.14',
+        avg_price_m3: '691',
+        Volume_per_hectare: '169',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -13521,6 +14034,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192067',
         teig_best_nr: '1-108',
+        Volume: '344.97',
+        avg_price_m3: '703',
+        Volume_per_hectare: '288',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -13616,6 +14132,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191758',
         teig_best_nr: '1-134',
+        Volume: '591.96',
+        avg_price_m3: '659',
+        Volume_per_hectare: '304',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -13671,6 +14190,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10163297',
         teig_best_nr: '1-133',
+        Volume: '135.64',
+        avg_price_m3: '659',
+        Volume_per_hectare: '189',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -13715,6 +14237,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10163342',
         teig_best_nr: '1-103',
+        Volume: '',
+        avg_price_m3: '691',
+        Volume_per_hectare: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -13771,6 +14296,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10163306',
         teig_best_nr: '1-96',
+        Volume: '143.85',
+        avg_price_m3: '659',
+        Volume_per_hectare: '231',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -13818,6 +14346,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192057',
         teig_best_nr: '1-162',
+        Volume: '1035.50',
+        avg_price_m3: '691',
+        Volume_per_hectare: '197',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -13896,6 +14427,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192049',
         teig_best_nr: '1-159',
+        Volume: '334.60',
+        avg_price_m3: '691',
+        Volume_per_hectare: '357',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -13947,6 +14481,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191720',
         teig_best_nr: '1-155',
+        Volume: '140.48',
+        avg_price_m3: '691',
+        Volume_per_hectare: '197',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -13991,6 +14528,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171428',
         teig_best_nr: '1-132',
+        Volume: '59.81',
+        avg_price_m3: '680',
+        Volume_per_hectare: '68',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -14057,6 +14597,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171446',
         teig_best_nr: '1-95',
+        Volume: '',
+        avg_price_m3: '680',
+        Volume_per_hectare: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -14107,6 +14650,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171466',
         teig_best_nr: '1-157',
+        Volume: '',
+        avg_price_m3: '',
+        Volume_per_hectare: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -14159,6 +14705,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192035',
         teig_best_nr: '1-94',
+        Volume: '291.04',
+        avg_price_m3: '691',
+        Volume_per_hectare: '252',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -14224,6 +14773,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10163354',
         teig_best_nr: '1-90',
+        Volume: '226.99',
+        avg_price_m3: '664',
+        Volume_per_hectare: '351',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -14277,6 +14829,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10160032',
         teig_best_nr: '1-92',
+        Volume: '96.33',
+        avg_price_m3: '652',
+        Volume_per_hectare: '120',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -14336,6 +14891,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192056',
         teig_best_nr: '1-104',
+        Volume: '816.05',
+        avg_price_m3: '659',
+        Volume_per_hectare: '231',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -14523,6 +15081,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171565',
         teig_best_nr: '1-130',
+        Volume: '226.11',
+        avg_price_m3: '664',
+        Volume_per_hectare: '301',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -14572,6 +15133,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171453',
         teig_best_nr: '1-93',
+        Volume: '550.48',
+        avg_price_m3: '664',
+        Volume_per_hectare: '351',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -14634,6 +15198,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171425',
         teig_best_nr: '1-153',
+        Volume: '90.59',
+        avg_price_m3: '664',
+        Volume_per_hectare: '301',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -14673,6 +15240,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192065',
         teig_best_nr: '1-156',
+        Volume: '',
+        avg_price_m3: '668',
+        Volume_per_hectare: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -14737,6 +15307,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10163299',
         teig_best_nr: '1-129',
+        Volume: '697.03',
+        avg_price_m3: '664',
+        Volume_per_hectare: '329',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -14799,6 +15372,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191736',
         teig_best_nr: '1-128',
+        Volume: '342.98',
+        avg_price_m3: '703',
+        Volume_per_hectare: '235',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -14882,6 +15458,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171443',
         teig_best_nr: '1-101',
+        Volume: '102.64',
+        avg_price_m3: '664',
+        Volume_per_hectare: '56',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -14945,6 +15524,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171440',
         teig_best_nr: '1-102',
+        Volume: '174.70',
+        avg_price_m3: '664',
+        Volume_per_hectare: '107',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -15003,6 +15585,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192066',
         teig_best_nr: '1-88',
+        Volume: '200.92',
+        avg_price_m3: '691',
+        Volume_per_hectare: '140',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -15194,6 +15779,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171540',
         teig_best_nr: '1-89',
+        Volume: '377.65',
+        avg_price_m3: '691',
+        Volume_per_hectare: '169',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -15254,6 +15842,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191794',
         teig_best_nr: '1-91',
+        Volume: '806.63',
+        avg_price_m3: '655',
+        Volume_per_hectare: '175',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -15376,6 +15967,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191730',
         teig_best_nr: '1-152',
+        Volume: '143.09',
+        avg_price_m3: '691',
+        Volume_per_hectare: '112',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -15437,6 +16031,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191746',
         teig_best_nr: '1-127',
+        Volume: '414.86',
+        avg_price_m3: '664',
+        Volume_per_hectare: '205',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -15495,6 +16092,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192086',
         teig_best_nr: '1-154',
+        Volume: '288.30',
+        avg_price_m3: '691',
+        Volume_per_hectare: '86',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -15570,6 +16170,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191773',
         teig_best_nr: '1-99',
+        Volume: '127.79',
+        avg_price_m3: '703',
+        Volume_per_hectare: '136',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -15636,6 +16239,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191830',
         teig_best_nr: '1-87',
+        Volume: '',
+        avg_price_m3: '691',
+        Volume_per_hectare: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -15824,6 +16430,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191810',
         teig_best_nr: '1-86',
+        Volume: '573.65',
+        avg_price_m3: '659',
+        Volume_per_hectare: '275',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -15882,6 +16491,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171552',
         teig_best_nr: '1-83',
+        Volume: '115.31',
+        avg_price_m3: '691',
+        Volume_per_hectare: '112',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -15956,6 +16568,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191763',
         teig_best_nr: '1-100',
+        Volume: '1519.72',
+        avg_price_m3: '703',
+        Volume_per_hectare: '436',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -16063,6 +16678,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191826',
         teig_best_nr: '1-82',
+        Volume: '252.61',
+        avg_price_m3: '703',
+        Volume_per_hectare: '235',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -16286,6 +16904,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191803',
         teig_best_nr: '1-85',
+        Volume: '227.09',
+        avg_price_m3: '652',
+        Volume_per_hectare: '122',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -16429,6 +17050,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191785',
         teig_best_nr: '1-98',
+        Volume: '611.17',
+        avg_price_m3: '655',
+        Volume_per_hectare: '173',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -16510,6 +17134,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171568',
         teig_best_nr: '1-126',
+        Volume: '614.01',
+        avg_price_m3: '664',
+        Volume_per_hectare: '239',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -16577,6 +17204,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191757',
         teig_best_nr: '1-64',
+        Volume: '554.28',
+        avg_price_m3: '703',
+        Volume_per_hectare: '95',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -16627,6 +17257,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191728',
         teig_best_nr: '1-151',
+        Volume: '732.63',
+        avg_price_m3: '664',
+        Volume_per_hectare: '239',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -16699,6 +17332,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192088',
         teig_best_nr: '1-124',
+        Volume: '461.86',
+        avg_price_m3: '703',
+        Volume_per_hectare: '391',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -16775,6 +17411,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192114',
         teig_best_nr: '1-84',
+        Volume: '508.31',
+        avg_price_m3: '659',
+        Volume_per_hectare: '231',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -16858,6 +17497,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171578',
         teig_best_nr: '1-79',
+        Volume: '126.66',
+        avg_price_m3: '655',
+        Volume_per_hectare: '176',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -16908,6 +17550,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192110',
         teig_best_nr: '1-81',
+        Volume: '93.26',
+        avg_price_m3: '691',
+        Volume_per_hectare: '26',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -17073,6 +17718,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192047',
         teig_best_nr: '1-125',
+        Volume: '995.66',
+        avg_price_m3: '668',
+        Volume_per_hectare: '168',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -17167,6 +17815,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192111',
         teig_best_nr: '1-75',
+        Volume: '122.87',
+        avg_price_m3: '703',
+        Volume_per_hectare: '60',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -17211,6 +17862,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191764',
         teig_best_nr: '1-97',
+        Volume: '171.53',
+        avg_price_m3: '703',
+        Volume_per_hectare: '288',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -17254,6 +17908,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171528',
         teig_best_nr: '1-150',
+        Volume: '173.37',
+        avg_price_m3: '664',
+        Volume_per_hectare: '369',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -17300,6 +17957,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171569',
         teig_best_nr: '1-78',
+        Volume: '483.98',
+        avg_price_m3: '664',
+        Volume_per_hectare: '271',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -17382,6 +18042,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191820',
         teig_best_nr: '1-77',
+        Volume: '116.09',
+        avg_price_m3: '664',
+        Volume_per_hectare: '138',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -17428,6 +18091,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171574',
         teig_best_nr: '1-76',
+        Volume: '13.76',
+        avg_price_m3: '680',
+        Volume_per_hectare: '8',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -17505,6 +18171,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191724',
         teig_best_nr: '1-149',
+        Volume: '63.53',
+        avg_price_m3: '664',
+        Volume_per_hectare: '107',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -17573,6 +18242,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10163348',
         teig_best_nr: '1-148',
+        Volume: '151.71',
+        avg_price_m3: '659',
+        Volume_per_hectare: '250',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -17633,6 +18305,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171438',
         teig_best_nr: '1-71',
+        Volume: '32.35',
+        avg_price_m3: '691',
+        Volume_per_hectare: '43',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -17681,6 +18356,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10163353',
         teig_best_nr: '1-72',
+        Volume: '22.57',
+        avg_price_m3: '691',
+        Volume_per_hectare: '26',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -17762,6 +18440,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191801',
         teig_best_nr: '1-74',
+        Volume: '70.42',
+        avg_price_m3: '668',
+        Volume_per_hectare: '35',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -17883,6 +18564,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191815',
         teig_best_nr: '1-70',
+        Volume: '130.25',
+        avg_price_m3: '691',
+        Volume_per_hectare: '140',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -17940,6 +18624,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192091',
         teig_best_nr: '1-73',
+        Volume: '117.69',
+        avg_price_m3: '703',
+        Volume_per_hectare: '95',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -17993,6 +18680,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171526',
         teig_best_nr: '1-68',
+        Volume: '83.66',
+        avg_price_m3: '691',
+        Volume_per_hectare: '26',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -18323,6 +19013,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191771',
         teig_best_nr: '1-63',
+        Volume: '116.46',
+        avg_price_m3: '691',
+        Volume_per_hectare: '169',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -18375,6 +19068,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10163350',
         teig_best_nr: '1-144',
+        Volume: '53.31',
+        avg_price_m3: '680',
+        Volume_per_hectare: '79',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -18428,6 +19124,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192092',
         teig_best_nr: '1-62',
+        Volume: '38.85',
+        avg_price_m3: '691',
+        Volume_per_hectare: '43',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -18470,6 +19169,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192034',
         teig_best_nr: '1-145',
+        Volume: '216.00',
+        avg_price_m3: '659',
+        Volume_per_hectare: '266',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -18550,6 +19252,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192097',
         teig_best_nr: '1-146',
+        Volume: '58.85',
+        avg_price_m3: '659',
+        Volume_per_hectare: '46',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -18643,6 +19348,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191817',
         teig_best_nr: '1-67',
+        Volume: '141.35',
+        avg_price_m3: '684',
+        Volume_per_hectare: '109',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -18699,6 +19407,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191778',
         teig_best_nr: '1-66',
+        Volume: '480.26',
+        avg_price_m3: '659',
+        Volume_per_hectare: '167',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -18799,6 +19510,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191741',
         teig_best_nr: '1-121',
+        Volume: '326.90',
+        avg_price_m3: '703',
+        Volume_per_hectare: '136',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -18924,6 +19638,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191791',
         teig_best_nr: '1-61',
+        Volume: '329.58',
+        avg_price_m3: '655',
+        Volume_per_hectare: '169',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -18996,6 +19713,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191726',
         teig_best_nr: '1-143',
+        Volume: '174.81',
+        avg_price_m3: '691',
+        Volume_per_hectare: '226',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -19050,6 +19770,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191751',
         teig_best_nr: '1-122',
+        Volume: '1112.83',
+        avg_price_m3: '664',
+        Volume_per_hectare: '301',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -19205,6 +19928,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191727',
         teig_best_nr: '1-142',
+        Volume: '165.09',
+        avg_price_m3: '691',
+        Volume_per_hectare: '332',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -19248,6 +19974,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191789',
         teig_best_nr: '1-69',
+        Volume: '1278.10',
+        avg_price_m3: '655',
+        Volume_per_hectare: '176',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -19412,6 +20141,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191804',
         teig_best_nr: '1-60',
+        Volume: '131.53',
+        avg_price_m3: '691',
+        Volume_per_hectare: '63',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -19474,6 +20206,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171542',
         teig_best_nr: '1-147',
+        Volume: '1485.49',
+        avg_price_m3: '703',
+        Volume_per_hectare: '288',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -19577,6 +20312,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191733',
         teig_best_nr: '1-120',
+        Volume: '310.60',
+        avg_price_m3: '703',
+        Volume_per_hectare: '184',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -19757,6 +20495,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191754',
         teig_best_nr: '1-65',
+        Volume: '1234.61',
+        avg_price_m3: '691',
+        Volume_per_hectare: '197',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -19879,6 +20620,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192108',
         teig_best_nr: '1-58',
+        Volume: '408.09',
+        avg_price_m3: '703',
+        Volume_per_hectare: '235',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -19960,6 +20704,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10160030',
         teig_best_nr: '1-52',
+        Volume: '30.42',
+        avg_price_m3: '691',
+        Volume_per_hectare: '43',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -20015,6 +20762,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192094',
         teig_best_nr: '1-57',
+        Volume: '231.13',
+        avg_price_m3: '703',
+        Volume_per_hectare: '95',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -20120,6 +20870,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10163301',
         teig_best_nr: '1-53',
+        Volume: '204.07',
+        avg_price_m3: '691',
+        Volume_per_hectare: '169',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -20185,6 +20938,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191762',
         teig_best_nr: '1-50',
+        Volume: '161.83',
+        avg_price_m3: '655',
+        Volume_per_hectare: '169',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -20245,6 +21001,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171432',
         teig_best_nr: '1-48',
+        Volume: '358.71',
+        avg_price_m3: '703',
+        Volume_per_hectare: '288',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -20307,6 +21066,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10163293',
         teig_best_nr: '1-119',
+        Volume: '238.76',
+        avg_price_m3: '703',
+        Volume_per_hectare: '436',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -20359,6 +21121,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191786',
         teig_best_nr: '1-55',
+        Volume: '135.89',
+        avg_price_m3: '680',
+        Volume_per_hectare: '89',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -20433,6 +21198,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191738',
         teig_best_nr: '1-59',
+        Volume: '454.14',
+        avg_price_m3: '703',
+        Volume_per_hectare: '95',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -20537,6 +21305,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192100',
         teig_best_nr: '1-56',
+        Volume: '476.90',
+        avg_price_m3: '664',
+        Volume_per_hectare: '205',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -20610,6 +21381,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191816',
         teig_best_nr: '1-54',
+        Volume: '822.13',
+        avg_price_m3: '684',
+        Volume_per_hectare: '393',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -20683,6 +21457,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171442',
         teig_best_nr: '1-47',
+        Volume: '219.83',
+        avg_price_m3: '664',
+        Volume_per_hectare: '239',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -20740,6 +21517,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10163312',
         teig_best_nr: '1-44',
+        Volume: '62.73',
+        avg_price_m3: '655',
+        Volume_per_hectare: '176',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -20780,6 +21560,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191729',
         teig_best_nr: '1-141',
+        Volume: '538.19',
+        avg_price_m3: '664',
+        Volume_per_hectare: '369',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -20864,6 +21647,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191782',
         teig_best_nr: '1-51',
+        Volume: '205.02',
+        avg_price_m3: '691',
+        Volume_per_hectare: '63',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -20964,6 +21750,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192081',
         teig_best_nr: '1-41',
+        Volume: '255.89',
+        avg_price_m3: '703',
+        Volume_per_hectare: '340',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -21017,6 +21806,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171424',
         teig_best_nr: '1-140',
+        Volume: '489.85',
+        avg_price_m3: '664',
+        Volume_per_hectare: '396',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -21079,6 +21871,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171439',
         teig_best_nr: '1-45',
+        Volume: '9.29',
+        avg_price_m3: '691',
+        Volume_per_hectare: '7',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -21152,6 +21947,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191792',
         teig_best_nr: '1-49',
+        Volume: '710.85',
+        avg_price_m3: '655',
+        Volume_per_hectare: '173',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -21239,6 +22037,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191732',
         teig_best_nr: '1-118',
+        Volume: '473.06',
+        avg_price_m3: '691',
+        Volume_per_hectare: '226',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -21313,6 +22114,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171566',
         teig_best_nr: '1-40',
+        Volume: '171.32',
+        avg_price_m3: '664',
+        Volume_per_hectare: '239',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -21370,6 +22174,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192095',
         teig_best_nr: '1-42',
+        Volume: '85.61',
+        avg_price_m3: '703',
+        Volume_per_hectare: '95',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -21459,6 +22266,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191799',
         teig_best_nr: '1-43',
+        Volume: '311.87',
+        avg_price_m3: '703',
+        Volume_per_hectare: '288',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -21551,6 +22361,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192023',
         teig_best_nr: '1-46',
+        Volume: '1318.79',
+        avg_price_m3: '659',
+        Volume_per_hectare: '304',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -21631,6 +22444,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191779',
         teig_best_nr: '1-36',
+        Volume: '',
+        avg_price_m3: '',
+        Volume_per_hectare: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -21704,6 +22520,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192048',
         teig_best_nr: '1-35',
+        Volume: '583.27',
+        avg_price_m3: '703',
+        Volume_per_hectare: '288',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -21771,6 +22590,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10163292',
         teig_best_nr: '1-32',
+        Volume: '432.02',
+        avg_price_m3: '668',
+        Volume_per_hectare: '457',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -21820,6 +22642,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171572',
         teig_best_nr: '1-34',
+        Volume: '',
+        avg_price_m3: '',
+        Volume_per_hectare: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -21907,6 +22732,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10163351',
         teig_best_nr: '1-28',
+        Volume: '140.74',
+        avg_price_m3: '668',
+        Volume_per_hectare: '259',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -21955,6 +22783,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10163340',
         teig_best_nr: '1-30',
+        Volume: '115.98',
+        avg_price_m3: '668',
+        Volume_per_hectare: '259',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -22053,6 +22884,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10170170',
         teig_best_nr: '1-26',
+        Volume: '207.57',
+        avg_price_m3: '664',
+        Volume_per_hectare: '383',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -22094,6 +22928,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10163352',
         teig_best_nr: '1-31',
+        Volume: '386.65',
+        avg_price_m3: '664',
+        Volume_per_hectare: '301',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -22156,6 +22993,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192105',
         teig_best_nr: '1-38',
+        Volume: '698.37',
+        avg_price_m3: '664',
+        Volume_per_hectare: '205',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -22232,6 +23072,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171570',
         teig_best_nr: '1-29',
+        Volume: '262.03',
+        avg_price_m3: '691',
+        Volume_per_hectare: '226',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -22294,6 +23137,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191979',
         teig_best_nr: '1-23',
+        Volume: '90.62',
+        avg_price_m3: '664',
+        Volume_per_hectare: '171',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -22341,6 +23187,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191774',
         teig_best_nr: '1-27',
+        Volume: '111.25',
+        avg_price_m3: '655',
+        Volume_per_hectare: '161',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -22392,6 +23241,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191711',
         teig_best_nr: '1-37',
+        Volume: '124.27',
+        avg_price_m3: '655',
+        Volume_per_hectare: '167',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -22444,6 +23296,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192098',
         teig_best_nr: '1-21',
+        Volume: '77.73',
+        avg_price_m3: '664',
+        Volume_per_hectare: '107',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -22499,6 +23354,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192058',
         teig_best_nr: '1-22',
+        Volume: '263.27',
+        avg_price_m3: '664',
+        Volume_per_hectare: '301',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -22546,6 +23404,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171573',
         teig_best_nr: '1-25',
+        Volume: '505.71',
+        avg_price_m3: '659',
+        Volume_per_hectare: '291',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -22613,6 +23474,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192103',
         teig_best_nr: '1-33',
+        Volume: '1811.76',
+        avg_price_m3: '703',
+        Volume_per_hectare: '184',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -22766,6 +23630,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192099',
         teig_best_nr: '1-19',
+        Volume: '217.38',
+        avg_price_m3: '659',
+        Volume_per_hectare: '291',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -22814,6 +23681,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192106',
         teig_best_nr: '1-20',
+        Volume: '372.49',
+        avg_price_m3: '659',
+        Volume_per_hectare: '254',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -22865,6 +23735,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191739',
         teig_best_nr: '1-15',
+        Volume: '442.79',
+        avg_price_m3: '659',
+        Volume_per_hectare: '254',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -22969,6 +23842,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10163302',
         teig_best_nr: '1-17',
+        Volume: '240.06',
+        avg_price_m3: '664',
+        Volume_per_hectare: '351',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -23013,6 +23889,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171435',
         teig_best_nr: '1-24',
+        Volume: '467.63',
+        avg_price_m3: '703',
+        Volume_per_hectare: '184',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -23091,6 +23970,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10163294',
         teig_best_nr: '1-16',
+        Volume: '49.30',
+        avg_price_m3: '659',
+        Volume_per_hectare: '46',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -23138,6 +24020,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171431',
         teig_best_nr: '1-18',
+        Volume: '285.69',
+        avg_price_m3: '664',
+        Volume_per_hectare: '239',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -23194,6 +24079,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171571',
         teig_best_nr: '1-13',
+        Volume: '125.45',
+        avg_price_m3: '691',
+        Volume_per_hectare: '140',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -23291,6 +24179,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191756',
         teig_best_nr: '1-12',
+        Volume: '297.89',
+        avg_price_m3: '703',
+        Volume_per_hectare: '288',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -23342,6 +24233,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191753',
         teig_best_nr: '1-14',
+        Volume: '520.70',
+        avg_price_m3: '664',
+        Volume_per_hectare: '301',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -23400,6 +24294,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171437',
         teig_best_nr: '1-11',
+        Volume: '809.80',
+        avg_price_m3: '659',
+        Volume_per_hectare: '275',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -23460,6 +24357,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171427',
         teig_best_nr: '1-10',
+        Volume: '408.91',
+        avg_price_m3: '655',
+        Volume_per_hectare: '167',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -23526,6 +24426,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171429',
         teig_best_nr: '1-8',
+        Volume: '296.33',
+        avg_price_m3: '664',
+        Volume_per_hectare: '297',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -23588,6 +24491,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171430',
         teig_best_nr: '1-7',
+        Volume: '80.78',
+        avg_price_m3: '680',
+        Volume_per_hectare: '142',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -23628,6 +24534,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192059',
         teig_best_nr: '1-9',
+        Volume: '369.95',
+        avg_price_m3: '659',
+        Volume_per_hectare: '254',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -37904,6 +38813,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191915',
         teig_best_nr: '1-6',
+        Volume: '442.87',
+        avg_price_m3: '659',
+        Volume_per_hectare: '304',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -37954,6 +38866,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10171495',
         teig_best_nr: '1-3',
+        Volume: '',
+        avg_price_m3: '659',
+        Volume_per_hectare: '',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -37999,6 +38914,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191744',
         teig_best_nr: '1-4',
+        Volume: '245.42',
+        avg_price_m3: '691',
+        Volume_per_hectare: '357',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -38079,6 +38997,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10191957',
         teig_best_nr: '1-2',
+        Volume: '69.23',
+        avg_price_m3: '664',
+        Volume_per_hectare: '239',
       },
       geometry: {
         type: 'MultiPolygon',
@@ -38122,6 +39043,9 @@ const madsPolygons = {
         regdato: '2021-08-25',
         sl_sdeid: '10192089',
         teig_best_nr: '1-1',
+        Volume: '33.16',
+        avg_price_m3: '659',
+        Volume_per_hectare: '32',
       },
       geometry: {
         type: 'MultiPolygon',
