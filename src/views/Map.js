@@ -407,9 +407,9 @@ function Map() {
                   ref={madsPolygonsRef}
                   onEachFeature={onEachFeature}
                   data={madsPolygons}
-                  style={{
-                    color: 'blue', // color of the lines
-                  }}
+                  // style={{
+                  //   color: 'blue', // color of the lines
+                  // }}
                 />
               )}
               {bjoernPolygons && selectedForest.name === 'forest2' && (
