@@ -225,6 +225,7 @@ export default function CustomMapEvents(props) {
           // The price of the timber for a species
           sumObj.hardCodedSpeciesPrice = hardCodedSpeciesPrice;
           sumObj.speciesPriceMads = parseFloat(feature.properties.avg_price_m3);
+          sumObj.treeCounts = parseFloat(feature.properties.ML_counted_trees);
           // The total volume
           sumObj.totalESTGrossValueWMS = totalESTGrossValueWMS;
           sumObj.totalESTGrossValueMads = parseFloat(
@@ -268,6 +269,11 @@ export default function CustomMapEvents(props) {
         `<tr style="border: 1px solid black;">
           <td style="padding: 5px; border: 1px solid black;">${desiredAttributes['alder']}</td>
           <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.alder}</td>
+        </tr>` +
+        // Add the Tree counts
+        `<tr style="border: 1px solid black;">
+          <td style="padding: 5px; border: 1px solid black;">Antall trær</td>
+          <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.treeCounts}</td>
         </tr>`;
       if (
         sumObj.standVolumeWMSDensityPerHectareWMS &&
