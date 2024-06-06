@@ -12,3 +12,4 @@ skogapp-dashboard.code-workspace
 
 # Local Netlify folder
 .netlify
+*.aux.xml
