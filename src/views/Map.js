@@ -272,6 +272,7 @@ function Map() {
         zoomControl={false}
         center={selectedForest.coord}
         zoom={MAP_DEFAULT_ZOOM_LEVEL}
+        maxZoom={22}
         continuousWorld={true}
         worldCopyJump={false}
         style={{
@@ -439,6 +440,7 @@ function Map() {
               layers="0"
               format="image/jpeg"
               version="1.3.0"
+              maxZoom={22}
             />
           </Overlay>
         </LayersControl>
