@@ -58,7 +58,7 @@ export default function CustomMapEvents(props) {
     bontre_beskrivelse: 'Treslag',
     alder: 'Alder',
     arealDAA: 'Areal',
-    volume_growth_factor: 'Årlig vekst %',
+    volume_growth_factor: 'Årlig vekst',
     carbon_stored: 'CO2 lagret totalt',
     carbon_captured_next_year: 'CO2 lagret årlig',
   };
@@ -320,7 +320,7 @@ export default function CustomMapEvents(props) {
         // Add the volume_growth_factor
         `<tr style="border: 1px solid black;">
           <td style="padding: 5px; border: 1px solid black;">${desiredAttributes['volume_growth_factor']}</td>
-          <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.volume_growth_factor}</td>
+          <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${sumObj.volume_growth_factor}</span> %</td>
         </tr>` +
         // Add the carbon_stored
         `<tr style="border: 1px solid black;">
