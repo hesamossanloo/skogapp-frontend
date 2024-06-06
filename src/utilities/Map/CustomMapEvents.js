@@ -58,6 +58,9 @@ export default function CustomMapEvents(props) {
     bontre_beskrivelse: 'Treslag',
     alder: 'Alder',
     arealm2: 'Areal (daa)',
+    volume_growth_factor: 'Årlig vekst %',
+    carbon_stored: 'CO2 lagret totalt',
+    carbon_captured_next_year: 'CO2 lagret årlig',
   };
 
   useEffect(() => {
@@ -76,8 +79,8 @@ export default function CustomMapEvents(props) {
     const sumObj = {};
     sumObj.title = 'Bestand';
 
+    // Multi polygon selection switch is selected
     if (multi && features[0] && features[0].properties) {
-      // Multi polygon selection switch is selected
       const joinedTeigBestNr = features
         .map((feature) => feature.properties.teig_best_nr)
         .join(', ');
@@ -97,17 +100,36 @@ export default function CustomMapEvents(props) {
       const joinedAlder = features
         .map((feature) => feature.properties.alder)
         .join(', ');
+      const joinedVolumeGrowthFactor = features
+        .map(
+          (feature) =>
+            Math.ceil(feature.properties.volume_growth_factor * 100) / 100
+        )
+        .join(', ');
       const totalArealM2 = features
         .map((feature) => parseInt(feature.properties.arealm2))
         .reduce((total, area) => total + area, 0);
+      const totaslCarbonStored = features
+        .map((feature) => parseInt(feature.properties.carbon_stored))
+        .reduce((total, co2) => total + co2, 0);
+      const totaslCarbonCapturedNextYear = features
+        .map((feature) =>
+          parseInt(feature.properties.carbon_captured_next_year)
+        )
+        .reduce((total, co2) => total + co2, 0);
 
       sumObj.teig_best_nr = joinedTeigBestNr;
       sumObj.hogstkl_verdi = joinedHogstklVerdi;
       sumObj.bonitet_beskrivelse = joinedBonitetBeskrivelse;
       sumObj.bontre_beskrivelse = joinedBontreBeskrivelse;
       sumObj.alder = joinedAlder;
+      sumObj.volume_growth_factor = joinedVolumeGrowthFactor;
+      sumObj.carbon_stored = Math.ceil(totaslCarbonStored * 100) / 100;
+      sumObj.carbon_captured_next_year =
+        Math.ceil(totaslCarbonCapturedNextYear * 100) / 100;
       sumObj.arealm2 = formatTheStringArealM2(totalArealM2);
 
+      // Caclulate the total volume and gross value based on the Furur and Gran CSV files
       const {
         standVolumeWMSDensityPerHectareWMS,
         standVolumeWMSDensityPerHectareMads,
@@ -196,6 +218,14 @@ export default function CustomMapEvents(props) {
 
         // Get the Alder
         sumObj.alder = properties.alder;
+        // Get the volume_growth_factor
+        sumObj.volume_growth_factor =
+          Math.ceil(properties.volume_growth_factor * 100) / 100;
+        // Get the carbon_stored
+        sumObj.carbon_stored = Math.ceil(properties.carbon_stored * 100) / 100;
+        // Get the carbon_captured_next_year
+        sumObj.carbon_captured_next_year =
+          Math.ceil(properties.carbon_captured_next_year * 100) / 100;
 
         // Add the additional row if hogstkl_verdi is 4 or 5
         if (
@@ -270,11 +300,26 @@ export default function CustomMapEvents(props) {
           <td style="padding: 5px; border: 1px solid black;">${desiredAttributes['alder']}</td>
           <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.alder}</td>
         </tr>` +
-        // Add the Tree counts
+        // Add the volume_growth_factor
         `<tr style="border: 1px solid black;">
-          <td style="padding: 5px; border: 1px solid black;">Antall trær</td>
-          <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.treeCounts}</td>
+          <td style="padding: 5px; border: 1px solid black;">${desiredAttributes['volume_growth_factor']}</td>
+          <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.volume_growth_factor}</td>
+        </tr>` +
+        // Add the carbon_stored
+        `<tr style="border: 1px solid black;">
+          <td style="padding: 5px; border: 1px solid black;">${desiredAttributes['carbon_stored']}</td>
+          <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.carbon_stored}</td>
+        </tr>` +
+        // Add the carbon_captured_next_year
+        `<tr style="border: 1px solid black;">
+          <td style="padding: 5px; border: 1px solid black;">${desiredAttributes['carbon_captured_next_year']}</td>
+          <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.carbon_captured_next_year}</td>
         </tr>`;
+      // // Add the Tree counts
+      // `<tr style="border: 1px solid black;">
+      //   <td style="padding: 5px; border: 1px solid black;">Antall trær</td>
+      //   <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.treeCounts}</td>
+      // </tr>`;
       if (
         sumObj.standVolumeWMSDensityPerHectareWMS &&
         sumObj.standVolumeWMSDensityPerHectareMads
