@@ -5,9 +5,9 @@ import {
   TREANTALL_PER_HEKTAR,
 } from 'variables/forest';
 
-export const formatTheStringArealM2 = (value) => {
-  const arealm2 = parseInt(value) / 1000;
-  return formatNumber(arealm2, 'nb-NO', 2); // Format with the decimal
+export const convertAndformatTheStringArealM2ToDAA = (arealM2) => {
+  const retArealm2 = parseInt(arealM2) / 1000;
+  return formatNumber(retArealm2, 'nb-NO', 2); // Format with the decimal
 };
 export const calculateVolumeAndGrossValue = (
   granCSVData,

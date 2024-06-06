@@ -6,8 +6,8 @@ import { CSV_URLS } from 'variables/forest';
 import useCsvData from './useCSVData';
 import {
   calculateVolumeAndGrossValue,
+  convertAndformatTheStringArealM2ToDAA,
   formatNumber,
-  formatTheStringArealM2,
   isPointInsidePolygon,
 } from './utililtyFunctions';
 
@@ -57,8 +57,8 @@ export default function CustomMapEvents(props) {
     bonitet_beskrivelse: 'Bonitet',
     bontre_beskrivelse: 'Treslag',
     alder: 'Alder',
-    arealm2: 'Areal (daa)',
-    volume_growth_factor: 'Årlig vekst %',
+    arealDAA: 'Areal',
+    volume_growth_factor: 'Årlig vekst',
     carbon_stored: 'CO2 lagret totalt',
     carbon_captured_next_year: 'CO2 lagret årlig',
   };
@@ -101,9 +101,12 @@ export default function CustomMapEvents(props) {
         .map((feature) => feature.properties.alder)
         .join(', ');
       const joinedVolumeGrowthFactor = features
-        .map(
-          (feature) =>
-            Math.ceil(feature.properties.volume_growth_factor * 100) / 100
+        .map((feature) =>
+          formatNumber(
+            feature.properties.volume_growth_factor * 100,
+            'nb-NO',
+            2
+          )
         )
         .join(', ');
       const totalArealM2 = features
@@ -124,10 +127,13 @@ export default function CustomMapEvents(props) {
       sumObj.bontre_beskrivelse = joinedBontreBeskrivelse;
       sumObj.alder = joinedAlder;
       sumObj.volume_growth_factor = joinedVolumeGrowthFactor;
-      sumObj.carbon_stored = Math.ceil(totaslCarbonStored * 100) / 100;
-      sumObj.carbon_captured_next_year =
-        Math.ceil(totaslCarbonCapturedNextYear * 100) / 100;
-      sumObj.arealm2 = formatTheStringArealM2(totalArealM2);
+      sumObj.carbon_stored = formatNumber(totaslCarbonStored, 'nb-NO', 2);
+      sumObj.carbon_captured_next_year = formatNumber(
+        totaslCarbonCapturedNextYear,
+        'nb-NO',
+        2
+      );
+      sumObj.arealDAA = convertAndformatTheStringArealM2ToDAA(totalArealM2);
 
       // Caclulate the total volume and gross value based on the Furur and Gran CSV files
       const {
@@ -213,19 +219,30 @@ export default function CustomMapEvents(props) {
         // Get the Treslag
         sumObj.bontre_beskrivelse = properties.bontre_beskrivelse;
 
-        // Calculate arealm2
-        sumObj.arealm2 = formatTheStringArealM2(properties.arealm2);
+        // Calculate arealDAA
+        sumObj.arealDAA = convertAndformatTheStringArealM2ToDAA(
+          properties.arealm2
+        );
 
         // Get the Alder
         sumObj.alder = properties.alder;
         // Get the volume_growth_factor
-        sumObj.volume_growth_factor =
-          Math.ceil(properties.volume_growth_factor * 100) / 100;
+        sumObj.volume_growth_factor = formatNumber(
+          properties.volume_growth_factor * 100,
+          'nb-NO',
+          2
+        );
         // Get the carbon_stored
-        sumObj.carbon_stored = Math.ceil(properties.carbon_stored * 100) / 100;
-        // Get the carbon_captured_next_year
-        sumObj.carbon_captured_next_year =
-          Math.ceil(properties.carbon_captured_next_year * 100) / 100;
+        sumObj.carbon_stored = formatNumber(
+          properties.carbon_stored,
+          'nb-NO',
+          2
+        ); // Get the carbon_captured_next_year
+        sumObj.carbon_captured_next_year = formatNumber(
+          properties.carbon_captured_next_year,
+          'nb-NO',
+          2
+        );
 
         // Add the additional row if hogstkl_verdi is 4 or 5
         if (
@@ -292,8 +309,8 @@ export default function CustomMapEvents(props) {
         </tr>` +
         // Add the ArealM2
         `<tr style="border: 1px solid black;">
-          <td style="padding: 5px; border: 1px solid black;">${desiredAttributes['arealm2']}</td>
-          <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.arealm2}</td>
+          <td style="padding: 5px; border: 1px solid black;">${desiredAttributes['arealDAA']}</td>
+          <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${sumObj.arealDAA}</span> (daa)</td>
         </tr>` +
         // Add the Alder
         `<tr style="border: 1px solid black;">
@@ -303,17 +320,17 @@ export default function CustomMapEvents(props) {
         // Add the volume_growth_factor
         `<tr style="border: 1px solid black;">
           <td style="padding: 5px; border: 1px solid black;">${desiredAttributes['volume_growth_factor']}</td>
-          <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.volume_growth_factor}</td>
+          <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${sumObj.volume_growth_factor}</span> %</td>
         </tr>` +
         // Add the carbon_stored
         `<tr style="border: 1px solid black;">
           <td style="padding: 5px; border: 1px solid black;">${desiredAttributes['carbon_stored']}</td>
-          <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.carbon_stored}</td>
+          <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${sumObj.carbon_stored}</span> KG</td>
         </tr>` +
         // Add the carbon_captured_next_year
         `<tr style="border: 1px solid black;">
           <td style="padding: 5px; border: 1px solid black;">${desiredAttributes['carbon_captured_next_year']}</td>
-          <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.carbon_captured_next_year}</td>
+          <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${sumObj.carbon_captured_next_year}</span> KG</td>
         </tr>`;
       // // Add the Tree counts
       // `<tr style="border: 1px solid black;">
