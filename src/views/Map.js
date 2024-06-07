@@ -437,6 +437,7 @@ function Map() {
             <WMSTileLayer
               url="https://services.geodataonline.no:443/arcgis/services/Geocache_UTM33_EUREF89/GeocacheBilder/MapServer/WMSServer"
               // url="https://xvkdluncc4.execute-api.eu-north-1.amazonaws.com/Prod/hello"
+              attribution="Images are from ca. May 2023"
               layers="0"
               format="image/jpeg"
               version="1.3.0"
