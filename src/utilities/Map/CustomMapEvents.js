@@ -416,12 +416,29 @@ export default function CustomMapEvents(props) {
         const clickedForest = forests.find(
           (forest) => forest.name === forestName
         );
+        let clickedOnGeoJSON = false;
+        map.eachLayer((layer) => {
+          if (layer instanceof L.GeoJSON) {
+            layer.eachLayer((feature) => {
+              if (
+                feature.feature.properties.DN &&
+                feature.getBounds().contains(e.latlng)
+              ) {
+                clickedOnGeoJSON = true;
+              }
+            });
+          }
+        });
+
         if (
           clickedForest &&
           isPointInsidePolygon(
             e.latlng,
             clickedForest.features[0].geometry.coordinates
-          )
+          ) &&
+          clickedOnGeoJSON &&
+          selectedVectorFeatureRef.current &&
+          selectedVectorFeatureRef.current.properties
         ) {
           // // The WMS expects the Query params to follow certain patterns. After
           // // analysing how QGIS made the WMS call, reverse engineered the call
