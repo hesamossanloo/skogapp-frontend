@@ -127,9 +127,15 @@ export default function CustomMapEvents(props) {
       sumObj.bontre_beskrivelse = joinedBontreBeskrivelse;
       sumObj.alder = joinedAlder;
       sumObj.volume_growth_factor = joinedVolumeGrowthFactor;
-      sumObj.carbon_stored = formatNumber(totaslCarbonStored, 'nb-NO', 2);
+      // Convert it to Tonn
+      sumObj.carbon_stored = formatNumber(
+        totaslCarbonStored / 1000,
+        'nb-NO',
+        2
+      );
+      // Convert it to Tonn
       sumObj.carbon_captured_next_year = formatNumber(
-        totaslCarbonCapturedNextYear,
+        totaslCarbonCapturedNextYear / 1000,
         'nb-NO',
         2
       );
@@ -232,14 +238,14 @@ export default function CustomMapEvents(props) {
           'nb-NO',
           2
         );
-        // Get the carbon_stored
+        // Get the carbon_stored and convert tit to Tonn
         sumObj.carbon_stored = formatNumber(
-          properties.carbon_stored,
+          properties.carbon_stored / 1000,
           'nb-NO',
           2
-        ); // Get the carbon_captured_next_year
+        ); // Get the carbon_captured_next_year and convert it to Tonn
         sumObj.carbon_captured_next_year = formatNumber(
-          properties.carbon_captured_next_year,
+          properties.carbon_captured_next_year / 1000,
           'nb-NO',
           2
         );
@@ -310,7 +316,10 @@ export default function CustomMapEvents(props) {
         // Add the ArealM2
         `<tr style="border: 1px solid black;">
           <td style="padding: 5px; border: 1px solid black;">${desiredAttributes['arealDAA']}</td>
-          <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${sumObj.arealDAA}</span> (daa)</td>
+          <td style="padding: 5px; display: flex; justify-content: space-between;">
+            <span style="font-weight: bold">${sumObj.arealDAA}</span>
+            <span>m^3</span>
+          </td>
         </tr>` +
         // Add the Alder
         `<tr style="border: 1px solid black;">
@@ -320,17 +329,26 @@ export default function CustomMapEvents(props) {
         // Add the volume_growth_factor
         `<tr style="border: 1px solid black;">
           <td style="padding: 5px; border: 1px solid black;">${desiredAttributes['volume_growth_factor']}</td>
-          <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${sumObj.volume_growth_factor}</span> %</td>
+          <td style="padding: 5px; display: flex; justify-content: space-between;">
+            <span style="font-weight: bold">${sumObj.volume_growth_factor}</span>
+            <span>%</span>
+          </td>
         </tr>` +
         // Add the carbon_stored
         `<tr style="border: 1px solid black;">
-          <td style="padding: 5px; border: 1px solid black;">${desiredAttributes['carbon_stored']}</td>
-          <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${sumObj.carbon_stored}</span> KG</td>
+            <td style="padding: 5px; border: 1px solid black;">${desiredAttributes['carbon_stored']}</td>
+            <td style="padding: 5px; display: flex; justify-content: space-between;">
+              <span style="font-weight: bold">${sumObj.carbon_stored}</span>
+              <span>T</span>
+            </td>
         </tr>` +
         // Add the carbon_captured_next_year
         `<tr style="border: 1px solid black;">
           <td style="padding: 5px; border: 1px solid black;">${desiredAttributes['carbon_captured_next_year']}</td>
-          <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${sumObj.carbon_captured_next_year}</span> KG</td>
+          <td style="padding: 5px; display: flex; justify-content: space-between;">
+            <span style="font-weight: bold">${sumObj.carbon_captured_next_year}</span>
+            <span>T</span>
+          </td>
         </tr>`;
       // // Add the Tree counts
       // `<tr style="border: 1px solid black;">
@@ -350,7 +368,10 @@ export default function CustomMapEvents(props) {
         content += `
         <tr style="border: 1px solid black;">
           <td style="padding: 5px; border: 1px solid black;">Tømmervolum</td>
-          <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.standVolumeMads, 'nb-NO', 1)}</span> m^3</td>
+          <td style="padding: 5px; display: flex; justify-content: space-between;">
+            <span style="font-weight: bold">${formatNumber(sumObj.standVolumeMads, 'nb-NO', 1)}</span>
+            <span>m^3</span>
+          </td>
         </tr>`;
         // Calculating the standVolumeWMS per decare (daa)
         // content += `
@@ -361,13 +382,19 @@ export default function CustomMapEvents(props) {
         content += `
         <tr style="border: 1px solid black;">
           <td style="padding: 5px; border: 1px solid black;">Tømmertetthet</td>
-          <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.standVolumeWMSDensityPerHectareMads / 10, 'nb-NO', 1)}</span> m^3/daa</td>
+          <td style="padding: 5px; display: flex; justify-content: space-between;">
+            <span style="font-weight: bold">${formatNumber(sumObj.standVolumeWMSDensityPerHectareMads / 10, 'nb-NO', 1)}</span>
+            <span>m^3/daa</span>
+          </td>
         </tr>`;
         // The price of the timber for a species
         content += `
         <tr style="border: 1px solid black;">
           <td style="padding: 5px; border: 1px solid black;">Forv. gj.sn pris per m^3</td>
-          <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.speciesPriceMads, 'nb-NO', 0)}</span> kr</td>
+          <td style="padding: 5px; display: flex; justify-content: space-between;">
+            <span style="font-weight: bold">${formatNumber(sumObj.speciesPriceMads, 'nb-NO', 0)}</span>
+            <span>kr</span>
+          </td>
         </tr>`;
         // We are showing the total volume
         // content += `
@@ -378,7 +405,10 @@ export default function CustomMapEvents(props) {
         content += `
         <tr style="border: 1px solid black;">
           <td style="padding: 5px; border: 1px solid black;">Forv. brutto verdi</td>
-          <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.totalESTGrossValueMads, 'nb-NO', 0)}</span> kr</td>
+          <td style="padding: 5px; display: flex; justify-content: space-between;">
+            <span style="font-weight: bold">${formatNumber(sumObj.totalESTGrossValueMads, 'nb-NO', 0)}</span>
+            <span>kr</span>
+          </td>
         </tr>`;
       }
       content += '</table>';
