@@ -33,24 +33,22 @@ const Accordion = ({ onChange, defaultOpen }) => {
     let sumV = 0;
     let sumWorth = 0;
     CSVFeatureInfosData.forEach((row) => {
-      const rowV = parseFloat(row.Volume) || 0;
+      const rowV = parseFloat(row.volume) || 0;
       if (mapFilter.HK5 && row.hogstkl_verdi === '5') {
         sumV += rowV;
 
-        if (row.bontre_beskrivelse === 'Bjørk / lauv') {
+        if (row.treslag === 'Bjørk / lauv') {
           sumWorth += rowV * (SPECIES_PRICES.LAU || 0);
         } else {
-          sumWorth +=
-            rowV * (SPECIES_PRICES[row.bontre_beskrivelse.toUpperCase()] || 0);
+          sumWorth += rowV * (SPECIES_PRICES[row.treslag.toUpperCase()] || 0);
         }
       }
       if (mapFilter.HK4 && row.hogstkl_verdi === '4') {
         sumV += rowV;
-        if (row.bontre_beskrivelse === 'Bjørk / lauv') {
+        if (row.treslag === 'Bjørk / lauv') {
           sumWorth += rowV * (SPECIES_PRICES.LAU || 0);
         } else {
-          sumWorth +=
-            rowV * (SPECIES_PRICES[row.bontre_beskrivelse.toUpperCase()] || 0);
+          sumWorth += rowV * (SPECIES_PRICES[row.treslag.toUpperCase()] || 0);
         }
       }
     });

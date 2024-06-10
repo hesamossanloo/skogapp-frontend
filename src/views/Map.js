@@ -95,7 +95,7 @@ function Map() {
             });
           } else {
             layer.setStyle({
-              color: 'transparent',
+              color: 'blue',
               weight: 1,
             });
           }
@@ -108,7 +108,7 @@ function Map() {
             });
           } else {
             layer.setStyle({
-              color: 'transparent',
+              color: 'blue',
               weight: 1,
             });
           }
@@ -229,6 +229,7 @@ function Map() {
     // Clear the array after resetting styles
     setDeselectPolygons(true);
   };
+
   return (
     <>
       <ForestSelector
