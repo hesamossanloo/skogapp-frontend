@@ -139,12 +139,14 @@ function Map() {
 
     geoJSONLayer.on({
       click: () => {
-        setClickedOnLine(forbideanAreas.includes(feature.properties.DN));
-        selectedVectorFeatureRef.current = feature;
-        setSelectedVectorFeature(feature);
-        clickedOnLineRef.current = forbideanAreas.includes(
-          feature.properties.DN
-        );
+        if (feature && feature.properties) {
+          setClickedOnLine(forbideanAreas.includes(feature.properties.DN));
+          selectedVectorFeatureRef.current = feature;
+          setSelectedVectorFeature(feature);
+          clickedOnLineRef.current = forbideanAreas.includes(
+            feature.properties.DN
+          );
+        }
         if (!clickedOnLineRef.current) {
           // If multiPolygonSelectRef.current is false, unhighlight the previous layer
           if (!multiPolygonSelectRef.current) {
