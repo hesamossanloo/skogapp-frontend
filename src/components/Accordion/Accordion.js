@@ -33,7 +33,7 @@ const Accordion = ({ onChange, defaultOpen }) => {
     let sumV = 0;
     let sumWorth = 0;
     CSVFeatureInfosData.forEach((row) => {
-      const rowV = parseFloat(row.Volume) || 0;
+      const rowV = parseFloat(row.volume) || 0;
       if (mapFilter.HK5 && row.hogstkl_verdi === '5') {
         sumV += rowV;
 
