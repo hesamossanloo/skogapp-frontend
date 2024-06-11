@@ -50,6 +50,7 @@ export default function CustomMapEvents(props) {
 
   const granCSVData = useCsvData(CSV_URLS.GRAN).data;
   const furuCSVData = useCsvData(CSV_URLS.FURU).data;
+  const CSVFeatureInfosData = useCsvData(CSV_URLS.FEATUREINFOS).data;
 
   const desiredAttributes = {
     teig_best_nr: 'Bestand nr',
@@ -158,6 +159,10 @@ export default function CustomMapEvents(props) {
             featProps.hogstkl_verdi === '4' ||
             featProps.hogstkl_verdi === '5'
           ) {
+            const foundFeatureCSVRow = CSVFeatureInfosData.find(
+              (row) => row.bestand_id === featProps.teig_best_nr
+            );
+
             const additionalRows = calculateVolumeAndGrossValue(
               granCSVData,
               furuCSVData,
@@ -166,9 +171,11 @@ export default function CustomMapEvents(props) {
             result.standVolumeWMSDensityPerHectareWMS +=
               additionalRows.standVolumeWMSDensityPerHectareWMS || 0;
             result.standVolumeWMSDensityPerHectareMads +=
-              parseFloat(featProps.Volume_per_hectare) || 0;
+              parseFloat(foundFeatureCSVRow.volume_per_hectare_without_bark) ||
+              0;
             result.standVolumeWMS += additionalRows.standVolumeWMS || 0;
-            result.standVolumeMads += parseFloat(featProps.Volume) || 0;
+            result.standVolumeMads +=
+              parseFloat(foundFeatureCSVRow.volume_without_bark) || 0;
             result.hardCodedSpeciesPrice =
               additionalRows.hardCodedSpeciesPrice || 0;
             result.speciesPriceMads = parseFloat(featProps.avg_price_m3) || 0;
@@ -196,7 +203,9 @@ export default function CustomMapEvents(props) {
       sumObj.standVolumeWMSDensityPerHectareMads =
         standVolumeWMSDensityPerHectareMads;
       sumObj.standVolumeWMS = standVolumeWMS;
+
       sumObj.standVolumeMads = standVolumeMads;
+
       sumObj.hardCodedSpeciesPrice = hardCodedSpeciesPrice;
       sumObj.speciesPriceMads = speciesPriceMads;
       sumObj.totalESTGrossValueWMS = totalESTGrossValueWMS;
@@ -266,15 +275,26 @@ export default function CustomMapEvents(props) {
             properties
           );
 
+          // TODO: ATM we are getting the data from the CSV file and not WMS
+          // in the future we need to either do it for all features or get it
+          // directly from the GeoJSON.
+          const foundFeatureCSVRow = CSVFeatureInfosData.find(
+            (row) => row.bestand_id === feature.properties.teig_best_nr
+          );
+
           // The tree density volume per stand
           sumObj.standVolumeWMSDensityPerHectareWMS =
             standVolumeWMSDensityPerHectareWMS;
           sumObj.standVolumeWMSDensityPerHectareMads = parseFloat(
-            feature.properties.Volume_per_hectare
+            foundFeatureCSVRow.volume_per_hectare_without_bark
           );
+          // sumObj.standVolumeWMSDensityPerHectareMads = parseFloat(
+          //   feature.properties.Volume_per_hectare
+          // );
           // The standVolumeWMS per decare (daa)
           sumObj.standVolumeWMS = standVolumeWMS;
-          sumObj.standVolumeMads = parseFloat(feature.properties.Volume);
+          sumObj.standVolumeMads = foundFeatureCSVRow.volume_without_bark;
+          // sumObj.standVolumeMads = parseFloat(feature.properties.Volume);
           // The price of the timber for a species
           sumObj.hardCodedSpeciesPrice = hardCodedSpeciesPrice;
           sumObj.speciesPriceMads = parseFloat(feature.properties.avg_price_m3);
@@ -382,7 +402,7 @@ export default function CustomMapEvents(props) {
         content += `
         <tr style="border: 1px solid black;">
           <td style="padding: 5px; border: 1px solid black;">Tømmertetthet</td>
-          <td style="padding: 5px; display: flex; justify-content: space-between;">
+          <td style="padding: 5px; display: flex; justify-content: space-between; min-width: 110px">
             <span style="font-weight: bold">${formatNumber(sumObj.standVolumeWMSDensityPerHectareMads / 10, 'nb-NO', 1)}</span>
             <span>m^3/daa</span>
           </td>
