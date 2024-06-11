@@ -318,7 +318,7 @@ export default function CustomMapEvents(props) {
           <td style="padding: 5px; border: 1px solid black;">${desiredAttributes['arealDAA']}</td>
           <td style="padding: 5px; display: flex; justify-content: space-between;">
             <span style="font-weight: bold">${sumObj.arealDAA}</span>
-            <span>m^3</span>
+            <span>daa</span>
           </td>
         </tr>` +
         // Add the Alder
