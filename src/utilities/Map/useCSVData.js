@@ -1,6 +1,5 @@
-// useCsvData.js
-import { useState, useEffect } from 'react';
 import Papa from 'papaparse';
+import { useEffect, useState } from 'react';
 
 const useCsvData = (url) => {
   const [data, setData] = useState([]);
@@ -11,13 +10,11 @@ const useCsvData = (url) => {
       try {
         const response = await fetch(url);
         if (!response.ok) throw new Error('Network response was not ok');
-        const reader = response.body.getReader();
-        const result = await reader.read();
-        const decoder = new TextDecoder('utf-8');
-        const csv = decoder.decode(result.value);
-        Papa.parse(csv, {
+        const text = await response.text(); // Directly read text instead of using a reader
+        Papa.parse(text, {
           complete: (results) => setData(results.data),
           header: true,
+          error: (err) => setError(err), // Handle parsing errors
         });
       } catch (error) {
         setError(error);
@@ -26,8 +23,9 @@ const useCsvData = (url) => {
     };
 
     fetchData();
-  }, [url]);
+  }, [url]); // Dependency array to re-fetch only when URL changes
 
   return { data, error };
 };
+
 export default useCsvData;
