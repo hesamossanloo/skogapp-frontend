@@ -182,7 +182,7 @@ export default function CustomMapEvents(props) {
             result.totalESTGrossValueWMS +=
               additionalRows.totalESTGrossValueWMS || 0;
             result.totalESTGrossValueMads +=
-              parseFloat(featProps.gross_value_standing_volume) || 0;
+              parseFloat(foundFeatureCSVRow.gross_value_standing_volume) || 0;
           }
           return result;
         },
@@ -302,7 +302,7 @@ export default function CustomMapEvents(props) {
           // The total volume
           sumObj.totalESTGrossValueWMS = totalESTGrossValueWMS;
           sumObj.totalESTGrossValueMads = parseFloat(
-            feature.properties.gross_value_standing_volume
+            foundFeatureCSVRow.gross_value_standing_volume
           );
         }
       }
