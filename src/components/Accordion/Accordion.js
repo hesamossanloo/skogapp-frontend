@@ -11,7 +11,7 @@ import {
 } from 'reactstrap';
 import useCsvData from 'utilities/Map/useCSVData';
 import { formatNumber } from 'utilities/Map/utililtyFunctions';
-import { CSV_URLS, SPECIES, SPECIES_PRICES } from 'variables/forest';
+import { CSV_URLS, SPECIES_PRICES } from 'variables/forest';
 
 const cardStyle = {
   background: 'transparent',
@@ -145,7 +145,7 @@ const Accordion = ({ onChange, defaultOpen }) => {
                 {formatNumber(Math.ceil(ESTGrossValue), 'nb-NO', 0)} kr
               </Label>
             </div>
-            <div
+            {/* <div
               style={{
                 display: 'flex',
                 justifyContent: 'space-between',
@@ -185,7 +185,7 @@ const Accordion = ({ onChange, defaultOpen }) => {
             >
               <Label style={labelStyle}>{SPECIES.LAU}</Label>
               <Label style={labelStyle}>{SPECIES_PRICES.LAU} kr</Label>
-            </div>
+            </div> */}
           </CardBody>
         </Card>
       </UncontrolledCollapse>
