@@ -53,7 +53,7 @@ function Map() {
   const [activeOverlay, setActiveOverlay] = useState({
     Teig: true,
     Stands: true,
-    WMSHogstklasser: false,
+    Skogbruksplan: false,
   });
 
   const forest1 = mapCoordinations.madsForestPosition;
@@ -239,7 +239,7 @@ function Map() {
       />
       <ToggleSwitch
         id="multiPolygon"
-        disabled={!activeOverlay['Stands'] && !activeOverlay['WMSHogstklasser']}
+        disabled={!activeOverlay['Stands'] && !activeOverlay['Skogbruksplan']}
         style={{
           position: 'absolute',
           top: 80,
@@ -318,10 +318,10 @@ function Map() {
               attribution='&copy; <a href="https://www.esri.com/">Esri</a> contributors'
             />
           </BaseLayer>
-          {/* WMSHogstklasser */}
+          {/* Skogbruksplan */}
           <Overlay
-            checked={activeOverlay['WMSHogstklasser']}
-            name="WMSHogstklasser"
+            checked={activeOverlay['Skogbruksplan']}
+            name="Skogbruksplan"
           >
             <LayerGroup>
               {selectedForest.name === 'forest1' && (
