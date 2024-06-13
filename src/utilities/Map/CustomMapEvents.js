@@ -8,12 +8,13 @@ import {
   calculateVolumeAndGrossValue,
   convertAndformatTheStringArealM2ToDAA,
   formatNumber,
-  isPointInsidePolygon,
+  isPointInsideTeig,
 } from './utililtyFunctions';
 
 CustomMapEvents.propTypes = {
   activeOverlay: PropTypes.shape({
     Teig: PropTypes.bool,
+    MIS: PropTypes.bool,
     Stands: PropTypes.bool,
     Skogbruksplan: PropTypes.bool,
   }).isRequired,
@@ -482,7 +483,7 @@ export default function CustomMapEvents(props) {
 
         if (
           clickedForest &&
-          isPointInsidePolygon(
+          isPointInsideTeig(
             e.latlng,
             clickedForest.features[0].geometry.coordinates
           ) &&
