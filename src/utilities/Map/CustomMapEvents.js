@@ -15,7 +15,7 @@ CustomMapEvents.propTypes = {
   activeOverlay: PropTypes.shape({
     Teig: PropTypes.bool,
     Stands: PropTypes.bool,
-    WMSHogstklasser: PropTypes.bool,
+    Skogbruksplan: PropTypes.bool,
   }).isRequired,
   setActiveOverlay: PropTypes.func.isRequired,
   setDeselectPolygons: PropTypes.func.isRequired,
@@ -452,7 +452,7 @@ export default function CustomMapEvents(props) {
       }
       if (
         !clickedOnLineRef.current &&
-        (activeOverlay['Stands'] || activeOverlay['WMSHogstklasser'])
+        (activeOverlay['Stands'] || activeOverlay['Skogbruksplan'])
       ) {
         // By default we are closing all the popups, in case there are any opens
         //  an then we will show the pop up after the new call to the WMS and once
@@ -560,7 +560,7 @@ export default function CustomMapEvents(props) {
       }));
     },
     overlayremove: async (e) => {
-      if (activeOverlay['Stands'] || activeOverlay['WMSHogstklasser']) {
+      if (activeOverlay['Stands'] || activeOverlay['Skogbruksplan']) {
         map.closePopup();
       }
     },
