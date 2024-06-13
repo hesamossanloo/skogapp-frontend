@@ -464,7 +464,7 @@ export default function CustomMapEvents(props) {
         // In this case I am passing in the Mad's forest Teig Polygon
         const forests = [madsTeig, bjoernTeig, knutTeig, akselTeig];
         const forestName = selectedForest.name;
-        const clickedForest = forests.find(
+        const chosenForest = forests.find(
           (forest) => forest.name === forestName
         );
         let clickedOnGeoJSON = false;
@@ -482,10 +482,10 @@ export default function CustomMapEvents(props) {
         });
 
         if (
-          clickedForest &&
+          chosenForest &&
           isPointInsideTeig(
             e.latlng,
-            clickedForest.features[0].geometry.coordinates
+            chosenForest.features[0].geometry.coordinates
           ) &&
           clickedOnGeoJSON &&
           selectedVectorFeatureRef.current &&
