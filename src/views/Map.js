@@ -52,6 +52,7 @@ L.Icon.Default.mergeOptions({
 function Map() {
   const [activeOverlay, setActiveOverlay] = useState({
     Teig: true,
+    MIS: true,
     Stands: true,
     Skogbruksplan: false,
   });
@@ -229,7 +230,6 @@ function Map() {
     // Clear the array after resetting styles
     setDeselectPolygons(true);
   };
-
   return (
     <>
       <ForestSelector
@@ -445,6 +445,17 @@ function Map() {
               format="image/jpeg"
               version="1.3.0"
               maxZoom={22}
+            />
+          </Overlay>
+          {/* MIS */}
+          <Overlay name="MIS" checked={activeOverlay['MIS']}>
+            <WMSTileLayer
+              url="https://wms.nibio.no/cgi-bin/mis"
+              layers="Livsmiljo_ikkeutvalgt,Livsmiljo,Hule_lauvtrar_punkt,Rikbarkstrar_alle,Trar_m_hengelav_alle,Bekkeklofter,Leirraviner,Rik_bakkevegetasjon,Brannflater,Gamle_trar,Eldre_lauvsuksesjon,Liggende_dod_ved,Staende_dod_ved,Nokkelbiotop,Bergvegger_alle"
+              language="nor"
+              format="image/png"
+              transparent={true}
+              version="1.3.0"
             />
           </Overlay>
         </LayersControl>
