@@ -14,6 +14,7 @@ import {
   calculateVolumeAndGrossValue,
   convertAndformatTheStringArealM2ToDAA,
   formatNumber,
+  isPointInsidePolygon,
   isPointInsideTeig,
 } from './utililtyFunctions';
 
@@ -518,7 +519,7 @@ export default function CustomMapEvents(props) {
       L.popup({ interactive: true })
         .setLatLng(e.latlng)
         .setContent(
-          '<h3 style="color: black; text-align: center;">This is not a Bestand!</h3>'
+          '<h5 style="color: black; text-align: center;">This is not a Bestand!</h5>'
         )
         .openOn(map);
     }
@@ -551,19 +552,27 @@ export default function CustomMapEvents(props) {
         const chosenForest = forests.find(
           (forest) => forest.name === forestName
         );
+        // Assuming leaflet-pip is already included in your project
         let clickedOnGeoJSON = false;
+
         map.eachLayer((layer) => {
           if (layer instanceof L.GeoJSON) {
+            // Check each feature in the GeoJSON layer
             layer.eachLayer((feature) => {
+              // Get the polygon from the feature
+              const polygon = feature.toGeoJSON();
+
               if (
-                feature.feature.properties.DN &&
-                feature.getBounds().contains(e.latlng)
+                polygon.properties.DN &&
+                isPointInsidePolygon(e.latlng, polygon.geometry.coordinates)
               ) {
                 clickedOnGeoJSON = true;
               }
             });
           }
         });
+
+        console.log(clickedOnGeoJSON); // Will log true if the clicked point is within any GeoJSON polygon with a DN property
 
         if (
           chosenForest &&
