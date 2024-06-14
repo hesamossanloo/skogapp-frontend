@@ -106,7 +106,12 @@ export const calculatestandVolumeWMSDensityPerHectareWMS = (
 
 export const isPointInsideTeig = (point, polygon) => {
   const turfPoint = turf.point([point.lng, point.lat]);
-  const turfPolygon = turf.multiPolygon(polygon);
+  const turfMultiPolygon = turf.multiPolygon(polygon);
+  return turf.booleanPointInPolygon(turfPoint, turfMultiPolygon);
+};
+export const isPointInsidePolygon = (point, polygon) => {
+  const turfPoint = turf.point([point.lng, point.lat]);
+  const turfPolygon = turf.polygon(polygon);
   return turf.booleanPointInPolygon(turfPoint, turfPolygon);
 };
 

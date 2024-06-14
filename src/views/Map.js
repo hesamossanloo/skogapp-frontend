@@ -77,7 +77,7 @@ function Map() {
   const previousGeoJSONLayersRef = useRef([]);
   const madsPolygonsRef = useRef(null);
 
-  // Handles the Map Filter states
+  // Handles the Map Filter states and the border colors
   useEffect(() => {
     // I want to get a specific geojson layer and update the styles of each feature
     const geoJsonLayer = madsPolygonsRef.current;
