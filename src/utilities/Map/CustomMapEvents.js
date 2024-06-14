@@ -1,10 +1,16 @@
 import L from 'leaflet';
+import { WMSGetFeatureInfo } from 'ol/format';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { useMap, useMapEvents } from 'react-leaflet';
-import { CSV_URLS } from 'variables/forest';
+import {
+  CSV_URLS,
+  MIS_BESTAND_IDs,
+  nibioGetFeatInfoMISBaseParams,
+} from 'variables/forest';
 import useCsvData from './useCSVData';
 import {
+  calculateBoundingBox,
   calculateVolumeAndGrossValue,
   convertAndformatTheStringArealM2ToDAA,
   formatNumber,
@@ -77,12 +83,20 @@ export default function CustomMapEvents(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [multiPolygonSelect, deselectPolygons]); // Dependency array includes multiPolygonSelect
 
-  const handleSkogbrukWMSFeatures = (e, features, map, multi) => {
+  const handleSkogbrukWMSFeatures = (e, features, map, multi, MISFeature) => {
     const sumObj = {};
     sumObj.title = 'Bestand';
+    const isMIS = MISFeature && MISFeature.length > 0;
+    isMIS && (sumObj.title = 'MIS Bestand');
+    isMIS && (sumObj.isMIS = true);
 
     // Multi polygon selection switch is selected
-    if (multi && features[0] && features[0].properties) {
+    if (
+      multi &&
+      features[0] &&
+      features[0].properties &&
+      features[0].properties.teig_best_nr
+    ) {
       const joinedTeigBestNr = features
         .map((feature) => feature.properties.teig_best_nr)
         .join(', ');
@@ -218,6 +232,7 @@ export default function CustomMapEvents(props) {
         features.length > 0 &&
         features[0] &&
         features[0].properties &&
+        features[0].properties.teig_best_nr &&
         !clickedOnLineRef.current
       ) {
         const feature = features[0];
@@ -308,7 +323,12 @@ export default function CustomMapEvents(props) {
         }
       }
     }
-    if (features.length > 0 && features[0] && features[0].properties) {
+    if (
+      features.length > 0 &&
+      features[0] &&
+      features[0].properties &&
+      features[0].properties.teig_best_nr
+    ) {
       let content =
         // Add the layer name as the title with black color and centered alignment
         `<h3 style="color: black; text-align: center;">${sumObj.title}</h3>` +
@@ -433,9 +453,73 @@ export default function CustomMapEvents(props) {
         </tr>`;
       }
       content += '</table>';
+
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = content;
+
+      if (sumObj.isMIS) {
+        const button = document.createElement('button');
+        button.textContent = 'You clicked on an MIS Bestand!';
+        button.style.padding = '10px 10px';
+        button.style.backgroundColor = '#ffc107';
+        button.style.border = 'none';
+        button.style.borderRadius = '4px';
+        button.style.color = 'white';
+
+        // Function to set the content with the new message and back button
+        const setNewContent = () => {
+          console.log('Button clicked'); // Debug log
+
+          const newContent = document.createElement('div');
+          const message = document.createElement('p');
+          message.textContent = 'Test';
+          message.style.color = 'black';
+          newContent.appendChild(message);
+
+          const backButton = document.createElement('button');
+          backButton.textContent = 'Go Back';
+          backButton.style.padding = '10px 10px';
+          backButton.style.backgroundColor = '#ffc107';
+          backButton.style.border = 'none';
+          backButton.style.borderRadius = '4px';
+          backButton.style.color = 'white';
+
+          backButton.addEventListener('click', function () {
+            console.log('Back button clicked'); // Debug log
+            openPopupWithContent(tempDiv);
+          });
+
+          newContent.appendChild(backButton);
+
+          openPopupWithContent(newContent);
+        };
+
+        // Add the event listener to the button
+        button.addEventListener('click', setNewContent);
+
+        tempDiv.appendChild(button);
+        content = tempDiv;
+      }
+
+      console.log(content); // Debug log for final content
+
+      // Function to open popup with given content
+      const openPopupWithContent = (popupContent) => {
+        L.popup({ interactive: true })
+          .setLatLng(e.latlng)
+          .setContent(popupContent)
+          .openOn(map);
+      };
+
+      // Open the popup with the modified content
+      openPopupWithContent(content);
+    }
+    if (!features[0].properties.teig_best_nr) {
       L.popup({ interactive: true })
         .setLatLng(e.latlng)
-        .setContent(content)
+        .setContent(
+          '<h3 style="color: black; text-align: center;">This is not a Bestand!</h3>'
+        )
         .openOn(map);
     }
   };
@@ -464,7 +548,7 @@ export default function CustomMapEvents(props) {
         // In this case I am passing in the Mad's forest Teig Polygon
         const forests = [madsTeig, bjoernTeig, knutTeig, akselTeig];
         const forestName = selectedForest.name;
-        const clickedForest = forests.find(
+        const chosenForest = forests.find(
           (forest) => forest.name === forestName
         );
         let clickedOnGeoJSON = false;
@@ -482,51 +566,59 @@ export default function CustomMapEvents(props) {
         });
 
         if (
-          clickedForest &&
+          chosenForest &&
           isPointInsideTeig(
             e.latlng,
-            clickedForest.features[0].geometry.coordinates
+            chosenForest.features[0].geometry.coordinates
           ) &&
           clickedOnGeoJSON &&
           selectedVectorFeatureRef.current &&
           selectedVectorFeatureRef.current.properties
         ) {
-          // // The WMS expects the Query params to follow certain patterns. After
-          // // analysing how QGIS made the WMS call, reverse engineered the call
-          // // and here we are building one of those params, i.e. BBOX, size.x, size.y and the CRS
-          // const { CRS, size, BBOX } = calculateBoundingBox(map);
-          // // The params should be in uppercase, unless the WMS won't accept it
-          // const params = {
-          //   ...nibioGetFeatInfoBaseParams,
-          //   BBOX,
-          //   CRS,
-          //   WIDTH: size.x,
-          //   HEIGHT: size.y,
-          //   I: Math.round(e.containerPoint.x),
-          //   J: Math.round(e.containerPoint.y),
-          // };
-          // const url = `https://wms.nibio.no/cgi-bin/skogbruksplan?${new URLSearchParams(params).toString()}`;
-          // const response = await fetch(url);
-          // const data = await response.text();
-          // const format = new WMSGetFeatureInfo();
-          // const newFeatures = format.readFeatures(data);
-
+          let MISClickedFeatureInfos;
           // In case the selected feature is already in the array,
           // which means the user has clicked on it before, we don't
           // need to add it to the array. That's why we check if the teigBestNr
           // already exists or not!
           // const teigBestNrLastSelected = newFeatures[0]?.properties?.teig_best_nr;
+
           const teigBestNrLastSelected =
             selectedVectorFeatureRef.current.properties.teig_best_nr;
+          if (
+            activeOverlay['MIS'] &&
+            MIS_BESTAND_IDs.indexOf(teigBestNrLastSelected) > -1
+          ) {
+            // Preparing the request to GetFeatreInfo for MIS WMS
+            // The NIBIO WMS expects the Query params to follow certain patterns. After
+            // analysing how QGIS made the WMS call, reverse engineered the call
+            // and here we are building one of those params, i.e. BBOX, size.x, size.y and the CRS
+            const { CRS, size, BBOX } = calculateBoundingBox(map);
+            // The params should be in uppercase, unless the WMS won't accept it
+            const params = {
+              ...nibioGetFeatInfoMISBaseParams,
+              BBOX,
+              CRS,
+              WIDTH: size.x,
+              HEIGHT: size.y,
+              I: Math.round(e.containerPoint.x),
+              J: Math.round(e.containerPoint.y),
+            };
+            const url = `https://wms.nibio.no/cgi-bin/mis?${new URLSearchParams(params).toString()}`;
+            const response = await fetch(url);
+            const data = await response.text();
+            const WMSFeatureInfoRaw = new WMSGetFeatureInfo();
+            MISClickedFeatureInfos = WMSFeatureInfoRaw.readFeatures(data);
+          }
 
           // Reset selected features if not in multiPolygonSelect mode
-          if (!multiPolygonSelect) {
+          if (!multiPolygonSelect && clickedOnGeoJSON) {
             setSelectedFeatures([selectedVectorFeatureRef.current]); // Only the last selected feature is kept
             handleSkogbrukWMSFeatures(
               e,
               [selectedVectorFeatureRef.current],
               map,
-              false
+              multiPolygonSelect,
+              MISClickedFeatureInfos
             );
           } else {
             if (
@@ -534,7 +626,8 @@ export default function CustomMapEvents(props) {
               !selectedFeatures.some(
                 (feature) =>
                   feature.properties?.teig_best_nr === teigBestNrLastSelected
-              )
+              ) &&
+              clickedOnGeoJSON
             ) {
               // Add to selected features for multi selection mode
               setSelectedFeatures([
@@ -545,10 +638,17 @@ export default function CustomMapEvents(props) {
                 e,
                 selectedFeatures.concat([selectedVectorFeatureRef.current]),
                 map,
-                true
+                multiPolygonSelect,
+                MISClickedFeatureInfos
               );
             } else {
-              handleSkogbrukWMSFeatures(e, selectedFeatures, map, true);
+              handleSkogbrukWMSFeatures(
+                e,
+                selectedFeatures,
+                map,
+                multiPolygonSelect,
+                MISClickedFeatureInfos
+              );
             }
           }
         }
