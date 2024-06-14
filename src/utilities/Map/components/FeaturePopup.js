@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Popup } from 'react-leaflet';
 
 const FeaturePopup = ({ activeFeature, setActiveFeature, activeOverlay }) => {
-  if (!activeFeature.properties.DN) {
+  if (!activeFeature.properties.teig_best_nr) {
     const activeOverlayNames = Object.keys(activeOverlay).filter(
       (key) => activeOverlay[key] === true
     );

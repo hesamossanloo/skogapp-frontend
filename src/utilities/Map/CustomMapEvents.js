@@ -527,18 +527,38 @@ export default function CustomMapEvents(props) {
 
   useMapEvents({
     click: async (e) => {
-      // Handle Clicks on Mads Forest
-      if (clickedOnLineRef.current) {
+      // Assuming leaflet-pip is already included in your project
+      let clickedOnHKGeoJSON = false;
+
+      map.eachLayer((layer) => {
+        if (layer instanceof L.GeoJSON) {
+          // Check each feature in the GeoJSON layer
+          layer.eachLayer((feature) => {
+            // Get the polygon from the feature
+            const polygon = feature.toGeoJSON();
+
+            if (
+              polygon.properties.teig_best_nr &&
+              isPointInsidePolygon(e.latlng, polygon.geometry.coordinates)
+            ) {
+              clickedOnHKGeoJSON = true;
+            }
+          });
+        }
+      });
+
+      if (clickedOnLineRef.current || !clickedOnHKGeoJSON) {
         L.popup({ interactive: true })
           .setLatLng(e.latlng)
           .setContent(
-            '<h3 style="color: black; text-align: center;">This is not a Bestand!</h3>'
+            '<h5 style="color: black; text-align: center;">This is not a Bestand!</h5>'
           )
           .openOn(map);
       }
       if (
         !clickedOnLineRef.current &&
-        (activeOverlay['Stands'] || activeOverlay['Skogbruksplan'])
+        (activeOverlay['Stands'] || activeOverlay['Skogbruksplan']) &&
+        clickedOnHKGeoJSON
       ) {
         // By default we are closing all the popups, in case there are any opens
         //  an then we will show the pop up after the new call to the WMS and once
@@ -552,27 +572,6 @@ export default function CustomMapEvents(props) {
         const chosenForest = forests.find(
           (forest) => forest.name === forestName
         );
-        // Assuming leaflet-pip is already included in your project
-        let clickedOnGeoJSON = false;
-
-        map.eachLayer((layer) => {
-          if (layer instanceof L.GeoJSON) {
-            // Check each feature in the GeoJSON layer
-            layer.eachLayer((feature) => {
-              // Get the polygon from the feature
-              const polygon = feature.toGeoJSON();
-
-              if (
-                polygon.properties.DN &&
-                isPointInsidePolygon(e.latlng, polygon.geometry.coordinates)
-              ) {
-                clickedOnGeoJSON = true;
-              }
-            });
-          }
-        });
-
-        console.log(clickedOnGeoJSON); // Will log true if the clicked point is within any GeoJSON polygon with a DN property
 
         if (
           chosenForest &&
@@ -580,7 +579,6 @@ export default function CustomMapEvents(props) {
             e.latlng,
             chosenForest.features[0].geometry.coordinates
           ) &&
-          clickedOnGeoJSON &&
           selectedVectorFeatureRef.current &&
           selectedVectorFeatureRef.current.properties
         ) {
@@ -620,7 +618,7 @@ export default function CustomMapEvents(props) {
           }
 
           // Reset selected features if not in multiPolygonSelect mode
-          if (!multiPolygonSelect && clickedOnGeoJSON) {
+          if (!multiPolygonSelect) {
             setSelectedFeatures([selectedVectorFeatureRef.current]); // Only the last selected feature is kept
             handleSkogbrukWMSFeatures(
               e,
@@ -635,8 +633,7 @@ export default function CustomMapEvents(props) {
               !selectedFeatures.some(
                 (feature) =>
                   feature.properties?.teig_best_nr === teigBestNrLastSelected
-              ) &&
-              clickedOnGeoJSON
+              )
             ) {
               // Add to selected features for multi selection mode
               setSelectedFeatures([
