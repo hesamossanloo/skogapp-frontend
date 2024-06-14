@@ -140,12 +140,14 @@ function Map() {
 
     geoJSONLayer.on({
       click: () => {
-        if (feature && feature.properties) {
-          setClickedOnLine(forbideanAreas.includes(feature.properties.DN));
+        if (feature && feature.properties && feature.properties.teig_best_nr) {
+          setClickedOnLine(
+            forbideanAreas.includes(feature.properties.teig_best_nr)
+          );
           selectedVectorFeatureRef.current = feature;
           setSelectedVectorFeature(feature);
           clickedOnLineRef.current = forbideanAreas.includes(
-            feature.properties.DN
+            feature.properties.teig_best_nr
           );
         }
         if (!clickedOnLineRef.current) {
