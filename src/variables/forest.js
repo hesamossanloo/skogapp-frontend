@@ -16,7 +16,7 @@ export const mapCoordinations = {
   norwayPosition: [59.9139, 10.7522], // Coordinates for Oslo, Norway
 };
 
-export const nibioGetFeatInfoBaseParams = {
+export const nibioGetFeatInfoHKBaseParams = {
   language: 'nor',
   SERVICE: 'WMS',
   VERSION: '1.3.0',
@@ -28,13 +28,35 @@ export const nibioGetFeatInfoBaseParams = {
   INFO_FORMAT: 'application/vnd.ogc.gml', // text/html, application/vnd.ogc.gml, text/plain
   FEATURE_COUNT: 10,
 };
+export const nibioGetFeatInfoMISBaseParams = {
+  language: 'nor',
+  SERVICE: 'WMS',
+  LAYERS:
+    'Livsmiljo_ikkeutvalgt,Livsmiljo,Hule_lauvtrar_punkt,Rikbarkstrar_alle,Trar_m_hengelav_alle,Bekkeklofter,Leirraviner,Rik_bakkevegetasjon,Brannflater,Gamle_trar,Eldre_lauvsuksesjon,Liggende_dod_ved,Staende_dod_ved,Nokkelbiotop,Bergvegger_alle',
+  VERSION: '1.3.0',
+  REQUEST: 'GetFeatureInfo',
+  STYLES: '',
+  FORMAT: 'image/png',
+  QUERY_LAYERS:
+    'Livsmiljo_ikkeutvalgt,Livsmiljo,Hule_lauvtrar_punkt,Rikbarkstrar_alle,Trar_m_hengelav_alle,Bekkeklofter,Leirraviner,Rik_bakkevegetasjon,Brannflater,Gamle_trar,Eldre_lauvsuksesjon,Liggende_dod_ved,Staende_dod_ved,Nokkelbiotop,Bergvegger_alle',
+  INFO_FORMAT: 'application/vnd.ogc.gml', // text/html, application/vnd.ogc.gml, text/plain
+  FEATURE_COUNT: 10,
+};
 
 export const CSV_URLS = {
   GRAN: '/csvs/gran.csv',
   FURU: '/csvs/furu.csv',
   FEATUREINFOS: '/csvs/featureInfos.csv',
 };
-
+export const MIS_BESTAND_IDs = [
+  '1-298',
+  '1-248',
+  '1-207',
+  '1-217',
+  '1-251',
+  '1-26',
+  '1-161',
+];
 export const TREANTALL_PER_HEKTAR = 200;
 
 export const SPECIES = {
