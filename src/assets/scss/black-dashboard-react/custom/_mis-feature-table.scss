@@ -1,0 +1,61 @@
+.mis-collapsible {
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+}
+
+.mis-collapsible::before {
+  content: '\25B6'; /* Right-pointing triangle */
+  display: inline-block;
+  margin-right: 10px;
+  transition: transform 0.3s;
+}
+
+.mis-collapsible.active::before {
+  transform: rotate(90deg); /* Down-pointing triangle */
+}
+
+.mis-feature-table {
+  margin-top: 10px;
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed; /* Ensures fixed layout for table cells */
+}
+
+.mis-feature-table td,
+.mis-feature-table th {
+  border: 1px solid black;
+  padding: 5px;
+  word-wrap: break-word;
+  white-space: normal; /* Ensures text wraps within the cell */
+}
+
+.mis-feature-table th {
+  background-color: #f2f2f2;
+}
+
+.mis-popup-content {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.mis-popup-inner {
+  display: flex;
+  flex-direction: column;
+  max-height: 500px;
+}
+
+.mis-content-scrollable {
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.mis-back-button-container {
+  flex-shrink: 0; /* Prevent the button container from shrinking */
+  margin-top: auto; /* Push the button to the bottom */
+}
+
+.mis-collapsible-row {
+  margin-bottom: 10px; /* Adds 10px space between collapsible rows */
+}

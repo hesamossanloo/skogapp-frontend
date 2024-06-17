@@ -220,3 +220,29 @@ export const calculteSpeciesBasedPrice = (species, volume) => {
     hardcodedSpeciesPrice,
   };
 };
+
+export const WFSFeatureLayerNamefromXML = (xml) => {
+  // Assuming `data` is your XML string
+  const parser = new DOMParser();
+  const xmlDoc = parser.parseFromString(xml, 'text/xml');
+
+  // Find all <gml:name> elements
+  const nameElements = xmlDoc.querySelectorAll('name');
+
+  // Initialize an array to hold the layer names for each feature
+  const layerNames = [];
+
+  // Iterate over each <gml:name> element
+  nameElements.forEach((nameEl) => {
+    // Extract the layer name
+    const layerName = nameEl.textContent;
+
+    // Optionally, find the parent feature element of this <gml:name>
+    // This step depends on the structure of your XML and how you need to associate names with features
+    // For demonstration, we're just collecting names
+    layerNames.push(layerName);
+  });
+  // Now, `layerNames` contains all the layer names extracted from the XML
+  // You can associate these names with your features accordingly
+  return layerNames;
+};
