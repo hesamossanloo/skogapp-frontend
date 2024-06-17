@@ -7,6 +7,7 @@ import {
   CSV_URLS,
   MIS_BESTAND_IDs,
   nibioGetFeatInfoMISBaseParams,
+  unwantedMISFeatureKeys,
 } from 'variables/forest';
 import useCsvData from './useCSVData';
 import {
@@ -16,6 +17,7 @@ import {
   formatNumber,
   isPointInsidePolygon,
   isPointInsideTeig,
+  WFSFeatureLayerNamefromXML,
 } from './utililtyFunctions';
 
 CustomMapEvents.propTypes = {
@@ -455,54 +457,117 @@ export default function CustomMapEvents(props) {
       }
       content += '</table>';
 
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = content;
+      const MISConetntDiv = document.createElement('div');
+      MISConetntDiv.className = 'mis-popup-content';
+      MISConetntDiv.innerHTML = content;
 
       if (sumObj.isMIS) {
-        const button = document.createElement('button');
-        button.textContent = 'You clicked on an MIS Bestand!';
-        button.style.padding = '10px 10px';
-        button.style.backgroundColor = '#ffc107';
-        button.style.border = 'none';
-        button.style.borderRadius = '4px';
-        button.style.color = 'white';
+        const MISButton = document.createElement('button');
+        MISButton.textContent = 'View MIS Content!';
+        MISButton.style.padding = '10px 10px';
+        MISButton.style.backgroundColor = '#ffc107';
+        MISButton.style.border = 'none';
+        MISButton.style.borderRadius = '4px';
+        MISButton.style.color = 'white';
 
-        // Function to set the content with the new message and back button
-        const setNewContent = () => {
-          console.log('Button clicked'); // Debug log
+        // Function to create collapsible content
+        const createCollapsibleContent = () => {
+          const popup = document.querySelector(
+            '.leaflet-popup-content-wrapper'
+          );
+          const originalWidth = popup.offsetWidth;
+          const originalHeight = popup.offsetHeight;
 
-          const newContent = document.createElement('div');
-          const message = document.createElement('p');
-          message.textContent = 'Test';
-          message.style.color = 'black';
-          newContent.appendChild(message);
+          // Capture the original header
+          const originalHeader = MISConetntDiv.querySelector('h3').outerHTML;
 
-          const backButton = document.createElement('button');
-          backButton.textContent = 'Go Back';
-          backButton.style.padding = '10px 10px';
-          backButton.style.backgroundColor = '#ffc107';
-          backButton.style.border = 'none';
-          backButton.style.borderRadius = '4px';
-          backButton.style.color = 'white';
+          const MISContent = document.createElement('div');
+          MISContent.className = 'mis-popup-inner';
 
-          backButton.addEventListener('click', function () {
-            console.log('Back button clicked'); // Debug log
-            openPopupWithContent(tempDiv);
+          // Insert the original header
+          MISContent.innerHTML = originalHeader;
+
+          MISContent.style.width = `${originalWidth}px`;
+          MISContent.style.height = `${originalHeight}px`;
+          MISContent.style.overflowY = 'auto';
+
+          const MISCollapsibleContainer = document.createElement('div');
+          MISCollapsibleContainer.className = 'mis-content-scrollable';
+
+          MISFeature.forEach((feature, index) => {
+            const MISFeatureDiv = document.createElement('div');
+            MISFeatureDiv.className = 'mis-collapsible-row'; // Adds 10px space between rows
+
+            const header = document.createElement('div');
+            header.className = 'mis-collapsible';
+            header.textContent = `Layer: ${feature.layerName}`;
+            header.addEventListener('click', () => {
+              header.classList.toggle('active');
+              MISFeatureDetails.style.display =
+                MISFeatureDetails.style.display === 'none' ? 'table' : 'none';
+            });
+
+            const MISFeatureDetails = document.createElement('table');
+            MISFeatureDetails.className = 'mis-feature-table';
+            MISFeatureDetails.style.display = 'none';
+
+            const MISFeatureProperties = feature.getProperties();
+            for (const key in MISFeatureProperties) {
+              if (
+                MISFeatureProperties.hasOwnProperty(key) &&
+                MISFeatureProperties[key] &&
+                unwantedMISFeatureKeys.indexOf(key) === -1
+              ) {
+                const row = document.createElement('tr');
+
+                const cellKey = document.createElement('td');
+                cellKey.textContent = key;
+                cellKey.style.color = 'black';
+                row.appendChild(cellKey);
+
+                const cellValue = document.createElement('td');
+                cellValue.textContent = MISFeatureProperties[key];
+                cellValue.style.color = 'black';
+                row.appendChild(cellValue);
+
+                MISFeatureDetails.appendChild(row);
+              }
+            }
+
+            MISFeatureDiv.appendChild(header);
+            MISFeatureDiv.appendChild(MISFeatureDetails);
+            MISCollapsibleContainer.appendChild(MISFeatureDiv);
           });
 
-          newContent.appendChild(backButton);
+          MISContent.appendChild(MISCollapsibleContainer);
 
-          openPopupWithContent(newContent);
+          const MISBackButtonContainer = document.createElement('div');
+          MISBackButtonContainer.className = 'mis-back-button-container';
+
+          const MISBackButton = document.createElement('button');
+          MISBackButton.textContent = 'Go Back';
+          MISBackButton.style.padding = '10px 10px';
+          MISBackButton.style.backgroundColor = '#ffc107';
+          MISBackButton.style.border = 'none';
+          MISBackButton.style.borderRadius = '4px';
+          MISBackButton.style.color = 'white';
+
+          MISBackButton.addEventListener('click', () => {
+            openPopupWithContent(MISConetntDiv);
+          });
+
+          MISBackButtonContainer.appendChild(MISBackButton);
+          MISContent.appendChild(MISBackButtonContainer);
+
+          openPopupWithContent(MISContent);
         };
 
         // Add the event listener to the button
-        button.addEventListener('click', setNewContent);
+        MISButton.addEventListener('click', createCollapsibleContent);
 
-        tempDiv.appendChild(button);
-        content = tempDiv;
+        MISConetntDiv.appendChild(MISButton);
+        content = MISConetntDiv;
       }
-
-      console.log(content); // Debug log for final content
 
       // Function to open popup with given content
       const openPopupWithContent = (popupContent) => {
@@ -515,6 +580,7 @@ export default function CustomMapEvents(props) {
       // Open the popup with the modified content
       openPopupWithContent(content);
     }
+
     if (!features[0].properties.teig_best_nr) {
       L.popup({ interactive: true })
         .setLatLng(e.latlng)
@@ -614,7 +680,21 @@ export default function CustomMapEvents(props) {
             const response = await fetch(url);
             const data = await response.text();
             const WMSFeatureInfoRaw = new WMSGetFeatureInfo();
+            const layerNames = WFSFeatureLayerNamefromXML(data);
             MISClickedFeatureInfos = WMSFeatureInfoRaw.readFeatures(data);
+            // Assuming layerNames is an array of strings and MISClickedFeatureInfos is an array of objects
+            if (layerNames.length === MISClickedFeatureInfos.length) {
+              // Loop through each feature info
+              MISClickedFeatureInfos.forEach((featureInfo, index) => {
+                // Assign the corresponding layer name from layerNames to this feature info
+                // Assuming you're adding a new property 'layerName' to each feature info object
+                featureInfo.layerName = layerNames[index];
+              });
+            } else {
+              console.error(
+                'The count of layerNames does not match the count of MISClickedFeatureInfos'
+              );
+            }
           }
 
           // Reset selected features if not in multiPolygonSelect mode

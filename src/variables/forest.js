@@ -100,3 +100,5 @@ export const forbideanAreas = [
   268, 321, 137, 218, 285, 310, 312, 316, 317, 299, 294, 381, 109, 105, 82, 362,
   395,
 ];
+
+export const unwantedMISFeatureKeys = ['boundedBy', 'uuid_tekst', 'ogc_fid'];

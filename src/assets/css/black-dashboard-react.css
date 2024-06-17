@@ -16221,6 +16221,40 @@ textarea.form-control {
   margin: 2px;
 }
 
+.collapsible {
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+}
+
+.collapsible::before {
+  content: "▶"; /* Right-pointing triangle */
+  display: inline-block;
+  margin-right: 10px;
+  transition: transform 0.3s;
+}
+
+.collapsible.active::before {
+  transform: rotate(90deg); /* Down-pointing triangle */
+}
+
+.feature-table {
+  margin-top: 10px;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.feature-table td,
+.feature-table th {
+  border: 1px solid black;
+  padding: 5px;
+}
+
+.feature-table th {
+  background-color: #f2f2f2;
+}
+
 /*
  * Container style
  */
