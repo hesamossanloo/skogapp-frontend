@@ -3,7 +3,6 @@ import logo from 'assets/img/favicon.png';
 import Footer from 'components/Footer/Footer.js';
 import AdminNavbar from 'components/Navbars/AdminNavbar.js';
 import Sidebar from 'components/Sidebar/Sidebar.js';
-import { useAuth } from 'contexts/AuthContext';
 import { BackgroundColorContext } from 'contexts/BackgroundColorContext';
 import { MapFilterProvider } from 'contexts/MapFilterContext';
 import PerfectScrollbar from 'perfect-scrollbar';
@@ -19,7 +18,6 @@ function Admin(props) {
   const [sidebarOpened, setsidebarOpened] = React.useState(
     document.documentElement.className.indexOf('nav-open') !== -1
   );
-  const { currentUser, logout } = useAuth();
 
   React.useEffect(() => {
     if (navigator.platform.indexOf('Win') > -1) {
@@ -102,7 +100,6 @@ function Admin(props) {
                   brandText={getBrandText(location.pathname)}
                   toggleSidebar={toggleSidebar}
                   sidebarOpened={sidebarOpened}
-                  logout={logout}
                 />
                 <Routes>
                   {getRoutes(routes)}
