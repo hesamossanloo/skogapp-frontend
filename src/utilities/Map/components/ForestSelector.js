@@ -8,7 +8,7 @@ import {
 
 const DDStyle = {
   position: 'absolute',
-  top: 10,
+  top: 75,
   right: 10,
   zIndex: 9999,
 };

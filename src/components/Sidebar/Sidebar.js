@@ -70,7 +70,7 @@ function Sidebar(props) {
           onClick={props.toggleSidebar}
         >
           <div className="logo-img">
-            <img src={logo.imgSrc} alt="react-logo" />
+            <img src={logo.imgSrc} alt="SkogApp-logo" />
           </div>
         </a>
       );

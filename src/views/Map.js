@@ -244,7 +244,7 @@ function Map() {
         disabled={!activeOverlay['Stands'] && !activeOverlay['Skogbruksplan']}
         style={{
           position: 'absolute',
-          top: 80,
+          top: 125,
           right: 10,
           zIndex: 9999,
         }}
@@ -258,7 +258,7 @@ function Map() {
           zIndex: '10',
           position: 'fixed',
           right: '10px',
-          top: '120px',
+          top: '160px',
           width: '115px',
           padding: '10px 0 10px 0',
         }}

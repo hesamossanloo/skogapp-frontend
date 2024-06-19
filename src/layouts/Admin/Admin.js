@@ -1,35 +1,15 @@
-/*!
-
-=========================================================
-* Black Dashboard React v1.2.2
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/black-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/black-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-import React from 'react';
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
-// javascript plugin used to create scrollbars on windows
-import PerfectScrollbar from 'perfect-scrollbar';
-
-// core components
+// src/layouts/Admin/Admin.js
+import logo from 'assets/img/favicon.png';
 import Footer from 'components/Footer/Footer.js';
 import AdminNavbar from 'components/Navbars/AdminNavbar.js';
 import Sidebar from 'components/Sidebar/Sidebar.js';
-
-import routes from 'routes.js';
-
-import logo from 'assets/img/favicon.png';
+import { useAuth } from 'contexts/AuthContext';
 import { BackgroundColorContext } from 'contexts/BackgroundColorContext';
 import { MapFilterProvider } from 'contexts/MapFilterContext';
+import PerfectScrollbar from 'perfect-scrollbar';
+import React from 'react';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import routes from 'routes.js';
 
 var ps;
 
@@ -39,6 +19,8 @@ function Admin(props) {
   const [sidebarOpened, setsidebarOpened] = React.useState(
     document.documentElement.className.indexOf('nav-open') !== -1
   );
+  const { currentUser, logout } = useAuth();
+
   React.useEffect(() => {
     if (navigator.platform.indexOf('Win') > -1) {
       document.documentElement.className += ' perfect-scrollbar-on';
@@ -51,7 +33,6 @@ function Admin(props) {
         ps = new PerfectScrollbar(tables[i]);
       }
     }
-    // Specify how to clean up after this effect:
     return function cleanup() {
       if (navigator.platform.indexOf('Win') > -1) {
         ps.destroy();
@@ -60,6 +41,7 @@ function Admin(props) {
       }
     };
   });
+
   React.useEffect(() => {
     if (navigator.platform.indexOf('Win') > -1) {
       let tables = document.querySelectorAll('.table-responsive');
@@ -73,11 +55,12 @@ function Admin(props) {
       mainPanelRef.current.scrollTop = 0;
     }
   }, [location]);
-  // this function opens and closes the sidebar on small devices
+
   const toggleSidebar = () => {
     document.documentElement.classList.toggle('nav-open');
     setsidebarOpened(!sidebarOpened);
   };
+
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
       if (prop.layout === '/admin') {
@@ -89,6 +72,7 @@ function Admin(props) {
       }
     });
   };
+
   const getBrandText = (path) => {
     for (let i = 0; i < routes.length; i++) {
       if (location.pathname.indexOf(routes[i].layout + routes[i].path) !== -1) {
@@ -97,6 +81,7 @@ function Admin(props) {
     }
     return 'Brand';
   };
+
   return (
     <BackgroundColorContext.Consumer>
       {({ color, changeColor }) => (
@@ -117,6 +102,7 @@ function Admin(props) {
                   brandText={getBrandText(location.pathname)}
                   toggleSidebar={toggleSidebar}
                   sidebarOpened={sidebarOpened}
+                  logout={logout}
                 />
                 <Routes>
                   {getRoutes(routes)}
@@ -125,10 +111,7 @@ function Admin(props) {
                     element={<Navigate to="/admin/map" replace />}
                   />
                 </Routes>
-                {
-                  // we don't want the Footer to be rendered on map page
-                  location.pathname === '/admin/map' ? null : <Footer fluid />
-                }
+                {location.pathname === '/admin/map' ? null : <Footer fluid />}
               </div>
             </MapFilterProvider>
           </div>
