@@ -21,7 +21,9 @@ import { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
 // reactstrap components
+import { useAuth } from 'contexts/AuthContext';
 import {
+  Button,
   Collapse,
   Container,
   Nav,
@@ -34,6 +36,7 @@ function AdminNavbar(props) {
   const [collapseOpen, setcollapseOpen] = useState(false);
   const [isMapInUrl, setIsMapInUrl] = useState(false);
   const [color, setcolor] = useState('navbar-map');
+  const { currentUser, logout } = useAuth();
 
   useEffect(() => {
     window.addEventListener('resize', updateColor);
@@ -61,6 +64,15 @@ function AdminNavbar(props) {
     }
     setcollapseOpen(!collapseOpen);
   };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error('Error logging out:', error.message);
+    }
+  };
+
   return (
     <>
       <Navbar
@@ -134,8 +146,8 @@ function AdminNavbar(props) {
                     </DropdownItem>
                   </NavLink>
                 </DropdownMenu>
-              </UncontrolledDropdown> */}
-              {/* <UncontrolledDropdown nav>
+              </UncontrolledDropdown>
+              <UncontrolledDropdown nav>
                 <DropdownToggle
                   caret
                   color="default"
@@ -161,6 +173,16 @@ function AdminNavbar(props) {
                   </NavLink>
                 </DropdownMenu>
               </UncontrolledDropdown> */}
+              {currentUser ? (
+                <>
+                  <span className="navbar-text mr-3">{currentUser.email}</span>
+                  <Button color="danger" onClick={handleLogout}>
+                    Logout
+                  </Button>
+                </>
+              ) : (
+                <span className="navbar-text mr-3">Not logged in</span>
+              )}
               <li className="separator d-lg-none" />
             </Nav>
           </Collapse>
