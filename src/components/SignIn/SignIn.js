@@ -34,9 +34,10 @@ export default function SignIn() {
   const handleGoogleSignIn = async () => {
     try {
       await signInWithGoogle();
-      alert('User signed in with Google successfully');
+      setMessage('Sign in with Google was successful!');
+      navigate('/admin/map'); // Navigate to the dashboard
     } catch (error) {
-      console.error('Error signing in with Google:', error.message);
+      setMessage(`Error signing in with Google: ${error.message}`);
     }
   };
 
