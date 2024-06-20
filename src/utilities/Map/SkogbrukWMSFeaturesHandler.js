@@ -17,16 +17,6 @@ export const SkogbrukWMSFeaturesHandler = (
   CSVFeatureInfosData,
   clickedOnLineRef
 ) => {
-  const desiredAttributesWithUnits = {
-    teig_best_nr: 'Bestand nr',
-    hogstkl_verdi: 'Hogstklasse',
-    bonitet_beskrivelse: 'Bonitet',
-    bontre_beskrivelse: 'Treslag',
-    alder: 'Alder',
-    arealDAA: 'Areal (daa)',
-    carbon_stored: 'CO2 lagret totalt (T)',
-    carbon_captured_next_year: 'CO2 lagret årlig (T)',
-  };
   const desiredAttributes = {
     teig_best_nr: 'Bestand nr',
     hogstkl_verdi: 'Hogstklasse',
@@ -34,9 +24,14 @@ export const SkogbrukWMSFeaturesHandler = (
     bontre_beskrivelse: 'Treslag',
     alder: 'Alder',
     arealDAA: 'Areal',
-    volume_growth_factor: 'Årlig vekst',
     carbon_stored: 'CO2 lagret totalt',
     carbon_captured_next_year: 'CO2 lagret årlig',
+  };
+  const desiredAttributesWithUnits = {
+    ...desiredAttributes,
+    arealDAA: 'Areal (daa)',
+    carbon_stored: 'CO2 lagret totalt (T)',
+    carbon_captured_next_year: 'CO2 lagret årlig (T)',
   };
 
   const sumObj = {};
@@ -172,8 +167,8 @@ export const SkogbrukWMSFeaturesHandler = (
     content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold"></td>`;
     content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold"></td>`;
     content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold"></td>`;
-    content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.arealDAA}</td>`;
     content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold"></td>`;
+    content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.arealDAA}</td>`;
     content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.carbon_stored}</td>`;
     content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.carbon_captured_next_year}</td>`;
     content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold">${formatNumber(sumObj.standVolumeWMSDensityPerHectareMads / 10, 'nb-NO', 1)}</td>`;
@@ -444,21 +439,10 @@ export const SkogbrukWMSFeaturesHandler = (
             <span>T</span>
           </td>
         </tr>`;
-      // // Add the Tree counts
-      // `<tr style="border: 1px solid black;">
-      //   <td style="padding: 5px; border: 1px solid black;">Antall trær</td>
-      //   <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.treeCounts}</td>
-      // </tr>`;
       if (
         sumObj.standVolumeWMSDensityPerHectareWMS &&
         sumObj.standVolumeWMSDensityPerHectareMads
       ) {
-        // Calculating the standVolumeWMS per decare (daa)
-        // content += `
-        // <tr style="border: 1px solid black;">
-        //   <td style="padding: 5px; border: 1px solid black;">Tømmertetthet</td>
-        //   <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.standVolumeWMS / 10, 'nb-NO', 1)}</span> m^3/daa</td>
-        // </tr>`;
         content += `
         <tr style="border: 1px solid black;">
           <td style="padding: 5px; border: 1px solid black;">Tømmertetthet</td>
@@ -467,12 +451,6 @@ export const SkogbrukWMSFeaturesHandler = (
             <span>m^3/daa</span>
           </td>
         </tr>`;
-        // Showing the tree density volume per stand
-        // content += `
-        // <tr style="border: 1px solid black;">
-        //   <td style="padding: 5px; border: 1px solid black;">Tømmervolum</td>
-        //   <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.standVolumeWMSDensityPerHectareWMS, 'nb-NO', 1)}</span> m^3</td>
-        // </tr>`;
         content += `
         <tr style="border: 1px solid black;">
         <td style="padding: 5px; border: 1px solid black;">Tømmervolum</td>
@@ -484,7 +462,7 @@ export const SkogbrukWMSFeaturesHandler = (
         // Add the volume_growth_factor
         content += `
         <tr style="border: 1px solid black;">
-          <td style="padding: 5px; border: 1px solid black;">${desiredAttributes['volume_growth_factor']}</td>
+          <td style="padding: 5px; border: 1px solid black;">Årlig vekst</td>
           <td style="padding: 5px; display: flex; justify-content: space-between;">
             <span style="font-weight: bold">${sumObj.volume_growth_factor}</span>
             <span>%</span>
@@ -499,12 +477,6 @@ export const SkogbrukWMSFeaturesHandler = (
             <span>kr</span>
           </td>
         </tr>`;
-        // We are showing the total volume
-        // content += `
-        // <tr style="border: 1px solid black;">
-        //   <td style="padding: 5px; border: 1px solid black;">Forv. brutto verdi</td>
-        //   <td style="padding: 5px; border: 1px solid black;"><span style="font-weight: bold">${formatNumber(sumObj.totalESTGrossValueWMS, 'nb-NO', 0)}</span> kr</td>
-        // </tr>`;
         content += `
         <tr style="border: 1px solid black;">
           <td style="padding: 5px; border: 1px solid black;">Forv. brutto verdi</td>
