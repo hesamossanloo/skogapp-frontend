@@ -62,13 +62,77 @@ export const SkogbrukWMSFeaturesHandler = (
       .map((feature) => parseInt(feature.properties.carbon_captured_next_year))
       .reduce((total, co2) => total + co2, 0);
 
-    sumObj.arealDAA = convertAndformatTheStringArealM2ToDAA(totalArealM2);
     sumObj.carbon_stored = formatNumber(totalCarbonStored / 1000, 'nb-NO', 2);
+    // Convert it to Tonn
     sumObj.carbon_captured_next_year = formatNumber(
       totalCarbonCapturedNextYear / 1000,
       'nb-NO',
       2
     );
+    sumObj.arealDAA = convertAndformatTheStringArealM2ToDAA(totalArealM2);
+
+    // Caclulate the total volume and gross value based on the Furur and Gran CSV files
+    const {
+      standVolumeWMSDensityPerHectareWMS,
+      standVolumeWMSDensityPerHectareMads,
+      standVolumeWMS,
+      standVolumeMads,
+      hardCodedSpeciesPrice,
+      speciesPriceMads,
+      totalESTGrossValueWMS,
+      totalESTGrossValueMads,
+    } = features.reduce(
+      (result, feature) => {
+        const featProps = feature.properties;
+        const foundFeatureCSVRow = CSVFeatureInfosData.find(
+          (row) => row.bestand_id === featProps.teig_best_nr
+        );
+
+        const additionalRows = calculateVolumeAndGrossValue(
+          granCSVData,
+          furuCSVData,
+          featProps
+        );
+        result.standVolumeWMSDensityPerHectareWMS +=
+          additionalRows.standVolumeWMSDensityPerHectareWMS || 0;
+        result.standVolumeWMSDensityPerHectareMads +=
+          parseFloat(foundFeatureCSVRow.volume_per_hectare_without_bark) || 0;
+        result.standVolumeWMS += additionalRows.standVolumeWMS || 0;
+        result.standVolumeMads +=
+          parseFloat(foundFeatureCSVRow.volume_without_bark) || 0;
+        result.hardCodedSpeciesPrice =
+          additionalRows.hardCodedSpeciesPrice || 0;
+        result.speciesPriceMads = parseFloat(featProps.avg_price_m3) || 0;
+        result.totalESTGrossValueWMS +=
+          additionalRows.totalESTGrossValueWMS || 0;
+        result.totalESTGrossValueMads +=
+          parseFloat(foundFeatureCSVRow.gross_value_standing_volume) || 0;
+        return result;
+      },
+      {
+        standVolumeWMSDensityPerHectareWMS: 0,
+        standVolumeWMSDensityPerHectareMads: 0,
+        standVolumeWMS: 0,
+        standVolumeMads: 0,
+        hardCodedSpeciesPrice: 0,
+        speciesPriceMads: 0,
+        totalESTGrossValueWMS: 0,
+        totalESTGrossValueMads: 0,
+      }
+    );
+
+    sumObj.standVolumeWMSDensityPerHectareWMS =
+      standVolumeWMSDensityPerHectareWMS;
+    sumObj.standVolumeWMSDensityPerHectareMads =
+      standVolumeWMSDensityPerHectareMads;
+    sumObj.standVolumeWMS = standVolumeWMS;
+
+    sumObj.standVolumeMads = standVolumeMads;
+
+    sumObj.hardCodedSpeciesPrice = hardCodedSpeciesPrice;
+    sumObj.speciesPriceMads = speciesPriceMads;
+    sumObj.totalESTGrossValueWMS = totalESTGrossValueWMS;
+    sumObj.totalESTGrossValueMads = totalESTGrossValueMads;
 
     let content =
       `<h3 style="color: black; text-align: center;">${sumObj.title}</h3>` +
@@ -91,27 +155,32 @@ export const SkogbrukWMSFeaturesHandler = (
       content += `<td style="padding: 5px; border: 1px solid black;">${props.hogstkl_verdi}</td>`;
       content += `<td style="padding: 5px; border: 1px solid black;">${props.bonitet_beskrivelse.substring(props.bonitet_beskrivelse.indexOf(' ') + 1)}</td>`;
       content += `<td style="padding: 5px; border: 1px solid black;">${props.bontre_beskrivelse}</td>`;
-      content += `<td style="padding: 5px; border: 1px solid black;">${convertAndformatTheStringArealM2ToDAA(props.arealm2)}</td>`;
       content += `<td style="padding: 5px; border: 1px solid black;">${props.alder}</td>`;
+      content += `<td style="padding: 5px; border: 1px solid black;">${convertAndformatTheStringArealM2ToDAA(props.arealm2)}</td>`;
       content += `<td style="padding: 5px; border: 1px solid black;">${formatNumber(props.volume_growth_factor * 100, 'nb-NO', 2)}</td>`;
       content += `<td style="padding: 5px; border: 1px solid black;">${formatNumber(props.carbon_stored / 1000, 'nb-NO', 2)}</td>`;
       content += `<td style="padding: 5px; border: 1px solid black;">${formatNumber(props.carbon_captured_next_year / 1000, 'nb-NO', 2)}</td>`;
-      content += `<td style="padding: 5px; border: 1px solid black;"></td>`;
-      content += `<td style="padding: 5px; border: 1px solid black;"></td>`;
-      content += `<td style="padding: 5px; border: 1px solid black;"></td>`;
-      content += `<td style="padding: 5px; border: 1px solid black;"></td>`;
+      content += `<td style="padding: 5px; border: 1px solid black;">${formatNumber(props.volume_without_bark, 'nb-NO', 1)}</td>`;
+      content += `<td style="padding: 5px; border: 1px solid black;">${formatNumber(parseFloat(props.volume_per_hectare_without_bark) / 10, 'nb-NO', 1)}</td>`;
+      content += `<td style="padding: 5px; border: 1px solid black;">${formatNumber(props.avg_price_m3, 'nb-NO', 1)}</td>`;
+      content += `<td style="padding: 5px; border: 1px solid black;">${formatNumber(props.gross_value_standing_volume, 'nb-NO', 1)}</td>`;
       content += '</tr>';
     });
 
     content += '<tr>';
-    content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold;">Total</td>`;
-    content +=
-      '<td colspan="4" style="padding: 5px; border: 1px solid black;"></td>'; // Empty columns for non-sum attributes
-    content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold;">${sumObj.arealDAA}</td>`;
-    content +=
-      '<td colspan="2" style="padding: 5px; border: 1px solid black;"></td>'; // Empty columns for non-sum attributes
-    content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold;">${sumObj.carbon_stored}</td>`;
-    content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold;">${sumObj.carbon_captured_next_year}</td>`;
+    content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold">Total</td>`;
+    content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold"></td>`;
+    content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold"></td>`;
+    content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold"></td>`;
+    content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold"></td>`;
+    content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.arealDAA}</td>`;
+    content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold"></td>`;
+    content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.carbon_stored}</td>`;
+    content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.carbon_captured_next_year}</td>`;
+    content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold">${formatNumber(sumObj.standVolumeMads, 'nb-NO', 1)}</td>`;
+    content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold">${formatNumber(sumObj.standVolumeWMSDensityPerHectareMads / 10, 'nb-NO', 1)}</td>`;
+    content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold">${formatNumber(sumObj.speciesPriceMads, 'nb-NO', 0)}</td>`;
+    content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold">${formatNumber(sumObj.totalESTGrossValueMads, 'nb-NO', 0)}</td>`;
     content += '</tr>';
 
     content += '</table>';
