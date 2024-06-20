@@ -1,5 +1,9 @@
 import L from 'leaflet';
-import { unwantedMISFeatureKeys } from 'variables/forest';
+import {
+  desiredFeatInfoAttrHKLayer,
+  desiredFeatInfoAttrHKLayerWithUnits,
+  unwantedMISFeatureKeys,
+} from 'variables/forest';
 import {
   calculateVolumeAndGrossValue,
   convertAndformatTheStringArealM2ToDAA,
@@ -17,23 +21,6 @@ export const SkogbrukWMSFeaturesHandler = (
   CSVFeatureInfosData,
   clickedOnLineRef
 ) => {
-  const desiredAttributes = {
-    teig_best_nr: 'Bestand nr',
-    hogstkl_verdi: 'Hogstklasse',
-    bonitet_beskrivelse: 'Bonitet',
-    bontre_beskrivelse: 'Treslag',
-    alder: 'Alder',
-    arealDAA: 'Areal',
-    carbon_stored: 'CO2 lagret totalt',
-    carbon_captured_next_year: 'CO2 lagret årlig',
-  };
-  const desiredAttributesWithUnits = {
-    ...desiredAttributes,
-    arealDAA: 'Areal (daa)',
-    carbon_stored: 'CO2 lagret totalt (T)',
-    carbon_captured_next_year: 'CO2 lagret årlig (T)',
-  };
-
   const sumObj = {};
   sumObj.title = 'Bestand';
   const isMIS = MISFeature && MISFeature.length > 0;
@@ -132,7 +119,7 @@ export const SkogbrukWMSFeaturesHandler = (
       `<h3 style="color: black; text-align: center;">${sumObj.title}</h3>` +
       '<table style="margin-bottom: 10px; border-collapse: collapse; border: 1px solid black;">' +
       '<tr>';
-    Object.values(desiredAttributesWithUnits).forEach((attr) => {
+    Object.values(desiredFeatInfoAttrHKLayerWithUnits).forEach((attr) => {
       content += `<th style="padding: 5px; border: 1px solid black;">${attr}</th>`;
     });
     content += `
@@ -397,22 +384,22 @@ export const SkogbrukWMSFeaturesHandler = (
         </tr>` +
         // Add Hogstklasse
         `<tr style="border: 1px solid black;">
-          <td style="padding: 5px; border: 1px solid black;">${desiredAttributes['hogstkl_verdi']}</td>
+          <td style="padding: 5px; border: 1px solid black;">${desiredFeatInfoAttrHKLayer['hogstkl_verdi']}</td>
           <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.hogstkl_verdi}</td>
         </tr>` +
         // Add Bonitet
         `<tr style="border: 1px solid black;">
-          <td style="padding: 5px; border: 1px solid black;">${desiredAttributes['bonitet_beskrivelse']}</td>
+          <td style="padding: 5px; border: 1px solid black;">${desiredFeatInfoAttrHKLayer['bonitet_beskrivelse']}</td>
           <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.bonitet_beskrivelse}</td>
         </tr>` +
         // Add the Treslag
         `<tr style="border: 1px solid black;">
-          <td style="padding: 5px; border: 1px solid black;">${desiredAttributes['bontre_beskrivelse']}</td>
+          <td style="padding: 5px; border: 1px solid black;">${desiredFeatInfoAttrHKLayer['bontre_beskrivelse']}</td>
           <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.bontre_beskrivelse}</td>
         </tr>` +
         // Add the ArealM2
         `<tr style="border: 1px solid black;">
-          <td style="padding: 5px; border: 1px solid black; min-width: 110px">${desiredAttributes['arealDAA']}</td>
+          <td style="padding: 5px; border: 1px solid black; min-width: 110px">${desiredFeatInfoAttrHKLayer['arealDAA']}</td>
           <td style="padding: 5px; display: flex; justify-content: space-between; min-width: 110px">
             <span style="font-weight: bold">${sumObj.arealDAA}</span>
             <span>daa</span>
@@ -420,12 +407,12 @@ export const SkogbrukWMSFeaturesHandler = (
         </tr>` +
         // Add the Alder
         `<tr style="border: 1px solid black;">
-          <td style="padding: 5px; border: 1px solid black;">${desiredAttributes['alder']}</td>
+          <td style="padding: 5px; border: 1px solid black;">${desiredFeatInfoAttrHKLayer['alder']}</td>
           <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.alder}</td>
         </tr>` +
         // Add the carbon_stored
         `<tr style="border: 1px solid black;">
-            <td style="padding: 5px; border: 1px solid black;">${desiredAttributes['carbon_stored']}</td>
+            <td style="padding: 5px; border: 1px solid black;">${desiredFeatInfoAttrHKLayer['carbon_stored']}</td>
             <td style="padding: 5px; display: flex; justify-content: space-between;">
               <span style="font-weight: bold">${sumObj.carbon_stored}</span>
               <span>T</span>
@@ -433,7 +420,7 @@ export const SkogbrukWMSFeaturesHandler = (
         </tr>` +
         // Add the carbon_captured_next_year
         `<tr style="border: 1px solid black;">
-          <td style="padding: 5px; border: 1px solid black;">${desiredAttributes['carbon_captured_next_year']}</td>
+          <td style="padding: 5px; border: 1px solid black;">${desiredFeatInfoAttrHKLayer['carbon_captured_next_year']}</td>
           <td style="padding: 5px; display: flex; justify-content: space-between;">
             <span style="font-weight: bold">${sumObj.carbon_captured_next_year}</span>
             <span>T</span>

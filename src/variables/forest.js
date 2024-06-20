@@ -102,3 +102,21 @@ export const forbideanAreas = [
 ];
 
 export const unwantedMISFeatureKeys = ['boundedBy', 'uuid_tekst', 'ogc_fid'];
+
+export const desiredFeatInfoAttrHKLayer = {
+  teig_best_nr: 'Bestand nr',
+  hogstkl_verdi: 'Hogstklasse',
+  bonitet_beskrivelse: 'Bonitet',
+  bontre_beskrivelse: 'Treslag',
+  alder: 'Alder',
+  arealDAA: 'Areal',
+  carbon_stored: 'CO2 lagret totalt',
+  carbon_captured_next_year: 'CO2 lagret årlig',
+};
+
+export const desiredFeatInfoAttrHKLayerWithUnits = {
+  ...desiredFeatInfoAttrHKLayer,
+  arealDAA: 'Areal (daa)',
+  carbon_stored: 'CO2 lagret totalt (T)',
+  carbon_captured_next_year: 'CO2 lagret årlig (T)',
+};
