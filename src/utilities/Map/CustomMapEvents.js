@@ -26,7 +26,7 @@ CustomMapEvents.propTypes = {
   }).isRequired,
   setActiveOverlay: PropTypes.func.isRequired,
   setDeselectPolygons: PropTypes.func.isRequired,
-  clickedOnLineRef: PropTypes.object.isRequired,
+  clickedOnNotBestandRef: PropTypes.object.isRequired,
   selectedVectorFeatureRef: PropTypes.object.isRequired,
   multiPolygonSelect: PropTypes.bool.isRequired,
   deselectPolygons: PropTypes.bool.isRequired,
@@ -42,7 +42,7 @@ export default function CustomMapEvents(props) {
     activeOverlay,
     setActiveOverlay,
     setDeselectPolygons,
-    clickedOnLineRef,
+    clickedOnNotBestandRef,
     selectedVectorFeatureRef,
     madsTeig,
     bjoernTeig,
@@ -55,8 +55,6 @@ export default function CustomMapEvents(props) {
   const map = useMap();
   const [selectedFeatures, setSelectedFeatures] = useState([]);
 
-  const granCSVData = useCsvData(CSV_URLS.GRAN).data;
-  const furuCSVData = useCsvData(CSV_URLS.FURU).data;
   const CSVFeatureInfosData = useCsvData(CSV_URLS.FEATUREINFOS).data;
 
   useEffect(() => {
@@ -93,7 +91,7 @@ export default function CustomMapEvents(props) {
         }
       });
 
-      if (clickedOnLineRef.current || !clickedOnHKGeoJSON) {
+      if (clickedOnNotBestandRef.current || !clickedOnHKGeoJSON) {
         L.popup({ interactive: true })
           .setLatLng(e.latlng)
           .setContent(
@@ -102,7 +100,7 @@ export default function CustomMapEvents(props) {
           .openOn(map);
       }
       if (
-        !clickedOnLineRef.current &&
+        !clickedOnNotBestandRef.current &&
         (activeOverlay['Stands'] || activeOverlay['Skogbruksplan']) &&
         clickedOnHKGeoJSON
       ) {
@@ -186,10 +184,8 @@ export default function CustomMapEvents(props) {
               map,
               multiPolygonSelect,
               MISClickedFeatureInfos,
-              granCSVData,
-              furuCSVData,
               CSVFeatureInfosData,
-              clickedOnLineRef,
+              clickedOnNotBestandRef,
               selectedFeatures,
               setSelectedFeatures
             );
@@ -212,10 +208,8 @@ export default function CustomMapEvents(props) {
                 map,
                 multiPolygonSelect,
                 MISClickedFeatureInfos,
-                granCSVData,
-                furuCSVData,
                 CSVFeatureInfosData,
-                clickedOnLineRef,
+                clickedOnNotBestandRef,
                 selectedFeatures,
                 setSelectedFeatures
               );
@@ -226,10 +220,8 @@ export default function CustomMapEvents(props) {
                 map,
                 multiPolygonSelect,
                 MISClickedFeatureInfos,
-                granCSVData,
-                furuCSVData,
                 CSVFeatureInfosData,
-                clickedOnLineRef,
+                clickedOnNotBestandRef,
                 selectedFeatures,
                 setSelectedFeatures
               );
