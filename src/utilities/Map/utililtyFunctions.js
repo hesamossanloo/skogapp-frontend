@@ -20,7 +20,27 @@ export const isPointInsidePolygon = (point, polygon) => {
   const turfPolygon = turf.polygon(polygon);
   return turf.booleanPointInPolygon(turfPoint, turfPolygon);
 };
-
+const getHKBGColor = (hk) => {
+  let BGColor;
+  switch (hk) {
+    case '2':
+      BGColor = '#f2b370';
+      break;
+    case '3':
+      BGColor = '#aebb7a';
+      break;
+    case '4':
+      BGColor = '#bc8963';
+      break;
+    case '5':
+      BGColor = '#de6867';
+      break;
+    default:
+      BGColor = '#ffffff';
+      break;
+  }
+  return BGColor;
+};
 export const calculateBoundingBox = (map) => {
   const CRS = map.options.crs.code;
   const size = map.getSize();
@@ -138,7 +158,8 @@ export const generateHKPopupContent = (sumObj, features, multi) => {
 
     features.forEach((feature) => {
       const props = feature.properties;
-      content += '<tr>';
+      const rowBGColor = getHKBGColor(props.hogstkl_verdi);
+      content += `<tr style="background-color: ${rowBGColor}">`;
       content += `<td style="padding: 5px; border: 1px solid black;">${props.teig_best_nr}</td>`;
       content += `<td style="padding: 5px; border: 1px solid black;">${props.hogstkl_verdi}</td>`;
       content += `<td style="padding: 5px; border: 1px solid black;">${props.bonitet_beskrivelse.substring(props.bonitet_beskrivelse.indexOf(' ') + 1)}</td>`;
@@ -211,24 +232,8 @@ export const generateHKPopupContent = (sumObj, features, multi) => {
       'nb-NO',
       2
     );
-    let rowBGColor;
-    switch (sumObj.hogstkl_verdi) {
-      case '2':
-        rowBGColor = '#f2b370';
-        break;
-      case '3':
-        rowBGColor = '#aebb7a';
-        break;
-      case '4':
-        rowBGColor = '#bc8963';
-        break;
-      case '5':
-        rowBGColor = '#de6867';
-        break;
-      default:
-        rowBGColor = '#ffffff';
-        break;
-    }
+
+    let rowBGColor = getHKBGColor(sumObj.hogstkl_verdi);
 
     content +=
       // Add the ID row
