@@ -5,7 +5,7 @@ import {
   unwantedMISFeatureKeys,
 } from 'variables/forest';
 import {
-  calculateVolumeAndGrossValue,
+  calculateFeatInfoHKTotals,
   convertAndformatTheStringArealM2ToDAA,
   formatNumber,
 } from './utililtyFunctions';
@@ -16,16 +16,32 @@ export const SkogbrukWMSFeaturesHandler = (
   map,
   multi,
   MISFeature,
-  granCSVData,
-  furuCSVData,
   CSVFeatureInfosData,
-  clickedOnLineRef
+  clickedOnNotBestandRef
 ) => {
-  const sumObj = {};
-  sumObj.title = 'Bestand';
-  const isMIS = MISFeature && MISFeature.length > 0;
-  isMIS && (sumObj.title = 'MIS Bestand');
-  isMIS && (sumObj.isMIS = true);
+  const sumObj = {
+    title: 'Bestand',
+    isMIS: MISFeature && MISFeature.length > 0,
+  };
+  if (sumObj.isMIS) sumObj.title = 'MIS Bestand';
+
+  const totals = calculateFeatInfoHKTotals(features, CSVFeatureInfosData);
+  sumObj.carbon_stored = formatNumber(
+    totals.totalCarbonStored / 1000,
+    'nb-NO',
+    2
+  );
+  sumObj.carbon_captured_next_year = formatNumber(
+    totals.totalCarbonCapturedNextYear / 1000,
+    'nb-NO',
+    2
+  );
+  sumObj.arealDAA = convertAndformatTheStringArealM2ToDAA(totals.totalArealM2);
+  sumObj.standVolumeWMSDensityPerHectareMads =
+    totals.standVolumeWMSDensityPerHectareMads;
+  sumObj.standVolumeMads = totals.standVolumeMads;
+  sumObj.speciesPriceMads = totals.speciesPriceMads;
+  sumObj.totalESTGrossValueMads = totals.totalESTGrossValueMads;
 
   if (
     multi &&
@@ -54,13 +70,9 @@ export const SkogbrukWMSFeaturesHandler = (
 
     // Caclulate the total volume and gross value based on the Furur and Gran CSV files
     const {
-      standVolumeWMSDensityPerHectareWMS,
       standVolumeWMSDensityPerHectareMads,
-      standVolumeWMS,
       standVolumeMads,
-      hardCodedSpeciesPrice,
       speciesPriceMads,
-      totalESTGrossValueWMS,
       totalESTGrossValueMads,
     } = features.reduce(
       (result, feature) => {
@@ -69,50 +81,29 @@ export const SkogbrukWMSFeaturesHandler = (
           (row) => row.bestand_id === featProps.teig_best_nr
         );
 
-        const additionalRows = calculateVolumeAndGrossValue(
-          granCSVData,
-          furuCSVData,
-          featProps
-        );
-        result.standVolumeWMSDensityPerHectareWMS +=
-          additionalRows.standVolumeWMSDensityPerHectareWMS || 0;
         result.standVolumeWMSDensityPerHectareMads +=
           parseFloat(foundFeatureCSVRow.volume_per_hectare_without_bark) || 0;
-        result.standVolumeWMS += additionalRows.standVolumeWMS || 0;
         result.standVolumeMads +=
           parseFloat(foundFeatureCSVRow.volume_without_bark) || 0;
-        result.hardCodedSpeciesPrice =
-          additionalRows.hardCodedSpeciesPrice || 0;
         result.speciesPriceMads = parseFloat(featProps.avg_price_m3) || 0;
-        result.totalESTGrossValueWMS +=
-          additionalRows.totalESTGrossValueWMS || 0;
         result.totalESTGrossValueMads +=
           parseFloat(foundFeatureCSVRow.gross_value_standing_volume) || 0;
         return result;
       },
       {
-        standVolumeWMSDensityPerHectareWMS: 0,
         standVolumeWMSDensityPerHectareMads: 0,
-        standVolumeWMS: 0,
         standVolumeMads: 0,
-        hardCodedSpeciesPrice: 0,
         speciesPriceMads: 0,
-        totalESTGrossValueWMS: 0,
         totalESTGrossValueMads: 0,
       }
     );
 
-    sumObj.standVolumeWMSDensityPerHectareWMS =
-      standVolumeWMSDensityPerHectareWMS;
     sumObj.standVolumeWMSDensityPerHectareMads =
       standVolumeWMSDensityPerHectareMads;
-    sumObj.standVolumeWMS = standVolumeWMS;
 
     sumObj.standVolumeMads = standVolumeMads;
 
-    sumObj.hardCodedSpeciesPrice = hardCodedSpeciesPrice;
     sumObj.speciesPriceMads = speciesPriceMads;
-    sumObj.totalESTGrossValueWMS = totalESTGrossValueWMS;
     sumObj.totalESTGrossValueMads = totalESTGrossValueMads;
 
     let content =
@@ -295,7 +286,7 @@ export const SkogbrukWMSFeaturesHandler = (
       features[0] &&
       features[0].properties &&
       features[0].properties.teig_best_nr &&
-      !clickedOnLineRef.current
+      !clickedOnNotBestandRef.current
     ) {
       const feature = features[0];
       const properties = feature.properties;
@@ -346,27 +337,15 @@ export const SkogbrukWMSFeaturesHandler = (
         properties.hogstkl_verdi === '4' ||
         properties.hogstkl_verdi === '5'
       ) {
-        const {
-          standVolumeWMSDensityPerHectareWMS,
-          standVolumeWMS,
-          hardCodedSpeciesPrice,
-          totalESTGrossValueWMS,
-        } = calculateVolumeAndGrossValue(granCSVData, furuCSVData, properties);
-
         const foundFeatureCSVRow = CSVFeatureInfosData.find(
           (row) => row.bestand_id === feature.properties.teig_best_nr
         );
 
-        sumObj.standVolumeWMSDensityPerHectareWMS =
-          standVolumeWMSDensityPerHectareWMS;
         sumObj.standVolumeWMSDensityPerHectareMads = parseFloat(
           foundFeatureCSVRow.volume_per_hectare_without_bark
         );
-        sumObj.standVolumeWMS = standVolumeWMS;
         sumObj.standVolumeMads = foundFeatureCSVRow.volume_without_bark;
-        sumObj.hardCodedSpeciesPrice = hardCodedSpeciesPrice;
         sumObj.speciesPriceMads = parseFloat(feature.properties.avg_price_m3);
-        sumObj.totalESTGrossValueWMS = totalESTGrossValueWMS;
         sumObj.totalESTGrossValueMads = parseFloat(
           foundFeatureCSVRow.gross_value_standing_volume
         );
@@ -426,10 +405,7 @@ export const SkogbrukWMSFeaturesHandler = (
             <span>T</span>
           </td>
         </tr>`;
-      if (
-        sumObj.standVolumeWMSDensityPerHectareWMS &&
-        sumObj.standVolumeWMSDensityPerHectareMads
-      ) {
+      if (sumObj.standVolumeWMSDensityPerHectareMads) {
         content += `
         <tr style="border: 1px solid black;">
           <td style="padding: 5px; border: 1px solid black;">Tømmertetthet</td>

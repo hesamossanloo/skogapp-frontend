@@ -64,8 +64,8 @@ function Map() {
 
   const [mapFilter, setMapFilter] = useContext(MapFilterContext);
 
-  const [clickedOnLine, setClickedOnLine] = useState(false);
-  const clickedOnLineRef = useRef(clickedOnLine);
+  const [clickedOnNotBestand, setClickedOnNotBestand] = useState(false);
+  const clickedOnNotBestandRef = useRef(clickedOnNotBestand);
   const [selectedVectorFeature, setSelectedVectorFeature] = useState(null);
   const selectedVectorFeatureRef = useRef(selectedVectorFeature);
   const [selectedForest, setSelectedForest] = useState(forest1); // Default to forest 1
@@ -119,8 +119,8 @@ function Map() {
 
   // We need a ref so that when we pass it to the child component, it always shows the current value and not the previous value
   useEffect(() => {
-    clickedOnLineRef.current = clickedOnLine;
-  }, [clickedOnLine]);
+    clickedOnNotBestandRef.current = clickedOnNotBestand;
+  }, [clickedOnNotBestand]);
   useEffect(() => {
     selectedVectorFeatureRef.current = selectedVectorFeature;
   }, [selectedVectorFeature]);
@@ -141,16 +141,16 @@ function Map() {
     geoJSONLayer.on({
       click: () => {
         if (feature && feature.properties && feature.properties.teig_best_nr) {
-          setClickedOnLine(
+          setClickedOnNotBestand(
             forbideanAreas.includes(feature.properties.teig_best_nr)
           );
           selectedVectorFeatureRef.current = feature;
           setSelectedVectorFeature(feature);
-          clickedOnLineRef.current = forbideanAreas.includes(
+          clickedOnNotBestandRef.current = forbideanAreas.includes(
             feature.properties.teig_best_nr
           );
         }
-        if (!clickedOnLineRef.current) {
+        if (!clickedOnNotBestandRef.current) {
           // If multiPolygonSelectRef.current is false, unhighlight the previous layer
           if (!multiPolygonSelectRef.current) {
             previousGeoJSONLayersRef.current.forEach((layer) => {
@@ -301,7 +301,7 @@ function Map() {
           bjoernTeig={bjoernTeig}
           knutTeig={knutTeig}
           akselTeig={akselTeig}
-          clickedOnLineRef={clickedOnLineRef}
+          clickedOnNotBestandRef={clickedOnNotBestandRef}
           selectedVectorFeatureRef={selectedVectorFeatureRef}
           selectedForest={selectedForest}
           setDeselectPolygons={setDeselectPolygons}

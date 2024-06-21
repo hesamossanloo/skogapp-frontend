@@ -1,109 +1,9 @@
 import * as turf from '@turf/turf';
-import {
-  SPECIES,
-  SPECIES_PRICES,
-  TREANTALL_PER_HEKTAR,
-} from 'variables/forest';
 
 export const convertAndformatTheStringArealM2ToDAA = (arealM2) => {
   const retArealm2 = parseInt(arealM2) / 1000;
   return formatNumber(retArealm2, 'nb-NO', 2); // Format with the decimal
 };
-export const calculateVolumeAndGrossValue = (
-  granCSVData,
-  furuCSVData,
-  properties
-) => {
-  // Step 1 get the H from the Gran and Furu csv files
-  let estimatedHeightString;
-  // Step 2
-  // Gu = exp( -12.920 - 0.021*alder + 2.379*ln(alder) + 0.540*ln(N) + 1.587*ln(Ht40))
-  let crossSectionArea;
-  // Step 3
-  // V = 0.250(Gu^1.150)*H^(1.012)*exp(2.320/alder)
-  let standVolumeWMS;
-  // Step 4
-  let standVolumeWMSDensityPerHectareWMS;
-  if (granCSVData.length > 0 || furuCSVData.length > 0) {
-    let csvData;
-    if (properties.bontre_beskrivelse === SPECIES.GRAN) {
-      csvData = granCSVData;
-    } else if (properties.bontre_beskrivelse === SPECIES.FURU) {
-      csvData = furuCSVData;
-    } else {
-      // TODO: There are also other species e.g. Bjørk / lauv from ID:1-36
-      csvData = granCSVData;
-    }
-
-    // Calculating Step 1 and 2
-    if (csvData) {
-      const { estimatedHeightCSV, crossSectionAreaCalc } =
-        calculateEstimatedHeightAndCrossSectionArea(properties, csvData);
-      estimatedHeightString = estimatedHeightCSV;
-      crossSectionArea = crossSectionAreaCalc;
-    }
-    // Calculating Step 3
-    // V = 0.250(G^1.150)*H^(1.012)*exp(2.320/alder)
-    standVolumeWMS = calculatestandVolumeWMS(
-      crossSectionArea,
-      estimatedHeightString,
-      properties.alder
-    );
-    console.log(' ', 'Use the H and Gu to calculte the SV.');
-    console.log(' ', 'SV: ', standVolumeWMS);
-
-    // Step 4:
-    // SV_in_bestand_249 = arealm2/10000*249 = 11391*249/10000 = 283.636
-    standVolumeWMSDensityPerHectareWMS =
-      calculatestandVolumeWMSDensityPerHectareWMS(
-        properties.arealm2,
-        standVolumeWMS
-      );
-    console.log(' ', 'Use the SV and arealm2 to calculte the SV_HA.');
-    console.log(' ', 'SV_HA: ', standVolumeWMSDensityPerHectareWMS);
-    console.log(
-      'FINISHED:',
-      'Calculation for the Teig: ',
-      properties.teig_best_nr
-    );
-    console.log('############  END  #############');
-  }
-  const { totalESTGrossValueWMS, hardCodedSpeciesPrice } =
-    calculteSpeciesBasedPrice(
-      properties.bontre_beskrivelse,
-      standVolumeWMSDensityPerHectareWMS
-    );
-
-  return {
-    standVolumeWMSDensityPerHectareWMS,
-    standVolumeWMS,
-    hardCodedSpeciesPrice,
-    totalESTGrossValueWMS,
-  };
-};
-
-// Function to calculate estimated stand volume
-export const calculatestandVolumeWMS = (
-  crossSectionArea,
-  estimatedHeightString,
-  alder
-) => {
-  return (
-    0.25 *
-    Math.pow(crossSectionArea, 1.15) *
-    Math.pow(parseFloat(estimatedHeightString.replace(',', '.')), 1.012) *
-    Math.exp(2.32 / parseInt(alder))
-  );
-};
-
-// Function to calculate estimated stand volume M3 HAA
-export const calculatestandVolumeWMSDensityPerHectareWMS = (
-  arealm2,
-  standVolumeWMS
-) => {
-  return (parseInt(arealm2) / 10000) * standVolumeWMS;
-};
-
 export const isPointInsideTeig = (point, polygon) => {
   const turfPoint = turf.point([point.lng, point.lat]);
   const turfMultiPolygon = turf.multiPolygon(polygon);
@@ -149,78 +49,6 @@ export const formatNumber = (value, locale = 'nb-NO', fractionDigits = 2) => {
   return formattedValue;
 };
 
-export const calculateEstimatedHeightAndCrossSectionArea = (
-  featureValues,
-  CSVData
-) => {
-  let estimatedHeightFromCSVString;
-  let calculatedCrossSectionAreaNumber;
-  const CONSTANT_N = TREANTALL_PER_HEKTAR || 200;
-
-  const CSVRow = CSVData.find(
-    (row) =>
-      row.H40 ===
-      featureValues.bonitet_beskrivelse.substring(
-        featureValues.bonitet_beskrivelse.indexOf(' ') + 1
-      )
-  );
-
-  if (CSVRow) {
-    const featureAgeString = featureValues.alder;
-    estimatedHeightFromCSVString =
-      CSVRow[featureAgeString] ||
-      CSVRow[Math.ceil(Number.parseInt(featureAgeString) / 5) * 5];
-    const featureAgeNumber = parseInt(featureValues.alder);
-    const bonitetHT40Number = parseFloat(CSVRow.Ht40.replace(',', '.'));
-
-    if (featureAgeNumber >= 110) {
-      estimatedHeightFromCSVString = CSVRow['110'];
-    }
-    // Based on the Skogapp google doc from Mads:
-    // Gu = exp( -12.920 - 0.021*alder + 2.379*ln(alder) + 0.540*ln(N) + 1.587*ln(HT40))
-    if (estimatedHeightFromCSVString) {
-      calculatedCrossSectionAreaNumber = Math.exp(
-        -12.92 -
-          0.021 * featureAgeNumber +
-          2.379 * Math.log(featureAgeNumber) +
-          0.54 * Math.log(CONSTANT_N) +
-          1.587 * Math.log(bonitetHT40Number)
-      );
-    }
-  }
-  console.log('############ START #############');
-  console.log(
-    'START:',
-    'Calculation for the Teig: ',
-    featureValues.teig_best_nr
-  );
-  console.log(' ', 'START:', 'Reading values from the CSV file:');
-  console.log('   ', 'H: ', estimatedHeightFromCSVString);
-  console.log('   ', 'Gu: ', calculatedCrossSectionAreaNumber);
-  console.log(' ', 'FINISHED:', 'Reading values from the CSV file.');
-
-  return {
-    estimatedHeightCSV: estimatedHeightFromCSVString,
-    crossSectionAreaCalc: calculatedCrossSectionAreaNumber,
-  };
-};
-
-export const calculteSpeciesBasedPrice = (species, volume) => {
-  let hardcodedSpeciesPrice;
-
-  if (species === SPECIES.GRAN) {
-    hardcodedSpeciesPrice = SPECIES_PRICES.GRAN;
-  } else if (species === SPECIES.FURU) {
-    hardcodedSpeciesPrice = SPECIES_PRICES.FURU;
-  } else {
-    hardcodedSpeciesPrice = SPECIES_PRICES.LAU;
-  }
-  return {
-    totalESTGrossValueWMS: volume * hardcodedSpeciesPrice,
-    hardcodedSpeciesPrice,
-  };
-};
-
 export const WFSFeatureLayerNamefromXML = (xml) => {
   // Assuming `data` is your XML string
   const parser = new DOMParser();
@@ -245,4 +73,41 @@ export const WFSFeatureLayerNamefromXML = (xml) => {
   // Now, `layerNames` contains all the layer names extracted from the XML
   // You can associate these names with your features accordingly
   return layerNames;
+};
+
+export const calculateFeatInfoHKTotals = (features, CSVFeatureInfosData) => {
+  const totals = features.reduce(
+    (acc, feature) => {
+      const props = feature.properties;
+      const featureData =
+        CSVFeatureInfosData.find(
+          (row) => row.bestand_id === props.teig_best_nr
+        ) || {};
+
+      acc.totalArealM2 += parseInt(props.arealm2, 10) || 0;
+      acc.totalCarbonStored += parseInt(props.carbon_stored, 10) || 0;
+      acc.totalCarbonCapturedNextYear +=
+        parseInt(props.carbon_captured_next_year, 10) || 0;
+
+      acc.standVolumeWMSDensityPerHectareMads +=
+        parseFloat(featureData.volume_per_hectare_without_bark) || 0;
+      acc.standVolumeMads += parseFloat(featureData.volume_without_bark) || 0;
+      acc.speciesPriceMads += parseFloat(props.avg_price_m3) || 0;
+      acc.totalESTGrossValueMads +=
+        parseFloat(featureData.gross_value_standing_volume) || 0;
+
+      return acc;
+    },
+    {
+      totalArealM2: 0,
+      totalCarbonStored: 0,
+      totalCarbonCapturedNextYear: 0,
+      standVolumeWMSDensityPerHectareMads: 0,
+      standVolumeMads: 0,
+      speciesPriceMads: 0,
+      totalESTGrossValueMads: 0,
+    }
+  );
+
+  return totals;
 };
