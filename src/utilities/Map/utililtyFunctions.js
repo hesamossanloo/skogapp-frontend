@@ -5,6 +5,7 @@ import {
   desiredFeatInfoAttrHKLayerWithUnits,
   unwantedMISFeatureKeys,
 } from 'variables/forest';
+
 export const convertAndformatTheStringArealM2ToDAA = (arealM2) => {
   const retArealm2 = parseInt(arealM2) / 1000;
   return formatNumber(retArealm2, 'nb-NO', 2); // Format with the decimal
@@ -210,6 +211,25 @@ export const generateHKPopupContent = (sumObj, features, multi) => {
       'nb-NO',
       2
     );
+    let rowBGColor;
+    switch (sumObj.hogstkl_verdi) {
+      case '2':
+        rowBGColor = '#f2b370';
+        break;
+      case '3':
+        rowBGColor = '#aebb7a';
+        break;
+      case '4':
+        rowBGColor = '#bc8963';
+        break;
+      case '5':
+        rowBGColor = '#de6867';
+        break;
+      default:
+        rowBGColor = '#ffffff';
+        break;
+    }
+
     content +=
       // Add the ID row
       `<tr style="border: 1px solid black;">
@@ -217,9 +237,9 @@ export const generateHKPopupContent = (sumObj, features, multi) => {
           <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.teig_best_nr}</td>
         </tr>` +
       // Add Hogstklasse
-      `<tr style="border: 1px solid black;">
+      `<tr style="border: 1px solid black; background-color: ${rowBGColor}">
           <td style="padding: 5px; border: 1px solid black;">${desiredFeatInfoAttrHKLayer['hogstkl_verdi']}</td>
-          <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.hogstkl_verdi}</td>
+          <td style="padding: 5px; border: 1px solid black; font-weight: bold;">${sumObj.hogstkl_verdi}</td>
         </tr>` +
       // Add Bonitet
       `<tr style="border: 1px solid black;">
@@ -227,7 +247,7 @@ export const generateHKPopupContent = (sumObj, features, multi) => {
           <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.bonitet_beskrivelse}</td>
         </tr>` +
       // Add the Treslag
-      `<tr style="border: 1px solid black;">
+      `<tr style="border: 1px solid black; background-color: ${rowBGColor}">
           <td style="padding: 5px; border: 1px solid black;">${desiredFeatInfoAttrHKLayer['bontre_beskrivelse']}</td>
           <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.bontre_beskrivelse}</td>
         </tr>` +
@@ -240,7 +260,7 @@ export const generateHKPopupContent = (sumObj, features, multi) => {
           </td>
         </tr>` +
       // Add the Alder
-      `<tr style="border: 1px solid black;">
+      `<tr style="border: 1px solid black; background-color: ${rowBGColor}">
           <td style="padding: 5px; border: 1px solid black;">${desiredFeatInfoAttrHKLayer['alder']}</td>
           <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.alder}</td>
         </tr>` +
@@ -253,7 +273,7 @@ export const generateHKPopupContent = (sumObj, features, multi) => {
             </td>
         </tr>` +
       // Add the carbon_captured_next_year
-      `<tr style="border: 1px solid black;">
+      `<tr style="border: 1px solid black; background-color: ${rowBGColor}">
           <td style="padding: 5px; border: 1px solid black;">${desiredFeatInfoAttrHKLayer['carbon_captured_next_year']}</td>
           <td style="padding: 5px; display: flex; justify-content: space-between;">
             <span style="font-weight: bold">${sumObj.carbon_captured_next_year}</span>
@@ -271,7 +291,7 @@ export const generateHKPopupContent = (sumObj, features, multi) => {
               </td>
             </tr>`;
       content += `
-            <tr style="border: 1px solid black;">
+            <tr style="border: 1px solid black; background-color: ${rowBGColor}">
               <td style="padding: 5px; border: 1px solid black;">Tømmervolum</td>
               <td style="padding: 5px; display: flex; justify-content: space-between;">
                 <span style="font-weight: bold">${formatNumber(sumObj.standVolumeMads, 'nb-NO', 1)}</span>
@@ -289,7 +309,7 @@ export const generateHKPopupContent = (sumObj, features, multi) => {
             </tr>`;
       // The price of the timber for a species
       content += `
-            <tr style="border: 1px solid black;">
+            <tr style="border: 1px solid black; background-color: ${rowBGColor}">
               <td style="padding: 5px; border: 1px solid black;">Forv. gj.sn pris per m^3</td>
               <td style="padding: 5px; display: flex; justify-content: space-between;">
                 <span style="font-weight: bold">${formatNumber(sumObj.speciesPriceMads, 'nb-NO', 0)}</span>
