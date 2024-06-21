@@ -284,7 +284,7 @@ L.Map.PopupMovable = L.Handler.extend({
     new L.Draggable(p._container, p._wrapper)
       .on('drag', (e) => {
         this._drawCss(e.target._element, e.target._newPos);
-        p.setLatLng(this._map.layerPointToLatLng(e.target._newPos));
+        // p.setLatLng(this._map.layerPointToLatLng(e.target._newPos));
       })
       .on('dragend', (e) => {
         //For ZoomLevel change Event,moved or not, it shall be possible to determine.
