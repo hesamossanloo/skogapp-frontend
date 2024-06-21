@@ -184,10 +184,7 @@ export default function CustomMapEvents(props) {
               map,
               multiPolygonSelect,
               MISClickedFeatureInfos,
-              CSVFeatureInfosData,
-              clickedOnNotBestandRef,
-              selectedFeatures,
-              setSelectedFeatures
+              CSVFeatureInfosData
             );
           } else {
             if (
@@ -208,10 +205,7 @@ export default function CustomMapEvents(props) {
                 map,
                 multiPolygonSelect,
                 MISClickedFeatureInfos,
-                CSVFeatureInfosData,
-                clickedOnNotBestandRef,
-                selectedFeatures,
-                setSelectedFeatures
+                CSVFeatureInfosData
               );
             } else {
               SkogbrukWMSFeaturesHandler(
@@ -220,10 +214,7 @@ export default function CustomMapEvents(props) {
                 map,
                 multiPolygonSelect,
                 MISClickedFeatureInfos,
-                CSVFeatureInfosData,
-                clickedOnNotBestandRef,
-                selectedFeatures,
-                setSelectedFeatures
+                CSVFeatureInfosData
               );
             }
           }
