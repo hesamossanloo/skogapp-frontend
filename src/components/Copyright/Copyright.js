@@ -2,15 +2,10 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 
-const Copyright = (props) => {
-  const { appName, appURL } = props;
+// Define the component
+const Copyright = ({ appName, appURL, ...rest }) => {
   return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
+    <Typography variant="body2" color="text.secondary" {...rest}>
       {'Copyright © '}
       <Link color="inherit" href={appURL}>
         {appName}
@@ -21,10 +16,11 @@ const Copyright = (props) => {
   );
 };
 
-// Add props validation
+// Define propTypes for the component
 Copyright.propTypes = {
   appName: PropTypes.string.isRequired,
   appURL: PropTypes.string.isRequired,
 };
 
+// Export the component
 export default Copyright;
