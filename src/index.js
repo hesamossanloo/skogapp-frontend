@@ -3,6 +3,7 @@ import 'assets/css/nucleo-icons.css';
 import 'assets/demo/demo.css';
 import 'assets/scss/black-dashboard-react.scss';
 import ForgotPassword from 'components/ForgotPassword/ForgotPassword';
+import PrivacyPolicy from 'components/PrivacyPolicy/PrivacyPolicy';
 import PrivateRoute from 'components/PrivateRoute/PrivateRoute';
 import SignIn from 'components/SignIn/SignIn';
 import SignUp from 'components/SignUp/SignUp';
@@ -29,6 +30,7 @@ root.render(
                 </PrivateRoute>
               }
             />
+            <Route path="/privacy-policy.html" element={<PrivacyPolicy />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />

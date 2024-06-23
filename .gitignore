@@ -13,3 +13,4 @@ skogapp-dashboard.code-workspace
 # Local Netlify folder
 .netlify
 *.aux.xml
+credentials/client_secret_1000045069276-aibde34q6b1fucdu3m8uckj061i7gkku.apps.googleusercontent.com.json
