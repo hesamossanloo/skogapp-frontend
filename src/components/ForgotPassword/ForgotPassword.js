@@ -1,3 +1,4 @@
+import { Grid, Link } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -68,12 +69,24 @@ const ForgotPassword = () => {
             </Typography>
           )}
         </Box>
+        <Grid container sx={{ mt: 5 }}>
+          <Grid item xs>
+            <Copyright appName="SkogApp" appURL="https://skogapp.no/" />
+          </Grid>
+          <Grid item>
+            {/* Privacy Policy Link */}
+            <Link
+              href={`${process.env.PUBLIC_URL}/privacy-policy.html`} // Adjust the path if necessary
+              target="_blank" // Opens in a new tab
+              rel="noopener noreferrer" // For security reasons
+              variant="body2"
+              style={{ marginLeft: '10px' }} // Add some spacing between Copyright and Privacy Policy
+            >
+              Privacy Policy
+            </Link>
+          </Grid>
+        </Grid>
       </Box>
-      <Copyright
-        sx={{ mt: 5 }}
-        appName="SkogApp"
-        appURL="https://skogapp.no/"
-      />
     </Container>
   );
 };
