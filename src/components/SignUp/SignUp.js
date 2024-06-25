@@ -10,7 +10,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import logo from 'assets/img/favicon.png';
 import Copyright from 'components/Copyright/Copyright';
-import { useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -20,22 +20,23 @@ const SignUp = () => {
   const passwordRef = useRef();
   const firstNameRef = useRef();
   const lastNameRef = useRef();
-  const { signUp } = useAuth();
-  const [message, setMessage] = useState('');
+  const { signUp, authError, clearError } = useAuth();
+
+  useEffect(() => {
+    // Clear error on component mount or specific events
+    return () => clearError();
+  }, [clearError]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await signUp(
-        emailRef.current.value,
-        passwordRef.current.value,
-        firstNameRef.current.value,
-        lastNameRef.current.value
-      );
-      setMessage('Sign up was successful! Please sign in to continue.');
-      navigate('/signin'); // Navigate to the sign-in page
-    } catch (error) {
-      setMessage(`Error: ${error.message}`);
+    const response = await signUp(
+      emailRef.current.value,
+      passwordRef.current.value,
+      firstNameRef.current.value,
+      lastNameRef.current.value
+    );
+    if (response && response.wasSuccessful) {
+      navigate('/signin'); // Navigate to the sign-in page only if sign-up was successful
     }
   };
 
@@ -115,11 +116,6 @@ const SignUp = () => {
           >
             Sign Up
           </Button>
-          {message && (
-            <Typography variant="body2" color="text.secondary" align="center">
-              {message}
-            </Typography>
-          )}
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link href="/signin" variant="body2">
@@ -146,6 +142,17 @@ const SignUp = () => {
           </Grid>
         </Grid>
       </Box>
+      {authError && (
+        <Typography
+          id="hesibear-message"
+          variant="body2"
+          color="text.secondary"
+          align="center"
+          sx={{ mt: 5 }}
+        >
+          {authError}
+        </Typography>
+      )}
     </Container>
   );
 };

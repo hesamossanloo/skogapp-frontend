@@ -10,34 +10,35 @@ import Typography from '@mui/material/Typography';
 import logo from 'assets/img/favicon.png';
 import Copyright from 'components/Copyright/Copyright';
 import { useAuth } from 'contexts/AuthContext';
-import { useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function SignIn() {
   const emailRef = useRef();
   const passwordRef = useRef();
-  const { signIn, signInWithGoogle } = useAuth();
-  const [message, setMessage] = useState('');
+  const { signIn, signInWithGoogle, authError, clearError } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Clear error on component mount or specific events
+    return () => clearError();
+  }, [clearError]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await signIn(emailRef.current.value, passwordRef.current.value);
-      setMessage('Sign in was successful!');
+    const response = await signIn(
+      emailRef.current.value,
+      passwordRef.current.value
+    );
+    if (response && response.wasSuccessful) {
       navigate('/admin/map'); // Navigate to the dashboard
-    } catch (error) {
-      setMessage(`Error: ${error.message}`);
     }
   };
 
   const handleGoogleSignIn = async () => {
-    try {
-      await signInWithGoogle();
-      setMessage('Sign in with Google was successful!');
+    const response = await signInWithGoogle();
+    if (response && response.wasSuccessful) {
       navigate('/admin/map'); // Navigate to the dashboard
-    } catch (error) {
-      setMessage(`Error signing in with Google: ${error.message}`);
     }
   };
 
@@ -136,9 +137,14 @@ export default function SignIn() {
           </Grid>
         </Grid>
       </Box>
-      {message && (
-        <Typography variant="body2" color="text.secondary" align="center">
-          {message}
+      {authError && (
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          align="center"
+          sx={{ mt: 5 }}
+        >
+          {authError}
         </Typography>
       )}
     </Container>
