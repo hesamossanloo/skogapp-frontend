@@ -1,8 +1,11 @@
 // src/contexts/AuthContext.js
 import {
+  browserLocalPersistence,
+  browserSessionPersistence,
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
   onAuthStateChanged,
+  setPersistence,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
@@ -55,9 +58,14 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const signIn = async (email, password) => {
+  const signIn = async (email, password, rememberMe) => {
     setLoading(true); // Set loading to true at the start of the function
     try {
+      // Set persistence based on the "Remember Me" checkbox
+      const persistence = rememberMe
+        ? browserLocalPersistence
+        : browserSessionPersistence;
+      await setPersistence(auth, persistence);
       await signInWithEmailAndPassword(auth, email, password);
       return { wasSuccessful: true };
     } catch (error) {
@@ -68,8 +76,13 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const signInWithGoogle = async () => {
+  const signInWithGoogle = async (rememberMe) => {
     setLoading(true);
+    // Set persistence based on the "Remember Me" checkbox
+    const persistence = rememberMe
+      ? browserLocalPersistence
+      : browserSessionPersistence;
+    await setPersistence(auth, persistence);
     const provider = new GoogleAuthProvider();
     try {
       const userCredential = await signInWithPopup(auth, provider);

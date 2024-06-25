@@ -1,3 +1,4 @@
+import { Checkbox, FormControlLabel } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -16,6 +17,8 @@ import { useNavigate } from 'react-router-dom';
 export default function SignIn() {
   const emailRef = useRef();
   const passwordRef = useRef();
+  const rememberMeRef = useRef();
+
   const { signIn, signInWithGoogle, authError, clearError } = useAuth();
   const navigate = useNavigate();
 
@@ -28,7 +31,8 @@ export default function SignIn() {
     e.preventDefault();
     const response = await signIn(
       emailRef.current.value,
-      passwordRef.current.value
+      passwordRef.current.value,
+      rememberMeRef.current.checked
     );
     if (response && response.wasSuccessful) {
       navigate('/admin/map'); // Navigate to the dashboard
@@ -36,7 +40,7 @@ export default function SignIn() {
   };
 
   const handleGoogleSignIn = async () => {
-    const response = await signInWithGoogle();
+    const response = await signInWithGoogle(rememberMeRef.current.checked);
     if (response && response.wasSuccessful) {
       navigate('/admin/map'); // Navigate to the dashboard
     }
@@ -84,11 +88,16 @@ export default function SignIn() {
             autoComplete="current-password"
             inputRef={passwordRef}
           />
-          {/* TODO Implement this */}
-          {/* <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
+          <FormControlLabel
+            control={
+              <Checkbox
+                value="remember"
+                color="primary"
+                inputRef={rememberMeRef}
+              />
+            }
             label="Remember me"
-          /> */}
+          />
           <Button
             type="submit"
             fullWidth
