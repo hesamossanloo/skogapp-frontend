@@ -1,3 +1,4 @@
+import { Checkbox, FormControlLabel } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -10,34 +11,38 @@ import Typography from '@mui/material/Typography';
 import logo from 'assets/img/favicon.png';
 import Copyright from 'components/Copyright/Copyright';
 import { useAuth } from 'contexts/AuthContext';
-import { useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function SignIn() {
   const emailRef = useRef();
   const passwordRef = useRef();
-  const { signIn, signInWithGoogle } = useAuth();
-  const [message, setMessage] = useState('');
+  const rememberMeRef = useRef();
+
+  const { signIn, signInWithGoogle, authError, clearError } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Clear error on component mount or specific events
+    return () => clearError();
+  }, [clearError]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await signIn(emailRef.current.value, passwordRef.current.value);
-      setMessage('Sign in was successful!');
+    const response = await signIn(
+      emailRef.current.value,
+      passwordRef.current.value,
+      rememberMeRef.current.checked
+    );
+    if (response && response.wasSuccessful) {
       navigate('/admin/map'); // Navigate to the dashboard
-    } catch (error) {
-      setMessage(`Error: ${error.message}`);
     }
   };
 
   const handleGoogleSignIn = async () => {
-    try {
-      await signInWithGoogle();
-      setMessage('Sign in with Google was successful!');
+    const response = await signInWithGoogle(rememberMeRef.current.checked);
+    if (response && response.wasSuccessful) {
       navigate('/admin/map'); // Navigate to the dashboard
-    } catch (error) {
-      setMessage(`Error signing in with Google: ${error.message}`);
     }
   };
 
@@ -83,11 +88,16 @@ export default function SignIn() {
             autoComplete="current-password"
             inputRef={passwordRef}
           />
-          {/* TODO Implement this */}
-          {/* <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
+          <FormControlLabel
+            control={
+              <Checkbox
+                value="remember"
+                color="primary"
+                inputRef={rememberMeRef}
+              />
+            }
             label="Remember me"
-          /> */}
+          />
           <Button
             type="submit"
             fullWidth
@@ -136,9 +146,14 @@ export default function SignIn() {
           </Grid>
         </Grid>
       </Box>
-      {message && (
-        <Typography variant="body2" color="text.secondary" align="center">
-          {message}
+      {authError && (
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          align="center"
+          sx={{ mt: 5 }}
+        >
+          {authError}
         </Typography>
       )}
     </Container>
