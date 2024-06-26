@@ -13,7 +13,7 @@ export const SkogbrukWMSFeaturesHandler = (
   map,
   multi,
   MISFeature,
-  CSVFeatureInfosData
+  bestandFeatInfos
 ) => {
   const sumObj = {
     title: 'Bestand',
@@ -21,7 +21,7 @@ export const SkogbrukWMSFeaturesHandler = (
   };
   if (sumObj.isMIS) sumObj.title = 'MIS Bestand';
 
-  const totals = calculateFeatInfoHKTotals(features, CSVFeatureInfosData);
+  const totals = calculateFeatInfoHKTotals(features, bestandFeatInfos);
   sumObj.carbon_stored = formatNumber(
     totals.totalCarbonStored / 1000,
     'nb-NO',
