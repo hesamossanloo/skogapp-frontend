@@ -101,26 +101,28 @@ export const WFSFeatureLayerNamefromXML = (xml) => {
   return layerNames;
 };
 
-export const calculateFeatInfoHKTotals = (features, CSVFeatureInfosData) => {
+export const calculateFeatInfoHKTotals = (features, bestandFeatInfos) => {
   const totals = features.reduce(
     (acc, feature) => {
       const props = feature.properties;
       const featureData =
-        CSVFeatureInfosData.find(
-          (row) => row.bestand_id === props.teig_best_nr
+        bestandFeatInfos.find(
+          (row) => row.fields.bestand_id === props.teig_best_nr
         ) || {};
 
+      const featureDataFields = featureData.fields;
       acc.totalArealM2 += parseInt(props.arealm2, 10) || 0;
       acc.totalCarbonStored += parseInt(props.carbon_stored, 10) || 0;
       acc.totalCarbonCapturedNextYear +=
         parseInt(props.carbon_captured_next_year, 10) || 0;
 
       acc.standVolumeWMSDensityPerHectareMads +=
-        parseFloat(featureData.volume_per_hectare_without_bark) || 0;
-      acc.standVolumeMads += parseFloat(featureData.volume_without_bark) || 0;
+        parseFloat(featureDataFields.volume_per_hectare_without_bark) || 0;
+      acc.standVolumeMads +=
+        parseFloat(featureDataFields.volume_without_bark) || 0;
       acc.speciesPriceMads += parseFloat(props.avg_price_m3) || 0;
       acc.totalESTGrossValueMads +=
-        parseFloat(featureData.gross_value_standing_volume) || 0;
+        parseFloat(featureDataFields.gross_value_standing_volume) || 0;
 
       return acc;
     },
@@ -152,7 +154,7 @@ export const generateHKPopupContent = (sumObj, features, multi) => {
       <th style="padding: 5px; border: 1px solid black;">Tømmertetthet (m^3/daa)</th>
       <th style="padding: 5px; border: 1px solid black;">Tømmervolum (m^3)</th>
       <th style="padding: 5px; border: 1px solid black;">Årlig vekst (%)</th>
-      <th style="padding: 5px; border: 1px solid black;">Forv. gj.sn pris per m^3 (kr)</th>
+      <th style="padding: 5px; border: 1px solid black; min-width: 150px;">Forv. gj.sn pris per m^3 (kr)</th>
       <th style="padding: 5px; border: 1px solid black;">Forv. brutto verdi (kr)</th>
     </tr>`;
 
@@ -315,7 +317,7 @@ export const generateHKPopupContent = (sumObj, features, multi) => {
       // The price of the timber for a species
       content += `
             <tr style="border: 1px solid black; background-color: ${rowBGColor}">
-              <td style="padding: 5px; border: 1px solid black;">Forv. gj.sn pris per m^3</td>
+              <td style="padding: 5px; border: 1px solid black; min-width: 150px;">Forv. gj.sn pris per m^3</td>
               <td style="padding: 5px; display: flex; justify-content: space-between;">
                 <span style="font-weight: bold">${formatNumber(sumObj.speciesPriceMads, 'nb-NO', 0)}</span>
                 <span>kr</span>

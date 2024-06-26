@@ -1,15 +1,14 @@
+import { FeatureInfosContext } from 'contexts/FeatureInfosContext';
 import L from 'leaflet';
 import { WMSGetFeatureInfo } from 'ol/format';
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useMap, useMapEvents } from 'react-leaflet';
 import {
-  CSV_URLS,
   MIS_BESTAND_IDs,
   nibioGetFeatInfoMISBaseParams,
 } from 'variables/forest';
 import SkogbrukWMSFeaturesHandler from './SkogbrukWMSFeaturesHandler';
-import useCsvData from './useCSVData';
 import {
   calculateBoundingBox,
   isPointInsidePolygon,
@@ -54,8 +53,7 @@ export default function CustomMapEvents(props) {
   } = props;
   const map = useMap();
   const [selectedFeatures, setSelectedFeatures] = useState([]);
-
-  const CSVFeatureInfosData = useCsvData(CSV_URLS.FEATUREINFOS).data;
+  const { records, isFetching } = useContext(FeatureInfosContext);
 
   useEffect(() => {
     if (deselectPolygons) {
@@ -174,18 +172,20 @@ export default function CustomMapEvents(props) {
               );
             }
           }
-
           // Reset selected features if not in multiPolygonSelect mode
           if (!multiPolygonSelect) {
             setSelectedFeatures([selectedVectorFeatureRef.current]); // Only the last selected feature is kept
-            SkogbrukWMSFeaturesHandler(
-              e,
-              [selectedVectorFeatureRef.current],
-              map,
-              multiPolygonSelect,
-              MISClickedFeatureInfos,
-              CSVFeatureInfosData
-            );
+            if (!isFetching) {
+              // Ensure data is loaded
+              SkogbrukWMSFeaturesHandler(
+                e,
+                [selectedVectorFeatureRef.current],
+                map,
+                multiPolygonSelect,
+                MISClickedFeatureInfos,
+                records
+              );
+            }
           } else {
             if (
               teigBestNrLastSelected &&
@@ -199,23 +199,27 @@ export default function CustomMapEvents(props) {
                 ...selectedFeatures,
                 selectedVectorFeatureRef.current,
               ]);
-              SkogbrukWMSFeaturesHandler(
-                e,
-                selectedFeatures.concat([selectedVectorFeatureRef.current]),
-                map,
-                multiPolygonSelect,
-                MISClickedFeatureInfos,
-                CSVFeatureInfosData
-              );
+              if (!isFetching) {
+                SkogbrukWMSFeaturesHandler(
+                  e,
+                  selectedFeatures.concat([selectedVectorFeatureRef.current]),
+                  map,
+                  multiPolygonSelect,
+                  MISClickedFeatureInfos,
+                  records
+                );
+              }
             } else {
-              SkogbrukWMSFeaturesHandler(
-                e,
-                selectedFeatures,
-                map,
-                multiPolygonSelect,
-                MISClickedFeatureInfos,
-                CSVFeatureInfosData
-              );
+              if (!isFetching) {
+                SkogbrukWMSFeaturesHandler(
+                  e,
+                  selectedFeatures,
+                  map,
+                  multiPolygonSelect,
+                  MISClickedFeatureInfos,
+                  records
+                );
+              }
             }
           }
         }

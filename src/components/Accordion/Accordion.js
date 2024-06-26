@@ -1,4 +1,5 @@
 import ToggleSwitch from 'components/ToggleSwitch/ToggleSwitch';
+import { FeatureInfosContext } from 'contexts/FeatureInfosContext';
 import { MapFilterContext } from 'contexts/MapFilterContext';
 import PropTypes from 'prop-types';
 import { useContext, useEffect, useState } from 'react';
@@ -9,9 +10,8 @@ import {
   Label,
   UncontrolledCollapse,
 } from 'reactstrap';
-import useCsvData from 'utilities/Map/useCSVData';
 import { formatNumber } from 'utilities/Map/utililtyFunctions';
-import { CSV_URLS, SPECIES_PRICES } from 'variables/forest';
+import { SPECIES_PRICES } from 'variables/forest';
 
 const cardStyle = {
   background: 'transparent',
@@ -22,33 +22,36 @@ const labelStyle = {
   fontSize: '0.80rem',
 };
 const Accordion = ({ onChange, defaultOpen }) => {
-  const CSVFeatureInfosData = useCsvData(CSV_URLS.FEATUREINFOS).data;
   const [mapFilter] = useContext(MapFilterContext);
   const [volume, setVolume] = useState(0);
   const [ESTGrossValue, setESTGrossValue] = useState(0);
+  const { records, isFetching } = useContext(FeatureInfosContext);
 
   // On HK5 change, go through the featureInfosData and find the rows where the hogstkl_verdi is 5
   // Then, get the sum of the values under the column Volume
   const calculateVolume = () => {
     let sumV = 0;
     let sumWorth = 0;
-    CSVFeatureInfosData.forEach((row) => {
-      const rowV = parseFloat(row.volume) || 0;
-      if (mapFilter.HK5 && row.hogstkl_verdi === '5') {
+    records.forEach((row) => {
+      const rowFields = row.fields;
+      const rowV = parseFloat(rowFields.volume) || 0;
+      if (mapFilter.HK5 && rowFields.hogstkl_verdi === 5) {
         sumV += rowV;
 
-        if (row.treslag === 'Bjørk / lauv') {
+        if (rowFields.treslag === 'Bjørk / lauv') {
           sumWorth += rowV * (SPECIES_PRICES.LAU || 0);
         } else {
-          sumWorth += rowV * (SPECIES_PRICES[row.treslag.toUpperCase()] || 0);
+          sumWorth +=
+            rowV * (SPECIES_PRICES[rowFields.treslag.toUpperCase()] || 0);
         }
       }
-      if (mapFilter.HK4 && row.hogstkl_verdi === '4') {
+      if (mapFilter.HK4 && rowFields.hogstkl_verdi === 4) {
         sumV += rowV;
-        if (row.treslag === 'Bjørk / lauv') {
+        if (rowFields.treslag === 'Bjørk / lauv') {
           sumWorth += rowV * (SPECIES_PRICES.LAU || 0);
         } else {
-          sumWorth += rowV * (SPECIES_PRICES[row.treslag.toUpperCase()] || 0);
+          sumWorth +=
+            rowV * (SPECIES_PRICES[rowFields.treslag.toUpperCase()] || 0);
         }
       }
     });
@@ -58,11 +61,14 @@ const Accordion = ({ onChange, defaultOpen }) => {
   // whenever the mapFilter.HK5 changes, update the mapFilter.V
 
   useEffect(() => {
-    const [sumV, sumWorth] = calculateVolume();
-    setVolume(sumV);
-    setESTGrossValue(sumWorth);
+    const delay = isFetching ? 2000 : 0;
+    setTimeout(() => {
+      const [sumV, sumWorth] = calculateVolume();
+      setVolume(sumV);
+      setESTGrossValue(sumWorth);
+    }, delay);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mapFilter]);
+  }, [mapFilter, isFetching]);
   return (
     <>
       <Button color="warning" href="#mapFilter" id="linkToggler">
