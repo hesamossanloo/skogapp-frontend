@@ -191,6 +191,9 @@ export default function CustomMapEvents(props) {
               );
             }
           } else {
+            // Multi select is true
+
+            // Check if the clicked polygon was already selected and removed from the selectedFeatures
             if (
               teigBestNrLastSelected &&
               !selectedFeatures.some(
@@ -214,10 +217,22 @@ export default function CustomMapEvents(props) {
                 );
               }
             } else {
+              // Check if the clicked polygon was already selected and removed from the selectedFeatures
+
+              // Remove the clicked polygon from the selectedFeatures
+              let newFeatures = selectedFeatures;
+              if (selectedFeatures.length > 1) {
+                newFeatures = selectedFeatures.filter(
+                  (feature) =>
+                    feature.properties?.teig_best_nr !==
+                    selectedVectorFeatureRef.current.properties?.teig_best_nr
+                );
+                setSelectedFeatures(newFeatures);
+              }
               if (!isFetching) {
                 SkogbrukWMSFeaturesHandler(
                   e,
-                  selectedFeatures,
+                  newFeatures,
                   map,
                   multiPolygonSelect,
                   MISClickedFeatureInfos,
