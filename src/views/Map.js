@@ -124,10 +124,13 @@ function Map() {
   useEffect(() => {
     selectedVectorFeatureRef.current = selectedVectorFeature;
   }, [selectedVectorFeature]);
+
   // Update the ref every time multiPolygonSelect changes
   useEffect(() => {
     multiPolygonSelectRef.current = multiPolygonSelect;
   }, [multiPolygonSelect]);
+
+  // Toggle DropDown
   const toggleDD = () => setDropdownOpen((prevState) => !prevState);
 
   const onEachFeature = (feature, geoJSONLayer) => {
@@ -172,14 +175,28 @@ function Map() {
           } else {
             // If multiPolygonSelectRef.current is true, just highlight the clicked layer
 
-            setTimeout(() => {
-              geoJSONLayer.setStyle({
-                color: 'yellow', // Color for the border
-                weight: 6, // Increase border width to make it visible
-              });
-            }, 0);
+            // if the current clicked layer is already in the list of previous layers,
+            // then remove it from the previous one and turn it blue
 
-            previousGeoJSONLayersRef.current.push(geoJSONLayer);
+            if (previousGeoJSONLayersRef.current.includes(geoJSONLayer)) {
+              geoJSONLayer.setStyle({
+                color: 'blue', // Make borders transparent initially
+                weight: 1,
+              });
+              previousGeoJSONLayersRef.current =
+                previousGeoJSONLayersRef.current.filter(
+                  (layer) => layer !== geoJSONLayer
+                );
+            } else {
+              setTimeout(() => {
+                geoJSONLayer.setStyle({
+                  color: 'yellow', // Color for the border
+                  weight: 6, // Increase border width to make it visible
+                });
+              }, 0);
+
+              previousGeoJSONLayersRef.current.push(geoJSONLayer);
+            }
           }
         }
       },
