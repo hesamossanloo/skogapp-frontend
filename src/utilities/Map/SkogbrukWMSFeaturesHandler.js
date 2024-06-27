@@ -39,7 +39,12 @@ export const SkogbrukWMSFeaturesHandler = (
   sumObj.speciesPriceMads = totals.speciesPriceMads;
   sumObj.totalESTGrossValueMads = totals.totalESTGrossValueMads;
 
-  const content = generateHKPopupContent(sumObj, features, multi);
+  const content = generateHKPopupContent(
+    sumObj,
+    features,
+    multi,
+    bestandFeatInfos
+  );
   let popupContentDiv = document.createElement('div');
   popupContentDiv.className = 'mis-popup-content';
   popupContentDiv.innerHTML = content;

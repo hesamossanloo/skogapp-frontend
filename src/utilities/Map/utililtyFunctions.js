@@ -23,16 +23,16 @@ export const isPointInsidePolygon = (point, polygon) => {
 const getHKBGColor = (hk) => {
   let BGColor;
   switch (hk) {
-    case '2':
+    case 2:
       BGColor = '#f2b370';
       break;
-    case '3':
+    case 3:
       BGColor = '#aebb7a';
       break;
-    case '4':
+    case 4:
       BGColor = '#bc8963';
       break;
-    case '5':
+    case 5:
       BGColor = '#de6867';
       break;
     default:
@@ -140,7 +140,12 @@ export const calculateFeatInfoHKTotals = (features, bestandFeatInfos) => {
   return totals;
 };
 
-export const generateHKPopupContent = (sumObj, features, multi) => {
+export const generateHKPopupContent = (
+  sumObj,
+  features,
+  multi,
+  bestandFeatInfos
+) => {
   let content =
     `<h3 style="color: black; text-align: center;">${sumObj.title}</h3>` +
     '<table style="margin-bottom: 10px; border-collapse: collapse; border: 1px solid black;">';
@@ -159,13 +164,16 @@ export const generateHKPopupContent = (sumObj, features, multi) => {
     </tr>`;
 
     features.forEach((feature) => {
-      const props = feature.properties;
+      const props = bestandFeatInfos.find(
+        (featureData) =>
+          featureData.fields.bestand_id === feature.properties.teig_best_nr
+      ).fields;
       const rowBGColor = getHKBGColor(props.hogstkl_verdi);
       content += `<tr style="background-color: ${rowBGColor}">`;
-      content += `<td style="padding: 5px; border: 1px solid black;">${props.teig_best_nr}</td>`;
+      content += `<td style="padding: 5px; border: 1px solid black;">${props.bestand_id}</td>`;
       content += `<td style="padding: 5px; border: 1px solid black;">${props.hogstkl_verdi}</td>`;
-      content += `<td style="padding: 5px; border: 1px solid black;">${props.bonitet_beskrivelse.substring(props.bonitet_beskrivelse.indexOf(' ') + 1)}</td>`;
-      content += `<td style="padding: 5px; border: 1px solid black;">${props.bontre_beskrivelse}</td>`;
+      content += `<td style="padding: 5px; border: 1px solid black;">${props.bonitet}</td>`;
+      content += `<td style="padding: 5px; border: 1px solid black;">${props.treslag}</td>`;
       content += `<td style="padding: 5px; border: 1px solid black;">${props.alder}</td>`;
       content += `<td style="padding: 5px; border: 1px solid black;">${convertAndformatTheStringArealM2ToDAA(props.arealm2)}</td>`;
       content += `<td style="padding: 5px; border: 1px solid black;">${formatNumber(props.carbon_stored / 1000, 'nb-NO', 2)}</td>`;
@@ -195,18 +203,19 @@ export const generateHKPopupContent = (sumObj, features, multi) => {
     content += '</tr>';
   } else {
     const feature = features[0];
-    const properties = feature.properties;
-    sumObj.teig_best_nr = properties.teig_best_nr;
+    const properties = bestandFeatInfos.find(
+      (featureData) =>
+        featureData.fields.bestand_id === feature.properties.teig_best_nr
+    ).fields;
+    sumObj.bestadn_id = properties.bestadn_id;
     // Get Hogstklasse
     sumObj.hogstkl_verdi = properties.hogstkl_verdi;
 
     // Get the Bonitet
-    sumObj.bonitet_beskrivelse = properties.bonitet_beskrivelse.substring(
-      properties.bonitet_beskrivelse.indexOf(' ') + 1
-    );
+    sumObj.bonitet = properties.bonitet;
 
     // Get the Treslag
-    sumObj.bontre_beskrivelse = properties.bontre_beskrivelse;
+    sumObj.treslag = properties.treslag;
 
     // Calculate arealDAA
     sumObj.arealDAA = convertAndformatTheStringArealM2ToDAA(properties.arealm2);
@@ -251,12 +260,12 @@ export const generateHKPopupContent = (sumObj, features, multi) => {
       // Add Bonitet
       `<tr style="border: 1px solid black;">
           <td style="padding: 5px; border: 1px solid black;">${desiredFeatInfoAttrHKLayer['bonitet_beskrivelse']}</td>
-          <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.bonitet_beskrivelse}</td>
+          <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.bonitet}</td>
         </tr>` +
       // Add the Treslag
       `<tr style="border: 1px solid black; background-color: ${rowBGColor}">
           <td style="padding: 5px; border: 1px solid black;">${desiredFeatInfoAttrHKLayer['bontre_beskrivelse']}</td>
-          <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.bontre_beskrivelse}</td>
+          <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.treslag}</td>
         </tr>` +
       // Add the ArealM2
       `<tr style="border: 1px solid black;">

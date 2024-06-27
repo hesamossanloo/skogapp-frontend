@@ -55,6 +55,12 @@ export default function CustomMapEvents(props) {
   const [selectedFeatures, setSelectedFeatures] = useState([]);
   const { records, isFetching } = useContext(FeatureInfosContext);
 
+  // Check if the click is within the coordinates of a GeoJSON
+  // In this case I am passing in the Mad's forest Teig Polygon
+  const forests = [madsTeig, bjoernTeig, knutTeig, akselTeig];
+  const forestName = selectedForest.name;
+  const chosenForest = forests.find((forest) => forest.name === forestName);
+
   useEffect(() => {
     if (deselectPolygons) {
       map.closePopup();
@@ -89,7 +95,13 @@ export default function CustomMapEvents(props) {
         }
       });
 
-      if (clickedOnNotBestandRef.current || !clickedOnHKGeoJSON) {
+      if (
+        isPointInsideTeig(
+          e.latlng,
+          chosenForest.features[0].geometry.coordinates
+        ) &&
+        (clickedOnNotBestandRef.current || !clickedOnHKGeoJSON)
+      ) {
         L.popup({ interactive: true })
           .setLatLng(e.latlng)
           .setContent(
@@ -106,14 +118,6 @@ export default function CustomMapEvents(props) {
         // an then we will show the pop up after the new call to the WMS and once
         // the data are fetched.
         map.closePopup();
-
-        // Check if the click is within the coordinates of a GeoJSON
-        // In this case I am passing in the Mad's forest Teig Polygon
-        const forests = [madsTeig, bjoernTeig, knutTeig, akselTeig];
-        const forestName = selectedForest.name;
-        const chosenForest = forests.find(
-          (forest) => forest.name === forestName
-        );
 
         if (
           chosenForest &&
