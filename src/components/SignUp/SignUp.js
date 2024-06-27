@@ -20,7 +20,13 @@ const SignUp = () => {
   const passwordRef = useRef();
   const firstNameRef = useRef();
   const lastNameRef = useRef();
-  const { signUp, authError, clearError } = useAuth();
+  const { signUp, authError, clearError, currentUser } = useAuth();
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate('/signin');
+    }
+  }, [navigate, currentUser]);
 
   useEffect(() => {
     // Clear error on component mount or specific events
@@ -36,7 +42,7 @@ const SignUp = () => {
       lastNameRef.current.value
     );
     if (response && response.wasSuccessful) {
-      navigate('/signin'); // Navigate to the sign-in page only if sign-up was successful
+      navigate('/signin');
     }
   };
 
@@ -131,7 +137,7 @@ const SignUp = () => {
           <Grid item>
             {/* Privacy Policy Link */}
             <Link
-              href={`${process.env.PUBLIC_URL}/privacy-policy.html`} // Adjust the path if necessary
+              href={`${process.env.PUBLIC_URL}/privacy-policy.html`}
               target="_blank" // Opens in a new tab
               rel="noopener noreferrer" // For security reasons
               variant="body2"
