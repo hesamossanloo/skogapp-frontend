@@ -19,8 +19,17 @@ export default function SignIn() {
   const passwordRef = useRef();
   const rememberMeRef = useRef();
 
-  const { signIn, signInWithGoogle, authError, clearError } = useAuth();
+  const { signIn, signInWithGoogle, authError, clearError, currentUser } =
+    useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate('/admin/map'); // Navigate to the dashboard if the user is already signed in
+    } else {
+      navigate('/signin'); // Navigate to the dashboard if the user is already signed in
+    }
+  }, [currentUser, navigate]);
 
   useEffect(() => {
     // Clear error on component mount or specific events
