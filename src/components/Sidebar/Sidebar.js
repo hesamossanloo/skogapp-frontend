@@ -26,6 +26,7 @@ import PerfectScrollbar from 'perfect-scrollbar';
 
 // reactstrap components
 import Accordion from 'components/Accordion/Accordion';
+import PriceForm from 'components/PriceForm/PriceForm';
 import { BackgroundColorContext } from 'contexts/BackgroundColorContext';
 import { MapFilterContext } from 'contexts/MapFilterContext';
 import { useContext, useEffect } from 'react';
@@ -139,6 +140,7 @@ function Sidebar(props) {
                     {prop.name === 'Map' && (
                       <>
                         <Accordion onChange={setMapFilter} defaultOpen={true} />
+                        <PriceForm />
                       </>
                     )}
                   </li>

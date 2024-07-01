@@ -9,11 +9,12 @@ import {
 
 export const SkogbrukWMSFeaturesHandler = (
   e,
-  features,
+  selectedFeatures,
   map,
   multi,
   MISFeature,
-  bestandFeatInfos
+  airTableBestandFeatInfos,
+  userSpeciesPrices
 ) => {
   const sumObj = {
     title: 'Bestand',
@@ -21,7 +22,11 @@ export const SkogbrukWMSFeaturesHandler = (
   };
   if (sumObj.isMIS) sumObj.title = 'MIS Bestand';
 
-  const totals = calculateFeatInfoHKTotals(features, bestandFeatInfos);
+  const totals = calculateFeatInfoHKTotals(
+    selectedFeatures,
+    airTableBestandFeatInfos,
+    userSpeciesPrices
+  );
   sumObj.carbon_stored = formatNumber(
     totals.totalCarbonStored / 1000,
     'nb-NO',
@@ -36,14 +41,16 @@ export const SkogbrukWMSFeaturesHandler = (
   sumObj.standVolumeWMSDensityPerHectareMads =
     totals.standVolumeWMSDensityPerHectareMads;
   sumObj.standVolumeMads = totals.standVolumeMads;
-  sumObj.speciesPriceMads = totals.speciesPriceMads;
-  sumObj.totalESTGrossValueMads = totals.totalESTGrossValueMads;
+  sumObj.avgSpeciesPriceCalculated = totals.avgSpeciesPriceCalculated;
+  sumObj.totalBruttoVerdi = totals.totalBruttoVerdi;
+  sumObj.totalNettoVerdi = totals.totalNettoVerdi;
 
   const content = generateHKPopupContent(
     sumObj,
-    features,
+    selectedFeatures,
     multi,
-    bestandFeatInfos
+    airTableBestandFeatInfos,
+    userSpeciesPrices
   );
   let popupContentDiv = document.createElement('div');
   popupContentDiv.className = 'mis-popup-content';

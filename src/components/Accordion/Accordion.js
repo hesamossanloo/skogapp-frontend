@@ -25,14 +25,14 @@ const Accordion = ({ onChange, defaultOpen }) => {
   const [mapFilter] = useContext(MapFilterContext);
   const [volume, setVolume] = useState(0);
   const [ESTGrossValue, setESTGrossValue] = useState(0);
-  const { records, isFetching } = useContext(FeatureInfosContext);
+  const { airTableBestandInfos, isFetching } = useContext(FeatureInfosContext);
 
   // On HK5 change, go through the featureInfosData and find the rows where the hogstkl_verdi is 5
   // Then, get the sum of the values under the column Volume
   const calculateVolume = () => {
     let sumV = 0;
     let sumWorth = 0;
-    records.forEach((row) => {
+    airTableBestandInfos.forEach((row) => {
       const rowFields = row.fields;
       const rowV = parseFloat(rowFields.volume) || 0;
       if (mapFilter.HK5 && rowFields.hogstkl_verdi === 5) {

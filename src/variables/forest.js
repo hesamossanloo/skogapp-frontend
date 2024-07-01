@@ -1,12 +1,3 @@
-export const colorMap = {
-  Pine: 'green',
-  Oak: 'brown',
-  Spruce: 'yellow',
-  Birch: 'white',
-  Alder: 'black',
-  Cherry: 'red',
-};
-
 export const mapCoordinations = {
   homePosition: [59.9287, 11.7025], // Coordinates for Mads' House
   madsForestPosition: { name: 'forest1', coord: [59.945, 11.695] }, // Coordinates for Mads' Dad's Forest
