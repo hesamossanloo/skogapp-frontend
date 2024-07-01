@@ -1,3 +1,4 @@
+import { useAuth } from 'contexts/AuthContext';
 import { FeatureInfosContext } from 'contexts/FeatureInfosContext';
 import L from 'leaflet';
 import { WMSGetFeatureInfo } from 'ol/format';
@@ -53,7 +54,8 @@ export default function CustomMapEvents(props) {
   } = props;
   const map = useMap();
   const [selectedFeatures, setSelectedFeatures] = useState([]);
-  const { records, isFetching } = useContext(FeatureInfosContext);
+  const { airTableBestandInfos, isFetching } = useContext(FeatureInfosContext);
+  const { userSpeciesPrices } = useAuth();
 
   // Check if the click is within the coordinates of a GeoJSON
   // In this case I am passing in the Mad's forest Teig Polygon
@@ -187,7 +189,8 @@ export default function CustomMapEvents(props) {
                 map,
                 multiPolygonSelect,
                 MISClickedFeatureInfos,
-                records
+                airTableBestandInfos,
+                userSpeciesPrices
               );
             }
           } else {
@@ -213,30 +216,29 @@ export default function CustomMapEvents(props) {
                   map,
                   multiPolygonSelect,
                   MISClickedFeatureInfos,
-                  records
+                  airTableBestandInfos,
+                  userSpeciesPrices
                 );
               }
             } else {
               // Check if the clicked polygon was already selected and removed from the selectedFeatures
 
               // Remove the clicked polygon from the selectedFeatures
-              let newFeatures = selectedFeatures;
-              if (selectedFeatures.length > 1) {
-                newFeatures = selectedFeatures.filter(
-                  (feature) =>
-                    feature.properties?.teig_best_nr !==
-                    selectedVectorFeatureRef.current.properties?.teig_best_nr
-                );
-                setSelectedFeatures(newFeatures);
-              }
-              if (!isFetching) {
+              const newSelectedFeatures = selectedFeatures.filter(
+                (feature) =>
+                  feature.properties?.teig_best_nr !==
+                  selectedVectorFeatureRef.current.properties?.teig_best_nr
+              );
+              setSelectedFeatures(newSelectedFeatures);
+              if ((newSelectedFeatures.length > 0) & !isFetching) {
                 SkogbrukWMSFeaturesHandler(
                   e,
-                  newFeatures,
+                  newSelectedFeatures,
                   map,
                   multiPolygonSelect,
                   MISClickedFeatureInfos,
-                  records
+                  airTableBestandInfos,
+                  userSpeciesPrices
                 );
               }
             }

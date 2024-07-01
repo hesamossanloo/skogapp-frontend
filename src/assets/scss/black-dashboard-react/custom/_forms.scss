@@ -1,26 +1,25 @@
 /* Form controls */
-@include form-control-placeholder(#6c757c, 1);
+@include form-control-placeholder(#c2bfbc, 1);
 
 .form-control {
-  border-color: lighten($black, 5%);
+  border-color: lighten($white, 5%);
   border-radius: $border-radius-lg;
   font-size: $font-size-sm;
   @include transition-input-focus-color();
-
 
   &:focus {
     border-color: $primary;
     background-color: $input-bg;
     @include box-shadow(none);
 
-    &+.clear-search {
+    & + .clear-search {
       border-color: #e14eca;
     }
 
-    &+.input-group-append .input-group-text,
-    &~.input-group-append .input-group-text,
-    &+.input-group-prepend .input-group-text,
-    &~.input-group-prepend .input-group-text {
+    & + .input-group-append .input-group-text,
+    & ~ .input-group-append .input-group-text,
+    & + .input-group-prepend .input-group-text,
+    & ~ .input-group-prepend .input-group-text {
       border: 1px solid $primary;
       border-left: none;
       background-color: $transparent-bg;
@@ -36,14 +35,13 @@
 
   .has-danger &,
   .has-success & {
-
     &.form-control-success,
     &.form-control-danger {
       background-image: none;
     }
   }
 
-  &+.form-control-feedback {
+  & + .form-control-feedback {
     border-radius: $border-radius-lg;
     margin-top: -7px;
     position: absolute;
@@ -57,11 +55,10 @@
     border-bottom-color: $transparent-bg;
   }
 
-  &+.input-group-append .input-group-text,
-  &+.input-group-prepend .input-group-text {
+  & + .input-group-append .input-group-text,
+  & + .input-group-prepend .input-group-text {
     background-color: $white;
   }
-
 }
 
 .has-success .input-group-append .input-group-text,
@@ -83,7 +80,7 @@
 .has-danger.input-group-focus .input-group-append .input-group-text {
   border-color: lighten($danger-states, 5%);
   color: $danger-states;
-  background-color: rgba(222, 222, 222, .1);
+  background-color: rgba(222, 222, 222, 0.1);
 
   &:focus {
     background-color: $transparent-bg;
@@ -94,7 +91,7 @@
 .has-danger {
   &:after {
     font-family: 'nucleo';
-    content: "\ea1b";
+    content: '\ea1b';
     display: inline-block;
     position: absolute;
     right: 20px;
@@ -116,7 +113,6 @@
     }
   }
 
-
   &.form-check:after {
     display: none !important;
   }
@@ -128,7 +124,7 @@
 
 .has-danger {
   &:after {
-    content: "\ea48";
+    content: '\ea48';
     color: $danger-states;
   }
 

@@ -10,7 +10,7 @@ const FeatureInfosProvider = ({ children }) => {
   FeatureInfosProvider.propTypes = {
     children: PropTypes.node.isRequired,
   };
-  const [records, setRecords] = useState([]);
+  const [airTableBestandInfos, setAirTableBestandInfos] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const FeatureInfosProvider = ({ children }) => {
       setIsFetching(true);
       try {
         const records = await fetchRecords();
-        setRecords(records);
+        setAirTableBestandInfos(records);
       } catch (error) {
         console.error('Error fetching records:', error);
       } finally {
@@ -31,7 +31,12 @@ const FeatureInfosProvider = ({ children }) => {
   }, []);
 
   return (
-    <FeatureInfosContext.Provider value={{ records, setRecords, isFetching }}>
+    <FeatureInfosContext.Provider
+      value={{
+        airTableBestandInfos,
+        isFetching,
+      }}
+    >
       {children}
     </FeatureInfosContext.Provider>
   );

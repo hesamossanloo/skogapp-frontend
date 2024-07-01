@@ -3,6 +3,7 @@ import L from 'leaflet';
 import {
   desiredFeatInfoAttrHKLayer,
   desiredFeatInfoAttrHKLayerWithUnits,
+  SPECIES,
   unwantedMISFeatureKeys,
 } from 'variables/forest';
 
@@ -101,28 +102,55 @@ export const WFSFeatureLayerNamefromXML = (xml) => {
   return layerNames;
 };
 
-export const calculateFeatInfoHKTotals = (features, bestandFeatInfos) => {
-  const totals = features.reduce(
+export const calculateFeatInfoHKTotals = (
+  selectedFeatures,
+  airTableFeatInfos,
+  userSpeciesPrices
+) => {
+  const totals = selectedFeatures.reduce(
     (acc, feature) => {
       const props = feature.properties;
-      const featureData =
-        bestandFeatInfos.find(
+      const foundRow =
+        airTableFeatInfos.find(
           (row) => row.fields.bestand_id === props.teig_best_nr
         ) || {};
 
-      const featureDataFields = featureData.fields;
-      acc.totalArealM2 += parseInt(props.arealm2, 10) || 0;
-      acc.totalCarbonStored += parseInt(props.carbon_stored, 10) || 0;
+      const airTableRowFields = foundRow.fields;
+      // If user has provided prices, the new price values will override th old ones
+      airTableRowFields.avg_price_m3 = calculateAvgPrice(
+        airTableRowFields,
+        userSpeciesPrices
+      );
+      acc.totalArealM2 += parseInt(airTableRowFields.arealm2, 10) || 0;
+      acc.totalCarbonStored +=
+        parseInt(airTableRowFields.carbon_stored, 10) || 0;
       acc.totalCarbonCapturedNextYear +=
-        parseInt(props.carbon_captured_next_year, 10) || 0;
+        parseInt(airTableRowFields.carbon_captured_next_year, 10) || 0;
 
       acc.standVolumeWMSDensityPerHectareMads +=
-        parseFloat(featureDataFields.volume_per_hectare_without_bark) || 0;
+        parseFloat(airTableRowFields.volume_per_hectare_without_bark) || 0;
       acc.standVolumeMads +=
-        parseFloat(featureDataFields.volume_without_bark) || 0;
-      acc.speciesPriceMads += parseFloat(props.avg_price_m3) || 0;
-      acc.totalESTGrossValueMads +=
-        parseFloat(featureDataFields.gross_value_standing_volume) || 0;
+        parseFloat(airTableRowFields.volume_without_bark) || 0;
+      acc.avgSpeciesPriceCalculated +=
+        parseFloat(airTableRowFields.avg_price_m3) || 0;
+      // from https://trello.com/c/RTkPLbFf/330-let-forester-provide-input-prices-and-logging-costs
+      // To calculate gross values: (Forv. Brutto Verdi): volume_at_maturity_without_bark * avg_price;
+      acc.totalBruttoVerdi +=
+        parseFloat(airTableRowFields.volume_at_maturity_without_bark) *
+          parseFloat(airTableRowFields.avg_price_m3) || 0;
+      // TODO Ask Mads about the gross value calculation
+      // acc.totalBruttoVerdi +=
+      //   parseFloat(airTableRowFields.gross_value_standing_volume) || 0;
+
+      // from https://trello.com/c/RTkPLbFf/330-let-forester-provide-input-prices-and-logging-costs
+      // totalNettoVerdi = Forv. Brutto Verdi - volume_at_maturity_without_bark * hogst&utkjøring_cost_per_m3
+      if (userSpeciesPrices.hogstUtkPrice) {
+        acc.totalNettoVerdi +=
+          parseFloat(airTableRowFields.volume_at_maturity_without_bark) *
+            parseFloat(airTableRowFields.avg_price_m3) -
+            parseFloat(airTableRowFields.volume_at_maturity_without_bark) *
+              parseFloat(userSpeciesPrices.hogstUtkPrice) || 0;
+      }
 
       return acc;
     },
@@ -132,25 +160,74 @@ export const calculateFeatInfoHKTotals = (features, bestandFeatInfos) => {
       totalCarbonCapturedNextYear: 0,
       standVolumeWMSDensityPerHectareMads: 0,
       standVolumeMads: 0,
-      speciesPriceMads: 0,
-      totalESTGrossValueMads: 0,
+      avgSpeciesPriceCalculated: 0,
+      totalBruttoVerdi: 0,
+      totalNettoVerdi: 0,
     }
   );
 
   return totals;
 };
 
+export const calculateAvgPrice = (
+  corresponsingAirtTableFeature,
+  userSpeciesPrices
+) => {
+  let avgPrice = 0;
+  switch (corresponsingAirtTableFeature.treslag) {
+    case SPECIES.GRAN:
+      // from https://trello.com/c/RTkPLbFf/330-let-forester-provide-input-prices-and-logging-costs
+      // avg_price = saw_wood_portion * price_saw_wood + (1 - saw_wood_portion) * price_pulp_wood;
+      if (
+        userSpeciesPrices.granSagtommerPrice &&
+        userSpeciesPrices.granMassevirkePrice
+      ) {
+        avgPrice =
+          parseFloat(corresponsingAirtTableFeature.saw_wood_portion) *
+            parseFloat(userSpeciesPrices.granSagtommerPrice) +
+          (1 - parseFloat(corresponsingAirtTableFeature.saw_wood_portion)) *
+            parseFloat(userSpeciesPrices.granMassevirkePrice);
+      } else {
+        avgPrice = corresponsingAirtTableFeature.avg_price_m3;
+      }
+      break;
+    case SPECIES.FURU:
+      if (
+        userSpeciesPrices.furuSagtommerPrice &&
+        userSpeciesPrices.furuMassevirkePrice
+      ) {
+        avgPrice =
+          parseFloat(corresponsingAirtTableFeature.saw_wood_portion) *
+            parseFloat(userSpeciesPrices.furuSagtommerPrice) +
+          (1 - parseFloat(corresponsingAirtTableFeature.saw_wood_portion)) *
+            parseFloat(userSpeciesPrices.furuMassevirkePrice);
+      } else {
+        avgPrice = corresponsingAirtTableFeature.avg_price_m3;
+      }
+      break;
+    case SPECIES.LAU:
+      // TODO Ask Mads what about Bjork Lau and the saw and pulp prices
+      avgPrice = corresponsingAirtTableFeature.avg_price_m3;
+      break;
+    default:
+      avgPrice = 0;
+      break;
+  }
+  return avgPrice;
+};
+
 export const generateHKPopupContent = (
   sumObj,
-  features,
-  multi,
-  bestandFeatInfos
+  selectedFeatures,
+  multiSwitchOn,
+  airTableBestandFeatInfos,
+  userSpeciesPrices
 ) => {
   let content =
     `<h3 style="color: black; text-align: center;">${sumObj.title}</h3>` +
     '<table style="margin-bottom: 10px; border-collapse: collapse; border: 1px solid black;">';
 
-  if (multi) {
+  if (multiSwitchOn) {
     content += '<tr>';
     Object.values(desiredFeatInfoAttrHKLayerWithUnits).forEach((attr) => {
       content += `<th style="padding: 5px; border: 1px solid black;">${attr}</th>`;
@@ -161,28 +238,38 @@ export const generateHKPopupContent = (
       <th style="padding: 5px; border: 1px solid black;">Årlig vekst (%)</th>
       <th style="padding: 5px; border: 1px solid black; min-width: 150px;">Forv. gj.sn pris per m^3 (kr)</th>
       <th style="padding: 5px; border: 1px solid black;">Forv. brutto verdi (kr)</th>
+      ${userSpeciesPrices.hogstUtkPrice ? `<th style="padding: 5px; border: 1px solid black;">Forv. netto verdi (kr)</th>` : ''}
     </tr>`;
 
-    features.forEach((feature) => {
-      const props = bestandFeatInfos.find(
+    selectedFeatures.forEach((feature) => {
+      const corresponsingAirtTableFeature = airTableBestandFeatInfos.find(
         (featureData) =>
           featureData.fields.bestand_id === feature.properties.teig_best_nr
       ).fields;
-      const rowBGColor = getHKBGColor(props.hogstkl_verdi);
+      const rowBGColor = getHKBGColor(
+        corresponsingAirtTableFeature.hogstkl_verdi
+      );
+      corresponsingAirtTableFeature.avg_price_m3 = calculateAvgPrice(
+        corresponsingAirtTableFeature,
+        userSpeciesPrices
+      );
       content += `<tr style="background-color: ${rowBGColor}">`;
-      content += `<td style="padding: 5px; border: 1px solid black;">${props.bestand_id}</td>`;
-      content += `<td style="padding: 5px; border: 1px solid black;">${props.hogstkl_verdi}</td>`;
-      content += `<td style="padding: 5px; border: 1px solid black;">${props.bonitet}</td>`;
-      content += `<td style="padding: 5px; border: 1px solid black;">${props.treslag}</td>`;
-      content += `<td style="padding: 5px; border: 1px solid black;">${props.alder}</td>`;
-      content += `<td style="padding: 5px; border: 1px solid black;">${convertAndformatTheStringArealM2ToDAA(props.arealm2)}</td>`;
-      content += `<td style="padding: 5px; border: 1px solid black;">${formatNumber(props.carbon_stored / 1000, 'nb-NO', 2)}</td>`;
-      content += `<td style="padding: 5px; border: 1px solid black;">${formatNumber(props.carbon_captured_next_year / 1000, 'nb-NO', 2)}</td>`;
-      content += `<td style="padding: 5px; border: 1px solid black;">${formatNumber(parseFloat(props.volume_per_hectare_without_bark) / 10, 'nb-NO', 1)}</td>`;
-      content += `<td style="padding: 5px; border: 1px solid black;">${formatNumber(props.volume_without_bark, 'nb-NO', 1)}</td>`;
-      content += `<td style="padding: 5px; border: 1px solid black;">${formatNumber(props.volume_growth_factor * 100, 'nb-NO', 2)}</td>`;
-      content += `<td style="padding: 5px; border: 1px solid black;">${formatNumber(props.avg_price_m3, 'nb-NO', 1)}</td>`;
-      content += `<td style="padding: 5px; border: 1px solid black;">${formatNumber(props.gross_value_standing_volume, 'nb-NO', 1)}</td>`;
+      content += `<td style="padding: 5px; border: 1px solid black;">${corresponsingAirtTableFeature.bestand_id}</td>`;
+      content += `<td style="padding: 5px; border: 1px solid black;">${corresponsingAirtTableFeature.hogstkl_verdi}</td>`;
+      content += `<td style="padding: 5px; border: 1px solid black;">${corresponsingAirtTableFeature.bonitet}</td>`;
+      content += `<td style="padding: 5px; border: 1px solid black;">${corresponsingAirtTableFeature.treslag}</td>`;
+      content += `<td style="padding: 5px; border: 1px solid black;">${corresponsingAirtTableFeature.alder}</td>`;
+      content += `<td style="padding: 5px; border: 1px solid black;">${convertAndformatTheStringArealM2ToDAA(corresponsingAirtTableFeature.arealm2)}</td>`;
+      content += `<td style="padding: 5px; border: 1px solid black;">${formatNumber(corresponsingAirtTableFeature.carbon_stored / 1000, 'nb-NO', 2)}</td>`;
+      content += `<td style="padding: 5px; border: 1px solid black;">${formatNumber(corresponsingAirtTableFeature.carbon_captured_next_year / 1000, 'nb-NO', 2)}</td>`;
+      content += `<td style="padding: 5px; border: 1px solid black;">${formatNumber(parseFloat(corresponsingAirtTableFeature.volume_per_hectare_without_bark) / 10, 'nb-NO', 1)}</td>`;
+      content += `<td style="padding: 5px; border: 1px solid black;">${formatNumber(corresponsingAirtTableFeature.volume_without_bark, 'nb-NO', 1)}</td>`;
+      content += `<td style="padding: 5px; border: 1px solid black;">${formatNumber(corresponsingAirtTableFeature.volume_growth_factor * 100, 'nb-NO', 2)}</td>`;
+      content += `<td style="padding: 5px; border: 1px solid black;">${formatNumber(corresponsingAirtTableFeature.avg_price_m3, 'nb-NO', 1)}</td>`;
+      content += `<td style="padding: 5px; border: 1px solid black;">${formatNumber(corresponsingAirtTableFeature.volume_at_maturity_without_bark * corresponsingAirtTableFeature.avg_price_m3, 'nb-NO', 1)}</td>`;
+      if (userSpeciesPrices.hogstUtkPrice) {
+        content += `<td style="padding: 5px; border: 1px solid black;">${formatNumber(corresponsingAirtTableFeature.volume_at_maturity_without_bark * corresponsingAirtTableFeature.avg_price_m3 - corresponsingAirtTableFeature.volume_at_maturity_without_bark * userSpeciesPrices.hogstUtkPrice, 'nb-NO', 1)}</td>`;
+      }
       content += '</tr>';
     });
 
@@ -199,47 +286,59 @@ export const generateHKPopupContent = (
     content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold">${formatNumber(sumObj.standVolumeMads, 'nb-NO', 1)}</td>`;
     content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold"></td>`;
     content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold"></td>`;
-    content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold">${formatNumber(sumObj.totalESTGrossValueMads, 'nb-NO', 1)}</td>`;
+    content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold">${formatNumber(sumObj.totalBruttoVerdi, 'nb-NO', 1)}</td>`;
+    if (sumObj.totalNettoVerdi) {
+      content += `<td style="padding: 5px; border: 1px solid black; font-weight: bold">${formatNumber(sumObj.totalNettoVerdi, 'nb-NO', 1)}</td>`;
+    }
     content += '</tr>';
   } else {
-    const feature = features[0];
-    const properties = bestandFeatInfos.find(
+    const selectedFeature = selectedFeatures[0];
+    const corresponsingAirtTableFeature = airTableBestandFeatInfos.find(
       (featureData) =>
-        featureData.fields.bestand_id === feature.properties.teig_best_nr
+        featureData.fields.bestand_id ===
+        selectedFeature.properties.teig_best_nr
     ).fields;
-    sumObj.bestadn_id = properties.bestadn_id;
+
+    corresponsingAirtTableFeature.avg_price_m3 = calculateAvgPrice(
+      corresponsingAirtTableFeature,
+      userSpeciesPrices
+    );
+
+    sumObj.bestand_id = corresponsingAirtTableFeature.bestand_id;
     // Get Hogstklasse
-    sumObj.hogstkl_verdi = properties.hogstkl_verdi;
+    sumObj.hogstkl_verdi = corresponsingAirtTableFeature.hogstkl_verdi;
 
     // Get the Bonitet
-    sumObj.bonitet = properties.bonitet;
+    sumObj.bonitet = corresponsingAirtTableFeature.bonitet;
 
     // Get the Treslag
-    sumObj.treslag = properties.treslag;
+    sumObj.treslag = corresponsingAirtTableFeature.treslag;
 
     // Calculate arealDAA
-    sumObj.arealDAA = convertAndformatTheStringArealM2ToDAA(properties.arealm2);
+    sumObj.arealDAA = convertAndformatTheStringArealM2ToDAA(
+      corresponsingAirtTableFeature.arealm2
+    );
 
     // Get the Alder
-    sumObj.alder = properties.alder;
+    sumObj.alder = corresponsingAirtTableFeature.alder;
 
     // Get the volume_growth_factor
     sumObj.volume_growth_factor = formatNumber(
-      properties.volume_growth_factor * 100,
+      corresponsingAirtTableFeature.volume_growth_factor * 100,
       'nb-NO',
       2
     );
 
     // Get the carbon_stored and convert it to Tonn
     sumObj.carbon_stored = formatNumber(
-      properties.carbon_stored / 1000,
+      corresponsingAirtTableFeature.carbon_stored / 1000,
       'nb-NO',
       2
     );
 
     // Get the carbon_captured_next_year and convert it to Tonn
     sumObj.carbon_captured_next_year = formatNumber(
-      properties.carbon_captured_next_year / 1000,
+      corresponsingAirtTableFeature.carbon_captured_next_year / 1000,
       'nb-NO',
       2
     );
@@ -250,7 +349,7 @@ export const generateHKPopupContent = (
       // Add the ID row
       `<tr style="border: 1px solid black;">
           <td style="padding: 5px; border: 1px solid black;">ID</td>
-          <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.teig_best_nr}</td>
+          <td style="padding: 5px; border: 1px solid black; font-weight: bold">${sumObj.bestand_id}</td>
         </tr>` +
       // Add Hogstklasse
       `<tr style="border: 1px solid black; background-color: ${rowBGColor}">
@@ -328,7 +427,7 @@ export const generateHKPopupContent = (
             <tr style="border: 1px solid black; background-color: ${rowBGColor}">
               <td style="padding: 5px; border: 1px solid black; min-width: 150px;">Forv. gj.sn pris per m^3</td>
               <td style="padding: 5px; display: flex; justify-content: space-between;">
-                <span style="font-weight: bold">${formatNumber(sumObj.speciesPriceMads, 'nb-NO', 0)}</span>
+                <span style="font-weight: bold">${formatNumber(sumObj.avgSpeciesPriceCalculated, 'nb-NO', 0)}</span>
                 <span>kr</span>
               </td>
             </tr>`;
@@ -336,10 +435,20 @@ export const generateHKPopupContent = (
             <tr style="border: 1px solid black;">
               <td style="padding: 5px; border: 1px solid black;">Forv. brutto verdi</td>
               <td style="padding: 5px; display: flex; justify-content: space-between;">
-                <span style="font-weight: bold">${formatNumber(sumObj.totalESTGrossValueMads, 'nb-NO', 0)}</span>
+                <span style="font-weight: bold">${formatNumber(sumObj.totalBruttoVerdi, 'nb-NO', 0)}</span>
                 <span>kr</span>
               </td>
             </tr>`;
+      if (sumObj.totalNettoVerdi) {
+        content += `
+              <tr style="border: 1px solid black; background-color: ${rowBGColor}">
+                <td style="padding: 5px; border: 1px solid black;">Forv. netto verdi</td>
+                <td style="padding: 5px; display: flex; justify-content: space-between;">
+                  <span style="font-weight: bold">${formatNumber(sumObj.totalNettoVerdi, 'nb-NO', 0)}</span>
+                  <span>kr</span>
+                </td>
+              </tr>`;
+      }
     }
   }
 

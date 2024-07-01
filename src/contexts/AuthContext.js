@@ -23,10 +23,23 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [authError, setAuthError] = useState(null);
+  const [userSpeciesPrices, setUserSpeciesPrices] = useState({}); // New state for prices
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
+      if (user) {
+        // Fetch prices after successful login
+        const userDocRef = doc(db, 'users', user.uid);
+        getDoc(userDocRef).then((docSnap) => {
+          if (docSnap.exists()) {
+            const userData = docSnap.data();
+            setUserSpeciesPrices(userData.prices); // Set prices in the context
+          }
+        });
+      } else {
+        setUserSpeciesPrices({}); // Reset prices if there's no user
+      }
       setLoading(false);
     });
     return unsubscribe;
@@ -35,6 +48,18 @@ export const AuthProvider = ({ children }) => {
   // Provide authError and a method to clear it to the context consumers
   const clearError = () => setAuthError(null);
 
+  const updateUserSpeciesPrices = async (newPrices) => {
+    if (!currentUser) return; // Guard clause if there's no logged-in user
+
+    const userDocRef = doc(db, 'users', currentUser.uid);
+    try {
+      await setDoc(userDocRef, { prices: newPrices }, { merge: true });
+      setUserSpeciesPrices(newPrices); // Update prices in the context
+    } catch (error) {
+      console.error('Error updating prices: ', error);
+      // Optionally, handle the error, e.g., by setting an error state
+    }
+  };
   const signUp = async (email, password, firstName, lastName) => {
     setLoading(true); // Set loading to true at the start of the function
     try {
@@ -120,6 +145,8 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     currentUser,
+    userSpeciesPrices,
+    updateUserSpeciesPrices,
     signUp,
     signIn,
     signInWithGoogle,
